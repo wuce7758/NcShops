@@ -21,9 +21,9 @@ public class TSellergoods implements java.io.Serializable {
 	private Integer sellerGoodsId;
 	private TGoods TGoods;
 	private TSeller TSeller;
-	private Integer goodsInventory;
-	private Integer goodsSales;
-	private Integer isSale;
+	private Integer goodsInventory=0;
+	private Integer goodsSales=0;
+	private boolean isSale=true;
 
 	// Constructors
 
@@ -38,7 +38,7 @@ public class TSellergoods implements java.io.Serializable {
 
 	/** full constructor */
 	public TSellergoods(Integer sellerGoodsId, TGoods TGoods, TSeller TSeller,
-			Integer goodsInventory, Integer goodsSales, Integer isSale) {
+			Integer goodsInventory, Integer goodsSales, boolean isSale) {
 		this.sellerGoodsId = sellerGoodsId;
 		this.TGoods = TGoods;
 		this.TSeller = TSeller;
@@ -98,11 +98,11 @@ public class TSellergoods implements java.io.Serializable {
 	}
 
 	@Column(name = "isSale")
-	public Integer getIsSale() {
+	public boolean getIsSale() {
 		return this.isSale;
 	}
 
-	public void setIsSale(Integer isSale) {
+	public void setIsSale(boolean isSale) {
 		this.isSale = isSale;
 	}
 
