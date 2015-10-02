@@ -22,6 +22,7 @@ public class TAddress implements java.io.Serializable {
 	private TUser TUser;
 	private String adsContent;
 	private String adsPhone;
+	private boolean	isDefault;
 
 	// Constructors
 
@@ -82,5 +83,15 @@ public class TAddress implements java.io.Serializable {
 	public void setAdsPhone(String adsPhone) {
 		this.adsPhone = adsPhone;
 	}
+
+	public boolean getIsDefault() {
+		return isDefault;
+	}
+
+	public void setIsDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
+	
+	
 
 }
