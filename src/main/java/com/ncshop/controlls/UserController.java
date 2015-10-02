@@ -8,15 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.ncshop.domain.TSeller;
 import com.ncshop.domain.TSellergoods;
-import com.ncshop.domain.TUser;
 import com.ncshop.service.UserService;
 
 
 @Controller
+@RequestMapping("user")
 public class UserController{
 	
 	@Autowired
@@ -38,7 +36,7 @@ public class UserController{
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/findAllShops")
+	@RequestMapping("/findSellergoods")
 	public @ResponseBody Set<TSellergoods> findSellergoods(@RequestBody TSellergoods sellergoods) throws Exception{	
 		//调用service查找 数据库
 		Set<TSellergoods> userList=userService.findSellergoods(sellergoods.getTSeller().getSellerId());
