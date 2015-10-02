@@ -33,7 +33,7 @@ public class SellerController{
 	private SellerService sellerService;
 	
 	/**
-	 * 查找某店铺订单
+	 * 根据订单状态和微信标识查找某店铺订单
 	 * @param OpenId 微信号标识
 	 * @param orderState 订单状态
 	 * @throws Exception
@@ -79,5 +79,20 @@ public class SellerController{
 		sellerService.addGoodsType(goodsType);
 		response.setContentType("html/text;charset=utf-8");
 		response.getWriter().write("添加商品类型成功!");
+	}
+	/**
+	 * 拉黑用户
+	 * @param goodsType 商品类型对象
+	 * @throws Exception
+	 */
+	@RequestMapping("/limitUser")
+	public void limitUser(HttpServletResponse response,int userId) throws Exception{	
+		if(userId+""==null||userId+""==""){
+			return;
+		}
+		//调用service查找 数据库
+		sellerService.limitUser(userId);
+		response.setContentType("html/text;charset=utf-8");
+		response.getWriter().write("限制成功!");
 	}
 }
