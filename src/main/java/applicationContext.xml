@@ -50,12 +50,12 @@
 			</value>
 		</property>
 	</bean>
-
-	<!-- 支持 @Transactional 标记 -->
-	<tx:annotation-driven transaction-manager="transactionManager" />
-	<!-- 定义事务管理器 -->
+	
+ 	<!-- 定义事务管理器 -->
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<!-- 支持 @Transactional 标记 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 </beans>
