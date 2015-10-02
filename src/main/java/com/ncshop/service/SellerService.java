@@ -49,4 +49,9 @@ public class SellerService {
 		// TODO Auto-generated method stub
 		goodtypeDao.save(goodsType);
 	}
+
+	public void limitUser(int userId) {
+		// TODO Auto-generated method stub
+		
+	}
 }
