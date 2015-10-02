@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
+import org.springframework.stereotype.Repository;
 
 import com.ncshop.domain.TGoods;
 
@@ -22,6 +23,7 @@ import static org.hibernate.criterion.Example.create;
  * @see com.ncshop.domain.TGoods
  * @author MyEclipse Persistence Tools
  */
+@Repository
 public class TGoodsDAO extends BaseHibernateDAO {
 	private static final Log log = LogFactory.getLog(TGoodsDAO.class);
 	// property constants

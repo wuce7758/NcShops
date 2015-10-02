@@ -24,7 +24,7 @@ import static org.hibernate.criterion.Example.create;
  * @see com.ncshop.domain.TUser
  * @author MyEclipse Persistence Tools
  */
-@Component("TUserDAO")
+@Repository
 public class TUserDAO extends BaseHibernateDAO {
 	private static final Log log = LogFactory.getLog(TUserDAO.class);
 	// property constants

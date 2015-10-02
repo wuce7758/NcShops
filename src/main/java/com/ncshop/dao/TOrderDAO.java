@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
+import org.springframework.stereotype.Repository;
 
 import com.ncshop.domain.TOrder;
 
@@ -23,6 +24,7 @@ import static org.hibernate.criterion.Example.create;
  * @see com.ncshop.domain.TOrder
  * @author MyEclipse Persistence Tools
  */
+@Repository
 public class TOrderDAO extends BaseHibernateDAO {
 	private static final Log log = LogFactory.getLog(TOrderDAO.class);
 	// property constants
