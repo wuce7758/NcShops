@@ -26,7 +26,8 @@ public class TUser implements java.io.Serializable {
 	private String telNumber;
 	private String email;
 	private String sex;
-	private Boolean isAttention=true;
+	private boolean isAttention=true;
+	private boolean userState=true;
 	private Set<TAddress> TAddresses = new HashSet<TAddress>(0);
 	private Set<TOrder> TOrders = new HashSet<TOrder>(0);
 	private Set<TComment> TComments = new HashSet<TComment>(0);
@@ -117,12 +118,21 @@ public class TUser implements java.io.Serializable {
 	}
 
 	@Column(name = "isAttention")
-	public Boolean getIsAttention() {
+	public boolean getIsAttention() {
 		return this.isAttention;
 	}
 
-	public void setIsAttention(Boolean isAttention) {
+	public void setIsAttention(boolean isAttention) {
 		this.isAttention = isAttention;
+	}
+	
+	@Column(name = "userState")
+	public boolean getUserState() {
+		return userState;
+	}
+
+	public void setUserState(boolean userState) {
+		this.userState = userState;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TUser")
