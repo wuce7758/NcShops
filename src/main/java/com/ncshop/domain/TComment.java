@@ -26,7 +26,7 @@ public class TComment implements java.io.Serializable {
 	private TUser TUser;
 	private Integer credit;
 	private String commentMsg;
-	private Date commentTime;
+	private Date commentTime=new Date();
 
 	// Constructors
 

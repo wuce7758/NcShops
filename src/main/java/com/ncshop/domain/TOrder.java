@@ -30,10 +30,10 @@ public class TOrder implements java.io.Serializable {
 	private TUser TUser;
 	private TSeller TSeller;
 	private String orderNo;
-	private Date orderTime;
-	private Double orderTotalCost;
+	private Date orderTime=new Date();
+	private Double orderTotalCost=0.0;
 	private String orderMsg;
-	private Integer orderState;
+	private Integer orderState=0;//默认0：已生成；1:已支付
 	private Set<TOrderdetail> TOrderdetails = new HashSet<TOrderdetail>(0);
 
 	// Constructors

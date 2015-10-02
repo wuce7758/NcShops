@@ -28,11 +28,11 @@ public class TSeller implements java.io.Serializable {
 	private String sellerName;
 	private String sellerAddress;
 	private String sellerPhone;
-	private Date joinTime;
-	private Integer joinDeadline;
-	private Integer isValid;
-	private Integer minBuy;
-	private Float deliverMoney;
+	private Date joinTime=new Date();//加盟时间
+	private Integer joinDeadline=1;//加盟期限，默认1个月
+	private boolean isValid=false;
+	private Integer minBuy=0;
+	private float deliverMoney=0;
 	private String sellerMsg;
 	private Set<TSellergoods> TSellergoodses = new HashSet<TSellergoods>(0);
 	private Set<TOrder> TOrders = new HashSet<TOrder>(0);
@@ -51,7 +51,7 @@ public class TSeller implements java.io.Serializable {
 	/** full constructor */
 	public TSeller(Integer sellerId, String shopName, String sellerName,
 			String sellerAddress, String sellerPhone, Date joinTime,
-			Integer joinDeadline, Integer isValid, Integer minBuy,
+			Integer joinDeadline, boolean isValid, Integer minBuy,
 			Float deliverMoney, String sellerMsg,
 			Set<TSellergoods> TSellergoodses, Set<TOrder> TOrders) {
 		this.sellerId = sellerId;
@@ -137,11 +137,11 @@ public class TSeller implements java.io.Serializable {
 	}
 
 	@Column(name = "isValid")
-	public Integer getIsValid() {
+	public boolean getIsValid() {
 		return this.isValid;
 	}
 
-	public void setIsValid(Integer isValid) {
+	public void setIsValid(boolean isValid) {
 		this.isValid = isValid;
 	}
 

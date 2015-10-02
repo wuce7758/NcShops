@@ -25,8 +25,8 @@ public class TOrderdetail implements java.io.Serializable {
 	private Integer detailId;
 	private TGoods TGoods;
 	private TOrder TOrder;
-	private Integer buyMount;
-	private Double buyCost;
+	private Integer buyMount=1;
+	private Double buyCost=0.0;
 	private Set<TComment> TComments = new HashSet<TComment>(0);
 
 	// Constructors

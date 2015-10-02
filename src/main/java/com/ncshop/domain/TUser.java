@@ -26,7 +26,7 @@ public class TUser implements java.io.Serializable {
 	private String telNumber;
 	private String email;
 	private String sex;
-	private Boolean isAttention;
+	private Boolean isAttention=true;
 	private Set<TAddress> TAddresses = new HashSet<TAddress>(0);
 	private Set<TOrder> TOrders = new HashSet<TOrder>(0);
 	private Set<TComment> TComments = new HashSet<TComment>(0);

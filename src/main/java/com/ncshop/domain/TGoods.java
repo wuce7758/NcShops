@@ -25,7 +25,7 @@ public class TGoods implements java.io.Serializable {
 	private Integer goodsId;
 	private TGoodstype TGoodstype;
 	private String goodsName;
-	private Double goodsPrice;
+	private Double goodsPrice=0.0;
 	private String goodsMsg;
 	private String goodsPic;
 	private Set<TOrderdetail> TOrderdetails = new HashSet<TOrderdetail>(0);
