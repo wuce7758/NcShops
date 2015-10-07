@@ -22,27 +22,6 @@ public class TGoodstype implements java.io.Serializable {
 
 	private Integer goodsTypeId;
 	private String goodsTypeName;
-	private Set<TGoods> TGoodses = new HashSet<TGoods>(0);
-
-	// Constructors
-
-	/** default constructor */
-	public TGoodstype() {
-	}
-
-	/** minimal constructor */
-	public TGoodstype(Integer goodsTypeId, String goodsTypeName) {
-		this.goodsTypeId = goodsTypeId;
-		this.goodsTypeName = goodsTypeName;
-	}
-
-	/** full constructor */
-	public TGoodstype(Integer goodsTypeId, String goodsTypeName,
-			Set<TGoods> TGoodses) {
-		this.goodsTypeId = goodsTypeId;
-		this.goodsTypeName = goodsTypeName;
-		this.TGoodses = TGoodses;
-	}
 
 	// Property accessors
 	@Id
@@ -65,13 +44,13 @@ public class TGoodstype implements java.io.Serializable {
 		this.goodsTypeName = goodsTypeName;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TGoodstype")
-	public Set<TGoods> getTGoodses() {
-		return this.TGoodses;
-	}
-
-	public void setTGoodses(Set<TGoods> TGoodses) {
-		this.TGoodses = TGoodses;
-	}
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TGoodstype")
+//	public Set<TGoods> getTGoodses() {
+//		return this.TGoodses;
+//	}
+//
+//	public void setTGoodses(Set<TGoods> TGoodses) {
+//		this.TGoodses = TGoodses;
+//	}
 
 }

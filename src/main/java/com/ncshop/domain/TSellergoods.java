@@ -20,32 +20,10 @@ public class TSellergoods implements java.io.Serializable {
 
 	private Integer sellerGoodsId;
 	private TGoods TGoods;
-	private TSeller TSeller;
+	private Integer sellerId;
 	private Integer goodsInventory=0;
 	private Integer goodsSales=0;
 	private boolean isSale=true;
-
-	// Constructors
-
-	/** default constructor */
-	public TSellergoods() {
-	}
-
-	/** minimal constructor */
-	public TSellergoods(Integer sellerGoodsId) {
-		this.sellerGoodsId = sellerGoodsId;
-	}
-
-	/** full constructor */
-	public TSellergoods(Integer sellerGoodsId, TGoods TGoods, TSeller TSeller,
-			Integer goodsInventory, Integer goodsSales, boolean isSale) {
-		this.sellerGoodsId = sellerGoodsId;
-		this.TGoods = TGoods;
-		this.TSeller = TSeller;
-		this.goodsInventory = goodsInventory;
-		this.goodsSales = goodsSales;
-		this.isSale = isSale;
-	}
 
 	// Property accessors
 	@Id
@@ -69,14 +47,14 @@ public class TSellergoods implements java.io.Serializable {
 		this.TGoods = TGoods;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "sellerId")
-	public TSeller getTSeller() {
-		return this.TSeller;
+
+	@Column(name = "sellerId", length = 11)
+	public Integer getSellerId() {
+		return sellerId;
 	}
 
-	public void setTSeller(TSeller TSeller) {
-		this.TSeller = TSeller;
+	public void setSellerId(Integer sellerId) {
+		this.sellerId = sellerId;
 	}
 
 	@Column(name = "goodsInventory")

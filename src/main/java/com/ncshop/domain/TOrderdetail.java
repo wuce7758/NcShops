@@ -24,32 +24,10 @@ public class TOrderdetail implements java.io.Serializable {
 
 	private Integer detailId;
 	private TGoods TGoods;
-	private TOrder TOrder;
+	private Integer orderId;
 	private Integer buyMount=1;
 	private Double buyCost=0.0;
 	private Set<TComment> TComments = new HashSet<TComment>(0);
-
-	// Constructors
-
-	/** default constructor */
-	public TOrderdetail() {
-	}
-
-	/** minimal constructor */
-	public TOrderdetail(Integer detailId) {
-		this.detailId = detailId;
-	}
-
-	/** full constructor */
-	public TOrderdetail(Integer detailId, TGoods TGoods, TOrder TOrder,
-			Integer buyMount, Double buyCost, Set<TComment> TComments) {
-		this.detailId = detailId;
-		this.TGoods = TGoods;
-		this.TOrder = TOrder;
-		this.buyMount = buyMount;
-		this.buyCost = buyCost;
-		this.TComments = TComments;
-	}
 
 	// Property accessors
 	@Id
@@ -73,14 +51,14 @@ public class TOrderdetail implements java.io.Serializable {
 		this.TGoods = TGoods;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "orderId")
-	public TOrder getTOrder() {
-		return this.TOrder;
+
+	@Column(name = "orderId", length = 11)
+	public Integer getOrderId() {
+		return orderId;
 	}
 
-	public void setTOrder(TOrder TOrder) {
-		this.TOrder = TOrder;
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
 	}
 
 	@Column(name = "buyMount")
@@ -101,7 +79,8 @@ public class TOrderdetail implements java.io.Serializable {
 		this.buyCost = buyCost;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TOrderdetail")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="detailId")
 	public Set<TComment> getTComments() {
 		return this.TComments;
 	}

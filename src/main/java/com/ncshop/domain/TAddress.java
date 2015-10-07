@@ -19,30 +19,10 @@ public class TAddress implements java.io.Serializable {
 	// Fields
 
 	private Integer addressId;
-	private TUser TUser;
+	private Integer userId;
 	private String adsContent;
 	private String adsPhone;
 	private boolean	isDefault;
-
-	// Constructors
-
-	/** default constructor */
-	public TAddress() {
-	}
-
-	/** minimal constructor */
-	public TAddress(Integer addressId) {
-		this.addressId = addressId;
-	}
-
-	/** full constructor */
-	public TAddress(Integer addressId, TUser TUser, String adsContent,
-			String adsPhone) {
-		this.addressId = addressId;
-		this.TUser = TUser;
-		this.adsContent = adsContent;
-		this.adsPhone = adsPhone;
-	}
 
 	// Property accessors
 	@Id
@@ -56,14 +36,14 @@ public class TAddress implements java.io.Serializable {
 		this.addressId = addressId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userId")
-	public TUser getTUser() {
-		return this.TUser;
+
+	@Column(name = "userId", length = 11)
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setTUser(TUser TUser) {
-		this.TUser = TUser;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	@Column(name = "adsContent", length = 100)

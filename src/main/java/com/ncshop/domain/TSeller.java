@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -36,38 +37,6 @@ public class TSeller implements java.io.Serializable {
 	private String sellerMsg;
 	private Set<TSellergoods> TSellergoodses = new HashSet<TSellergoods>(0);
 	private Set<TOrder> TOrders = new HashSet<TOrder>(0);
-
-	// Constructors
-
-	/** default constructor */
-	public TSeller() {
-	}
-
-	/** minimal constructor */
-	public TSeller(Integer sellerId) {
-		this.sellerId = sellerId;
-	}
-
-	/** full constructor */
-	public TSeller(Integer sellerId, String shopName, String sellerName,
-			String sellerAddress, String sellerPhone, Date joinTime,
-			Integer joinDeadline, boolean isValid, Integer minBuy,
-			Float deliverMoney, String sellerMsg,
-			Set<TSellergoods> TSellergoodses, Set<TOrder> TOrders) {
-		this.sellerId = sellerId;
-		this.shopName = shopName;
-		this.sellerName = sellerName;
-		this.sellerAddress = sellerAddress;
-		this.sellerPhone = sellerPhone;
-		this.joinTime = joinTime;
-		this.joinDeadline = joinDeadline;
-		this.isValid = isValid;
-		this.minBuy = minBuy;
-		this.deliverMoney = deliverMoney;
-		this.sellerMsg = sellerMsg;
-		this.TSellergoodses = TSellergoodses;
-		this.TOrders = TOrders;
-	}
 
 	// Property accessors
 	@Id
@@ -172,7 +141,8 @@ public class TSeller implements java.io.Serializable {
 		this.sellerMsg = sellerMsg;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TSeller")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="sellerId")
 	public Set<TSellergoods> getTSellergoodses() {
 		return this.TSellergoodses;
 	}
@@ -181,7 +151,8 @@ public class TSeller implements java.io.Serializable {
 		this.TSellergoodses = TSellergoodses;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TSeller")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="sellerId")
 	public Set<TOrder> getTOrders() {
 		return this.TOrders;
 	}

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -31,34 +32,6 @@ public class TUser implements java.io.Serializable {
 	private Set<TAddress> TAddresses = new HashSet<TAddress>(0);
 	private Set<TOrder> TOrders = new HashSet<TOrder>(0);
 	private Set<TComment> TComments = new HashSet<TComment>(0);
-
-	// Constructors
-
-	/** default constructor */
-	public TUser() {
-	}
-
-	/** minimal constructor */
-	public TUser(Integer userId) {
-		this.userId = userId;
-	}
-
-	/** full constructor */
-	public TUser(Integer userId, String openId, String userName,
-			String telNumber, String email, String sex, Boolean isAttention,
-			Set<TAddress> TAddresses, Set<TOrder> TOrders,
-			Set<TComment> TComments) {
-		this.userId = userId;
-		this.openId = openId;
-		this.userName = userName;
-		this.telNumber = telNumber;
-		this.email = email;
-		this.sex = sex;
-		this.isAttention = isAttention;
-		this.TAddresses = TAddresses;
-		this.TOrders = TOrders;
-		this.TComments = TComments;
-	}
 
 	// Property accessors
 	@Id
@@ -135,7 +108,8 @@ public class TUser implements java.io.Serializable {
 		this.userState = userState;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TUser")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="userId")
 	public Set<TAddress> getTAddresses() {
 		return this.TAddresses;
 	}
@@ -144,7 +118,8 @@ public class TUser implements java.io.Serializable {
 		this.TAddresses = TAddresses;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TUser")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="userId")
 	public Set<TOrder> getTOrders() {
 		return this.TOrders;
 	}
@@ -153,7 +128,8 @@ public class TUser implements java.io.Serializable {
 		this.TOrders = TOrders;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TUser")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="userId")
 	public Set<TComment> getTComments() {
 		return this.TComments;
 	}

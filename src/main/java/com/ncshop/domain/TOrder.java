@@ -27,41 +27,14 @@ public class TOrder implements java.io.Serializable {
 
 	private Integer orderId;
 	private TGoods TGoods;
-	private TUser TUser;
-	private TSeller TSeller;
+	private Integer userId;
 	private String orderNo;
+	private Integer sellerId;
 	private Date orderTime=new Date();
 	private Double orderTotalCost=0.0;
 	private String orderMsg;
 	private Integer orderState=0;//默认0：已生成；1:已支付
 	private Set<TOrderdetail> TOrderdetails = new HashSet<TOrderdetail>(0);
-
-	// Constructors
-
-	/** default constructor */
-	public TOrder() {
-	}
-
-	/** minimal constructor */
-	public TOrder(Integer orderId) {
-		this.orderId = orderId;
-	}
-
-	/** full constructor */
-	public TOrder(Integer orderId, TGoods TGoods, TUser TUser, TSeller TSeller,
-			String orderNo, Date orderTime, Double orderTotalCost,
-			String orderMsg, Integer orderState, Set<TOrderdetail> TOrderdetails) {
-		this.orderId = orderId;
-		this.TGoods = TGoods;
-		this.TUser = TUser;
-		this.TSeller = TSeller;
-		this.orderNo = orderNo;
-		this.orderTime = orderTime;
-		this.orderTotalCost = orderTotalCost;
-		this.orderMsg = orderMsg;
-		this.orderState = orderState;
-		this.TOrderdetails = TOrderdetails;
-	}
 
 	// Property accessors
 	@Id
@@ -85,24 +58,14 @@ public class TOrder implements java.io.Serializable {
 		this.TGoods = TGoods;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userId")
-	public TUser getTUser() {
-		return this.TUser;
+
+	@Column(name = "userId", length = 11)
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setTUser(TUser TUser) {
-		this.TUser = TUser;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "sellerId")
-	public TSeller getTSeller() {
-		return this.TSeller;
-	}
-
-	public void setTSeller(TSeller TSeller) {
-		this.TSeller = TSeller;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	@Column(name = "orderNo", length = 8)
@@ -113,7 +76,15 @@ public class TOrder implements java.io.Serializable {
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
 	}
+	
+	@Column(name = "sellerId", length = 11)
+	public Integer getSellerId() {
+		return sellerId;
+	}
 
+	public void setSellerId(Integer sellerId) {
+		this.sellerId = sellerId;
+	}
 	@Temporal(TemporalType.DATE)
 	@Column(name = "orderTime", length = 10)
 	public Date getOrderTime() {
@@ -151,7 +122,8 @@ public class TOrder implements java.io.Serializable {
 		this.orderState = orderState;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TOrder")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="orderId")
 	public Set<TOrderdetail> getTOrderdetails() {
 		return this.TOrderdetails;
 	}

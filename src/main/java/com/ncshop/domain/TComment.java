@@ -3,11 +3,8 @@ package com.ncshop.domain;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,33 +19,11 @@ public class TComment implements java.io.Serializable {
 	// Fields
 
 	private Integer commentId;
-	private TOrderdetail TOrderdetail;
-	private TUser TUser;
+	private Integer userId;
+	private Integer detailId;
 	private Integer credit;
 	private String commentMsg;
 	private Date commentTime=new Date();
-
-	// Constructors
-
-	/** default constructor */
-	public TComment() {
-	}
-
-	/** minimal constructor */
-	public TComment(Integer commentId) {
-		this.commentId = commentId;
-	}
-
-	/** full constructor */
-	public TComment(Integer commentId, TOrderdetail TOrderdetail, TUser TUser,
-			Integer credit, String commentMsg, Date commentTime) {
-		this.commentId = commentId;
-		this.TOrderdetail = TOrderdetail;
-		this.TUser = TUser;
-		this.credit = credit;
-		this.commentMsg = commentMsg;
-		this.commentTime = commentTime;
-	}
 
 	// Property accessors
 	@Id
@@ -62,24 +37,22 @@ public class TComment implements java.io.Serializable {
 		this.commentId = commentId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "detailId")
-	public TOrderdetail getTOrderdetail() {
-		return this.TOrderdetail;
+
+	@Column(name = "userId", length = 11)
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setTOrderdetail(TOrderdetail TOrderdetail) {
-		this.TOrderdetail = TOrderdetail;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	@Column(name = "detailId", length = 11)
+	public Integer getDetailId() {
+		return detailId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userId")
-	public TUser getTUser() {
-		return this.TUser;
-	}
-
-	public void setTUser(TUser TUser) {
-		this.TUser = TUser;
+	public void setDetailId(Integer detailId) {
+		this.detailId = detailId;
 	}
 
 	@Column(name = "credit")
