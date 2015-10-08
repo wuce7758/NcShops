@@ -13,7 +13,7 @@ import javax.persistence.Table;
  * TAddress entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_address", catalog = "ncshops")
+@Table(name = "t_address", catalog = "ncshop")
 public class TAddress implements java.io.Serializable {
 
 	// Fields

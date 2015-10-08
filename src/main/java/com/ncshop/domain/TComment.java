@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
  * TComment entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_comment", catalog = "ncshops")
+@Table(name = "t_comment", catalog = "ncshop")
 public class TComment implements java.io.Serializable {
 
 	// Fields
