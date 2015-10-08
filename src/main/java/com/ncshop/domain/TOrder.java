@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
  * TOrder entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_order", catalog = "ncshops")
+@Table(name = "t_order", catalog = "ncshop")
 public class TOrder implements java.io.Serializable {
 
 	// Fields
