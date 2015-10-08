@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * TOrderdetail entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_orderdetail", catalog = "ncshops")
+@Table(name = "t_orderdetail", catalog = "ncshop")
 public class TOrderdetail implements java.io.Serializable {
 
 	// Fields
