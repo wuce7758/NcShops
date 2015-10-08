@@ -1,219 +1,214 @@
-package com.ncshop.controlls;
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>NchuPandas</groupId>
+	<artifactId>NcShops</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>NcShops</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<springversion>3.1.1.RELEASE</springversion>
+		<junitversion>3.8.1</junitversion>
+	</properties>
 
-<<<<<<< HEAD
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junitversion}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>me.chanjar</groupId>
+			<artifactId>weixin-java-mp</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-asm</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${springversion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 
-import javax.servlet.http.HttpServletRequest;
-=======
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
->>>>>>> 75a53bf313521bc157ad9b3e08926e593c07f634
-import javax.servlet.http.HttpServletResponse;
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-<<<<<<< HEAD
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.1</version>
+		</dependency>
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-=======
-import org.springframework.web.multipart.MultipartFile;
->>>>>>> 75a53bf313521bc157ad9b3e08926e593c07f634
-import com.ncshop.domain.TGoods;
-import com.ncshop.domain.TGoodstype;
-import com.ncshop.domain.TOrder;
-import com.ncshop.service.SellerService;
-import com.ncshop.service.UserService;
-import com.ncshop.util.TargetStrategy;
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
 
-@Controller
-@RequestMapping("/seller")
-public class SellerController {
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.3</version>
+		</dependency>
 
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private SellerService sellerService;
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1</version>
+		</dependency>
 
-	/**
-<<<<<<< HEAD
-	 * 查找某店铺订单
-	 * 
-	 * @param OpenId
-	 *            微信号标识
-	 * @param orderState
-	 *            订单状态
-=======
-	 * 根据订单状态和微信标识查找某店铺订单
-	 * @param OpenId 微信号标识
-	 * @param orderState 订单状态
->>>>>>> 75a53bf313521bc157ad9b3e08926e593c07f634
-	 * @throws Exception
-	 */
-	@RequestMapping("/findSellerOrders")
-	public void findSellerOrders(HttpServletResponse response, int OpenId,
-			int orderState) throws Exception {
-		if (OpenId + "" == "" || orderState + "" == "") {
-			return;
-		}
-		// 调用service查找 数据库
-		List<TOrder> orderList = sellerService.findSellerOrder(OpenId,
-				orderState);
-		response.setContentType("html/text;charset=utf-8");
-		response.getWriter().write("添加商品成功!");
-	}
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
 
-	/**
-	 * 更改订单状态，比如订单完成
-	 * @param response
-	 * @param orderId
-	 * @param orderState
-	 * @throws IOException 
-	 */
-	@RequestMapping("/changeOrderState")
-	public void changeOrderState(HttpServletResponse response,int orderId,int orderState) throws IOException{
-		if(orderId+""==""||orderState+""==""){
-			return;
-		}
-		TOrder order=sellerService.changeOrderState(orderId,orderState);
-		if(order!=null){
-			response.setContentType("html/text;charset=utf-8");
-			response.getWriter().write("添加商品成功!");			
-		}
-	}
-	/**
-	 * 添加店铺商品
-	 * 
-	 * @param sellerId
-	 *            卖家唯一标识
-	 * @param goods
-	 *            新商品
-	 * @throws Exception
-	 */
-	@RequestMapping("/addGoods")
-<<<<<<< HEAD
-	public void addGoods(HttpServletResponse response, int sellerId,
-			int goodsTypeId, TGoods goods) throws Exception {
-		if (sellerId + "" == "" || goodsTypeId + "" == "") {
-			return;
-		}
-		// 调用service查找 数据库
-		sellerService.addGoods(sellerId, goodsTypeId, goods);
-=======
-	public void addGoods(HttpServletResponse response,
-			int sellerId,int goodsTypeId,
-			MultipartFile picFile, TGoods goods) throws Exception{	
-		if(sellerId+""==""||goodsTypeId+""==""){
-			return;
-		}
-		//定义物理路径
-		String basePath="C:\\fileupload\\goodspic\\"+goodsTypeId+"\\";
-		File f=new File(basePath);
-		if(!f.exists()) {
-			f.mkdirs();
-		}
-		if(picFile!=null){
-			//旧文件名
-			String fileName=picFile.getOriginalFilename();
-			//新文件名
-			String newFileName=new Date().getTime()+fileName.substring(fileName.lastIndexOf("."));
-			File file=new File(basePath+newFileName);
-			//将文件保存到硬盘
-			picFile.transferTo(file);
-			//重新设置图片名
-			goods.setGoodsPic(newFileName);
-			//调用service查找 数据库
-		}else{
-			//设置默认图片
-			goods.setGoodsPic("default.jpg");
-		}
-		sellerService.addGoods(sellerId,goodsTypeId,goods);
->>>>>>> 75a53bf313521bc157ad9b3e08926e593c07f634
-		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().write("添加商品成功!");
-	}
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>3.6.10.Final</version>
+		</dependency>
+		<!-- 添加javassist -->
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.12.0.GA</version>
+		</dependency>
+		<!-- mysql数据库的驱动包 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.6</version>
+		</dependency>
 
-	/**
-	 * 修改商品信息
-	 * @param response
-	 * @param sellerId
-	 * @param goodsTypeId
-	 * @param picFile
-	 * @param goods
-	 * @throws Exception
-	 */
-	@RequestMapping("/updateGoods")
-	public void updateGoods(HttpServletResponse response,
-			int goodsTypeId,
-			MultipartFile picFile, TGoods goods) throws Exception{	
-		if(goodsTypeId+""==""){
-			return;
-		}
-		//定义物理路径
-		String basePath="C:\\fileupload\\goodspic\\"+goodsTypeId+"\\";
-		File f=new File(basePath);
-		if(!f.exists()) {
-			f.mkdirs();
-		}
-		if(picFile!=null){
-			//旧文件名
-			String fileName=picFile.getOriginalFilename();
-			//新文件名
-			String newFileName=new Date().getTime()+fileName.substring(fileName.lastIndexOf("."));
-			File file=new File(basePath+newFileName);
-			//将文件保存到硬盘
-			picFile.transferTo(file);
-			//重新设置图片名
-			goods.setGoodsPic(newFileName);
-			//调用service查找 数据库
-		}else{
-			//设置默认图片
-			goods.setGoodsPic("default.jpg");
-		}
-		sellerService.updateGoods(goodsTypeId,goods);
-		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().write("商品修改成功!");
-	}
-	/**
-	 * 添加商品类型
-	 * 
-	 * @param goodsType
-	 *            商品类型对象
-	 * @throws Exception
-	 */
-	@RequestMapping("/addGoodsType")
-	public void addGoodsType(HttpServletResponse response, TGoodstype goodsType)
-			throws Exception {
-		String goodsTypeName = goodsType.getGoodsTypeName();
-		if (goodsTypeName == null || goodsTypeName == "") {
-			return;
-		}
-		// 调用service查找 数据库
-		sellerService.addGoodsType(goodsType);
-		response.setContentType("html/text;charset=utf-8");
-		response.getWriter().write("添加商品类型成功!");
-	}
-	/**
-	 * 拉黑用户
-	 * @param userId 
-	 * @throws Exception
-	 */
-	@RequestMapping("/limitUser")
-	public void limitUser(HttpServletResponse response,int userId) throws Exception{	
-		if(userId+""==null||userId+""==""){
-			return;
-		}
-		//调用service查找 数据库
-		sellerService.limitUser(userId);
-		response.setContentType("html/text;charset=utf-8");
-		response.getWriter().write("限制成功!");
-	}
-}
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.11</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.0</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>ncshops</finalName>
+	</build>
+</project>
