@@ -1,6 +1,9 @@
 package com.ncshop.test;
 
 
+import java.util.List;
+import java.util.Set;
+
 import javax.annotation.Resource;
 
 import org.junit.runner.RunWith;
@@ -25,17 +28,23 @@ public class Test{
 	@org.junit.Test
 	public void test1() {
 		TUser user=new TUser();
-		user.setUserName("xiaolong");
+		user.setUserName("xiao");
+		user.setIsAttention(true);
+		user.setOpenId("sssssss");
+		user.setSex("男");
+		user.setTelNumber("15879023814");
 		userDAO.save(user);
 		userDAO.findAll();
 		
 	}
 	@org.junit.Test
 	public void test2() {
+		Set<TAddress> a=userDAO.findById(1).getTAddresses();
 		TAddress address=new TAddress();
-		address.setAdsContent("xxxx");
-		//address.setTUser(userDAO.findById(1));
+		address.setAdsContent("高新7路");
+		address.setUserId(1);
 		address.setAdsPhone("15879023814");
+		List<TAddress> addressList=addressDAO.findByExample(address);
 		addressDAO.save(address);	
 	}
 	@org.junit.Test
