@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
  * TSeller entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_seller", catalog = "ncshops")
+@Table(name = "t_seller", catalog = "ncshop")
 public class TSeller implements java.io.Serializable {
 
 	// Fields
