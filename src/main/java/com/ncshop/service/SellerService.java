@@ -95,8 +95,4 @@ public class SellerService {
 		orderDao.save(order);
 		return order;
 	} 
-<<<<<<< HEAD
 } 
-=======
-} 
->>>>>>> 8f87f014cf8b91767985ac46f8da4bc3a9d38214
