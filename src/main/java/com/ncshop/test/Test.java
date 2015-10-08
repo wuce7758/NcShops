@@ -38,4 +38,9 @@ public class Test{
 		address.setAdsPhone("15879023814");
 		addressDAO.save(address);	
 	}
+	@org.junit.Test
+	public void testMenu(){
+		
+		new BuildMenu().setConfig().build();
+	}
 }

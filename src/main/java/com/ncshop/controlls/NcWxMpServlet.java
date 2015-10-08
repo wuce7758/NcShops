@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ncshop.util.ConfigDao;
+import com.ncshop.util.ConfigInfo;
+
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.common.util.StringUtils;
@@ -30,11 +33,13 @@ public class NcWxMpServlet extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		super.init();
+		ConfigDao configDao = new ConfigDao();
+		ConfigInfo configInfo = configDao.GetConfig();
 		wxMpConfigStorage = new WxMpInMemoryConfigStorage();
-		wxMpConfigStorage.setAppId("wxd8276cabf8323d91"); // 设置微信公众号的appid
-		wxMpConfigStorage.setSecret("64f28217f2ea488418026fac44506e4b"); // 设置微信公众号的app corpSecret
-		wxMpConfigStorage.setToken("ncshops"); // 设置微信公众号的token
-		wxMpConfigStorage.setAesKey("ncshops"); // 设置微信公众号的EncodingAESKey
+		wxMpConfigStorage.setAppId(configInfo.getWeChatAppID()); // 设置微信公众号的appid
+		wxMpConfigStorage.setSecret(configInfo.getWeChatAppSecret()); // 设置微信公众号的app corpSecret
+		wxMpConfigStorage.setToken(configInfo.getWeChatToken()); // 设置微信公众号的token
+		wxMpConfigStorage.setAesKey(configInfo.getWeChatAESKey()); // 设置微信公众号的EncodingAESKey
 
 		wxMpService = new WxMpServiceImpl();
 		wxMpService.setWxMpConfigStorage(wxMpConfigStorage);
@@ -93,7 +98,6 @@ public class NcWxMpServlet extends HttpServlet {
 			response.getWriter().write(outMessage.toXml());
 			return;
 		}
-
 		if ("aes".equals(encryptType)) {
 			// 是aes加密的消息
 			String msgSignature = request.getParameter("msg_signature");

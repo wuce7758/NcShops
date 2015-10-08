@@ -53,13 +53,23 @@
 
 	<servlet>
 		<servlet-name>NcWxMpServlet</servlet-name>
-		<servlet-class>com.ncshops.controlls.NcWxMpServlet</servlet-class>
+		<servlet-class>com.ncshop.controlls.NcWxMpServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>NcWxMpServlet</servlet-name>
 		<url-pattern>/NcWxMpServlet</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>Oauth2Servlet</servlet-name>
+		<servlet-class>com.ncshop.controlls.Oauth2Servlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Oauth2Servlet</servlet-name>
+		<url-pattern>/Oauth2Servlet</url-pattern>
+	</servlet-mapping>
+	
 
 
 	<welcome-file-list>

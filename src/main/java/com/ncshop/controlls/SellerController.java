@@ -1,6 +1,8 @@
 package com.ncshop.controlls;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.ncshop.domain.TGoods;
 import com.ncshop.domain.TGoodstype;
 import com.ncshop.domain.TOrder;
@@ -21,61 +25,75 @@ import com.ncshop.domain.TSellergoods;
 import com.ncshop.domain.TUser;
 import com.ncshop.service.SellerService;
 import com.ncshop.service.UserService;
-
+import com.ncshop.util.TargetStrategy;
 
 @Controller
 @RequestMapping("/seller")
-public class SellerController{
-	
+public class SellerController {
+
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private SellerService sellerService;
-	
+
 	/**
 	 * 查找某店铺订单
-	 * @param OpenId 微信号标识
-	 * @param orderState 订单状态
+	 * 
+	 * @param OpenId
+	 *            微信号标识
+	 * @param orderState
+	 *            订单状态
 	 * @throws Exception
 	 */
 	@RequestMapping("/findSellerOrders")
-	public void findSellerOrders(HttpServletResponse response,int OpenId,int orderState) throws Exception{	
-		if(OpenId+""==""||orderState+""==""){
+	public void findSellerOrders(HttpServletResponse response, int OpenId,
+			int orderState) throws Exception {
+		if (OpenId + "" == "" || orderState + "" == "") {
 			return;
 		}
-		//调用service查找 数据库
-		List<TOrder> orderList=sellerService.findSellerOrder(OpenId,orderState);
+		// 调用service查找 数据库
+		List<TOrder> orderList = sellerService.findSellerOrder(OpenId,
+				orderState);
 		response.setContentType("html/text;charset=utf-8");
 		response.getWriter().write("添加商品成功!");
 	}
+
 	/**
 	 * 添加店铺商品
-	 * @param sellerId 卖家唯一标识
-	 * @param goods 新商品
+	 * 
+	 * @param sellerId
+	 *            卖家唯一标识
+	 * @param goods
+	 *            新商品
 	 * @throws Exception
 	 */
 	@RequestMapping("/addGoods")
-	public void addGoods(HttpServletResponse response,int sellerId,int goodsTypeId,TGoods goods) throws Exception{	
-		if(sellerId+""==""||goodsTypeId+""==""){
+	public void addGoods(HttpServletResponse response, int sellerId,
+			int goodsTypeId, TGoods goods) throws Exception {
+		if (sellerId + "" == "" || goodsTypeId + "" == "") {
 			return;
 		}
-		//调用service查找 数据库
-		sellerService.addGoods(sellerId,goodsTypeId,goods);
+		// 调用service查找 数据库
+		sellerService.addGoods(sellerId, goodsTypeId, goods);
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write("添加商品成功!");
 	}
+
 	/**
 	 * 添加商品类型
-	 * @param goodsType 商品类型对象
+	 * 
+	 * @param goodsType
+	 *            商品类型对象
 	 * @throws Exception
 	 */
 	@RequestMapping("/addGoodsType")
-	public void addGoodsType(HttpServletResponse response,TGoodstype goodsType) throws Exception{	
-		String goodsTypeName=goodsType.getGoodsTypeName();
-		if(goodsTypeName==null||goodsTypeName==""){
+	public void addGoodsType(HttpServletResponse response, TGoodstype goodsType)
+			throws Exception {
+		String goodsTypeName = goodsType.getGoodsTypeName();
+		if (goodsTypeName == null || goodsTypeName == "") {
 			return;
 		}
-		//调用service查找 数据库
+		// 调用service查找 数据库
 		sellerService.addGoodsType(goodsType);
 		response.setContentType("html/text;charset=utf-8");
 		response.getWriter().write("添加商品类型成功!");
