@@ -69,7 +69,7 @@
 		<servlet-name>Oauth2Servlet</servlet-name>
 		<url-pattern>/Oauth2Servlet</url-pattern>
 	</servlet-mapping>
-	
+
 
 
 	<welcome-file-list>

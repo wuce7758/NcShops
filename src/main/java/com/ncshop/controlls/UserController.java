@@ -127,22 +127,31 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/findAllGoods")
-	public List<TGoods> findGoods() {
-		List<TGoods> goodsList = userService.findAllGoods();
-		return goodsList;
+	public void findGoods(HttpServletResponse response) {
+		try {
+			List<TGoods> goodsList = userService.findAllGoods();
+			String json = toJson(new TGoods(), goodsList, null);
+			// 设置response的传输格式为json
+			response.setContentType("application/json");
+			response.getWriter().write(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
 	 * 加入购物车
 	 */
 	@RequestMapping("/addOrders")
-	public String addCart(HttpServletRequest request,HttpServletResponse response) {
+	public String addCart(HttpServletRequest request,
+			HttpServletResponse response) {
 
 		request.getSession().setAttribute("odersdetails", null);
-		
-		//判断该用户是否是老用户
-		
-		//跳转到个人信息页面(送餐地址，电话)
+
+		// 判断该用户是否是老用户
+
+		// 跳转到个人信息页面(送餐地址，电话)
 		return null;
 	}
 
@@ -167,15 +176,14 @@ public class UserController {
 						* tOrderdetail.getBuyMount();
 			}
 
-			
-			TUser user=(TUser) request.getSession().getAttribute("user");
-			
-			TOrder order=new TOrder();
+			TUser user = (TUser) request.getSession().getAttribute("user");
+
+			TOrder order = new TOrder();
 			order.setOrderState(0);
 			order.setOrderTotalCost(orderTotalCost);
 			order.setTOrderdetails(odersdetails);
 			order.setOrderTime(new Date());
-			
+
 			if (userService.order(order)) {
 
 				WxMpInMemoryConfigStorage wxMpConfigStorage;
@@ -188,9 +196,8 @@ public class UserController {
 				wxMpConfigStorage.setSecret(configInfo.getWeChatAppSecret()); // 设置微信公众号的app
 				wxMpConfigStorage.setToken(configInfo.getWeChatToken()); // 设置微信公众号的token
 				wxMpConfigStorage.setAesKey(configInfo.getWeChatAESKey()); // 设置微信公众号的EncodingAESKey
-				
-				//获取配送员OpenID，组织消息并发送
-				
+
+				// 获取配送员OpenID，组织消息并发送
 
 				return null;
 			}
@@ -204,25 +211,28 @@ public class UserController {
 
 	/**
 	 * 用户完善个人信息
+	 * 
 	 * @param user
 	 * @param request
 	 * @param response
 	 */
 	@RequestMapping("/bind")
-	public void bindInfo(TUser user,HttpServletRequest request,HttpServletResponse response){
-		
+	public void bindInfo(TUser user, HttpServletRequest request,
+			HttpServletResponse response) {
+
 		try {
-			TUser usermark=(TUser) request.getSession().getAttribute("user");
+			TUser usermark = (TUser) request.getSession().getAttribute("user");
 			user.setOpenId(usermark.getOpenId());
-			if(userService.bind(user)){
-				//信息填写成功，跳转
+			if (userService.bind(user)) {
+				// 信息填写成功，跳转
 				request.getRequestDispatcher("").forward(request, response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
+
 	/**
 	 * 将集合转换成json
 	 * 
@@ -250,6 +260,5 @@ public class UserController {
 		System.out.println(json);
 		return json;
 	}
-	
-	
+
 }
