@@ -127,9 +127,18 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/findAllGoods")
-	public List<TGoods> findGoods() {
-		List<TGoods> goodsList = userService.findAllGoods();
-		return goodsList;
+	public void findGoods(HttpServletResponse response) {
+		try {
+			List<TGoods> goodsList = userService.findAllGoods();
+			String json = toJson(new TGoods(), goodsList, null);
+			// 设置response的传输格式为json
+			response.setContentType("application/json");
+			response.getWriter().write(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	/**
