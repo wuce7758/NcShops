@@ -124,11 +124,11 @@ public class TSeller implements java.io.Serializable {
 	}
 
 	@Column(name = "deliverMoney", precision = 12, scale = 0)
-	public Float getDeliverMoney() {
+	public float getDeliverMoney() {
 		return this.deliverMoney;
 	}
 
-	public void setDeliverMoney(Float deliverMoney) {
+	public void setDeliverMoney(float deliverMoney) {
 		this.deliverMoney = deliverMoney;
 	}
 

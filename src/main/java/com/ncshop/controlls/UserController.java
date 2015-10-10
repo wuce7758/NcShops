@@ -237,7 +237,7 @@ public class UserController {
 		Gson gson = null;
 		Map<String, List<T>> map = new HashMap<String, List<T>>();
 		map.put(t.getClass().getName().replace("com.ncshop.domain.", ""), list);
-		if (fieldNames == null) {
+		if (fieldNames != null) {
 			TargetStrategy ts = null;
 			ts = new TargetStrategy(t.getClass());
 			ts.setReverse(true);
