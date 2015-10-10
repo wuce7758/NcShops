@@ -1,3 +1,8 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,7 +76,7 @@
 					<a href="#" class="navbar-brand">
 						<small>
 							<i class="fa fa-leaf"></i>
-							欢迎光顾xx商店
+							欢迎光顾xx商店
 						</small>
 					</a>
 
@@ -104,7 +109,7 @@
 						<li class="green">
 							<a href="notice.aspx">
 								<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-								<span>通知</span>
+								<span>关于</span>
 								<span class="badge badge-success">5</span>
 							</a>
 
@@ -113,7 +118,7 @@
 						<li class="purple">
 							<a href="about.aspx">
 								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
-								<span>关于</span>
+								<span>å³äº</span>
 							</a>
 						</li>
 
@@ -123,7 +128,7 @@
 								<img class="nav-user-photo" src="../http://ace.zcdreams.com/assets/avatars/user.jpg" alt="Jason's Photo">
 								<span class="user-info">
 									<small>Welcome,</small>
-									张三
+									å¼ ä¸
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>
@@ -132,7 +137,7 @@
 							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li>
 									<a href="info.aspx">
-										<i class="ace-icon fa fa-user"></i> 个人消息
+										<i class="ace-icon fa fa-user"></i> ä¸ªäººæ¶æ¯
 									</a>
 								</li>
 
@@ -163,7 +168,7 @@
 				} catch (e) {}
 			</script>
 
-			<!-- #section:basics/sidebar 菜单-->
+			<!-- #section:basics/sidebar èå-->
 			<div id="sidebar" class="sidebar                  responsive">
 				<script type="text/javascript">
 					try {
@@ -216,7 +221,7 @@
 					<li class="">
 						<a href="index.html">
 							<i class="menu-icon fa fa-tachometer"></i>
-							<span class="menu-text">动态显示物品类别</span>
+							<span class="menu-text">å¨ææ¾ç¤ºç©åç±»å«</span>
 						</a>
 
 						<b class="arrow"></b>
@@ -237,7 +242,7 @@
 				</script>
 			</div>
 
-			<!-- /section:basics/sidebar 导航栏-->
+			<!-- /section:basics/sidebar å¯¼èªæ -->
 			<div class="main-content">
 				<div class="main-content-inner">
 					<!-- #section:basics/content.breadcrumbs -->
@@ -251,9 +256,9 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="ace-icon fa fa-home home-icon"></i>
-								<a href="#">小二百货店</a>
+								<a href="#">å°äºç¾è´§åº</a>
 							</li>
-							<li class="active">生活用品</li>
+							<li class="active">çæ´»ç¨å</li>
 						</ul>
 						<!-- /.breadcrumb -->
 
@@ -261,7 +266,7 @@
 						<div class="nav-search" id="nav-search">
 							<form class="form-search">
 								<span class="input-icon">
-									<input type="text" placeholder="搜索..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<input type="text" placeholder="æç´¢..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
 									<i class="ace-icon fa fa-search nav-search-icon"></i>
 								</span>
 							</form>
@@ -281,8 +286,8 @@
 										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
 									</div>
 									<div class="col-xs-6">
-										<p>早餐</p>
-										<p>10.00￥/一份</p>
+										<p>æ©é¤</p>
+										<p>10.00ï¿¥/ä¸ä»½</p>
 										<input type="text" class="spinner" id="spinner1" />
 									</div>
 								</div>
@@ -291,8 +296,8 @@
 										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
 									</div>
 									<div class="col-xs-6">
-										<p>早餐</p>
-										<p>10.00￥/一份</p>
+										<p>æ©é¤</p>
+										<p>10.00ï¿¥/ä¸ä»½</p>
 										<input type="text" class="spinner" id="spinner1" />
 									</div>
 								</div>
@@ -301,8 +306,8 @@
 										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
 									</div>
 									<div class="col-xs-6">
-										<p>早餐</p>
-										<p>10.00￥/一份</p>
+										<p>æ©é¤</p>
+										<p>10.00ï¿¥/ä¸ä»½</p>
 										<input type="text" class="spinner" id="spinner1" />
 									</div>
 								</div>
@@ -311,8 +316,8 @@
 										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
 									</div>
 									<div class="col-xs-6">
-										<p>早餐</p>
-										<p>10.00￥/一份</p>
+										<p>æ©é¤</p>
+										<p>10.00ï¿¥/ä¸ä»½</p>
 										<input type="text" class="spinner" id="spinner2" />
 									</div>
 								</div>
@@ -321,14 +326,14 @@
 										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
 									</div>
 									<div class="col-xs-6">
-										<p>早餐</p>
-										<p>10.00￥/一份</p>
+										<p>æ©é¤</p>
+										<p>10.00ï¿¥/ä¸ä»½</p>
 										<input type="text" class="spinner" id="spinner3" />
 									</div>
 								</div>
 							</div>
 							<div class="col-xs-12 center">
-								<a>加载更多...</a>
+								<a>å è½½æ´å¤...</a>
 							</div>
 							<!-- PAGE CONTENT ENDS -->
 						</div>
@@ -346,19 +351,19 @@
 				<li class="green col-xs-4">
 					<a href="#">
 						<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-						<span>通知</span>
+						<span>éç¥</span>
 					</a>
 				</li>
 				<li class="green col-xs-4">
 					<a href="#">
 						<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-						<span>通知</span>
+						<span>éç¥</span>
 					</a>
 				</li>
 				<li class="green col-xs-4">
 					<a href="#">
 						<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-						<span>通知</span>
+						<span>éç¥</span>
 					</a>
 				</li>
 			</ul>
@@ -447,12 +452,12 @@
 				});
 			});
 			$(document).ready(function() {
-				//页面加载的时候初始化
+				//é¡µé¢å è½½çæ¶ååå§å
 				$.get("url", function(data) {
 					if (data.substr(0, 3) == "{\"p") {} else {
 						$.gritter.add({
-							title: '出错啦!',
-							text: '不好意思，加载失败！',
+							title: 'åºéå¦!',
+							text: 'ä¸å¥½ææï¼å è½½å¤±è´¥ï¼',
 							sticky: true,
 							time: 1000,
 							speed: 10,
@@ -461,9 +466,9 @@
 						});
 					}
 				});
-				//xxx按钮
+				//xxxæé®
 				$("#roleAddBtn").click(function() {
-					//post到后台
+					//postå°åå°
 					$.ajax({
 						cache: false,
 						type: "POST",
@@ -475,8 +480,8 @@
 						async: true,
 						error: function(request) {
 							$.gritter.add({
-								title: '出错啦!',
-								text: '网络似乎有问题！',
+								title: 'åºéå¦!',
+								text: 'ç½ç»ä¼¼ä¹æé®é¢ï¼',
 								sticky: true,
 								time: 1000,
 								speed: 10,
@@ -486,9 +491,9 @@
 						},
 						success: function(data) {
 							if (data == "1") {} else {
-								$("#alertDiv strong").html("角色添加失败！！！");
+								$("#alertDiv strong").html("è§è²æ·»å å¤±è´¥ï¼ï¼ï¼");
 								$.gritter.add({
-									title: '出错啦!',
+									title: 'åºéå¦!',
 									text: data,
 									sticky: true,
 									time: 1000,
