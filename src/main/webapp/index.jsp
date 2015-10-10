@@ -29,11 +29,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
 
 		<!--[if lte IE 9]>
-			<link rel="stylesheet" href="ace-part2.css" class="ace-main-stylesheet" />
+			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" class="ace-main-stylesheet" />
 		<![endif]-->
 
 		<!--[if lte IE 9]>
-		  <link rel="stylesheet" href="ace-ie.css" />
+		  <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-ie.css" />
 		<![endif]-->
 
 		<!-- inline styles related to this page -->
@@ -76,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<a href="#" class="navbar-brand">
 						<small>
 							<i class="fa fa-leaf"></i>
-							欢迎光顾xx商店
+							欢迎光顾xx商店
 						</small>
 					</a>
 
@@ -109,7 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<li class="green">
 							<a href="notice.aspx">
 								<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-								<span>关于</span>
+								<span>通知</span>
 								<span class="badge badge-success">5</span>
 							</a>
 
@@ -118,7 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<li class="purple">
 							<a href="about.aspx">
 								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
-								<span>å³äº</span>
+								<span>关于</span>
 							</a>
 						</li>
 
@@ -128,7 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<img class="nav-user-photo" src="../http://ace.zcdreams.com/assets/avatars/user.jpg" alt="Jason's Photo">
 								<span class="user-info">
 									<small>Welcome,</small>
-									å¼ ä¸
+									张三
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>
@@ -137,7 +137,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li>
 									<a href="info.aspx">
-										<i class="ace-icon fa fa-user"></i> ä¸ªäººæ¶æ¯
+										<i class="ace-icon fa fa-user"></i> 个人消息
 									</a>
 								</li>
 
@@ -168,7 +168,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				} catch (e) {}
 			</script>
 
-			<!-- #section:basics/sidebar èå-->
+			<!-- #section:basics/sidebar 菜单-->
 			<div id="sidebar" class="sidebar                  responsive">
 				<script type="text/javascript">
 					try {
@@ -221,7 +221,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<li class="">
 						<a href="index.html">
 							<i class="menu-icon fa fa-tachometer"></i>
-							<span class="menu-text">å¨ææ¾ç¤ºç©åç±»å«</span>
+							<span class="menu-text">动态显示物品类别</span>
 						</a>
 
 						<b class="arrow"></b>
@@ -242,7 +242,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</script>
 			</div>
 
-			<!-- /section:basics/sidebar å¯¼èªæ -->
+			<!-- /section:basics/sidebar 导航栏-->
 			<div class="main-content">
 				<div class="main-content-inner">
 					<!-- #section:basics/content.breadcrumbs -->
@@ -256,9 +256,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<ul class="breadcrumb">
 							<li>
 								<i class="ace-icon fa fa-home home-icon"></i>
-								<a href="#">å°äºç¾è´§åº</a>
+								<a href="#">小二百货店</a>
 							</li>
-							<li class="active">çæ´»ç¨å</li>
+							<li class="active">生活用品</li>
 						</ul>
 						<!-- /.breadcrumb -->
 
@@ -266,7 +266,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="nav-search" id="nav-search">
 							<form class="form-search">
 								<span class="input-icon">
-									<input type="text" placeholder="æç´¢..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<input type="text" placeholder="搜索..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
 									<i class="ace-icon fa fa-search nav-search-icon"></i>
 								</span>
 							</form>
@@ -286,8 +286,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
 									</div>
 									<div class="col-xs-6">
-										<p>æ©é¤</p>
-										<p>10.00ï¿¥/ä¸ä»½</p>
+										<p>早餐</p>
+										<p>10.00￥/一份</p>
 										<input type="text" class="spinner" id="spinner1" />
 									</div>
 								</div>
@@ -296,8 +296,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
 									</div>
 									<div class="col-xs-6">
-										<p>æ©é¤</p>
-										<p>10.00ï¿¥/ä¸ä»½</p>
+										<p>早餐</p>
+										<p>10.00￥/一份</p>
 										<input type="text" class="spinner" id="spinner1" />
 									</div>
 								</div>
@@ -306,8 +306,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
 									</div>
 									<div class="col-xs-6">
-										<p>æ©é¤</p>
-										<p>10.00ï¿¥/ä¸ä»½</p>
+										<p>早餐</p>
+										<p>10.00￥/一份</p>
 										<input type="text" class="spinner" id="spinner1" />
 									</div>
 								</div>
@@ -316,8 +316,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
 									</div>
 									<div class="col-xs-6">
-										<p>æ©é¤</p>
-										<p>10.00ï¿¥/ä¸ä»½</p>
+										<p>早餐</p>
+										<p>10.00￥/一份</p>
 										<input type="text" class="spinner" id="spinner2" />
 									</div>
 								</div>
@@ -326,14 +326,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
 									</div>
 									<div class="col-xs-6">
-										<p>æ©é¤</p>
-										<p>10.00ï¿¥/ä¸ä»½</p>
+										<p>早餐</p>
+										<p>10.00￥/一份</p>
 										<input type="text" class="spinner" id="spinner3" />
 									</div>
 								</div>
 							</div>
 							<div class="col-xs-12 center">
-								<a>å è½½æ´å¤...</a>
+								<a>加载更多...</a>
 							</div>
 							<!-- PAGE CONTENT ENDS -->
 						</div>
@@ -351,19 +351,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<li class="green col-xs-4">
 					<a href="#">
 						<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-						<span>éç¥</span>
+						<span>通知</span>
 					</a>
 				</li>
 				<li class="green col-xs-4">
 					<a href="#">
 						<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-						<span>éç¥</span>
+						<span>通知</span>
 					</a>
 				</li>
 				<li class="green col-xs-4">
 					<a href="#">
 						<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-						<span>éç¥</span>
+						<span>通知</span>
 					</a>
 				</li>
 			</ul>
@@ -452,12 +452,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				});
 			});
 			$(document).ready(function() {
-				//é¡µé¢å è½½çæ¶ååå§å
+				//页面加载的时候初始化
 				$.get("url", function(data) {
 					if (data.substr(0, 3) == "{\"p") {} else {
 						$.gritter.add({
-							title: 'åºéå¦!',
-							text: 'ä¸å¥½ææï¼å è½½å¤±è´¥ï¼',
+							title: '出错啦!',
+							text: '不好意思，加载失败！',
 							sticky: true,
 							time: 1000,
 							speed: 10,
@@ -466,9 +466,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						});
 					}
 				});
-				//xxxæé®
+				//xxx按钮
 				$("#roleAddBtn").click(function() {
-					//postå°åå°
+					//post到后台
 					$.ajax({
 						cache: false,
 						type: "POST",
@@ -480,8 +480,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						async: true,
 						error: function(request) {
 							$.gritter.add({
-								title: 'åºéå¦!',
-								text: 'ç½ç»ä¼¼ä¹æé®é¢ï¼',
+								title: '出错啦!',
+								text: '网络似乎有问题！',
 								sticky: true,
 								time: 1000,
 								speed: 10,
@@ -491,9 +491,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						},
 						success: function(data) {
 							if (data == "1") {} else {
-								$("#alertDiv strong").html("è§è²æ·»å å¤±è´¥ï¼ï¼ï¼");
+								$("#alertDiv strong").html("角色添加失败！！！");
 								$.gritter.add({
-									title: 'åºéå¦!',
+									title: '出错啦!',
 									text: data,
 									sticky: true,
 									time: 1000,
@@ -509,5 +509,4 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</script>
 
 	</body>
-
 </html>
