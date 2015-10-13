@@ -3,6 +3,7 @@ package com.ncshop.controlls;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
@@ -107,10 +107,18 @@ public class UserController {
 	 */
 	@RequestMapping("/findgoods")
 	public void findSellergoods(TGoodstype goodstype,
-			HttpServletResponse response) throws Exception {
+			HttpServletResponse response,HttpServletRequest request) throws Exception {
 		try {
-			// 调用service查找 数据库
-			List<TGoods> goodsList = userService.findgoods(goodstype);
+			
+			String page = request.getParameter("page");
+			int pageCount;
+			List<TGoods> goodsList=null;
+			//分页查找
+			if(page!=null){
+				pageCount=Integer.parseInt(page);
+				// 调用service查找 数据库
+				goodsList= userService.findgoods(goodstype,(pageCount-1)*10,10);
+			}
 			String json = toJson(new TGoods(), goodsList, null);
 			// 设置response的传输格式为json
 			response.setContentType("application/json");
@@ -122,15 +130,22 @@ public class UserController {
 	}
 
 	/**
-	 * 查看某个商品
+	 * 查看商品
 	 * 
 	 * @param goods
 	 * @return
 	 */
 	@RequestMapping("/findAllGoods")
-	public void findGoods(HttpServletResponse response) {
+	public void findGoods(HttpServletResponse response,HttpServletRequest request) {
 		try {
-			List<TGoods> goodsList = userService.findAllGoods();
+			String page = request.getParameter("page");
+			int pageCount;
+			List<TGoods> goodsList=null;
+			//分页查找
+			if(page!=null){
+				pageCount=Integer.parseInt(page);
+				goodsList= userService.findAllGoods((pageCount-1)*10,10);
+			}
 			String json = toJson(new TGoods(), goodsList, null);
 			// 设置response的传输格式为json
 			response.setContentType("application/json");
@@ -147,19 +162,25 @@ public class UserController {
 	public String addCart(HttpServletRequest request,
 			HttpServletResponse response) {
 
-		
+		TGoods goods;
+		TOrderdetail orderdetail;
+		Set<TOrderdetail> orderdetails=new HashSet<TOrderdetail>();;
 		Enumeration parameterNames = request.getParameterNames();
 		while (parameterNames.hasMoreElements()) {
+			
 			String goodId = (String) parameterNames.nextElement();
 			String num = request.getParameter(goodId);
-			
+			goods=userService.findgoodsById(goodId);
+			orderdetail=new TOrderdetail();
+			orderdetail.setTGoods(goods);
+			orderdetail.setBuyMount(Integer.parseInt(num));
+			orderdetail.setBuyCost(Integer.parseInt(num)*goods.getGoodsPrice());
 		}
-		request.getSession().setAttribute("odersdetails", null);
+		request.getSession().setAttribute("odersdetails", orderdetails);
 		//判断该用户是否是老用户
 		
 		//跳转到个人信息页面(送餐地址，电话)
 
-		request.getSession().setAttribute("odersdetails", null);
 
 		// 判断该用户是否是老用户
 
