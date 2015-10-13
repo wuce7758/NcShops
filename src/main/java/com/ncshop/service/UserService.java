@@ -38,12 +38,12 @@ public class UserService {
 	}
 
 	public List<TSellergoods> findSellergoods(TSeller seller) {
-		return sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(), new String []{"TGoods","TSeller"}, Restrictions.eq("TSeller", seller));
+		return sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(), new String []{"TGoods","TSeller"}, Restrictions.eq("TSeller", seller),0,0,false);
 	}
 
-	public List<TGoods> findAllGoods() {
+	public List<TGoods> findAllGoods(int start,int max) {
 		
-		return goodsDao.getEntitiestNotLazy(new TGoods(), new String[]{"TGoodstype"}, null);
+		return goodsDao.getEntitiestNotLazy(new TGoods(), new String[]{"TGoodstype"}, null,start,max,true);
 	}
 
 	public boolean order(TOrder order) {
@@ -57,12 +57,12 @@ public class UserService {
 		}
 	}
 
-	public List<TGoods> findgoods(TGoodstype goodstype) {
-		return goodsDao.getEntitiestNotLazy(new TGoods(), new String[]{"TGoodstype"}, Restrictions.eq("TGoodstype", goodstype));
+	public List<TGoods> findgoods(TGoodstype goodstype,int start,int max) {
+		return goodsDao.getEntitiestNotLazy(new TGoods(), new String[]{"TGoodstype"}, Restrictions.eq("TGoodstype", goodstype),start,max,true);
 	}
 
 	public List<TSellergoods> findSellergood(TSellergoods sellergoods) {
-		return sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(), new String []{"TGoods","TSeller"}, Restrictions.eq("TSellergoods", sellergoods));
+		return sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(), new String []{"TGoods","TSeller"}, Restrictions.eq("TSellergoods", sellergoods),0,0,false);
 	}
 
 	public boolean bind(TUser user) {
@@ -73,5 +73,9 @@ public class UserService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	public TGoods findgoodsById(String goodId) {
+		return goodsDao.findById(Integer.parseInt(goodId));
 	}
 }

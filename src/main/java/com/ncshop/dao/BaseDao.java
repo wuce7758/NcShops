@@ -6,7 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.SimpleExpression;
 
-public class BaseDao extends BaseHibernateDAO{
+public class BaseDao extends BaseHibernateDAO {
 
 	/**
 	 * 
@@ -17,7 +17,7 @@ public class BaseDao extends BaseHibernateDAO{
 	 * @return
 	 */
 	public <T> List<T> getEntitiestNotLazy(T t, String[] fields,
-			SimpleExpression eq) {
+			SimpleExpression eq, int start, int max,boolean flag) {
 
 		try {
 			Criteria criteria = getSession().createCriteria(t.getClass());
@@ -27,6 +27,13 @@ public class BaseDao extends BaseHibernateDAO{
 					criteria = criteria.setFetchMode(string, FetchMode.JOIN);
 				}
 			}
+			// 判断是否分页
+			if (flag) {
+
+				criteria.setFirstResult(start);
+				criteria.setMaxResults(max);
+			}
+
 			if (eq != null) {
 
 				criteria.add(eq);
