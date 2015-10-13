@@ -108,24 +108,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</a>
 
 						</li>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 
 						<li class="blue">
 							<a href="about.aspx">
 								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
 								<span>关于</span>
-=======
-						<li class="green">
-							<a href="notice.aspx">
-								<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-								<span>通知</span>
-								<span class="badge badge-success">5</span>
->>>>>>> 977260e4e5108e7aebf63963ffd0bfd8dd8abbea
 							</a>
 						</li>
->>>>>>> c2e48639a6e7980b6aea4b6598274a886c85ebd3
 						<li class="blue">
 							<a href="about.aspx">
 								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
@@ -348,21 +337,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 							</div>
 							<div class="col-xs-12 center">
-<<<<<<< HEAD
 								<div id="navigation" align="center">         <!-- 页面导航-->  
         							<a href="user/findAllGoods?page=1"></a>        <!-- 此处可以是url，可以是action，要注意不是每种html都可以加，是跟当前网页有相同布局的才可以。另外一个重要的地方是page参数，这个一定要加在这里，它的作用是指出当前页面页码，没加载一次数据，page自动+1,我们可以从服务器用request拿到他然后进行后面的分页处理。-->  
     							</div>  
 
 								<a>加载更多...</a>
-=======
-<<<<<<< HEAD
-								<div id="navigation" align="center">         <!-- 页面导航-->  
-        							<a href="user/findAllGoods?page=1"></a>        <!-- 此处可以是url，可以是action，要注意不是每种html都可以加，是跟当前网页有相同布局的才可以。另外一个重要的地方是page参数，这个一定要加在这里，它的作用是指出当前页面页码，没加载一次数据，page自动+1,我们可以从服务器用request拿到他然后进行后面的分页处理。-->  
-    							</div>  
-=======
-								<a>加载更多...</a>
->>>>>>> 977260e4e5108e7aebf63963ffd0bfd8dd8abbea
->>>>>>> c2e48639a6e7980b6aea4b6598274a886c85ebd3
 							</div>
 							<!-- PAGE CONTENT ENDS -->
 						</div>
@@ -380,43 +359,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<li class="green col-xs-4">
 					<a href="#">
 						<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-<<<<<<< HEAD
 						<span>首页</span>
-=======
-<<<<<<< HEAD
-						<span>首页</span>
-=======
-						<span>通知</span>
->>>>>>> 977260e4e5108e7aebf63963ffd0bfd8dd8abbea
->>>>>>> c2e48639a6e7980b6aea4b6598274a886c85ebd3
 					</a>
 				</li>
 				<li class="green col-xs-4">
 					<a href="#">
 						<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-<<<<<<< HEAD
 						<span>订单</span>
-=======
-<<<<<<< HEAD
-						<span>订单</span>
-=======
-						<span>通知</span>
->>>>>>> 977260e4e5108e7aebf63963ffd0bfd8dd8abbea
->>>>>>> c2e48639a6e7980b6aea4b6598274a886c85ebd3
 					</a>
 				</li>
 				<li class="green col-xs-4">
 					<a href="#">
 						<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-<<<<<<< HEAD
 						<span>我的</span>
-=======
-<<<<<<< HEAD
-						<span>我的</span>
-=======
-						<span>通知</span>
->>>>>>> 977260e4e5108e7aebf63963ffd0bfd8dd8abbea
->>>>>>> c2e48639a6e7980b6aea4b6598274a886c85ebd3
 					</a>
 				</li>
 			</ul>
