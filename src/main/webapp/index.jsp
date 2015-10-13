@@ -108,13 +108,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</a>
 
 						</li>
-
-						<li class="blue">
-							<a href="about.aspx">
-								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
-								<span>关于</span>
-							</a>
-						</li>
 						<li class="blue">
 							<a href="about.aspx">
 								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
@@ -340,6 +333,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div id="navigation" align="center">         <!-- 页面导航-->  
         							<a href="user/findAllGoods?page=1"></a>        <!-- 此处可以是url，可以是action，要注意不是每种html都可以加，是跟当前网页有相同布局的才可以。另外一个重要的地方是page参数，这个一定要加在这里，它的作用是指出当前页面页码，没加载一次数据，page自动+1,我们可以从服务器用request拿到他然后进行后面的分页处理。-->  
     							</div>  
+
+								<a>加载更多...</a>
 							</div>
 							<!-- PAGE CONTENT ENDS -->
 						</div>
@@ -527,5 +522,4 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</script>
 
 	</body>
-
 </html>
