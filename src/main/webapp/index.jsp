@@ -291,58 +291,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</div>
 									<hr>
 								</div>
-								<div class="form-group col-xs-12 goods">
-									<div class="col-xs-6">
-										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
-									</div>
-									<div class="col-xs-6">
-										<p>早餐</p>
-										<p>10.00￥/一份</p>
-										<input type="text" class="spinner" id="spinner1" />
-									</div>
-									<hr>
-								</div>
-								<div class="form-group col-xs-12 goods">
-									<div class="col-xs-6">
-										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
-									</div>
-									<div class="col-xs-6">
-										<p>早餐</p>
-										<p>10.00￥/一份</p>
-										<input type="text" class="spinner" id="spinner1" />
-									</div>
-									<hr>
-								</div>
-								<div class="form-group col-xs-12 goods">
-									<div class="col-xs-6">
-										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
-									</div>
-									<div class="col-xs-6">
-										<p>早餐</p>
-										<p>10.00￥/一份</p>
-										<input type="text" class="spinner" id="spinner2" />
-									</div>
-									<hr>
-								</div>
-								<div class="form-group col-xs-12 goods">
-									<div class="col-xs-6">
-										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
-									</div>
-									<div class="col-xs-6">
-										<p>早餐</p>
-										<p>10.00￥/一份</p>
-										<input type="text" class="spinner" id="spinner3" />
-									</div>
-									<hr>
-								</div>
 							</div>
-							<div class="col-xs-12 center">
-								<div id="navigation" align="center">         <!-- 页面导航-->  
-        							<a href="user/findAllGoods?page=1"></a>        <!-- 此处可以是url，可以是action，要注意不是每种html都可以加，是跟当前网页有相同布局的才可以。另外一个重要的地方是page参数，这个一定要加在这里，它的作用是指出当前页面页码，没加载一次数据，page自动+1,我们可以从服务器用request拿到他然后进行后面的分页处理。-->  
+							<!-- <div class="col-xs-12 center">
+								<div id="navigation" align="center">         页面导航  
+        							<a href="user/findAllGoods?page=1"></a>        此处可以是url，可以是action，要注意不是每种html都可以加，是跟当前网页有相同布局的才可以。另外一个重要的地方是page参数，这个一定要加在这里，它的作用是指出当前页面页码，没加载一次数据，page自动+1,我们可以从服务器用request拿到他然后进行后面的分页处理。  
     							</div>  
 
 								<a>加载更多...</a>
-							</div>
+							</div> -->
 							<!-- PAGE CONTENT ENDS -->
 						</div>
 						<!-- /.col -->
@@ -446,7 +402,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="http://ace.zcdreams.com/assets/js/ace/ace.searchbox-autocomplete.js"></script>
 
 		<!-- inline scripts related to this page -->
-		<script type="text/javascript">
+		<!-- <script type="text/javascript">
 			jQuery(function($) {
 				$('.spinner').ace_spinner({
 					value: 0,
@@ -526,7 +482,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					});
 				});
 			});
+		</script> -->
+		<script type="text/javascript">
+			function loadData(){
+				var pageNum="1";
+				$.ajax({
+					type:"get",
+					url:"user/findAllGoods",
+					data:{pageNum:pageNum},
+					dataType:"json",
+					success:function(data){
+					debugger;
+					alert(data);
+						for(var i=0;i<data.TGoods.length;i++){
+							var item="<div class='form-group col-xs-12 goods'>"+
+									"<div class='col-xs-6'>"+
+										"<img src='/pic"+data.TGoods[i].goodsPic+"' class='img-responsive' alt='Responsive image' />"+
+									"</div>"+
+									"<div class='col-xs-6'>"+
+										"<p>"+data.TGoods[i].goodsName+"</p>"+
+										"<p>"+data.TGoods[i].goodsPrice+"￥/一份</p>"+
+										"<input type='text' class='spinner' id='"+data.TGoods[i].goodsId+"' />"+
+									"</div>"+
+									"<hr>"+
+								"</div>";
+							$("#goodsList").append(item);
+						}
+						pageNum++;
+					}
+				});
+			}
+			$(function(){
+				loadData();
+				$(window).scroll(function(){
+					if($($(document).height()-$(this).scrollTop()-$(this).height()<20)){
+						loadData();
+					}
+				});
+			});
 		</script>
-
 	</body>
 </html>

@@ -94,5 +94,15 @@ public class SellerService {
 		order.setOrderState(orderState);
 		orderDao.save(order);
 		return order;
-	} 
+	}
+	
+	public TSeller sellerLogin(String sellerName, String sellerPhone) {
+		// TODO Auto-generated method stub
+		TSeller seller=sellerDao.findBySellerName(sellerName).get(0);
+		if(seller.getSellerPhone()==sellerPhone){
+			return seller;
+		}else{
+			return null;			
+		}
+	}
 } 
