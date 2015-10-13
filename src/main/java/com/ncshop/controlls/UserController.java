@@ -137,7 +137,12 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+<<<<<<< HEAD
 
+=======
+		
+		
+>>>>>>> 977260e4e5108e7aebf63963ffd0bfd8dd8abbea
 	}
 
 	/**
