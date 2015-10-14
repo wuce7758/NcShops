@@ -233,7 +233,7 @@
 						class="ace-icon fa fa-user icon-animated-vertical"></i>
 				</a></li>
 				<li class="green col-xs-6"><a href="#"> <i
-						class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i> <span>确认购买</span><span class="badge badge-red">4</span>
+						class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i> <span onClick="goBuy()">确认购买<span class="badge badge-red">4</span></span>
 				</a></li>
 			</ul>
 		</nav>
@@ -394,7 +394,6 @@
 					});
 		}
 		function downclick(obj) {
-			debugger;
 			var input = $(obj).parent().siblings("input");
 			var value = input.val();
 			if (input.val() <= 1) {
@@ -404,7 +403,6 @@
 			}
 		}
 		function upclick(obj) {
-			debugger;
 			var input = $(obj).parent().siblings("input");
 			var value = input.val();
 			if (input.val() >= 100) {
@@ -436,6 +434,25 @@
 				btn_down_class : 'btn-danger'
 			});
 		});
+		var arr=new Array();
+		function goBuy(){
+			debugger;
+			var goodsItem=$("input.spinner");
+			var jsonString="[";
+			for(var i=0;i<goodsItem.length;i++){
+				var goodsId=goodsItem[i].id;
+				var goodsMount=goodsItem[i].value;
+				if(parseInt(goodsMount)>0){
+					jsonString+="{'goodsId':'"+goodsId+"','buyMount:'"+goodsMount+"'},";
+				}
+			}
+			jsonString+="]";
+			var lastIndex = jsonString.lastIndexOf(',');
+			if (lastIndex > -1) {
+          		jsonString = jsonString.substring(0, lastIndex) + jsonString.substring(lastIndex + 1, jsonString.length);
+      		}
+			$.get("user/addCart",{jsonString:jsonString});
+		}
 	</script>
 </body>
 </html>
