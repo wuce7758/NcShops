@@ -163,30 +163,38 @@ public class UserController {
 	public String addCart(HttpServletRequest request,
 			HttpServletResponse response) {
 
-		TGoods goods;
-		TOrderdetail orderdetail;
-		Set<TOrderdetail> orderdetails=new HashSet<TOrderdetail>();
-		String orderItems = request.getParameter("jsonString");
-		Enumeration parameterNames = request.getParameterNames();
-		while (parameterNames.hasMoreElements()) {
+		try {
+			TGoods goods;
+			TOrderdetail orderdetail;
+			List<TOrderdetail> l_orderItems;
+			String json = request.getParameter("jsonString");
+			Set<TOrderdetail> orderdetails=new HashSet<TOrderdetail>();
+			Gson gson=new Gson();
+			l_orderItems=(List<TOrderdetail>) gson.fromJson(json, TOrderdetail.class);
+			Enumeration parameterNames = request.getParameterNames();
+			while (parameterNames.hasMoreElements()) {
+				
+				String goodId = (String) parameterNames.nextElement();
+				String num = request.getParameter(goodId);
+				goods=userService.findgoodsById(goodId);
+				orderdetail=new TOrderdetail();
+				orderdetail.setTGoods(goods);
+				orderdetail.setBuyMount(Integer.parseInt(num));
+				orderdetail.setBuyCost(Integer.parseInt(num)*goods.getGoodsPrice());
+			}
+			request.getSession().setAttribute("odersdetails", orderdetails);
+			//判断该用户是否是老用户
 			
-			String goodId = (String) parameterNames.nextElement();
-			String num = request.getParameter(goodId);
-			goods=userService.findgoodsById(goodId);
-			orderdetail=new TOrderdetail();
-			orderdetail.setTGoods(goods);
-			orderdetail.setBuyMount(Integer.parseInt(num));
-			orderdetail.setBuyCost(Integer.parseInt(num)*goods.getGoodsPrice());
+			//跳转到个人信息页面(送餐地址，电话)
+
+
+			// 判断该用户是否是老用户
+
+			// 跳转到个人信息页面(送餐地址，电话)
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
-		request.getSession().setAttribute("odersdetails", orderdetails);
-		//判断该用户是否是老用户
 		
-		//跳转到个人信息页面(送餐地址，电话)
-
-
-		// 判断该用户是否是老用户
-
-		// 跳转到个人信息页面(送餐地址，电话)
 		return null;
 	}
 
