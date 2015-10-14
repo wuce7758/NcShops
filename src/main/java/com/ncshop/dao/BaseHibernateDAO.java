@@ -1,5 +1,6 @@
 package com.ncshop.dao;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -14,5 +15,9 @@ public class BaseHibernateDAO extends HibernateDaoSupport{
 	@Autowired
 	public void setMySessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
+	}
+	
+	public Session getSession2(){
+		return getSessionFactory().openSession();
 	}
 }

@@ -38,7 +38,7 @@ public class TUserDAO extends BaseDao {
 	public void save(TUser transientInstance) {
 		log.debug("saving TUser instance");
 		try {
-			getSession().save(transientInstance);
+			getSession2().save(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
@@ -49,7 +49,7 @@ public class TUserDAO extends BaseDao {
 	public void delete(TUser persistentInstance) {
 		log.debug("deleting TUser instance");
 		try {
-			getSession().delete(persistentInstance);
+			getSession2().delete(persistentInstance);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
@@ -60,7 +60,7 @@ public class TUserDAO extends BaseDao {
 	public TUser findById(java.lang.Integer id) {
 		log.debug("getting TUser instance with id: " + id);
 		try {
-			TUser instance = (TUser) getSession().get(
+			TUser instance = (TUser) getSession2().get(
 					"com.ncshop.domain.TUser", id);
 			return instance;
 		} catch (RuntimeException re) {
@@ -72,7 +72,7 @@ public class TUserDAO extends BaseDao {
 	public List<TUser> findByExample(TUser instance) {
 		log.debug("finding TUser instance by example");
 		try {
-			List<TUser> results = (List<TUser>) getSession()
+			List<TUser> results = (List<TUser>) getSession2()
 					.createCriteria("com.ncshop.domain.TUser")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
@@ -90,7 +90,7 @@ public class TUserDAO extends BaseDao {
 		try {
 			String queryString = "from TUser as model where model."
 					+ propertyName + "= ?";
-			Query queryObject = getSession().createQuery(queryString);
+			Query queryObject = getSession2().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -127,7 +127,7 @@ public class TUserDAO extends BaseDao {
 		log.debug("finding all TUser instances");
 		try {
 			String queryString = "from TUser";
-			Query queryObject = getSession().createQuery(queryString);
+			Query queryObject = getSession2().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
@@ -138,7 +138,7 @@ public class TUserDAO extends BaseDao {
 	public TUser merge(TUser detachedInstance) {
 		log.debug("merging TUser instance");
 		try {
-			TUser result = (TUser) getSession().merge(detachedInstance);
+			TUser result = (TUser) getSession2().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -150,7 +150,7 @@ public class TUserDAO extends BaseDao {
 	public void attachDirty(TUser instance) {
 		log.debug("attaching dirty TUser instance");
 		try {
-			getSession().saveOrUpdate(instance);
+			getSession2().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -161,7 +161,7 @@ public class TUserDAO extends BaseDao {
 	public void attachClean(TUser instance) {
 		log.debug("attaching clean TUser instance");
 		try {
-			getSession().lock(instance, LockMode.NONE);
+			getSession2().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);

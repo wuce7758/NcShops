@@ -29,6 +29,7 @@ public class UserService {
 	private TGoodsDAO goodsDao;
 	@Autowired
 	private TOrderDAO orderDao;
+	@Autowired
 	private TSellergoodsDAO sellergoodsDAO;
 
 	

@@ -36,7 +36,7 @@ public class TOrderDAO extends BaseDao {
 	public void save(TOrder transientInstance) {
 		log.debug("saving TOrder instance");
 		try {
-			getSession().save(transientInstance);
+			getSession2().save(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
@@ -47,7 +47,7 @@ public class TOrderDAO extends BaseDao {
 	public void delete(TOrder persistentInstance) {
 		log.debug("deleting TOrder instance");
 		try {
-			getSession().delete(persistentInstance);
+			getSession2().delete(persistentInstance);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
@@ -58,7 +58,7 @@ public class TOrderDAO extends BaseDao {
 	public TOrder findById(java.lang.Integer id) {
 		log.debug("getting TOrder instance with id: " + id);
 		try {
-			TOrder instance = (TOrder) getSession().get(
+			TOrder instance = (TOrder) getSession2().get(
 					"com.ncshop.domain.TOrder", id);
 			return instance;
 		} catch (RuntimeException re) {
@@ -70,7 +70,7 @@ public class TOrderDAO extends BaseDao {
 	public List<TOrder> findByExample(TOrder instance) {
 		log.debug("finding TOrder instance by example");
 		try {
-			List<TOrder> results = (List<TOrder>) getSession()
+			List<TOrder> results = (List<TOrder>) getSession2()
 					.createCriteria("com.ncshop.domain.TOrder")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
@@ -88,7 +88,7 @@ public class TOrderDAO extends BaseDao {
 		try {
 			String queryString = "from TOrder as model where model."
 					+ propertyName + "= ?";
-			Query queryObject = getSession().createQuery(queryString);
+			Query queryObject = getSession2().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -117,7 +117,7 @@ public class TOrderDAO extends BaseDao {
 		log.debug("finding all TOrder instances");
 		try {
 			String queryString = "from TOrder";
-			Query queryObject = getSession().createQuery(queryString);
+			Query queryObject = getSession2().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
@@ -128,7 +128,7 @@ public class TOrderDAO extends BaseDao {
 	public TOrder merge(TOrder detachedInstance) {
 		log.debug("merging TOrder instance");
 		try {
-			TOrder result = (TOrder) getSession().merge(detachedInstance);
+			TOrder result = (TOrder) getSession2().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -140,7 +140,7 @@ public class TOrderDAO extends BaseDao {
 	public void attachDirty(TOrder instance) {
 		log.debug("attaching dirty TOrder instance");
 		try {
-			getSession().saveOrUpdate(instance);
+			getSession2().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -151,7 +151,7 @@ public class TOrderDAO extends BaseDao {
 	public void attachClean(TOrder instance) {
 		log.debug("attaching clean TOrder instance");
 		try {
-			getSession().lock(instance, LockMode.NONE);
+			getSession2().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
