@@ -65,6 +65,8 @@
 		<servlet-class>com.ncshop.controlls.Oauth2Servlet</servlet-class>
 	</servlet>
 
+
+
 	<servlet-mapping>
 		<servlet-name>Oauth2Servlet</servlet-name>
 		<url-pattern>/Oauth2Servlet</url-pattern>
