@@ -69,11 +69,30 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/findSellergoods")
-	public void findSellergoods(TSeller seller, HttpServletResponse response)
+	public void findSellergoods(String sellerId, HttpServletResponse response)
 			throws Exception {
+		TSeller seller=new TSeller();
+		seller.setSellerId(Integer.parseInt(sellerId));
 		// 调用service查找 数据库
 		List<TSellergoods> sellerGoodsList = userService
 				.findSellergoods(seller);
+		String json = toJson(new TSellergoods(), sellerGoodsList, null);
+		// 设置response的传输格式为json
+		response.setContentType("application/json");
+		response.getWriter().write(json);
+	}
+	/**
+	 * 查找店铺所有的商品
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/findGoodsdetail")
+	public void findGoodsdetail(HttpServletResponse response)
+			throws Exception {
+		// 调用service查找 数据库
+		List<TSellergoods> sellerGoodsList = userService
+				.findGoodsdetail();
 		String json = toJson(new TSellergoods(), sellerGoodsList, null);
 		// 设置response的传输格式为json
 		response.setContentType("application/json");
@@ -160,7 +179,7 @@ public class UserController {
 	/**
 	 * 加入购物车
 	 */
-	@RequestMapping("/addCart")
+	@RequestMapping("/addOrders")
 	public String addCart(HttpServletRequest request,
 			HttpServletResponse response) {
 
