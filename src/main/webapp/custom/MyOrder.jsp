@@ -241,11 +241,17 @@
 											<div id="orderPrice" class="price">
 												共计 <strong>15</strong> <small>元</small>
 											</div>
-											<div id="orderAddress">
-												<p>Twitter, Inc.</p>
-												<p>795 Folsom Ave, Suite 600
-												<p>(123) 456-7890</p>
-											</div>
+											<!-- 加载默认地址 -->
+											<c:choose>
+   												<c:when test="${address!=null||address!='' }">
+   													<p>地址：${address.adsContent }</p>
+													<p>接收人：${user.userName }</p>
+													<p>联系方式：${address.adsPhone }</p>
+   												</c:when>
+   												<c:otherwise>
+   													<c:out value="您还没地址，请先设置地址!"></c:out>
+   												</c:otherwise>  
+											</c:choose>
 											<form id="fromAddress" role=from>
 												<div class="form-group">
 													<label class="col-xs-3 control-label no-padding-right"
@@ -420,8 +426,11 @@
 		var price=0;
 		var list="${orderdetails}";
 		function sum(){
+			debugger;
 			for(var i=0;i<list.length;i++){
+				price=price+list[i].buyCost;
 			}
+			$("#orderPrice strong").text(price);
 		}
 		
 		$(document).ready(function(){
