@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ncshop.domain.OrderItemArr;
 import com.ncshop.domain.TGoods;
 import com.ncshop.domain.TGoodstype;
 import com.ncshop.domain.TOrder;
@@ -29,6 +30,7 @@ import com.ncshop.domain.TOrderdetail;
 import com.ncshop.domain.TSeller;
 import com.ncshop.domain.TSellergoods;
 import com.ncshop.domain.TUser;
+import com.ncshop.domain.TempOrder;
 import com.ncshop.service.UserService;
 import com.ncshop.util.ConfigDao;
 import com.ncshop.util.ConfigInfo;
@@ -68,11 +70,30 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/findSellergoods")
-	public void findSellergoods(TSeller seller, HttpServletResponse response)
+	public void findSellergoods(String sellerId, HttpServletResponse response)
 			throws Exception {
+		TSeller seller=new TSeller();
+		seller.setSellerId(Integer.parseInt(sellerId));
 		// 调用service查找 数据库
 		List<TSellergoods> sellerGoodsList = userService
 				.findSellergoods(seller);
+		String json = toJson(new TSellergoods(), sellerGoodsList, null);
+		// 设置response的传输格式为json
+		response.setContentType("application/json");
+		response.getWriter().write(json);
+	}
+	/**
+	 * 查找店铺所有的商品
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/findGoodsdetail")
+	public void findGoodsdetail(HttpServletResponse response)
+			throws Exception {
+		// 调用service查找 数据库
+		List<TSellergoods> sellerGoodsList = userService
+				.findGoodsdetail();
 		String json = toJson(new TSellergoods(), sellerGoodsList, null);
 		// 设置response的传输格式为json
 		response.setContentType("application/json");
@@ -166,23 +187,31 @@ public class UserController {
 		try {
 			TGoods goods;
 			TOrderdetail orderdetail;
-			List<TOrderdetail> l_orderItems;
+			String goodId;
+			String num ;
+			List<TempOrder> l_orderItems;
 			String json = request.getParameter("jsonString");
+			System.out.println(json);
 			Set<TOrderdetail> orderdetails=new HashSet<TOrderdetail>();
 			Gson gson=new Gson();
-			l_orderItems=(List<TOrderdetail>) gson.fromJson(json, TOrderdetail.class);
-			Enumeration parameterNames = request.getParameterNames();
-			while (parameterNames.hasMoreElements()) {
-				
-				String goodId = (String) parameterNames.nextElement();
-				String num = request.getParameter(goodId);
+			OrderItemArr fromJson = gson.fromJson(json, OrderItemArr.class);
+			for (TempOrder item : fromJson.getArray()) {
+				goodId=item.getGoodsId();
+				num=item.getBuyMount();
 				goods=userService.findgoodsById(goodId);
 				orderdetail=new TOrderdetail();
 				orderdetail.setTGoods(goods);
 				orderdetail.setBuyMount(Integer.parseInt(num));
 				orderdetail.setBuyCost(Integer.parseInt(num)*goods.getGoodsPrice());
+				orderdetails.add(orderdetail);
 			}
 			request.getSession().setAttribute("odersdetails", orderdetails);
+			TUser user = (TUser) request.getSession().getAttribute("user");
+			if(user!=null&&user.getTAddresses()!=null){
+				request.setAttribute("address", "中国南车");
+			}
+			request.setAttribute("address", "中国南车");
+			request.getRequestDispatcher("/customer/MyOrder.jsp").forward(request, response);
 			//判断该用户是否是老用户
 			
 			//跳转到个人信息页面(送餐地址，电话)
@@ -192,7 +221,7 @@ public class UserController {
 
 			// 跳转到个人信息页面(送餐地址，电话)
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		return null;

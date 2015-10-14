@@ -90,4 +90,8 @@ public class UserService {
 	public boolean upadateOrder(String orderId) {
 		return orderDao.update(orderId);
 	}
+
+	public List<TSellergoods> findGoodsdetail() {
+		return sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(), new String []{"TGoods","TSeller"}, null,0,0,false);
+	}
 }
