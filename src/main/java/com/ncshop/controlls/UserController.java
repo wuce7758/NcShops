@@ -87,7 +87,7 @@ public class UserController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/findSellergoods")
+	@RequestMapping("/findSellergood")
 	public void findSellergoods(TSellergoods sellergoods,
 			HttpServletResponse response) throws Exception {
 		// 调用service查找 数据库
