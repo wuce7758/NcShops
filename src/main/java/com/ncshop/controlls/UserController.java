@@ -165,7 +165,8 @@ public class UserController {
 
 		TGoods goods;
 		TOrderdetail orderdetail;
-		Set<TOrderdetail> orderdetails=new HashSet<TOrderdetail>();;
+		Set<TOrderdetail> orderdetails=new HashSet<TOrderdetail>();
+		String orderItems = request.getParameter("jsonString");
 		Enumeration parameterNames = request.getParameterNames();
 		while (parameterNames.hasMoreElements()) {
 			
