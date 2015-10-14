@@ -434,7 +434,6 @@
 				btn_down_class : 'btn-danger'
 			});
 		});
-		var arr=new Array();
 		function goBuy(){
 			debugger;
 			var goodsItem=$("input.spinner");
