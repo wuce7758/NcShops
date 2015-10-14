@@ -1,31 +1,22 @@
 package com.ncshop.controlls;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+import javax.servlet.ServletException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.ncshop.domain.TGoods;
 import com.ncshop.domain.TGoodstype;
 import com.ncshop.domain.TOrder;
 import com.ncshop.domain.TSeller;
-import com.ncshop.domain.TSellergoods;
-import com.ncshop.domain.TUser;
 import com.ncshop.service.SellerService;
 import com.ncshop.service.UserService;
-import com.ncshop.util.TargetStrategy;
 
 @Controller
 @RequestMapping("/seller")
@@ -37,12 +28,25 @@ public class SellerController {
 	private SellerService sellerService;
 
 	/**
-	 * 查找某店铺订单
-	 * 
-	 * @param OpenId
-	 *            微信号标识
-	 * @param orderState
-	 *            订单状态
+	 * 用户登陆
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	public void sellerLogin(HttpServletRequest request,HttpServletResponse response,String sellerName,String sellerPhone) throws ServletException, IOException{
+		if(sellerName=="admin123"&&sellerPhone=="123"){
+			TSeller seller=sellerService.sellerLogin(sellerName,sellerPhone);
+			request.getSession().setAttribute("seller", seller);
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
+		}else{
+			request.getSession().setAttribute("sellerName", "用户名错误！");
+			request.getSession().setAttribute("sellerPassword", "用户名密码错误！");
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
+	}
+	/**
+	 * 根据订单状态和微信标识查找某店铺订单
+	 * @param OpenId 微信号标识
+	 * @param orderState 订单状态
 	 * @throws Exception
 	 */
 	@RequestMapping("/findSellerOrders")
@@ -61,10 +65,8 @@ public class SellerController {
 	/**
 	 * 添加店铺商品
 	 * 
-	 * @param sellerId
-	 *            卖家唯一标识
-	 * @param goods
-	 *            新商品
+	 * @param sellerId 卖家唯一标识
+	 * @param goods 新商品
 	 * @throws Exception
 	 */
 	@RequestMapping("/addGoods")
@@ -78,12 +80,29 @@ public class SellerController {
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write("添加商品成功!");
 	}
+	
+	/**
+	 * 商品下架、上架
+	 * 
+	 * @param sellerId 卖家唯一标识
+	 * @param goods 新商品
+	 * @throws Exception
+	 */
+	@RequestMapping("/downGoods")
+	public void downGoods(HttpServletResponse response,int goodsId,boolean isSale) throws Exception {
+		if (goodsId + "" == ""&&isSale+""!="") {
+			return;
+		}
+		// 调用service查找 数据库
+		sellerService.downGoods(goodsId,isSale);
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write("商品下架成功!");
+	}
 
 	/**
 	 * 添加商品类型
 	 * 
-	 * @param goodsType
-	 *            商品类型对象
+	 * @param goodsType商品类型对象
 	 * @throws Exception
 	 */
 	@RequestMapping("/addGoodsType")
