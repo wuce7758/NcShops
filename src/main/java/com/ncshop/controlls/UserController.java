@@ -139,6 +139,7 @@ public class UserController {
 	public void findGoods(HttpServletResponse response,HttpServletRequest request) {
 		try {
 			String page = request.getParameter("page");
+			System.out.println(page);
 			int pageCount;
 			List<TGoods> goodsList=null;
 			//分页查找

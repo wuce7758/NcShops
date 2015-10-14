@@ -105,4 +105,22 @@ public class SellerService {
 			return null;			
 		}
 	}
+
+
+	public void downGoods(int goodsId,boolean isSale) {
+		// TODO Auto-generated method stub
+		TGoods goods=goodsDao.findById(goodsId);
+		TSellergoods example=new TSellergoods();
+		example.setTGoods(goods);
+		List<TSellergoods> sellergoodsList=sellergoodsDao.findByExample(example);
+		TSellergoods sellergoods=null;
+		if(sellergoodsList.size()>0){
+			sellergoods=sellergoodsList.get(0);			
+		}
+		if(sellergoods.getIsSale()==true&&sellergoods!=null){
+			sellergoods.setIsSale(false);
+		}else{
+			sellergoods.setIsSale(true);			
+		}
+	}
 } 

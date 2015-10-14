@@ -280,17 +280,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="row">
 							<div id="goodsList" class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-								<div class="form-group col-xs-12 goods">
+								<!-- <div class="form-group col-xs-12 goods">
 									<div class="col-xs-6">
 										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
 									</div>
 									<div class="col-xs-6">
 										<p>早餐</p>
 										<p>10.00￥/一份</p>
-										<input type="text" class="spinner" id="spinner1" />
+										<input type="text" class="spinner" id="1" />
 									</div>
 									<hr>
-								</div>
+								</div> -->
 							</div>
 							<!-- <div class="col-xs-12 center">
 								<div id="navigation" align="center">         页面导航  
@@ -402,8 +402,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="http://ace.zcdreams.com/assets/js/ace/ace.searchbox-autocomplete.js"></script>
 
 		<!-- inline scripts related to this page -->
-		<!-- <script type="text/javascript">
-			jQuery(function($) {
+		<script type="text/javascript">
+			/* jQuery(function($) {
 				$('.spinner').ace_spinner({
 					value: 0,
 					min: 0,
@@ -416,6 +416,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					btn_down_class: 'btn-danger'
 				});
 			});
+			
 			$(document).ready(function() {
 				//无限加载刷新
 	  			$("#goodsList").infinitescroll({
@@ -481,43 +482,102 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						}
 					});
 				});
-			});
-		</script> -->
+			}); */
+		</script>
 		<script type="text/javascript">
+			var pageNum="1";
+			var flag=0;
 			function loadData(){
-				var pageNum="1";
+				if(flag!=0){
+					return;
+				}
 				$.ajax({
 					type:"get",
 					url:"user/findAllGoods",
-					data:{pageNum:pageNum},
+					data:{page:pageNum},
 					dataType:"json",
 					success:function(data){
-					debugger;
-					alert(data);
+						if(data.TGoods==null||data.TGoods.length<1){
+							flag=1;
+							return;
+						}
+						if(data.TGoods.length<10){
+							flag=1;
+						}else if(data.TGoods.length=10){
+							pageNum++;
+						}
 						for(var i=0;i<data.TGoods.length;i++){
+							var item="";
 							var item="<div class='form-group col-xs-12 goods'>"+
-									"<div class='col-xs-6'>"+
-										"<img src='/pic"+data.TGoods[i].goodsPic+"' class='img-responsive' alt='Responsive image' />"+
-									"</div>"+
-									"<div class='col-xs-6'>"+
-										"<p>"+data.TGoods[i].goodsName+"</p>"+
-										"<p>"+data.TGoods[i].goodsPrice+"￥/一份</p>"+
-										"<input type='text' class='spinner' id='"+data.TGoods[i].goodsId+"' />"+
-									"</div>"+
-									"<hr>"+
-								"</div>";
+										"<div class='col-xs-6'>"+
+											"<img src='${pageContext.request.contextPath}/images/"+data.TGoods[i].goodsPic+"' class='img-responsive img-rounded' alt='Responsive image' />"+
+										"</div>"+
+										"<div class='col-xs-6'>"+
+											"<p>"+data.TGoods[i].goodsName+"</p>"+
+											"<p>"+data.TGoods[i].goodsPrice+"￥/一份</p>"+
+											"<div class='ace-spinner middle touch-spinner' style='width: 125px;'>"+
+												"<div class='input-group'><div class='spinbox-buttons input-group-btn'>"+
+													"<button onClick='downclick(this)' type='button' class='btn spinbox-down btn-sm btn-danger'>"+
+														"<i class='icon-only  ace-icon ace-icon fa fa-minus bigger-110'></i>"+
+													"</button></div>"+
+													"<input type='text' value='0' class='spinner form-control text-center' id='"+data.TGoods[i].goodsId+" '/>"+
+													"<div class='spinbox-buttons input-group-btn'>"+
+														"<button onClick='upclick(this)' type='button' class='btn spinbox-up btn-sm btn-success'>"+
+															"<i class='icon-only  ace-icon ace-icon fa fa-plus bigger-110'></i>"+
+														"</button>"+
+													"</div>"+
+												"</div>"+
+											"</div>"+
+										"</div>"+
+										"<hr>"+
+									"</div>";
+							if(i!=data.TGoods.length){
+								item+="<hr class='col-xs-12' style='margin-top:2px;margin-bottom:5px'>";
+							}
 							$("#goodsList").append(item);
 						}
-						pageNum++;
 					}
 				});
+			}
+			function downclick(obj){
+				debugger;
+				var input=$(obj).parent().siblings("input");
+				var value=input.val();
+				if(input.val()<=1){
+					input.val("0");
+				}else{
+					input.val(input.val()-1);
+				}
+			}
+			function upclick(obj){
+				debugger;
+				var input=$(obj).parent().siblings("input");
+				var value=input.val();
+				if(input.val()>=100){
+					input.val("100");
+				}else{
+					input.val(parseInt(value)+1);
+				}
 			}
 			$(function(){
 				loadData();
 				$(window).scroll(function(){
-					if($($(document).height()-$(this).scrollTop()-$(this).height()<20)){
+					if($(document).height()-$(this).scrollTop()-$(this).height()<20){
 						loadData();
 					}
+				});
+			});
+			jQuery(function($) {
+				$('.spinner').ace_spinner({
+					value: 0,
+					min: 0,
+					max: 100,
+					step: 1,
+					on_sides: true,
+					icon_up: 'ace-icon fa fa-plus bigger-110',
+					icon_down: 'ace-icon fa fa-minus bigger-110',
+					btn_up_class: 'btn-success',
+					btn_down_class: 'btn-danger'
 				});
 			});
 		</script>

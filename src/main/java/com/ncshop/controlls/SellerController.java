@@ -80,12 +80,29 @@ public class SellerController {
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write("添加商品成功!");
 	}
+	
+	/**
+	 * 商品下架、上架
+	 * 
+	 * @param sellerId 卖家唯一标识
+	 * @param goods 新商品
+	 * @throws Exception
+	 */
+	@RequestMapping("/downGoods")
+	public void downGoods(HttpServletResponse response,int goodsId,boolean isSale) throws Exception {
+		if (goodsId + "" == ""&&isSale+""!="") {
+			return;
+		}
+		// 调用service查找 数据库
+		sellerService.downGoods(goodsId,isSale);
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write("商品下架成功!");
+	}
 
 	/**
 	 * 添加商品类型
 	 * 
-	 * @param goodsType
-	 *            商品类型对象
+	 * @param goodsType商品类型对象
 	 * @throws Exception
 	 */
 	@RequestMapping("/addGoodsType")
