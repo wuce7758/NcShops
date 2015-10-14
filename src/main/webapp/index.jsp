@@ -437,7 +437,7 @@
 		function goBuy(){
 			debugger;
 			var goodsItem=$("input.spinner");
-			var jsonString="[";
+			var jsonString="{'orderdetails':[";
 			for(var i=0;i<goodsItem.length;i++){
 				var goodsId=goodsItem[i].id;
 				var goodsMount=goodsItem[i].value;
@@ -445,12 +445,12 @@
 					jsonString+="{'goodsId':'"+goodsId+"','buyMount:'"+goodsMount+"'},";
 				}
 			}
-			jsonString+="]";
+			jsonString+="]}";
 			var lastIndex = jsonString.lastIndexOf(',');
 			if (lastIndex > -1) {
           		jsonString = jsonString.substring(0, lastIndex) + jsonString.substring(lastIndex + 1, jsonString.length);
       		}
-			$.get("user/addCart",{jsonString:jsonString});
+			$.post("user/addOrders",{jsonString:jsonString});
 		}
 	</script>
 </body>
