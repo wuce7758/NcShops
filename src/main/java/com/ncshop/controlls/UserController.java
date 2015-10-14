@@ -29,6 +29,7 @@ import com.ncshop.domain.TOrderdetail;
 import com.ncshop.domain.TSeller;
 import com.ncshop.domain.TSellergoods;
 import com.ncshop.domain.TUser;
+import com.ncshop.domain.TempOrder;
 import com.ncshop.service.UserService;
 import com.ncshop.util.ConfigDao;
 import com.ncshop.util.ConfigInfo;
@@ -86,7 +87,7 @@ public class UserController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/findSellergood")
+	@RequestMapping("/findSellergoods")
 	public void findSellergoods(TSellergoods sellergoods,
 			HttpServletResponse response) throws Exception {
 		// 调用service查找 数据库
@@ -159,18 +160,19 @@ public class UserController {
 	/**
 	 * 加入购物车
 	 */
-	@RequestMapping("/addOrders")
+	@RequestMapping("/addCart")
 	public String addCart(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		try {
 			TGoods goods;
 			TOrderdetail orderdetail;
-			List<TOrderdetail> l_orderItems;
+			List<TempOrder> l_orderItems;
 			String json = request.getParameter("jsonString");
+			System.out.println(json);
 			Set<TOrderdetail> orderdetails=new HashSet<TOrderdetail>();
 			Gson gson=new Gson();
-			l_orderItems=(List<TOrderdetail>) gson.fromJson(json, TOrderdetail.class);
+			gson.fromJson(json, TempOrder.class);
 			Enumeration parameterNames = request.getParameterNames();
 			while (parameterNames.hasMoreElements()) {
 				
@@ -192,7 +194,7 @@ public class UserController {
 
 			// 跳转到个人信息页面(送餐地址，电话)
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		return null;
