@@ -63,33 +63,42 @@ public class SellerController {
 	}
 
 	/**
-	 * 添加店铺商品
-	 * 
+	 * 操作店铺商品
 	 * @param sellerId 卖家唯一标识
 	 * @param goods 新商品
 	 * @throws Exception
 	 */
 	@RequestMapping("/addGoods")
-	public void addGoods(HttpServletResponse response, int sellerId,
+	public void addGoods(HttpServletResponse response, int sellerId,String oper,
 			int goodsTypeId, TGoods goods) throws Exception {
-		if (sellerId + "" == "" || goodsTypeId + "" == "") {
-			return;
-		}
-		// 调用service查找 数据库
-		sellerService.addGoods(sellerId, goodsTypeId, goods);
 		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().write("添加商品成功!");
+		// 调用service查找 数据库
+		if(oper=="add"){
+			if(sellerId + "" == "" || goodsTypeId + "" == ""){
+				return;
+			}
+			sellerService.addGoods(sellerId, goodsTypeId, goods);
+			response.getWriter().write("添加商品成功!");
+		}else if(oper=="edit"){
+			if(sellerId + "" == "" || goodsTypeId + "" == ""){
+				return;
+			}
+			sellerService.updateGoods(goodsTypeId, goods);
+			response.getWriter().write("修改商品成功!");
+		}else if(oper=="del"){
+			sellerService.deleteGoods(goods);
+			response.getWriter().write("删除商品成功!");
+		}
 	}
 	
 	/**
-	 * 商品下架、上架
-	 * 
+	 * 商品下架、上架状态
 	 * @param sellerId 卖家唯一标识
 	 * @param goods 新商品
 	 * @throws Exception
 	 */
-	@RequestMapping("/downGoods")
-	public void downGoods(HttpServletResponse response,int goodsId,boolean isSale) throws Exception {
+	@RequestMapping("/updownGoods")
+	public void updownGoods(HttpServletResponse response,int goodsId,boolean isSale) throws Exception {
 		if (goodsId + "" == ""&&isSale+""!="") {
 			return;
 		}

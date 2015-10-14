@@ -123,4 +123,10 @@ public class SellerService {
 			sellergoods.setIsSale(true);			
 		}
 	}
+
+
+	public void deleteGoods(TGoods goods) {
+		// TODO Auto-generated method stub
+		goodsDao.delete(goods);
+	}
 } 

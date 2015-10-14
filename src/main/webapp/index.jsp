@@ -450,7 +450,7 @@
 			if (lastIndex > -1) {
           		jsonString = jsonString.substring(0, lastIndex) + jsonString.substring(lastIndex + 1, jsonString.length);
       		}
-			$.get("user/addCart",{jsonString:jsonString});
+			$.post("user/addOrders",{jsonString:jsonString});
 		}
 	</script>
 </body>
