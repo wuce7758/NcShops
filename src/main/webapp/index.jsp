@@ -435,13 +435,14 @@
 			});
 		});
 		function goBuy(){
+			debugger;
 			var goodsItem=$("input.spinner");
-			var jsonString="{'orderdetails':[";
+			var jsonString="{\"array\":[";
 			for(var i=0;i<goodsItem.length;i++){
 				var goodsId=goodsItem[i].id;
 				var goodsMount=goodsItem[i].value;
 				if(parseInt(goodsMount)>0){
-					jsonString+="{'goodsId':'"+goodsId+"','buyMount:'"+goodsMount+"'},";
+					jsonString+="{\"goodsId\":\""+goodsId.trim()+"\",\"buyMount\":\""+goodsMount+"\"},";
 				}
 			}
 			jsonString+="]}";
@@ -449,7 +450,8 @@
 			if (lastIndex > -1) {
           		jsonString = jsonString.substring(0, lastIndex) + jsonString.substring(lastIndex + 1, jsonString.length);
       		}
-			$.post("user/addOrders",{jsonString:jsonString});
+      		window.location.href="user/addOrders?jsonString="+jsonString;
+			//$.post("user/addOrders",{jsonString:jsonString});
 		}
 	</script>
 </body>

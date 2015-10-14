@@ -243,10 +243,14 @@
 											</div>
 											<!-- 加载默认地址 -->
 											<c:choose>
-   												<c:when test="${address!=null||address!='' }">
-   													<p>地址：${address.adsContent }</p>
-													<p>接收人：${user.userName }</p>
-													<p>联系方式：${address.adsPhone }</p>
+   												<c:when test="${user.TAddresses!=null||user.TAddresses!='' }">
+   													<c:forEach var="address" items="${user.TAddresses}">
+   														<c:if test="${address.isDefault==true }">
+	   														<c:out value="<p>地址：${address.adsContent }</p>"></c:out>
+	   														<c:out value="<p>接收人：${user.userName }</p>"></c:out>
+	   														<c:out value="<p>联系方式：${address.adsPhone }</p>"></c:out>
+   														</c:if>
+   													</c:forEach>
    												</c:when>
    												<c:otherwise>
    													<c:out value="您还没地址，请先设置地址!"></c:out>
@@ -281,7 +285,7 @@
 												<hr class="col-xs-12">
 												<button class="btn btn-white btn-info btn-bold col-xs-12">
 													<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
-													修改/保存
+													<font>修改/保存</font>
 												</button>
 											</form>
 											<hr>
