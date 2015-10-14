@@ -239,11 +239,11 @@
 
 											<hr />
 											<div id="orderPrice" class="price">
-												共计 <strong>15</strong> <small>元</small>
+												共计 <strong>0</strong> <small>元</small>
 											</div>
 											<!-- 加载默认地址 -->
 											<c:choose>
-   												<c:when test="${user.TAddresses!=null||user.TAddresses!='' }">
+   												<c:when test="${user.TAddresses!=null}">
    													<c:forEach var="address" items="${user.TAddresses}">
    														<c:if test="${address.isDefault==true }">
 	   														<c:out value="<p>地址：${address.adsContent }</p>"></c:out>
@@ -253,7 +253,9 @@
    													</c:forEach>
    												</c:when>
    												<c:otherwise>
+   													<font color='red'>
    													<c:out value="您还没地址，请先设置地址!"></c:out>
+   													</font>
    												</c:otherwise>  
 											</c:choose>
 											<form id="fromAddress" role=from>
@@ -262,7 +264,7 @@
 														for="userName">客户名称</label>
 
 													<div class="col-xs-9">
-														<input type="text" id="userName" placeholder="客户名称"
+														<input type="text" id="userName" value="${sessionScope.user.userName }"
 															class="col-xs-12" />
 													</div>
 													<hr class="col-xs-12">
@@ -270,7 +272,7 @@
 														for="userAddress">客戶地址</label>
 
 													<div class="col-xs-9">
-														<input type="text" id="userAddress" placeholder="客户地址"
+														<input type="text" name="adsContent" id="userAddress" placeholder="客户地址"
 															class="col-xs-12" />
 													</div>
 													<hr class="col-xs-12">
@@ -278,7 +280,7 @@
 														for="userPhone">客戶电话</label>
 
 													<div class="col-xs-9">
-														<input type="text" id="userPhone" placeholder="客户电话"
+														<input type="text" name="adsPhone" id="userPhone" placeholder="客户电话"
 															class="col-xs-12" />
 													</div>
 												</div>
