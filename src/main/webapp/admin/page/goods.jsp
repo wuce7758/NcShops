@@ -222,11 +222,11 @@ request.getServerPort() + path + "/"; %>
 							}
 						},
 						{name:'goodsId',index:'goodsId', width:30, sorttype:"int", editable: true},
-						{name:'goodsName',index:'goodsName', width:80,editable: true,editoptions:{size:"10",maxlength:"20"}},
+						{name:'goodsName',index:'goodsName', width:80,editable: true,editoptions:{size:"20",maxlength:"20"}},
 						{name:'goodsPrice',index:'goodsPrice',width:90,sorttype:"int", editable:true, edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
 						{name:'TGoodstype.goodsTypeName',index:'TGoodstype.goodsTypeName', width:70, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
-						{name:'goodsPic',index:'goodsPic', width:50, editable: true, formatter:function(cellvalue,option,rowObject){
-						return "<a id='goodsPic' href='javascript:void(0);' name='"+ cellvalue +"'>点击查看图片</a>";}}, 
+						{name:'goodsPic',index:'goodsPic', width:20, editable: true, formatter:function(cellvalue,option,rowObject){
+						return "<a id='goodsPic' href='javascript:void(0);' name='"+ cellvalue +"'><i class='ui-icon ace-icon fa fa-search-plus grey'></i></a>";}}, 
 						/* {name:'goodsPic',index:'goodsPic', width:50, editable: true, formatter:function(cellvalue,option,rowObject){
 						return "<a name='goodPicLink' href='javascript:void(0);' data-container='body'"+
 						"data-toggle='popover' data-placement='bottom'"+

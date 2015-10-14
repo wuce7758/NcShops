@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ncshop.domain.OrderItemArr;
+import com.ncshop.domain.TAddress;
 import com.ncshop.domain.TGoods;
 import com.ncshop.domain.TGoodstype;
 import com.ncshop.domain.TOrder;
@@ -29,6 +31,7 @@ import com.ncshop.domain.TOrderdetail;
 import com.ncshop.domain.TSeller;
 import com.ncshop.domain.TSellergoods;
 import com.ncshop.domain.TUser;
+import com.ncshop.domain.TempOrder;
 import com.ncshop.service.UserService;
 import com.ncshop.util.ConfigDao;
 import com.ncshop.util.ConfigInfo;
@@ -68,11 +71,30 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/findSellergoods")
-	public void findSellergoods(TSeller seller, HttpServletResponse response)
+	public void findSellergoods(String sellerId, HttpServletResponse response)
 			throws Exception {
+		TSeller seller=new TSeller();
+		seller.setSellerId(Integer.parseInt(sellerId));
 		// 调用service查找 数据库
 		List<TSellergoods> sellerGoodsList = userService
 				.findSellergoods(seller);
+		String json = toJson(new TSellergoods(), sellerGoodsList, null);
+		// 设置response的传输格式为json
+		response.setContentType("application/json");
+		response.getWriter().write(json);
+	}
+	/**
+	 * 查找店铺所有的商品
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/findGoodsdetail")
+	public void findGoodsdetail(HttpServletResponse response)
+			throws Exception {
+		// 调用service查找 数据库
+		List<TSellergoods> sellerGoodsList = userService
+				.findGoodsdetail();
 		String json = toJson(new TSellergoods(), sellerGoodsList, null);
 		// 设置response的传输格式为json
 		response.setContentType("application/json");
@@ -163,30 +185,41 @@ public class UserController {
 	public String addCart(HttpServletRequest request,
 			HttpServletResponse response) {
 
-		TGoods goods;
-		TOrderdetail orderdetail;
-		Set<TOrderdetail> orderdetails=new HashSet<TOrderdetail>();
-		String orderItems = request.getParameter("jsonString");
-		Enumeration parameterNames = request.getParameterNames();
-		while (parameterNames.hasMoreElements()) {
+		try {
+			TGoods goods;
+			TOrderdetail orderdetail;
+			String goodId;
+			String num ;
+			List<TempOrder> l_orderItems;
+			String json = request.getParameter("jsonString");
+			System.out.println(json);
+			Set<TOrderdetail> orderdetails=new HashSet<TOrderdetail>();
+			Gson gson=new Gson();
+			OrderItemArr fromJson = gson.fromJson(json, OrderItemArr.class);
+			for (TempOrder item : fromJson.getArray()) {
+				goodId=item.getGoodsId();
+				num=item.getBuyMount();
+				goods=userService.findgoodsById(goodId);
+				orderdetail=new TOrderdetail();
+				orderdetail.setTGoods(goods);
+				orderdetail.setBuyMount(Integer.parseInt(num));
+				orderdetail.setBuyCost(Integer.parseInt(num)*goods.getGoodsPrice());
+				orderdetails.add(orderdetail);
+			}
+			request.getSession().setAttribute("odersdetails", orderdetails);
+			TAddress address=new TAddress();
+			address.setAdsContent("nibanabjia");
+			HashSet<TAddress> hashSet = new HashSet<TAddress>();
+			hashSet.add(address);
+			TUser user = new TUser();
+			user.setTAddresses(hashSet);
+			request.getSession().setAttribute("user", user);
+			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(request, response);
 			
-			String goodId = (String) parameterNames.nextElement();
-			String num = request.getParameter(goodId);
-			goods=userService.findgoodsById(goodId);
-			orderdetail=new TOrderdetail();
-			orderdetail.setTGoods(goods);
-			orderdetail.setBuyMount(Integer.parseInt(num));
-			orderdetail.setBuyCost(Integer.parseInt(num)*goods.getGoodsPrice());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		request.getSession().setAttribute("odersdetails", orderdetails);
-		//判断该用户是否是老用户
 		
-		//跳转到个人信息页面(送餐地址，电话)
-
-
-		// 判断该用户是否是老用户
-
-		// 跳转到个人信息页面(送餐地址，电话)
 		return null;
 	}
 
