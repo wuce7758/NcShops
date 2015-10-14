@@ -21,7 +21,7 @@
 <!-- bootstrap & fontawesome -->
 <link rel="stylesheet"
 	href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
-<link rel="stylesheet" href="plugins/fonts/font-awesome.css" />
+<link rel="stylesheet" href="../plugins/fonts/font-awesome.css" />
 
 <!-- page specific plugin styles -->
 <link rel="stylesheet"
@@ -209,9 +209,96 @@
 				<!-- /section:basics/content.breadcrumbs -->
 				<div class="page-content">
 					<div class="row">
-						<div id="goodsList" class="col-xs-12">
+						<div id="order" class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
+							<div class="col-xs-6 col-sm-3 pricing-box">
+								<div class="widget-box widget-color-blue">
+									<div class="widget-header">
+										<h5 class="widget-title bigger lighter">确认订单</h5>
+									</div>
 
+									<div class="widget-body">
+										<div class="widget-main">
+											<ul class="list-unstyled spaced2">
+												<li><i class="ace-icon fa fa-check green"></i> 200 GB
+													Disk Space</li>
+
+												<li><i class="ace-icon fa fa-check green"></i>
+													Unlimited Bandwidth</li>
+
+												<li><i class="ace-icon fa fa-check green"></i> 1000
+													Email Accounts</li>
+
+												<li><i class="ace-icon fa fa-check green"></i> 1000
+													Email Accounts</li>
+												<li><i class="ace-icon fa fa-check green"></i> 1000
+													Email Accounts</li>
+												<li><i class="ace-icon fa fa-check green"></i> 1000
+													Email Accounts</li>
+												<li><i class="ace-icon fa fa-check green"></i> 1000
+													Email Accounts</li>
+												<li><i class="ace-icon fa fa-check green"></i> 200
+													MySQL Databases</li>
+
+												<li><i class="ace-icon fa fa-check green"></i> $25 Ad
+													Credit</li>
+
+												<li><i class="ace-icon fa fa-check green"></i> Free
+													Domain</li>
+											</ul>
+
+											<hr />
+											<div id="orderPrice" class="price">
+												共计 <strong>15</strong> <small>元</small>
+											</div>
+											<div id="orderAddress">
+												<p>Twitter, Inc.</p>
+												<p>795 Folsom Ave, Suite 600
+												<p>(123) 456-7890</p>
+											</div>
+											<form id="fromAddress" role=from>
+												<div class="form-group">
+													<label class="col-xs-3 control-label no-padding-right"
+														for="userName">客户名称</label>
+
+													<div class="col-xs-9">
+														<input type="text" id="userName" placeholder="客户名称"
+															class="col-xs-12" />
+													</div>
+													<hr class="col-xs-12">
+													<label class="col-xs-3 control-label no-padding-right"
+														for="userAddress">客戶地址</label>
+
+													<div class="col-xs-9">
+														<input type="text" id="userAddress" placeholder="客户地址"
+															class="col-xs-12" />
+													</div>
+													<hr class="col-xs-12">
+													<label class="col-xs-3 control-label no-padding-right"
+														for="userPhone">客戶电话</label>
+
+													<div class="col-xs-9">
+														<input type="text" id="userPhone" placeholder="客户电话"
+															class="col-xs-12" />
+													</div>
+												</div>
+												<hr class="col-xs-12">
+												<button class="btn btn-white btn-info btn-bold col-xs-12">
+													<i class="ace-icon fa fa-pencil bigger-120 orange"></i> 修改/保存
+												</button>
+											</form>
+											<hr>
+											<p id="other">一些文字说明</p>
+										</div>
+
+										<div>
+											<a href="#" class="btn btn-block btn-primary"> <i
+												class="ace-icon fa fa-shopping-cart bigger-110"></i> <span>Buy</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
 							<!-- PAGE CONTENT ENDS -->
 						</div>
 						<!-- /.col -->
@@ -227,14 +314,15 @@
 			role="navigation">
 			<ul class="nav navbar-nav">
 				<li class="green col-xs-3"><a href="#"> <i
-						class="ace-icon fa fa-list icon-animated-vertical"></i>
-				</a></li>
+						class="ace-icon fa fa-list icon-animated-vertical"></i> </a>
+				</li>
 				<li class="green col-xs-3"><a href="#"> <i
-						class="ace-icon fa fa-user icon-animated-vertical"></i>
-				</a></li>
+						class="ace-icon fa fa-user icon-animated-vertical"></i> </a>
+				</li>
 				<li class="green col-xs-6"><a href="#"> <i
-						class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i> <span onClick="goBuy()">确认购买<span class="badge badge-red">4</span></span>
-				</a></li>
+						class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i> <span>确认购买</span><span
+						class="badge badge-red">4</span> </a>
+				</li>
 			</ul>
 		</nav>
 
@@ -332,126 +420,7 @@
 
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
-		var pageNum = "1";
-		var flag = 0;
-		function loadData() {
-			if (flag != 0) {
-				return;
-			}
-			$
-					.ajax({
-						type : "get",
-						url : "user/findAllGoods",
-						data : {
-							page : pageNum
-						},
-						dataType : "json",
-						success : function(data) {
-							if (data.TGoods == null || data.TGoods.length < 1) {
-								flag = 1;
-								return;
-							}
-							if (data.TGoods.length < 10) {
-								flag = 1;
-							} else if (data.TGoods.length = 10) {
-								pageNum++;
-							}
-							for ( var i = 0; i < data.TGoods.length; i++) {
-								var item = "";
-								var item = "<div class='form-group col-xs-12 goods'>"
-										+ "<div class='col-xs-6'>"
-										+ "<img src='${pageContext.request.contextPath}/images/"+data.TGoods[i].goodsPic+"' class='img-responsive img-rounded' alt='Responsive image' />"
-										+ "</div>"
-										+ "<div class='col-xs-6'>"
-										+ "<p>"
-										+ data.TGoods[i].goodsName
-										+ "</p>"
-										+ "<p>"
-										+ data.TGoods[i].goodsPrice
-										+ "￥/一份</p>"
-										+ "<div class='ace-spinner middle touch-spinner' style='width: 125px;'>"
-										+ "<div class='input-group'><div class='spinbox-buttons input-group-btn'>"
-										+ "<button onClick='downclick(this)' type='button' class='btn spinbox-down btn-sm btn-danger'>"
-										+ "<i class='icon-only  ace-icon ace-icon fa fa-minus bigger-110'></i>"
-										+ "</button></div>"
-										+ "<input type='text' value='0' class='spinner form-control text-center' id='"+data.TGoods[i].goodsId+" '/>"
-										+ "<div class='spinbox-buttons input-group-btn'>"
-										+ "<button onClick='upclick(this)' type='button' class='btn spinbox-up btn-sm btn-success'>"
-										+ "<i class='icon-only  ace-icon ace-icon fa fa-plus bigger-110'></i>"
-										+ "</button>"
-										+ "</div>"
-										+ "</div>"
-										+ "</div>"
-										+ "</div>"
-										+ "<hr>"
-										+ "</div>";
-								if (i != data.TGoods.length) {
-									item += "<hr class='col-xs-12' style='margin-top:2px;margin-bottom:5px'>";
-								}
-								$("#goodsList").append(item);
-							}
-						}
-					});
-		}
-		function downclick(obj) {
-			var input = $(obj).parent().siblings("input");
-			var value = input.val();
-			if (input.val() <= 1) {
-				input.val("0");
-			} else {
-				input.val(input.val() - 1);
-			}
-		}
-		function upclick(obj) {
-			var input = $(obj).parent().siblings("input");
-			var value = input.val();
-			if (input.val() >= 100) {
-				input.val("100");
-			} else {
-				input.val(parseInt(value) + 1);
-			}
-		}
-		$(function() {
-			loadData();
-			$(window).scroll(
-					function() {
-						if ($(document).height() - $(this).scrollTop()
-								- $(this).height() < 20) {
-							loadData();
-						}
-					});
-		});
-		jQuery(function($) {
-			$('.spinner').ace_spinner({
-				value : 0,
-				min : 0,
-				max : 100,
-				step : 1,
-				on_sides : true,
-				icon_up : 'ace-icon fa fa-plus bigger-110',
-				icon_down : 'ace-icon fa fa-minus bigger-110',
-				btn_up_class : 'btn-success',
-				btn_down_class : 'btn-danger'
-			});
-		});
-		function goBuy(){
-			debugger;
-			var goodsItem=$("input.spinner");
-			var jsonString="[";
-			for(var i=0;i<goodsItem.length;i++){
-				var goodsId=goodsItem[i].id;
-				var goodsMount=goodsItem[i].value;
-				if(parseInt(goodsMount)>0){
-					jsonString+="{'goodsId':'"+goodsId+"','buyMount:'"+goodsMount+"'},";
-				}
-			}
-			jsonString+="]";
-			var lastIndex = jsonString.lastIndexOf(',');
-			if (lastIndex > -1) {
-          		jsonString = jsonString.substring(0, lastIndex) + jsonString.substring(lastIndex + 1, jsonString.length);
-      		}
-			$.get("user/addCart",{jsonString:jsonString});
-		}
+		
 	</script>
 </body>
 </html>
