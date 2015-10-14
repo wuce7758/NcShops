@@ -21,7 +21,7 @@ request.getServerPort() + path + "/"; %>
 <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/jquery-ui.css" />
 <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/datepicker.css" />
 <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ui.jqgrid.css" />
-		
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/jquery.gritter.css" />
 <!-- text fonts -->
 <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
 
@@ -105,6 +105,7 @@ request.getServerPort() + path + "/"; %>
 	</div>
 	<jsp:include page="../WebPart/Script.jsp"></jsp:include>
 	<!-- page specific plugin scripts -->
+	<script src="http://ace.zcdreams.com/assets/js/jquery.gritter.js"></script>
 	<script src="http://ace.zcdreams.com/assets/js/date-time/bootstrap-datepicker.js"></script>
 	<script src="http://ace.zcdreams.com/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
 	<script src="http://ace.zcdreams.com/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
@@ -112,29 +113,17 @@ request.getServerPort() + path + "/"; %>
 		<script type="text/javascript">
 			var grid_data = 
 			[ 
-				{id:"1",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"2",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"3",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"4",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"5",name:"Laser Printer",note:"note2",stock:"Yes",ship:"FedEx",sdate:"2007-12-03"},
-				{id:"6",name:"Play Station",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"7",name:"Mobile Telephone",note:"note",stock:"Yes",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"8",name:"Server",note:"note2",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"9",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"10",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"11",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"12",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"13",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"14",name:"Laser Printer",note:"note2",stock:"Yes",ship:"FedEx",sdate:"2007-12-03"},
-				{id:"15",name:"Play Station",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"16",name:"Mobile Telephone",note:"note",stock:"Yes",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"17",name:"Server",note:"note2",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"18",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"19",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"20",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"21",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"22",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"23",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"}
+				{"goodsId":1,"TGoodstype":{"goodsTypeId":1,"goodsTypeName":"零食"},"goodsName":"咪咪","goodsPrice":1.0,"goodsMsg":"美味，好吃，便宜","goodsPic":"10.jpg"},
+				{"goodsId":2,"TGoodstype":{"goodsTypeId":1,"goodsTypeName":"零食"},"goodsName":"辣条","goodsPrice":2.0,"goodsMsg":"非洲进口","goodsPic":"11.jpg"},
+				{"goodsId":3,"TGoodstype":{"goodsTypeId":1,"goodsTypeName":"零食"},"goodsName":"爽歪歪","goodsPrice":3.0,"goodsMsg":"来一口","goodsPic":"1.jpg"},
+				{"goodsId":4,"TGoodstype":{"goodsTypeId":1,"goodsTypeName":"零食"},"goodsName":"小米","goodsPrice":4.0,"goodsMsg":"太爽了","goodsPic":"2.jpg"},
+				{"goodsId":5,"TGoodstype":{"goodsTypeId":1,"goodsTypeName":"零食"},"goodsName":"红牛","goodsPrice":5.0,"goodsMsg":"红牛","goodsPic":"3.jpg"},
+				{"goodsId":6,"TGoodstype":{"goodsTypeId":1,"goodsTypeName":"零食"},"goodsName":"可口可乐","goodsPrice":6.0,"goodsMsg":"真心好","goodsPic":"4.jpg"},
+				{"goodsId":7,"TGoodstype":{"goodsTypeId":1,"goodsTypeName":"零食"},"goodsName":"好心情冰棍","goodsPrice":7.0,"goodsMsg":"好心情","goodsPic":"5.jpg"},
+				{"goodsId":8,"TGoodstype":{"goodsTypeId":1,"goodsTypeName":"零食"},"goodsName":"香菇牛肉面","goodsPrice":8.0,"goodsMsg":"泡面了","goodsPic":"6.jpg"},
+				{"goodsId":9,"TGoodstype":{"goodsTypeId":1,"goodsTypeName":"零食"},"goodsName":"火腿肠","goodsPrice":9.0,"goodsMsg":"无淀粉","goodsPic":"7.jpg"},
+				{"goodsId":10,"TGoodstype":{"goodsTypeId":1,"goodsTypeName":"零食"},"goodsName":"王老吉","goodsPrice":10.0,"goodsMsg":"中国人的饮料","goodsPic":"8.jpg"},
+				{"goodsId":11,"TGoodstype":{"goodsTypeId":1,"goodsTypeName":"零食"},"goodsName":"老王辣条","goodsPrice":11.0,"goodsMsg":"有嚼劲","goodsPic":"9.jpg"}
 			];
 			
 			var subgrid_data = 
@@ -232,12 +221,17 @@ request.getServerPort() + path + "/"; %>
 								//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
 							}
 						},
-						{name:'id',index:'id', width:20, sorttype:"int", editable: true},
-						{name:'sdate',index:'sdate',width:90, editable:true, sorttype:"date",unformat: pickDate},
-						{name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-						{name:'stock',index:'stock', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-						{name:'ship',index:'ship', width:90, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
-						{name:'note',index:'note', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
+						{name:'goodsId',index:'goodsId', width:30, sorttype:"int", editable: true},
+						{name:'goodsName',index:'goodsName', width:80,editable: true,editoptions:{size:"10",maxlength:"20"}},
+						{name:'goodsPrice',index:'goodsPrice',width:90,sorttype:"int", editable:true, edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
+						{name:'TGoodstype.goodsTypeName',index:'TGoodstype.goodsTypeName', width:70, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
+						{name:'goodsPic',index:'goodsPic', width:50, editable: true, formatter:function(cellvalue,option,rowObject){
+						return "<a id='goodsPic' href='javascript:void(0);' name='"+ cellvalue +"'>点击查看图片</a>";}}, 
+						/* {name:'goodsPic',index:'goodsPic', width:50, editable: true, formatter:function(cellvalue,option,rowObject){
+						return "<a name='goodPicLink' href='javascript:void(0);' data-container='body'"+
+						"data-toggle='popover' data-placement='bottom'"+
+						"data-content='<img src=\"1.jpg\">'>1</a>";}}, */
+						{name:'goodsMsg',index:'goodsMsg', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}
 					], 
 			
 					viewrecords : true,
@@ -262,7 +256,7 @@ request.getServerPort() + path + "/"; %>
 						}, 0);
 					},
 			
-					editurl: "../../user/findAllGoods",//nothing is saved
+					editurl: "../../user/findSellergoods",//nothing is saved
 					caption: "商品管理列表"
 			
 					//,autowidth: true,
@@ -516,6 +510,25 @@ request.getServerPort() + path + "/"; %>
 				$(document).one('ajaxloadstart.page', function(e) {
 					$(grid_selector).jqGrid('GridUnload');
 					$('.ui-jqdialog').remove();
+				});
+			});
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('[data-toggle="popover"]').popover();
+				$('#goodsPic').click(function(){
+					//图片名称
+					var picname = this.name;
+					//显示图片
+					$.gritter.add({
+						title : "商品图片",
+						text : "<img width='100px' height='100px' src='http://d.hiphotos.baidu.com/zhidao/wh%3D800%2C450/sign=3915b125a20f4bfb8c85965c337f54c4/cdbf6c81800a19d807295abf35fa828ba61e4666.jpg'>",
+						sticky : true,
+						time : 10000,
+						speed : 10,
+						position : 'center',
+						class_name : 'gritter-bright'
+					});
 				});
 			});
 		</script>
