@@ -280,74 +280,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="row">
 							<div id="goodsList" class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
-								<div class="form-group col-xs-12 goods">
-									<div class="col-xs-6">
-										<img src="http://ace.zcdreams.com/assets/images/gallery/HeadPic.jpg" class="img-responsive img-circle" alt="Responsive image" />
-									</div>
-									<div class="col-xs-6">
-										<p>早餐</p>
-										<p>10.00￥/一份</p>
-										<input type="text" class="spinner" id="spinner1" />
-									</div>
-									
-								</div>
-								<hr class="col-xs-12">
-								<div class="form-group col-xs-12 goods">
-									<div class="col-xs-6">
-										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
-									</div>
-									<div class="col-xs-6">
-										<p>早餐</p>
-										<p>10.00￥/一份</p>
-										<input type="text" class="spinner" id="spinner1" />
-									</div>
-									
-								</div>
-								<hr>
-								<div class="form-group col-xs-12 goods">
-									<div class="col-xs-6">
-										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
-									</div>
-									<div class="col-xs-6">
-										<p>早餐</p>
-										<p>10.00￥/一份</p>
-										<input type="text" class="spinner" id="spinner1" />
-									</div>
-									
-								</div>
-								<hr>
-								<div class="form-group col-xs-12 goods">
-									<div class="col-xs-6">
-										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
-									</div>
-									<div class="col-xs-6">
-										<p>早餐</p>
-										<p>10.00￥/一份</p>
-										<input type="text" class="spinner" id="spinner2" />
-									</div>
-									
-								</div>
-								<hr>
-								<div class="form-group col-xs-12 goods">
-									<div class="col-xs-6">
-										<img src="http://ace.zcdreams.com/assets/images/gallery/image-1.jpg" class="img-responsive" alt="Responsive image" />
-									</div>
-									<div class="col-xs-6">
-										<p>早餐</p>
-										<p>10.00￥/一份</p>
-										<input type="text" class="spinner" id="spinner3" />
-									</div>
-									
-								</div>
+								
+								<!-- PAGE CONTENT ENDS -->
 							</div>
-							<div class="col-xs-12 center">
-								<div id="navigation" align="center">         <!-- 页面导航-->  
-        							<a href="user/findAllGoods?page=1"></a>        <!-- 此处可以是url，可以是action，要注意不是每种html都可以加，是跟当前网页有相同布局的才可以。另外一个重要的地方是page参数，这个一定要加在这里，它的作用是指出当前页面页码，没加载一次数据，page自动+1,我们可以从服务器用request拿到他然后进行后面的分页处理。-->  
-    							</div>  
-
-								<a>加载更多...</a>
-							</div>
-							<!-- PAGE CONTENT ENDS -->
 						</div>
 						<div>
 							<button>
@@ -455,7 +390,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
-			jQuery(function($) {
+			/* jQuery(function($) {
 				$('.spinner').ace_spinner({
 					value: 0,
 					min: 0,
@@ -468,6 +403,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					btn_down_class: 'btn-danger'
 				});
 			});
+			
 			$(document).ready(function() {
 				//无限加载刷新
 	  			$("#goodsList").infinitescroll({
@@ -533,8 +469,104 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						}
 					});
 				});
+			}); */
+		</script>
+		<script type="text/javascript">
+			var pageNum="1";
+			var flag=0;
+			function loadData(){
+				if(flag!=0){
+					return;
+				}
+				$.ajax({
+					type:"get",
+					url:"user/findAllGoods",
+					data:{page:pageNum},
+					dataType:"json",
+					success:function(data){
+						if(data.TGoods==null||data.TGoods.length<1){
+							flag=1;
+							return;
+						}
+						if(data.TGoods.length<10){
+							flag=1;
+						}else if(data.TGoods.length=10){
+							pageNum++;
+						}
+						for(var i=0;i<data.TGoods.length;i++){
+							var item="";
+							var item="<div class='form-group col-xs-12 goods'>"+
+										"<div class='col-xs-6'>"+
+											"<img src='${pageContext.request.contextPath}/images/"+data.TGoods[i].goodsPic+"' class='img-responsive img-rounded' alt='Responsive image' />"+
+										"</div>"+
+										"<div class='col-xs-6'>"+
+											"<p>"+data.TGoods[i].goodsName+"</p>"+
+											"<p>"+data.TGoods[i].goodsPrice+"￥/一份</p>"+
+											"<div class='ace-spinner middle touch-spinner' style='width: 125px;'>"+
+												"<div class='input-group'><div class='spinbox-buttons input-group-btn'>"+
+													"<button onClick='downclick(this)' type='button' class='btn spinbox-down btn-sm btn-danger'>"+
+														"<i class='icon-only  ace-icon ace-icon fa fa-minus bigger-110'></i>"+
+													"</button></div>"+
+													"<input type='text' value='0' class='spinner form-control text-center' id='"+data.TGoods[i].goodsId+" '/>"+
+													"<div class='spinbox-buttons input-group-btn'>"+
+														"<button onClick='upclick(this)' type='button' class='btn spinbox-up btn-sm btn-success'>"+
+															"<i class='icon-only  ace-icon ace-icon fa fa-plus bigger-110'></i>"+
+														"</button>"+
+													"</div>"+
+												"</div>"+
+											"</div>"+
+										"</div>"+
+										"<hr>"+
+									"</div>";
+							if(i!=data.TGoods.length){
+								item+="<hr class='col-xs-12' style='margin-top:2px;margin-bottom:5px'>";
+							}
+							$("#goodsList").append(item);
+						}
+					}
+				});
+			}
+			function downclick(obj){
+				debugger;
+				var input=$(obj).parent().siblings("input");
+				var value=input.val();
+				if(input.val()<=1){
+					input.val("0");
+				}else{
+					input.val(input.val()-1);
+				}
+			}
+			function upclick(obj){
+				debugger;
+				var input=$(obj).parent().siblings("input");
+				var value=input.val();
+				if(input.val()>=100){
+					input.val("100");
+				}else{
+					input.val(parseInt(value)+1);
+				}
+			}
+			$(function(){
+				loadData();
+				$(window).scroll(function(){
+					if($(document).height()-$(this).scrollTop()-$(this).height()<20){
+						loadData();
+					}
+				});
+			});
+			jQuery(function($) {
+				$('.spinner').ace_spinner({
+					value: 0,
+					min: 0,
+					max: 100,
+					step: 1,
+					on_sides: true,
+					icon_up: 'ace-icon fa fa-plus bigger-110',
+					icon_down: 'ace-icon fa fa-minus bigger-110',
+					btn_up_class: 'btn-success',
+					btn_down_class: 'btn-danger'
+				});
 			});
 		</script>
-
 	</body>
 </html>
