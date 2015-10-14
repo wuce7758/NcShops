@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -224,31 +225,16 @@
 									<div class="widget-body">
 										<div class="widget-main">
 											<ul class="list-unstyled spaced2">
-												<li><i class="ace-icon fa fa-check green"></i> 200 GB
-													Disk Space</li>
-
-												<li><i class="ace-icon fa fa-check green"></i>
-													Unlimited Bandwidth</li>
-
-												<li><i class="ace-icon fa fa-check green"></i> 1000
-													Email Accounts</li>
-
-												<li><i class="ace-icon fa fa-check green"></i> 1000
-													Email Accounts</li>
-												<li><i class="ace-icon fa fa-check green"></i> 1000
-													Email Accounts</li>
-												<li><i class="ace-icon fa fa-check green"></i> 1000
-													Email Accounts</li>
-												<li><i class="ace-icon fa fa-check green"></i> 1000
-													Email Accounts</li>
-												<li><i class="ace-icon fa fa-check green"></i> 200
-													MySQL Databases</li>
-
-												<li><i class="ace-icon fa fa-check green"></i> $25 Ad
-													Credit</li>
-
-												<li><i class="ace-icon fa fa-check green"></i> Free
-													Domain</li>
+												<!-- 循环遍历域里的数据 -->
+												<c:forEach var="orderdetail" items="${odersdetails }">
+													<li>
+														<i class="ace-icon fa fa-check green"></i>
+															${orderdetail.TGoods.goodsName }-
+															${orderdetail.buyMount }个-单价
+															${orderdetail.TGoods.goodsPrice }元-总价
+															${orderdetail.buyCost }元
+													</li>
+												</c:forEach>
 											</ul>
 
 											<hr />
@@ -293,7 +279,7 @@
 												</button>
 											</form>
 											<hr>
-											<p id="other">一些文字说明</p>
+											<p id="other" style="margin-top:5px"><font color="red">请详细确认订单信息后再确定订单！</font></p>
 										</div>
 
 										<div id="dialog_sureBuy_confirm" class="hide">
@@ -431,6 +417,13 @@
 
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
+		var price=0;
+		var list="${orderdetails}";
+		function sum(){
+			for(var i=0;i<list.length;i++){
+			}
+		}
+		
 		$(document).ready(function(){
 			$('#sureBuy').click(function (e) {
                 e.preventDefault();
