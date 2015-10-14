@@ -25,6 +25,8 @@
 
 <!-- page specific plugin styles -->
 <link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/jquery-ui.css" />
+<link rel="stylesheet"
 	href="http://ace.zcdreams.com/assets/css/jquery-ui.custom.css" />
 <link rel="stylesheet"
 	href="http://ace.zcdreams.com/assets/css/colorbox.css">
@@ -150,10 +152,12 @@
 			<ul class="nav nav-list">
 				<li class=""><a href="index.html"> <i
 						class="menu-icon fa fa-tachometer"></i> <span class="menu-text">
-							Dashboard </span> </a> <b class="arrow"></b></li>
+							Dashboard </span> </a> <b class="arrow"></b>
+				</li>
 				<li class=""><a href="index.html"> <i
 						class="menu-icon fa fa-tachometer"></i> <span class="menu-text">动态显示物品类别</span>
-				</a> <b class="arrow"></b></li>
+				</a> <b class="arrow"></b>
+				</li>
 			</ul>
 			<!-- /.nav-list -->
 
@@ -284,14 +288,24 @@
 												</div>
 												<hr class="col-xs-12">
 												<button class="btn btn-white btn-info btn-bold col-xs-12">
-													<i class="ace-icon fa fa-pencil bigger-120 orange"></i> 修改/保存
+													<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
+													修改/保存
 												</button>
 											</form>
 											<hr>
 											<p id="other">一些文字说明</p>
 										</div>
 
-										<div>
+										<div id="dialog_sureBuy_confirm" class="hide">
+											<div class="alert alert-info bigger-110">
+												确定要提交吗？此操作无法撤销！请谨慎操作！</div>
+											<div class="space-6"></div>
+											<p class="bigger-110 bolder center grey">
+												<i class="ace-icon fa fa-hand-o-right blue bigger-120"></i>
+												确定提交?
+											</p>
+										</div>
+										<div id="buttonBuy" class="hide">
 											<a href="#" class="btn btn-block btn-primary"> <i
 												class="ace-icon fa fa-shopping-cart bigger-110"></i> <span>Buy</span>
 											</a>
@@ -314,15 +328,12 @@
 			role="navigation">
 			<ul class="nav navbar-nav">
 				<li class="green col-xs-3"><a href="#"> <i
-						class="ace-icon fa fa-list icon-animated-vertical"></i> </a>
-				</li>
+						class="ace-icon fa fa-list icon-animated-vertical"></i> </a></li>
 				<li class="green col-xs-3"><a href="#"> <i
-						class="ace-icon fa fa-user icon-animated-vertical"></i> </a>
-				</li>
-				<li class="green col-xs-6"><a href="#"> <i
+						class="ace-icon fa fa-user icon-animated-vertical"></i> </a></li>
+				<li class="green col-xs-6"><a id="sureBuy" href="javascript.void(0)"> <i
 						class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i> <span>确认购买</span><span
-						class="badge badge-red">4</span> </a>
-				</li>
+						class="badge badge-red">4</span> </a></li>
 			</ul>
 		</nav>
 
@@ -358,9 +369,9 @@
 	<script src="http://ace.zcdreams.com/assets/js/bootstrap.js"></script>
 
 	<!-- page specific plugin scripts -->
-	<script src="plugins/infinite-scroll/jquery.infinitescroll.min.js"></script>
 	<script src="http://ace.zcdreams.com/assets/js/jquery.gritter.js"></script>
 	<script src="http://ace.zcdreams.com/assets/js/jquery.colorbox.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.js"></script>
 	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.custom.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/jquery.ui.touch-punch.js"></script>
@@ -420,7 +431,57 @@
 
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
-		
+		$(document).ready(function(){
+			$('#sureBuy').click(function (e) {
+                e.preventDefault();
+                $('#dialog_sureBuy_confirm').removeClass('hide').dialog({
+                    resizable: false,
+                    width: '320',
+                    modal: true,
+                    title: "",
+                    title_html: true,
+                    buttons: [
+                        {
+                            html: "<i class='ace-icon fa fa-save bigger-110'></i>确定提交按钮",
+                            "class": "btn btn-success btn-minier",
+                            click: function () {
+                                $(this).dialog("close");
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "../user/findAllGoods",
+                                    data: "123",//$('#form_Menu').serialize(),
+                                    async: false,
+                                    error: function (request) {
+                                        console.log("error");
+                                    },
+                                    success: function (data) {
+                                        if (data == 'ok') {
+                                        	console.log("ok");
+                                            //$("#menuState").html('按钮提交成功！');
+                                        }
+                                        else {
+                                        	$("#buttonBuy").removeClass('hide');
+                                        	console.log("someCatch");
+                                            //$("#menuState").html(data);
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                        {
+                            html: "<i class='ace-icon fa fa-times bigger-110'></i>取消",
+                            "class": "btn btn-minier",
+                            click: function () {
+                                $(this).dialog("close");
+                            }
+                        }
+                    ]
+                });
+            });
+            
+            
+		});
 	</script>
 </body>
 </html>
