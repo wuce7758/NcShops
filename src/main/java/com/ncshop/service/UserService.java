@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ncshop.dao.TGoodsDAO;
+import com.ncshop.dao.TGoodstypeDAO;
 import com.ncshop.dao.TOrderDAO;
 import com.ncshop.dao.TSellerDAO;
 import com.ncshop.dao.TSellergoodsDAO;
@@ -29,7 +30,10 @@ public class UserService {
 	private TGoodsDAO goodsDao;
 	@Autowired
 	private TOrderDAO orderDao;
+	@Autowired
 	private TSellergoodsDAO sellergoodsDAO;
+	@Autowired
+	private TGoodstypeDAO goodstypeDAO;
 
 	
 	@SuppressWarnings("unchecked")
@@ -92,6 +96,14 @@ public class UserService {
 	}
 
 	public List<TSellergoods> findGoodsdetail() {
-		return sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(), new String []{"TGoods","TSeller"}, null,0,0,false);
+		List<TSellergoods> list = sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(), new String []{"TGoods","TSeller","TGoodstype"}, null,0,0,false);
+		
+		for (TSellergoods tSellergoods : list) {
+			TGoods goods = tSellergoods.getTGoods();
+			TGoodstype findById = goodstypeDAO.findById(tSellergoods.getTGoods().getGoodsId());
+			goods.setTGoodstype(findById);
+			tSellergoods.setTGoods(goods);
+		}
+		return list;
 	}
 }
