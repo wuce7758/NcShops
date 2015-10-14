@@ -35,8 +35,7 @@ public class TSeller implements java.io.Serializable {
 	private Integer minBuy=0;
 	private float deliverMoney=0;
 	private String sellerMsg;
-	private Set<TSellergoods> TSellergoodses = new HashSet<TSellergoods>(0);
-	private Set<TOrder> TOrders = new HashSet<TOrder>(0);
+	
 
 	// Property accessors
 	@Id
@@ -140,25 +139,4 @@ public class TSeller implements java.io.Serializable {
 	public void setSellerMsg(String sellerMsg) {
 		this.sellerMsg = sellerMsg;
 	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name="sellerId")
-	public Set<TSellergoods> getTSellergoodses() {
-		return this.TSellergoodses;
-	}
-
-	public void setTSellergoodses(Set<TSellergoods> TSellergoodses) {
-		this.TSellergoodses = TSellergoodses;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name="sellerId")
-	public Set<TOrder> getTOrders() {
-		return this.TOrders;
-	}
-
-	public void setTOrders(Set<TOrder> TOrders) {
-		this.TOrders = TOrders;
-	}
-
 }
