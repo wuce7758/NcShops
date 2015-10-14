@@ -219,16 +219,7 @@ public class UserController {
 
 			if (userService.order(order)) {
 
-				WxMpInMemoryConfigStorage wxMpConfigStorage;
-				WxMpService wxMpService;
-				WxMpMessageRouter wxMpMessageRouter;
-				ConfigDao configDao = new ConfigDao();
-				ConfigInfo configInfo = configDao.GetConfig();
-				wxMpConfigStorage = new WxMpInMemoryConfigStorage();
-				wxMpConfigStorage.setAppId(configInfo.getWeChatAppID()); // 设置微信公众号的appid
-				wxMpConfigStorage.setSecret(configInfo.getWeChatAppSecret()); // 设置微信公众号的app
-				wxMpConfigStorage.setToken(configInfo.getWeChatToken()); // 设置微信公众号的token
-				wxMpConfigStorage.setAesKey(configInfo.getWeChatAESKey()); // 设置微信公众号的EncodingAESKey
+				initMessageContext();
 
 				// 获取配送员OpenID，组织消息并发送
 
@@ -265,7 +256,28 @@ public class UserController {
 		}
 
 	}
-
+	@RequestMapping("/verifyOrder")
+	public void verifyOrder(String orderId){
+		
+		try {
+			
+			TOrder order=userService.findOrderById(orderId);
+			TUser user=userService.findUserById(order.getOrderId());
+			//
+			if(userService.upadateOrder(orderId)){
+				
+			}
+			
+			//订单 审核，将订单已受理信息发给用户
+			//
+			user.getOpenId();
+			initMessageContext();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 	/**
 	 * 将集合转换成json
 	 * 
@@ -292,6 +304,19 @@ public class UserController {
 		String json = gson.toJson(map);
 		System.out.println(json);
 		return json;
+	}
+	
+	private void initMessageContext(){
+		WxMpInMemoryConfigStorage wxMpConfigStorage;
+		WxMpService wxMpService;
+		WxMpMessageRouter wxMpMessageRouter;
+		ConfigDao configDao = new ConfigDao();
+		ConfigInfo configInfo = configDao.GetConfig();
+		wxMpConfigStorage = new WxMpInMemoryConfigStorage();
+		wxMpConfigStorage.setAppId(configInfo.getWeChatAppID()); // 设置微信公众号的appid
+		wxMpConfigStorage.setSecret(configInfo.getWeChatAppSecret()); // 设置微信公众号的app
+		wxMpConfigStorage.setToken(configInfo.getWeChatToken()); // 设置微信公众号的token
+		wxMpConfigStorage.setAesKey(configInfo.getWeChatAESKey()); // 设置微信公众号的EncodingAESKey
 	}
 
 }

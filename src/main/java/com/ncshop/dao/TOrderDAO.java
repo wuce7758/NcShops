@@ -1,17 +1,17 @@
 package com.ncshop.dao;
 
-import java.util.Date;
+import static org.hibernate.criterion.Example.create;
+
 import java.util.List;
-import java.util.Set;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.ncshop.domain.TOrder;
-
-import static org.hibernate.criterion.Example.create;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -157,5 +157,29 @@ public class TOrderDAO extends BaseDao {
 			log.error("attach failed", re);
 			throw re;
 		}
+	}
+
+	public boolean update(String orderId) {
+		Session session = getSessionFactory().openSession();
+		try { 
+			 
+			session.beginTransaction();
+			 
+			TOrder load = (TOrder) session.load(TOrder.class, Integer.parseInt(orderId));
+			 
+			load.setOrderState(1);
+			
+			 
+			session.update(load);
+			 
+			session.getTransaction().commit();
+			return true; 
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+			return false; 
+		}finally{ 
+			session.close();
+		} 
 	}
 }
