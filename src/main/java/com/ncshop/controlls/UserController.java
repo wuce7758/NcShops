@@ -207,16 +207,15 @@ public class UserController {
 				orderdetails.add(orderdetail);
 			}
 			request.getSession().setAttribute("odersdetails", orderdetails);
-			TUser user = (TUser) request.getSession().getAttribute("user");
+			TAddress address=new TAddress();
+			address.setAdsContent("nibanabjia");
+			HashSet<TAddress> hashSet = new HashSet<TAddress>();
+			hashSet.add(address);
+			TUser user = new TUser();
+			user.setTAddresses(hashSet);
+			request.getSession().setAttribute("user", user);
 			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(request, response);
-			//判断该用户是否是老用户
 			
-			//跳转到个人信息页面(送餐地址，电话)
-
-
-			// 判断该用户是否是老用户
-
-			// 跳转到个人信息页面(送餐地址，电话)
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
