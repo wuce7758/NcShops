@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ncshop.domain.OrderItemArr;
 import com.ncshop.domain.TGoods;
 import com.ncshop.domain.TGoodstype;
 import com.ncshop.domain.TOrder;
@@ -186,24 +187,31 @@ public class UserController {
 		try {
 			TGoods goods;
 			TOrderdetail orderdetail;
+			String goodId;
+			String num ;
 			List<TempOrder> l_orderItems;
 			String json = request.getParameter("jsonString");
 			System.out.println(json);
 			Set<TOrderdetail> orderdetails=new HashSet<TOrderdetail>();
 			Gson gson=new Gson();
-			gson.fromJson(json, TempOrder.class);
-			Enumeration parameterNames = request.getParameterNames();
-			while (parameterNames.hasMoreElements()) {
-				
-				String goodId = (String) parameterNames.nextElement();
-				String num = request.getParameter(goodId);
+			OrderItemArr fromJson = gson.fromJson(json, OrderItemArr.class);
+			for (TempOrder item : fromJson.getArray()) {
+				goodId=item.getGoodsId();
+				num=item.getBuyMount();
 				goods=userService.findgoodsById(goodId);
 				orderdetail=new TOrderdetail();
 				orderdetail.setTGoods(goods);
 				orderdetail.setBuyMount(Integer.parseInt(num));
 				orderdetail.setBuyCost(Integer.parseInt(num)*goods.getGoodsPrice());
+				orderdetails.add(orderdetail);
 			}
 			request.getSession().setAttribute("odersdetails", orderdetails);
+			TUser user = (TUser) request.getSession().getAttribute("user");
+			if(user!=null&&user.getTAddresses()!=null){
+				request.setAttribute("address", "中国南车");
+			}
+			request.setAttribute("address", "中国南车");
+			request.getRequestDispatcher("/customer/MyOrder.jsp").forward(request, response);
 			//判断该用户是否是老用户
 			
 			//跳转到个人信息页面(送餐地址，电话)
