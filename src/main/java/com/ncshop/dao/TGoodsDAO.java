@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.ncshop.domain.TGoods;
@@ -34,12 +35,15 @@ public class TGoodsDAO extends BaseDao {
 
 	public void save(TGoods transientInstance) {
 		log.debug("saving TGoods instance");
+		Session session = getSession2();
 		try {
-			getSession2().save(transientInstance);
+			session.save(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
 			throw re;
+		}finally{
+			session.close();
 		}
 	}
 
@@ -56,13 +60,16 @@ public class TGoodsDAO extends BaseDao {
 
 	public TGoods findById(java.lang.Integer id) {
 		log.debug("getting TGoods instance with id: " + id);
+		Session session = getSession2();
 		try {
-			TGoods instance = (TGoods) getSession2().get(
+			TGoods instance = (TGoods) session.get(
 					"com.ncshop.domain.TGoods", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
+		}finally{
+			session.close();
 		}
 	}
 

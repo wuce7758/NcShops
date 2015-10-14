@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.ncshop.domain.TGoodstype;
@@ -53,13 +54,16 @@ public class TGoodstypeDAO extends BaseDao {
 
 	public TGoodstype findById(java.lang.Integer id) {
 		log.debug("getting TGoodstype instance with id: " + id);
+		Session session = getSession2();
 		try {
-			TGoodstype instance = (TGoodstype) getSession2().get(
+			TGoodstype instance =(TGoodstype)session.get(
 					"com.ncshop.domain.TGoodstype", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
+		}finally{
+			session.close();
 		}
 	}
 
