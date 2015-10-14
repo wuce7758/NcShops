@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -224,42 +225,37 @@
 									<div class="widget-body">
 										<div class="widget-main">
 											<ul class="list-unstyled spaced2">
-												<li><i class="ace-icon fa fa-check green"></i> 200 GB
-													Disk Space</li>
-
-												<li><i class="ace-icon fa fa-check green"></i>
-													Unlimited Bandwidth</li>
-
-												<li><i class="ace-icon fa fa-check green"></i> 1000
-													Email Accounts</li>
-
-												<li><i class="ace-icon fa fa-check green"></i> 1000
-													Email Accounts</li>
-												<li><i class="ace-icon fa fa-check green"></i> 1000
-													Email Accounts</li>
-												<li><i class="ace-icon fa fa-check green"></i> 1000
-													Email Accounts</li>
-												<li><i class="ace-icon fa fa-check green"></i> 1000
-													Email Accounts</li>
-												<li><i class="ace-icon fa fa-check green"></i> 200
-													MySQL Databases</li>
-
-												<li><i class="ace-icon fa fa-check green"></i> $25 Ad
-													Credit</li>
-
-												<li><i class="ace-icon fa fa-check green"></i> Free
-													Domain</li>
+												<!-- 循环遍历域里的数据 -->
+												<c:forEach var="orderdetail" items="${odersdetails }">
+													<li>
+														<i class="ace-icon fa fa-check green"></i>
+															${orderdetail.TGoods.goodsName }-
+															${orderdetail.buyMount }个-单价
+															${orderdetail.TGoods.goodsPrice }元-总价
+															${orderdetail.buyCost }元
+													</li>
+												</c:forEach>
 											</ul>
 
 											<hr />
 											<div id="orderPrice" class="price">
 												共计 <strong>15</strong> <small>元</small>
 											</div>
-											<div id="orderAddress">
-												<p>Twitter, Inc.</p>
-												<p>795 Folsom Ave, Suite 600
-												<p>(123) 456-7890</p>
-											</div>
+											<!-- 加载默认地址 -->
+											<c:choose>
+   												<c:when test="${user.TAddresses!=null||user.TAddresses!='' }">
+   													<c:forEach var="address" items="${user.TAddresses}">
+   														<c:if test="${address.isDefault==true }">
+	   														<c:out value="<p>地址：${address.adsContent }</p>"></c:out>
+	   														<c:out value="<p>接收人：${user.userName }</p>"></c:out>
+	   														<c:out value="<p>联系方式：${address.adsPhone }</p>"></c:out>
+   														</c:if>
+   													</c:forEach>
+   												</c:when>
+   												<c:otherwise>
+   													<c:out value="您还没地址，请先设置地址!"></c:out>
+   												</c:otherwise>  
+											</c:choose>
 											<form id="fromAddress" role=from>
 												<div class="form-group">
 													<label class="col-xs-3 control-label no-padding-right"
@@ -289,11 +285,11 @@
 												<hr class="col-xs-12">
 												<button class="btn btn-white btn-info btn-bold col-xs-12">
 													<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
-													修改/保存
+													<font>修改/保存</font>
 												</button>
 											</form>
 											<hr>
-											<p id="other">一些文字说明</p>
+											<p id="other" style="margin-top:5px"><font color="red">请详细确认订单信息后再确定订单！</font></p>
 										</div>
 
 										<div id="dialog_sureBuy_confirm" class="hide">
@@ -431,6 +427,16 @@
 
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
+		var price=0;
+		var list="${orderdetails}";
+		function sum(){
+			debugger;
+			for(var i=0;i<list.length;i++){
+				price=price+list[i].buyCost;
+			}
+			$("#orderPrice strong").text(price);
+		}
+		
 		$(document).ready(function(){
 			$('#sureBuy').click(function (e) {
                 e.preventDefault();
