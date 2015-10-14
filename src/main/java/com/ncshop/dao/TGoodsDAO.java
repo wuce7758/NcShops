@@ -35,7 +35,7 @@ public class TGoodsDAO extends BaseDao {
 	public void save(TGoods transientInstance) {
 		log.debug("saving TGoods instance");
 		try {
-			getSession().save(transientInstance);
+			getSession2().save(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
@@ -46,7 +46,7 @@ public class TGoodsDAO extends BaseDao {
 	public void delete(TGoods persistentInstance) {
 		log.debug("deleting TGoods instance");
 		try {
-			getSession().delete(persistentInstance);
+			getSession2().delete(persistentInstance);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
@@ -57,7 +57,7 @@ public class TGoodsDAO extends BaseDao {
 	public TGoods findById(java.lang.Integer id) {
 		log.debug("getting TGoods instance with id: " + id);
 		try {
-			TGoods instance = (TGoods) getSession().get(
+			TGoods instance = (TGoods) getSession2().get(
 					"com.ncshop.domain.TGoods", id);
 			return instance;
 		} catch (RuntimeException re) {
@@ -69,7 +69,7 @@ public class TGoodsDAO extends BaseDao {
 	public List<TGoods> findByExample(TGoods instance) {
 		log.debug("finding TGoods instance by example");
 		try {
-			List<TGoods> results = (List<TGoods>) getSession()
+			List<TGoods> results = (List<TGoods>) getSession2()
 					.createCriteria("com.ncshop.domain.TGoods")
 					.add(create(instance)).list();
 			log.debug("find by example successful, result size: "
@@ -87,7 +87,7 @@ public class TGoodsDAO extends BaseDao {
 		try {
 			String queryString = "from TGoods as model where model."
 					+ propertyName + "= ?";
-			Query queryObject = getSession().createQuery(queryString);
+			Query queryObject = getSession2().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -116,7 +116,7 @@ public class TGoodsDAO extends BaseDao {
 		log.debug("finding all TGoods instances");
 		try {
 			String queryString = "from TGoods";
-			Query queryObject = getSession().createQuery(queryString);
+			Query queryObject = getSession2().createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
@@ -127,7 +127,7 @@ public class TGoodsDAO extends BaseDao {
 	public TGoods merge(TGoods detachedInstance) {
 		log.debug("merging TGoods instance");
 		try {
-			TGoods result = (TGoods) getSession().merge(detachedInstance);
+			TGoods result = (TGoods) getSession2().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -139,7 +139,7 @@ public class TGoodsDAO extends BaseDao {
 	public void attachDirty(TGoods instance) {
 		log.debug("attaching dirty TGoods instance");
 		try {
-			getSession().saveOrUpdate(instance);
+			getSession2().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -150,7 +150,7 @@ public class TGoodsDAO extends BaseDao {
 	public void attachClean(TGoods instance) {
 		log.debug("attaching clean TGoods instance");
 		try {
-			getSession().lock(instance, LockMode.NONE);
+			getSession2().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
