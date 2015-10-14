@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ncshop.domain.OrderItemArr;
+import com.ncshop.domain.TAddress;
 import com.ncshop.domain.TGoods;
 import com.ncshop.domain.TGoodstype;
 import com.ncshop.domain.TOrder;
@@ -207,11 +208,7 @@ public class UserController {
 			}
 			request.getSession().setAttribute("odersdetails", orderdetails);
 			TUser user = (TUser) request.getSession().getAttribute("user");
-			if(user!=null&&user.getTAddresses()!=null){
-				request.setAttribute("address", "中国南车");
-			}
-			request.setAttribute("address", "中国南车");
-			request.getRequestDispatcher("/customer/MyOrder.jsp").forward(request, response);
+			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(request, response);
 			//判断该用户是否是老用户
 			
 			//跳转到个人信息页面(送餐地址，电话)
