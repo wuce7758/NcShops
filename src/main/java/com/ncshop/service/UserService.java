@@ -78,4 +78,16 @@ public class UserService {
 	public TGoods findgoodsById(String goodId) {
 		return goodsDao.findById(Integer.parseInt(goodId));
 	}
+
+	public TOrder findOrderById(String orderId) {
+		return orderDao.findById(Integer.parseInt(orderId));
+	}
+
+	public TUser findUserById(int userid) {
+		return userDao.findById(userid);
+	}
+
+	public boolean upadateOrder(String orderId) {
+		return orderDao.update(orderId);
+	}
 }

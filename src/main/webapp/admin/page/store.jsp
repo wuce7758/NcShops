@@ -10,7 +10,7 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta charset="utf-8" />
-<title>人员成长档案管理系统</title>
+<title>商城后台管理系统</title>
 
 <meta name="description" content="" />
 <meta name="viewport"

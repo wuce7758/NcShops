@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.classic.Session;
 import org.hibernate.criterion.SimpleExpression;
 
 public class BaseDao extends BaseHibernateDAO {
@@ -17,11 +18,11 @@ public class BaseDao extends BaseHibernateDAO {
 	 * @return
 	 */
 	public <T> List<T> getEntitiestNotLazy(T t, String[] fields,
-			SimpleExpression eq, int start, int max,boolean flag) {
-
+			SimpleExpression eq, int start, int max, boolean flag) {
+		Session session = getSessionFactory().openSession();
 		try {
-			Criteria criteria = getSession().createCriteria(t.getClass());
-
+			Criteria criteria = session.createCriteria(t.getClass());
+			criteria.setTimeout(1000);
 			if (fields != null) {
 				for (String string : fields) {
 					criteria = criteria.setFetchMode(string, FetchMode.JOIN);
@@ -41,6 +42,9 @@ public class BaseDao extends BaseHibernateDAO {
 			return criteria.list();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			System.out.println("close");
+			session.close();
 		}
 		return null;
 	}
