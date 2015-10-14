@@ -1,292 +1,218 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 
 <!DOCTYPE html>
 <html lang="en">
 
-	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-		<meta charset="utf-8" />
-		<title>Blank Page - Ace Admin</title>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<title>Blank Page - Ace Admin</title>
 
-		<meta name="description" content="" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<meta name="description" content="" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
-		<link rel="stylesheet" href="plugins/fonts/font-awesome.css" />
+<!-- bootstrap & fontawesome -->
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
+<link rel="stylesheet" href="plugins/fonts/font-awesome.css" />
 
-		<!-- page specific plugin styles -->
-		<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/jquery-ui.custom.css" />
-		<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/colorbox.css">
-		<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/chosen.css" />
-				
-		<!-- text fonts -->
-		<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
+<!-- page specific plugin styles -->
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/jquery-ui.custom.css" />
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/colorbox.css">
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/chosen.css" />
 
-		<!-- ace styles -->
-		<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+<!-- text fonts -->
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
 
-		<!--[if lte IE 9]>
+<!-- ace styles -->
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css"
+	class="ace-main-stylesheet" id="main-ace-style" />
+
+<!--[if lte IE 9]>
 			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" class="ace-main-stylesheet" />
 		<![endif]-->
 
-		<!--[if lte IE 9]>
+<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-ie.css" />
 		<![endif]-->
 
-		<!-- inline styles related to this page -->
+<!-- inline styles related to this page -->
 
-		<!-- ace settings handler -->
-		<script src="http://ace.zcdreams.com/assets/js/ace-extra.js"></script>
+<!-- ace settings handler -->
+<script src="http://ace.zcdreams.com/assets/js/ace-extra.js"></script>
 
-		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 
-		<!--[if lte IE 8]>
+<!--[if lte IE 8]>
 		<script src="http://ace.zcdreams.com/assets/js/html5shiv.js"></script>
 		<script src="http://ace.zcdreams.com/assets/js/respond.js"></script>
 		<![endif]-->
-	</head>
+</head>
 
-	<body class="no-skin">
-		<!-- #section:basics/navbar.layout -->
-		<div id="navbar" class="navbar navbar-default navbar-fixed-top">
+<body class="no-skin">
+	<!-- #section:basics/navbar.layout -->
+	<div id="navbar" class="navbar navbar-default">
+		<script type="text/javascript">
+			try {
+				ace.settings.check('navbar', 'fixed')
+			} catch (e) {
+			}
+		</script>
+
+		<div class="navbar-container" id="navbar-container">
+			<!-- #section:basics/sidebar.mobile.toggle -->
+			<button type="button" class="navbar-toggle menu-toggler pull-left"
+				id="menu-toggler" data-target="#sidebar">
+				<span class="sr-only">Toggle sidebar</span> <span class="icon-bar"></span>
+
+				<span class="icon-bar"></span> <span class="icon-bar"></span>
+			</button>
+
+			<!-- /section:basics/sidebar.mobile.toggle -->
+			<div class="navbar-header pull-left">
+				<!-- #section:basics/navbar.layout.brand -->
+				<a href="#" class="navbar-brand"> <small> <i
+						class="fa fa-leaf"></i> 欢迎光顾xx商店 </small> </a>
+
+				<!-- /section:basics/navbar.layout.brand -->
+
+				<!-- #section:basics/navbar.toggle -->
+
+				<!-- /section:basics/navbar.toggle -->
+			</div>
+
+			<!-- #section:basics/navbar.dropdown -->
+
+
+			<!-- /section:basics/navbar.dropdown -->
+		</div>
+		<!-- /.navbar-container -->
+	</div>
+
+	<!-- /section:basics/navbar.layout -->
+	<div class="main-container" id="main-container">
+		<script type="text/javascript">
+			try {
+				ace.settings.check('main-container', 'fixed')
+			} catch (e) {
+			}
+		</script>
+
+		<!-- #section:basics/sidebar 菜单-->
+		<div id="sidebar" class="sidebar                  responsive">
 			<script type="text/javascript">
 				try {
-					ace.settings.check('navbar', 'fixed')
-				} catch (e) {}
+					ace.settings.check('sidebar', 'fixed')
+				} catch (e) {
+				}
 			</script>
 
-			<div class="navbar-container" id="navbar-container">
-				<!-- #section:basics/sidebar.mobile.toggle -->
-				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
-					<span class="sr-only">Toggle sidebar</span>
+			<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+				<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+					<button class="btn btn-success">
+						<i class="ace-icon fa fa-signal"></i>
+					</button>
 
-					<span class="icon-bar"></span>
+					<button class="btn btn-info">
+						<i class="ace-icon fa fa-pencil"></i>
+					</button>
 
-					<span class="icon-bar"></span>
+					<!-- #section:basics/sidebar.layout.shortcuts -->
+					<button class="btn btn-warning">
+						<i class="ace-icon fa fa-users"></i>
+					</button>
 
-					<span class="icon-bar"></span>
-				</button>
-
-				<!-- /section:basics/sidebar.mobile.toggle -->
-				<div class="navbar-header pull-left">
-					<!-- #section:basics/navbar.layout.brand -->
-					<a href="#" class="navbar-brand">
-						<small>
-							<i class="fa fa-leaf"></i>
-							欢迎光顾xx商店
-						</small>
-					</a>
-
-					<!-- /section:basics/navbar.layout.brand -->
-
-					<!-- #section:basics/navbar.toggle -->
-
-					<!-- /section:basics/navbar.toggle -->
+					<button class="btn btn-danger">
+						<i class="ace-icon fa fa-cogs"></i>
+					</button>
+					<!-- /section:basics/sidebar.layout.shortcuts -->
 				</div>
 
-				<!-- #section:basics/navbar.dropdown -->
-				<div class="navbar-buttons navbar-header pull-right" role="navigation">
-					<ul class="nav ace-nav">
-						<li class="blue">
-							<a href="charge.aspx">
-								<i class="ace-icon fa fa-tasks"></i>
-								<span>费用</span>
-								<!-- <span class="badge badge-grey">4</span> -->
-							</a>
+				<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+					<span class="btn btn-success"></span> <span class="btn btn-info"></span>
 
-						</li>
-						<li class="blue">
-							<a href="charge.aspx">
-								<i class="ace-icon fa fa-tasks"></i>
-								<span>费用</span>
-								<!-- <span class="badge badge-grey">4</span> -->
-							</a>
-
-						</li>
-
-						<li class="blue">
-							<a href="about.aspx">
-								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
-								<span>关于</span>
-							</a>
-						</li>
-						<li class="blue">
-							<a href="about.aspx">
-								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
-								<span>关于</span>
-							</a>
-						</li>
-						<!-- #section:basics/navbar.user_menu -->
-						<!--<li class="light-blue">
-							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="../http://ace.zcdreams.com/assets/avatars/user.jpg" alt="Jason's Photo">
-								<span class="user-info">
-									<small>Welcome,</small>
-									张三
-								</span>
-
-								<i class="ace-icon fa fa-caret-down"></i>
-							</a>
-
-							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-								<li>
-									<a href="info.aspx">
-										<i class="ace-icon fa fa-user"></i> 个人消息
-									</a>
-								</li>
-
-								<li class="divider"></li>
-
-								<li>
-									<a href="index.aspx">
-										<i class="ace-icon fa fa-power-off"></i> Logout
-									</a>
-								</li>
-							</ul>
-						</li>-->
-
-						<!-- /section:basics/navbar.user_menu -->
-					</ul>
+					<span class="btn btn-warning"></span> <span class="btn btn-danger"></span>
 				</div>
-
-				<!-- /section:basics/navbar.dropdown -->
 			</div>
-			<!-- /.navbar-container -->
+			<!-- /.sidebar-shortcuts -->
+
+			<ul class="nav nav-list">
+				<li class=""><a href="index.html"> <i
+						class="menu-icon fa fa-tachometer"></i> <span class="menu-text">
+							Dashboard </span> </a> <b class="arrow"></b></li>
+				<li class=""><a href="index.html"> <i
+						class="menu-icon fa fa-tachometer"></i> <span class="menu-text">动态显示物品类别</span>
+				</a> <b class="arrow"></b></li>
+			</ul>
+			<!-- /.nav-list -->
+
+			<!-- #section:basics/sidebar.layout.minimize -->
+			<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+				<i class="ace-icon fa fa-angle-double-left"
+					data-icon1="ace-icon fa fa-angle-double-left"
+					data-icon2="ace-icon fa fa-angle-double-right"></i>
+			</div>
+
+			<!-- /section:basics/sidebar.layout.minimize -->
+			<script type="text/javascript">
+				try {
+					ace.settings.check('sidebar', 'collapsed')
+				} catch (e) {
+				}
+			</script>
 		</div>
 
-		<!-- /section:basics/navbar.layout -->
-		<div class="main-container" id="main-container">
-			<script type="text/javascript">
-				try {
-					ace.settings.check('main-container', 'fixed')
-				} catch (e) {}
-			</script>
+		<!-- /section:basics/sidebar 导航栏-->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<!-- #section:basics/content.breadcrumbs -->
+				<div class="breadcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
+						try {
+							ace.settings.check('breadcrumbs', 'fixed')
+						} catch (e) {
+						}
+					</script>
 
-			<!-- #section:basics/sidebar 菜单-->
-			<div id="sidebar" class="sidebar                  responsive">
-				<script type="text/javascript">
-					try {
-						ace.settings.check('sidebar', 'fixed')
-					} catch (e) {}
-				</script>
+					<ul class="breadcrumb">
+						<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">小二百货店</a>
+						</li>
+						<li class="active">生活用品</li>
+					</ul>
+					<!-- /.breadcrumb -->
 
-				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
-					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-						<button class="btn btn-success">
-							<i class="ace-icon fa fa-signal"></i>
-						</button>
-
-						<button class="btn btn-info">
-							<i class="ace-icon fa fa-pencil"></i>
-						</button>
-
-						<!-- #section:basics/sidebar.layout.shortcuts -->
-						<button class="btn btn-warning">
-							<i class="ace-icon fa fa-users"></i>
-						</button>
-
-						<button class="btn btn-danger">
-							<i class="ace-icon fa fa-cogs"></i>
-						</button>
-						<!-- /section:basics/sidebar.layout.shortcuts -->
+					<!-- #section:basics/content.searchbox -->
+					<div class="nav-search" id="nav-search">
+						<form class="form-search">
+							<span class="input-icon"> <input type="text"
+								placeholder="搜索..." class="nav-search-input"
+								id="nav-search-input" autocomplete="off" /> <i
+								class="ace-icon fa fa-search nav-search-icon"></i> </span>
+						</form>
 					</div>
+					<!-- /.nav-search -->
 
-					<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-						<span class="btn btn-success"></span>
-
-						<span class="btn btn-info"></span>
-
-						<span class="btn btn-warning"></span>
-
-						<span class="btn btn-danger"></span>
-					</div>
-				</div>
-				<!-- /.sidebar-shortcuts -->
-
-				<ul class="nav nav-list">
-					<li class="">
-						<a href="index.html">
-							<i class="menu-icon fa fa-tachometer"></i>
-							<span class="menu-text"> Dashboard </span>
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-					<li class="">
-						<a href="index.html">
-							<i class="menu-icon fa fa-tachometer"></i>
-							<span class="menu-text">动态显示物品类别</span>
-						</a>
-
-						<b class="arrow"></b>
-					</li>
-				</ul>
-				<!-- /.nav-list -->
-
-				<!-- #section:basics/sidebar.layout.minimize -->
-				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-					<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+					<!-- /section:basics/content.searchbox -->
 				</div>
 
-				<!-- /section:basics/sidebar.layout.minimize -->
-				<script type="text/javascript">
-					try {
-						ace.settings.check('sidebar', 'collapsed')
-					} catch (e) {}
-				</script>
-			</div>
+				<!-- /section:basics/content.breadcrumbs -->
+				<div class="page-content">
+					<div class="row">
+						<div id="goodsList" class="col-xs-12">
+							<!-- PAGE CONTENT BEGINS -->
 
-			<!-- /section:basics/sidebar 导航栏-->
-			<div class="main-content">
-				<div class="main-content-inner">
-					<!-- #section:basics/content.breadcrumbs -->
-					<div class="breadcrumbs" id="breadcrumbs">
-						<script type="text/javascript">
-							try {
-								ace.settings.check('breadcrumbs', 'fixed')
-							} catch (e) {}
-						</script>
-
-						<ul class="breadcrumb">
-							<li>
-								<i class="ace-icon fa fa-home home-icon"></i>
-								<a href="#">小二百货店</a>
-							</li>
-							<li class="active">生活用品</li>
-						</ul>
-						<!-- /.breadcrumb -->
-
-						<!-- #section:basics/content.searchbox -->
-						<div class="nav-search" id="nav-search">
-							<form class="form-search">
-								<span class="input-icon">
-									<input type="text" placeholder="搜索..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
-									<i class="ace-icon fa fa-search nav-search-icon"></i>
-								</span>
-							</form>
-						</div>
-						<!-- /.nav-search -->
-
-						<!-- /section:basics/content.searchbox -->
-					</div>
-
-					<!-- /section:basics/content.breadcrumbs -->
-					<div class="page-content">
-						<div class="row">
-							<div id="goodsList" class="col-xs-12">
-								<!-- PAGE CONTENT BEGINS -->
-								
-								<!-- PAGE CONTENT ENDS -->
-							</div>
-						</div>
-						<div>
-							<button>
-							</button>
+							<!-- PAGE CONTENT ENDS -->
 						</div>
 						<!-- /.col -->
 					</div>
@@ -297,276 +223,219 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<!-- /.main-content -->
 
-		<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+		<nav class="navbar navbar-default navbar-fixed-bottom"
+			role="navigation">
 			<ul class="nav navbar-nav">
-				<li class="green col-xs-4">
-					<a href="#">
-						<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-						<span>首页</span>
-					</a>
-				</li>
-				<li class="green col-xs-4">
-					<a href="#">
-						<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-						<span>订单</span>
-					</a>
-				</li>
-				<li class="green col-xs-4">
-					<a href="#">
-						<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
-						<span>我的</span>
-					</a>
-				</li>
+				<li class="green col-xs-3"><a href="#"> <i
+						class="ace-icon fa fa-list icon-animated-vertical"></i>
+				</a></li>
+				<li class="green col-xs-3"><a href="#"> <i
+						class="ace-icon fa fa-user icon-animated-vertical"></i>
+				</a></li>
+				<li class="green col-xs-6"><a href="#"> <i
+						class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i> <span>确认购买</span><span class="badge badge-red">4</span>
+				</a></li>
 			</ul>
 		</nav>
 
-		<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-			<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-		</a>
-		</div>
-		<!-- /.main-container -->
+		<a href="#" id="btn-scroll-up"
+			class="btn-scroll-up btn btn-sm btn-inverse"> <i
+			class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i> </a>
+	</div>
+	<!-- /.main-container -->
 
-		<!-- basic scripts -->
+	<!-- basic scripts -->
 
-		<!--[if !IE]> -->
-		<script type="text/javascript">
-			window.jQuery || document.write("<script src='http://ace.zcdreams.com/assets/js/jquery.js'>" + "<" + "/script>");
-		</script>
+	<!--[if !IE]> -->
+	<script type="text/javascript">
+		window.jQuery
+				|| document
+						.write("<script src='http://ace.zcdreams.com/assets/js/jquery.js'>"
+								+ "<" + "/script>");
+	</script>
 
-		<!-- <![endif]-->
+	<!-- <![endif]-->
 
-		<!--[if IE]>
+	<!--[if IE]>
 <script type="text/javascript">
  window.jQuery || document.write("<script src='http://ace.zcdreams.com/assets/js/jquery1x.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
-		<script type="text/javascript">
-			if ('ontouchstart' in document.documentElement) document.write("<script src='http://ace.zcdreams.com/assets/js/jquery.mobile.custom.js'>" + "<" + "/script>");
-		</script>
-		<script src="http://ace.zcdreams.com/assets/js/bootstrap.js"></script>
+	<script type="text/javascript">
+		if ('ontouchstart' in document.documentElement)
+			document
+					.write("<script src='http://ace.zcdreams.com/assets/js/jquery.mobile.custom.js'>"
+							+ "<" + "/script>");
+	</script>
+	<script src="http://ace.zcdreams.com/assets/js/bootstrap.js"></script>
 
-		<!-- page specific plugin scripts -->
-		<script src="plugins/infinite-scroll/jquery.infinitescroll.min.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/jquery.gritter.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/jquery.colorbox.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/jquery-ui.custom.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/jquery.ui.touch-punch.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/chosen.jquery.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/fuelux/fuelux.spinner.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/date-time/bootstrap-datepicker.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/date-time/bootstrap-timepicker.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/date-time/moment.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/date-time/daterangepicker.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/date-time/bootstrap-datetimepicker.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/bootstrap-colorpicker.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/jquery.knob.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/jquery.autosize.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/jquery.inputlimiter.1.3.1.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/jquery.maskedinput.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/bootstrap-tag.js"></script>
+	<!-- page specific plugin scripts -->
+	<script src="plugins/infinite-scroll/jquery.infinitescroll.min.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/jquery.gritter.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/jquery.colorbox.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.custom.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/jquery.ui.touch-punch.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/chosen.jquery.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/fuelux/fuelux.spinner.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/date-time/bootstrap-datepicker.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/date-time/bootstrap-timepicker.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/date-time/moment.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/date-time/daterangepicker.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/date-time/bootstrap-datetimepicker.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/bootstrap-colorpicker.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/jquery.knob.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/jquery.autosize.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/jquery.inputlimiter.1.3.1.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/jquery.maskedinput.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/bootstrap-tag.js"></script>
 
-		<!-- ace scripts -->
-		<script src="http://ace.zcdreams.com/assets/js/ace/elements.scroller.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/elements.colorpicker.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/elements.fileinput.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/elements.typeahead.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/elements.wysiwyg.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/elements.spinner.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/elements.treeview.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/elements.wizard.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/elements.aside.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/ace.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/ace.ajax-content.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/ace.touch-drag.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/ace.sidebar.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/ace.sidebar-scroll-1.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/ace.submenu-hover.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/ace.widget-box.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/ace.settings.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/ace.settings-rtl.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/ace.settings-skin.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/ace.widget-on-reload.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/ace/ace.searchbox-autocomplete.js"></script>
+	<!-- ace scripts -->
+	<script
+		src="http://ace.zcdreams.com/assets/js/ace/elements.scroller.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/ace/elements.colorpicker.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/ace/elements.fileinput.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/ace/elements.typeahead.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/elements.wysiwyg.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/elements.spinner.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/ace/elements.treeview.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/elements.wizard.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/elements.aside.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/ace.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/ace.ajax-content.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/ace.touch-drag.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/ace.sidebar.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/ace/ace.sidebar-scroll-1.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/ace/ace.submenu-hover.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/ace.widget-box.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/ace.settings.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/ace.settings-rtl.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/ace/ace.settings-skin.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/ace/ace.widget-on-reload.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/ace/ace.searchbox-autocomplete.js"></script>
 
-		<!-- inline scripts related to this page -->
-		<script type="text/javascript">
-			/* jQuery(function($) {
-				$('.spinner').ace_spinner({
-					value: 0,
-					min: 0,
-					max: 100,
-					step: 1,
-					on_sides: true,
-					icon_up: 'ace-icon fa fa-plus bigger-110',
-					icon_down: 'ace-icon fa fa-minus bigger-110',
-					btn_up_class: 'btn-success',
-					btn_down_class: 'btn-danger'
-				});
-			});
-			
-			$(document).ready(function() {
-				//无限加载刷新
-	  			$("#goodsList").infinitescroll({
-	       			navSelector: "#navigation",      //页面分页元素--本页的导航，意思就是一个可以触发ajax函数的模块
-	        		nextSelector: "#navigation a",  //下一页的导航
-	        		itemSelector: ".goods " ,             //此处我用了类选择器，选择的是你要加载的那一个块（每次载入的数据放的地方）      
-	        		animate: true,                          //加载时候时候需要动画，默认是false
-	        		maxPage: 3,                            //最大的页数，也就是滚动多少次停。这个页码必须得要你从数据库里面拿       
-	    			loadingText  : "Loading new posts...",            //加载时显示的文字     
-					extraScrollPx: 50,                                //离网页底部多少像素时触发ajax  
-					donetext     : "I think we've hit the end, Jim" , //加载完数据(到达底部时)显示的文字提醒  
-	    		}); 
-				//页面加载的时候初始化
-				$.get("user/findAllGoods", function(data) {
-					if (data == "{\"p") {} else {
-						$.gritter.add({
-							title: '出错啦!',
-							text: '不好意思，加载失败！',
-							sticky: true,
-							time: 1000,
-							speed: 10,
-							position: 'center',
-							class_name: 'gritter-dark'
-						});
-					}
-				});
-				//xxx按钮
-				$("#roleAddBtn").click(function() {
-					//post到后台
-					$.ajax({
-						cache: false,
-						type: "POST",
-						url: "authority.null.roleSingle.roleAdd.do",
-						datatype: "json",
-						data: "roleName=" + roleName +
-							"&roleType=" + roleType +
-							"&roleNodes=" + v,
-						async: true,
-						error: function(request) {
-							$.gritter.add({
-								title: '出错啦!',
-								text: '网络似乎有问题！',
-								sticky: true,
-								time: 1000,
-								speed: 10,
-								position: 'center',
-								class_name: 'gritter-light'
-							});
+	<!-- inline scripts related to this page -->
+	<script type="text/javascript">
+		var pageNum = "1";
+		var flag = 0;
+		function loadData() {
+			if (flag != 0) {
+				return;
+			}
+			$
+					.ajax({
+						type : "get",
+						url : "user/findAllGoods",
+						data : {
+							page : pageNum
 						},
-						success: function(data) {
-							if (data == "1") {} else {
-								$("#alertDiv strong").html("角色添加失败！！！");
-								$.gritter.add({
-									title: '出错啦!',
-									text: data,
-									sticky: true,
-									time: 1000,
-									speed: 10,
-									position: 'center',
-									class_name: 'gritter-light'
-								});
+						dataType : "json",
+						success : function(data) {
+							if (data.TGoods == null || data.TGoods.length < 1) {
+								flag = 1;
+								return;
+							}
+							if (data.TGoods.length < 10) {
+								flag = 1;
+							} else if (data.TGoods.length = 10) {
+								pageNum++;
+							}
+							for ( var i = 0; i < data.TGoods.length; i++) {
+								var item = "";
+								var item = "<div class='form-group col-xs-12 goods'>"
+										+ "<div class='col-xs-6'>"
+										+ "<img src='${pageContext.request.contextPath}/images/"+data.TGoods[i].goodsPic+"' class='img-responsive img-rounded' alt='Responsive image' />"
+										+ "</div>"
+										+ "<div class='col-xs-6'>"
+										+ "<p>"
+										+ data.TGoods[i].goodsName
+										+ "</p>"
+										+ "<p>"
+										+ data.TGoods[i].goodsPrice
+										+ "￥/一份</p>"
+										+ "<div class='ace-spinner middle touch-spinner' style='width: 125px;'>"
+										+ "<div class='input-group'><div class='spinbox-buttons input-group-btn'>"
+										+ "<button onClick='downclick(this)' type='button' class='btn spinbox-down btn-sm btn-danger'>"
+										+ "<i class='icon-only  ace-icon ace-icon fa fa-minus bigger-110'></i>"
+										+ "</button></div>"
+										+ "<input type='text' value='0' class='spinner form-control text-center' id='"+data.TGoods[i].goodsId+" '/>"
+										+ "<div class='spinbox-buttons input-group-btn'>"
+										+ "<button onClick='upclick(this)' type='button' class='btn spinbox-up btn-sm btn-success'>"
+										+ "<i class='icon-only  ace-icon ace-icon fa fa-plus bigger-110'></i>"
+										+ "</button>"
+										+ "</div>"
+										+ "</div>"
+										+ "</div>"
+										+ "</div>"
+										+ "<hr>"
+										+ "</div>";
+								if (i != data.TGoods.length) {
+									item += "<hr class='col-xs-12' style='margin-top:2px;margin-bottom:5px'>";
+								}
+								$("#goodsList").append(item);
 							}
 						}
 					});
-				});
-			}); */
-		</script>
-		<script type="text/javascript">
-			var pageNum="1";
-			var flag=0;
-			function loadData(){
-				if(flag!=0){
-					return;
-				}
-				$.ajax({
-					type:"get",
-					url:"user/findAllGoods",
-					data:{page:pageNum},
-					dataType:"json",
-					success:function(data){
-						if(data.TGoods==null||data.TGoods.length<1){
-							flag=1;
-							return;
-						}
-						if(data.TGoods.length<10){
-							flag=1;
-						}else if(data.TGoods.length=10){
-							pageNum++;
-						}
-						for(var i=0;i<data.TGoods.length;i++){
-							var item="";
-							var item="<div class='form-group col-xs-12 goods'>"+
-										"<div class='col-xs-6'>"+
-											"<img src='${pageContext.request.contextPath}/images/"+data.TGoods[i].goodsPic+"' class='img-responsive img-rounded' alt='Responsive image' />"+
-										"</div>"+
-										"<div class='col-xs-6'>"+
-											"<p>"+data.TGoods[i].goodsName+"</p>"+
-											"<p>"+data.TGoods[i].goodsPrice+"￥/一份</p>"+
-											"<div class='ace-spinner middle touch-spinner' style='width: 125px;'>"+
-												"<div class='input-group'><div class='spinbox-buttons input-group-btn'>"+
-													"<button onClick='downclick(this)' type='button' class='btn spinbox-down btn-sm btn-danger'>"+
-														"<i class='icon-only  ace-icon ace-icon fa fa-minus bigger-110'></i>"+
-													"</button></div>"+
-													"<input type='text' value='0' class='spinner form-control text-center' id='"+data.TGoods[i].goodsId+" '/>"+
-													"<div class='spinbox-buttons input-group-btn'>"+
-														"<button onClick='upclick(this)' type='button' class='btn spinbox-up btn-sm btn-success'>"+
-															"<i class='icon-only  ace-icon ace-icon fa fa-plus bigger-110'></i>"+
-														"</button>"+
-													"</div>"+
-												"</div>"+
-											"</div>"+
-										"</div>"+
-										"<hr>"+
-									"</div>";
-							if(i!=data.TGoods.length){
-								item+="<hr class='col-xs-12' style='margin-top:2px;margin-bottom:5px'>";
-							}
-							$("#goodsList").append(item);
-						}
-					}
-				});
+		}
+		function downclick(obj) {
+			debugger;
+			var input = $(obj).parent().siblings("input");
+			var value = input.val();
+			if (input.val() <= 1) {
+				input.val("0");
+			} else {
+				input.val(input.val() - 1);
 			}
-			function downclick(obj){
-				debugger;
-				var input=$(obj).parent().siblings("input");
-				var value=input.val();
-				if(input.val()<=1){
-					input.val("0");
-				}else{
-					input.val(input.val()-1);
-				}
+		}
+		function upclick(obj) {
+			debugger;
+			var input = $(obj).parent().siblings("input");
+			var value = input.val();
+			if (input.val() >= 100) {
+				input.val("100");
+			} else {
+				input.val(parseInt(value) + 1);
 			}
-			function upclick(obj){
-				debugger;
-				var input=$(obj).parent().siblings("input");
-				var value=input.val();
-				if(input.val()>=100){
-					input.val("100");
-				}else{
-					input.val(parseInt(value)+1);
-				}
-			}
-			$(function(){
-				loadData();
-				$(window).scroll(function(){
-					if($(document).height()-$(this).scrollTop()-$(this).height()<20){
-						loadData();
-					}
-				});
+		}
+		$(function() {
+			loadData();
+			$(window).scroll(
+					function() {
+						if ($(document).height() - $(this).scrollTop()
+								- $(this).height() < 20) {
+							loadData();
+						}
+					});
+		});
+		jQuery(function($) {
+			$('.spinner').ace_spinner({
+				value : 0,
+				min : 0,
+				max : 100,
+				step : 1,
+				on_sides : true,
+				icon_up : 'ace-icon fa fa-plus bigger-110',
+				icon_down : 'ace-icon fa fa-minus bigger-110',
+				btn_up_class : 'btn-success',
+				btn_down_class : 'btn-danger'
 			});
-			jQuery(function($) {
-				$('.spinner').ace_spinner({
-					value: 0,
-					min: 0,
-					max: 100,
-					step: 1,
-					on_sides: true,
-					icon_up: 'ace-icon fa fa-plus bigger-110',
-					icon_down: 'ace-icon fa fa-minus bigger-110',
-					btn_up_class: 'btn-success',
-					btn_down_class: 'btn-danger'
-				});
-			});
-		</script>
-	</body>
+		});
+	</script>
+</body>
 </html>
