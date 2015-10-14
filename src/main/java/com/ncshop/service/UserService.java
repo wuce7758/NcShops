@@ -96,11 +96,11 @@ public class UserService {
 	}
 
 	public List<TSellergoods> findGoodsdetail() {
-		List<TSellergoods> list = sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(), new String []{"TGoods","TSeller","TGoodstype"}, null,0,0,false);
+		List<TSellergoods> list = sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(), new String []{"TGoods","seller"}, null,0,0,false);
 		
 		for (TSellergoods tSellergoods : list) {
 			TGoods goods = tSellergoods.getTGoods();
-			TGoodstype findById = goodstypeDAO.findById(tSellergoods.getTGoods().getGoodsId());
+			TGoodstype findById = goodstypeDAO.findById(goods.getGoodsId());
 			goods.setTGoodstype(findById);
 			tSellergoods.setTGoods(goods);
 		}

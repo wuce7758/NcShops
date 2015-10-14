@@ -20,7 +20,7 @@ public class TSellergoods implements java.io.Serializable {
 
 	private Integer sellerGoodsId;
 	private TGoods TGoods;
-	private Integer sellerId;
+	private TSeller seller;
 	private Integer goodsInventory=0;
 	private Integer goodsSales=0;
 	private boolean isSale=true;
@@ -47,14 +47,14 @@ public class TSellergoods implements java.io.Serializable {
 		this.TGoods = TGoods;
 	}
 
-
-	@Column(name = "sellerId", length = 11)
-	public Integer getSellerId() {
-		return sellerId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "sellerId")
+	public TSeller getSeller() {
+		return seller;
 	}
 
-	public void setSellerId(Integer sellerId) {
-		this.sellerId = sellerId;
+	public void setSeller(TSeller seller) {
+		this.seller = seller;
 	}
 
 	@Column(name = "goodsInventory")
