@@ -1,6 +1,5 @@
 package com.ncshop.controlls;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.WxMpTemplateData;
+import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,6 +44,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	private WxMpInMemoryConfigStorage wxMpConfigStorage;
+	private WxMpService wxMpService;
+	private WxMpMessageRouter wxMpMessageRouter;
 
 	/**
 	 * 查找所有店铺信息
@@ -73,7 +77,7 @@ public class UserController {
 	@RequestMapping("/findSellergoods")
 	public void findSellergoods(String sellerId, HttpServletResponse response)
 			throws Exception {
-		TSeller seller=new TSeller();
+		TSeller seller = new TSeller();
 		seller.setSellerId(Integer.parseInt(sellerId));
 		// 调用service查找 数据库
 		List<TSellergoods> sellerGoodsList = userService
@@ -83,6 +87,7 @@ public class UserController {
 		response.setContentType("application/json");
 		response.getWriter().write(json);
 	}
+
 	/**
 	 * 查找店铺所有的商品
 	 * 
@@ -90,11 +95,9 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/findGoodsdetail")
-	public void findGoodsdetail(HttpServletResponse response)
-			throws Exception {
+	public void findGoodsdetail(HttpServletResponse response) throws Exception {
 		// 调用service查找 数据库
-		List<TSellergoods> sellerGoodsList = userService
-				.findGoodsdetail();
+		List<TSellergoods> sellerGoodsList = userService.findGoodsdetail();
 		String json = toJson(new TSellergoods(), sellerGoodsList, null);
 		// 设置response的传输格式为json
 		response.setContentType("application/json");
@@ -129,17 +132,19 @@ public class UserController {
 	 */
 	@RequestMapping("/findgoods")
 	public void findSellergoods(TGoodstype goodstype,
-			HttpServletResponse response,HttpServletRequest request) throws Exception {
+			HttpServletResponse response, HttpServletRequest request)
+			throws Exception {
 		try {
-			
+
 			String page = request.getParameter("page");
 			int pageCount;
-			List<TGoods> goodsList=null;
-			//分页查找
-			if(page!=null){
-				pageCount=Integer.parseInt(page);
+			List<TGoods> goodsList = null;
+			// 分页查找
+			if (page != null) {
+				pageCount = Integer.parseInt(page);
 				// 调用service查找 数据库
-				goodsList= userService.findgoods(goodstype,(pageCount-1)*10,10);
+				goodsList = userService.findgoods(goodstype,
+						(pageCount - 1) * 10, 10);
 			}
 			String json = toJson(new TGoods(), goodsList, null);
 			// 设置response的传输格式为json
@@ -158,16 +163,17 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/findAllGoods")
-	public void findGoods(HttpServletResponse response,HttpServletRequest request) {
+	public void findGoods(HttpServletResponse response,
+			HttpServletRequest request) {
 		try {
 			String page = request.getParameter("page");
 			System.out.println(page);
 			int pageCount;
-			List<TGoods> goodsList=null;
-			//分页查找
-			if(page!=null){
-				pageCount=Integer.parseInt(page);
-				goodsList= userService.findAllGoods((pageCount-1)*10,10);
+			List<TGoods> goodsList = null;
+			// 分页查找
+			if (page != null) {
+				pageCount = Integer.parseInt(page);
+				goodsList = userService.findAllGoods((pageCount - 1) * 10, 10);
 			}
 			String json = toJson(new TGoods(), goodsList, null);
 			// 设置response的传输格式为json
@@ -182,47 +188,46 @@ public class UserController {
 	 * 加入购物车
 	 */
 	@RequestMapping("/addOrders")
-	public String addCart(HttpServletRequest request,
+	public String addOrders(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		try {
 			TGoods goods;
 			TOrderdetail orderdetail;
 			String goodId;
-			String num ;
+			String num;
 			List<TempOrder> l_orderItems;
 			String json = request.getParameter("jsonString");
 			System.out.println(json);
-			Set<TOrderdetail> orderdetails=new HashSet<TOrderdetail>();
-			Gson gson=new Gson();
+			Set<TOrderdetail> orderdetails = new HashSet<TOrderdetail>();
+			Gson gson = new Gson();
 			OrderItemArr fromJson = gson.fromJson(json, OrderItemArr.class);
+
 			for (TempOrder item : fromJson.getArray()) {
-				goodId=item.getGoodsId();
-				num=item.getBuyMount();
-				goods=userService.findgoodsById(goodId);
-				orderdetail=new TOrderdetail();
+				goodId = item.getGoodsId();
+				num = item.getBuyMount();
+				goods = userService.findgoodsById(goodId);
+				orderdetail = new TOrderdetail();
 				orderdetail.setTGoods(goods);
 				orderdetail.setBuyMount(Integer.parseInt(num));
-				orderdetail.setBuyCost(Integer.parseInt(num)*goods.getGoodsPrice());
+				orderdetail.setBuyCost(Integer.parseInt(num)
+						* goods.getGoodsPrice());
 				orderdetails.add(orderdetail);
 			}
 			request.getSession().setAttribute("odersdetails", orderdetails);
+
+			TUser user = (TUser) request.getSession().getAttribute("user");
 			
-			//本地测试
-			TAddress address=new TAddress();
-			address.setAdsContent("nibanabjia");
-			address.setIsDefault(true);
-			List<TAddress> hashSet = new ArrayList<TAddress>();
-			hashSet.add(address);
-			request.setAttribute("address", hashSet);
-			//
-			
-			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(request, response);
-			
+			List<TAddress> address = userService.findAddress(user.getUserId());
+
+			request.setAttribute("address", address);
+			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
+					request, response);
+			return null;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return null;
 	}
 
@@ -232,8 +237,8 @@ public class UserController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/order")
-	public String order(HttpServletRequest request) {
+	@RequestMapping("/buy")
+	public String buy(HttpServletRequest request) {
 
 		try {
 			Set<TOrderdetail> odersdetails = (Set<TOrderdetail>) request
@@ -258,7 +263,16 @@ public class UserController {
 			if (userService.order(order)) {
 
 				initMessageContext();
+				WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
+				templateMessage.setToUser("");
+				templateMessage.setTemplateId("");
+				templateMessage.setUrl("");
+				templateMessage.setTopColor("");
+				templateMessage.getDatas().add(new WxMpTemplateData("", "", ""));
+				templateMessage.getDatas().add(new WxMpTemplateData("", "", ""));
 
+				wxMpService.templateSend(templateMessage);
+				
 				// 获取配送员OpenID，组织消息并发送
 
 				return null;
@@ -279,47 +293,50 @@ public class UserController {
 	 * @param response
 	 */
 	@RequestMapping("/addAddress")
-	public void bindInfo(TAddress address,HttpServletRequest request,
-			HttpServletResponse response) {
-
+	public void bindInfo(TAddress address, int userId,
+			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			//TUser user = (TUser) request.getSession().getAttribute("user");
-			TUser user=new TUser();
-			user.setUserId(1);
-			address.setUserId(1);
-			if (userService.updateAddress(user.getUserId(),address)) {
-				List<TAddress> findAddress = userService.findAddress(user.getUserId());
+			TUser user = (TUser) request.getSession().getAttribute("user");
+			if (userService.updateAddress(user.getUserId(), address)) {
+				List<TAddress> findAddress = userService.findAddress(2);
 				request.setAttribute("address", findAddress);
 				// 默认地址修改成功，跳转
-				request.getRequestDispatcher("/custom/MyOrder.jsp").forward(request, response);
+				request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
+						request, response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
+
+	/**
+	 * 审核订单
+	 * 
+	 * @param orderId
+	 */
 	@RequestMapping("/verifyOrder")
-	public void verifyOrder(String orderId){
-		
+	public void verifyOrder(String orderId) {
+
 		try {
-			
-			TOrder order=userService.findOrderById(orderId);
-			TUser user=userService.findUserById(order.getOrderId());
+
+			TOrder order = userService.findOrderById(orderId);
+			TUser user = userService.findUserById(order.getOrderId());
 			//
-			if(userService.upadateOrder(orderId)){
-				
+			if (userService.upadateOrder(orderId)) {
+
 			}
-			
-			//订单 审核，将订单已受理信息发给用户
+
+			// 订单 审核，将订单已受理信息发给用户
 			//
 			user.getOpenId();
 			initMessageContext();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
+
 	/**
 	 * 将集合转换成json
 	 * 
@@ -347,11 +364,8 @@ public class UserController {
 		System.out.println(json);
 		return json;
 	}
-	
-	private void initMessageContext(){
-		WxMpInMemoryConfigStorage wxMpConfigStorage;
-		WxMpService wxMpService;
-		WxMpMessageRouter wxMpMessageRouter;
+
+	private void initMessageContext() {
 		ConfigDao configDao = new ConfigDao();
 		ConfigInfo configInfo = configDao.GetConfig();
 		wxMpConfigStorage = new WxMpInMemoryConfigStorage();
