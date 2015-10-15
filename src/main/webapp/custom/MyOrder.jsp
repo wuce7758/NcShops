@@ -465,11 +465,14 @@
 			$("#orderPrice strong").text(price);
 		} */
 		var flag="${requestScope.address}";
-		$(document).ready(function(){
-			sum();
-			if(flag==""){
+		function changeStyle(){
+			if(flag.length<1){
 				$("#addAddress").css("display","inline");
 			}
+		}
+		$(document).ready(function(){
+			/* sum(); */
+			changeStyle();
 			$('#sureBuy').click(function (e) {
                 e.preventDefault();
                 $('#dialog_sureBuy_confirm').removeClass('hide').dialog({
