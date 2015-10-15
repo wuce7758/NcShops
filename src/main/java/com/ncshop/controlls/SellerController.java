@@ -137,7 +137,7 @@ public class SellerController {
 	 * 获取所有商品类型
 	 * @throws Exception
 	 */
-	@RequestMapping("/getGoodsType")
+	@RequestMapping("/getAllGoodsType")
 	public void getAllGoodsType(HttpServletResponse response) throws Exception {
 		// 调用service查找 数据库
 		List<TGoodstype> list=sellerService.getAllGoodsType();
