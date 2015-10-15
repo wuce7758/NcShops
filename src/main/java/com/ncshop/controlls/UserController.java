@@ -220,12 +220,15 @@ public class UserController {
 
 			request.setAttribute("allCost", allCost);
 			TUser user = (TUser) request.getSession().getAttribute("user");
-
-			TUser tempuser = userService.findUser(user.getOpenId());
 			List<TAddress> address = null;
 			if (user != null) {
-				address = userService.findAddress(tempuser.getUserId());
+				TUser tempuser = userService.findUser(user.getOpenId());
+				
+				if (tempuser != null) {
+					address = userService.findAddress(tempuser.getUserId());
+				}
 			}
+			TUser tempuser = userService.findUser("eee");
 			request.setAttribute("address", address);
 			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
 					request, response);
@@ -311,11 +314,11 @@ public class UserController {
 					request.getRequestDispatcher("/custom/MyOrder.jsp")
 							.forward(request, response);
 				}
-			}else{
+			} else {
 				address.setIsDefault(true);
-				userService.bind(user,address);
-				request.getRequestDispatcher("/custom/MyOrder.jsp")
-				.forward(request, response);
+				userService.bind(user, address);
+				request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
+						request, response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
