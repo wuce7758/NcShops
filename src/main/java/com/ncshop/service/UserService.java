@@ -81,8 +81,9 @@ public class UserService {
 				Restrictions.eq("TSellergoods", sellergoods), 0, 0, false);
 	}
 
-	public boolean bind(TUser user) {
+	public boolean bind(TUser user, TAddress address) {
 		try {
+			user.getTAddresses().add(address);
 			userDao.save(user);
 			return true;
 		} catch (Exception e) {
@@ -131,16 +132,16 @@ public class UserService {
 
 		try {
 			List<TAddress> findAll = findAddress(userId);
-			//获取用户的所有地址
+			// 获取用户的所有地址
 			for (TAddress tAddress : findAll) {
 
-				//将原来的默认地址取消
+				// 将原来的默认地址取消
 				if (tAddress.getIsDefault()) {
 					addressDAO.update(tAddress.getAddressId());
 				}
-				//如果改地址已存在
-				if(address.equals(tAddress)){
-					//设为默认地址
+				// 如果改地址已存在
+				if (address.equals(tAddress)) {
+					// 设为默认地址
 					addressDAO.updateTODefault(tAddress.getAddressId());
 				}
 			}
@@ -158,5 +159,14 @@ public class UserService {
 	public List<TAddress> findAddress(Integer userId) {
 
 		return addressDAO.findByProperty("userId", userId);
+	}
+
+	public TUser findUser(String openId) {
+		List<TUser> list = userDao.findByProperty("openId", openId);
+		if (list.size() < 1) {
+			return null;
+		} else {
+			return list.get(0);
+		}
 	}
 }
