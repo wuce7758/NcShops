@@ -252,9 +252,9 @@
 											</div>
 											<!-- 加载默认地址 -->
 											<c:choose>
-   												<c:when test="${address!=null||address!='' }">
+   												<c:when test="${address!=null }">
    													<c:forEach var="address" items="${address}">
-   														<c:if test="${address.isDefault==true }">
+   														<c:if test="${address.isDefault }">
 	   														<p><c:out value="地址：${address.adsContent }"></c:out></p>
 	   														<p><c:out value="接收人：${user.userName }"></c:out></p>
 	   														<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
@@ -263,22 +263,11 @@
    												</c:when>
    												<c:otherwise>
    													<font color='red'>
-   													<c:out value="您还没地址，请先设置地址!"></c:out>
+   														<c:out value="您还没地址，请先设置地址!"></c:out>
    													</font>
    												</c:otherwise>  
 											</c:choose>
-<<<<<<< HEAD
-											<form id="fromAddress" action="${pageContext.request.contextPath}/user/addAddress" role=from>
-												<div class="form-group">
-													<label class="col-xs-3 control-label no-padding-right"
-														for="userName">客户名称</label>
-
-													<div class="col-xs-9">
-														<input type="hidden" name="userId" value="${sessionScope.user.userId }"/>
-														<input type="text" name="receiveName" id="userName" placeholder="收货人" value="${sessionScope.user.userName }"
-															class="col-xs-12" />
-=======
-											<c:if test="${address!=null||address!='' }">
+											<div id="addAddress" style="display:none">
 												<form id="fromAddress" action="/user/addAddress" role=from>
 													<div class="form-group">
 														<label class="col-xs-3 control-label no-padding-right"
@@ -305,7 +294,6 @@
 															<input type="text" name="adsPhone" id="userPhone" placeholder="客户电话"
 																class="col-xs-12" />
 														</div>
->>>>>>> e19bfcb632afe9015198345adbcf460e02a0cb5f
 													</div>
 													<hr class="col-xs-12">
 													<button class="btn btn-white btn-info btn-bold col-xs-12">
@@ -313,7 +301,7 @@
 														<font>修改/保存</font>
 													</button>
 												</form>
-											</c:if>
+											</div>
 											<hr>
 											<p id="other" style="margin-top:5px"><font color="red">请详细确认订单信息后再确定订单！</font></p>
 										</div>
@@ -354,8 +342,7 @@
 				<li class="green col-xs-3"><a href="#"> <i
 						class="ace-icon fa fa-user icon-animated-vertical"></i> </a></li>
 				<li class="green col-xs-6"><a id="sureBuy" href="javascript.void(0)"> <i
-						class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i> <span>确认购买</span><span
-						class="badge badge-red">4</span> </a></li>
+						class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i> <span>确认购买</span></a></li>
 			</ul>
 		</nav>
 
@@ -463,9 +450,12 @@
 			} 
 			$("#orderPrice strong").text(price);
 		}
-		
+		var flag="${requestScope.address}";
 		$(document).ready(function(){
 			sum();
+			if(flag==""){
+				$("#addAddress").css("display","inline");
+			}
 			$('#sureBuy').click(function (e) {
                 e.preventDefault();
                 $('#dialog_sureBuy_confirm').removeClass('hide').dialog({
