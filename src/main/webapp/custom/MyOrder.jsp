@@ -267,13 +267,8 @@
    													</font>
    												</c:otherwise>  
 											</c:choose>
-<<<<<<< HEAD
-											<div id="addAddress">
-												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role=from>
-=======
 											<div id="addAddress" style="display:none">
-												<form id="fromAddress" action="/user/addAddress" role=from>
->>>>>>> 3a52ccfa3c1bdb0203e30c3ed166311345000937
+												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role=from>
 													<div class="form-group">
 														<label class="col-xs-3 control-label no-padding-right"
 															for="userName">客户名称</label>
