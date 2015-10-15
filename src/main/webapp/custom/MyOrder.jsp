@@ -42,7 +42,9 @@
 <!-- ace styles -->
 <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css"
 	class="ace-main-stylesheet" id="main-ace-style" />
-
+<style type="text/css">
+		.nav li a{padding:10px 3px}
+</style>
 <!--[if lte IE 9]>
 			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" class="ace-main-stylesheet" />
 		<![endif]-->
@@ -306,6 +308,7 @@
 										</div>
 
 										<div id="dialog_sureBuy_confirm" class="hide">
+											<font color="red">提示</font>
 											<div class="alert alert-info bigger-110">
 												确定要提交吗？此操作无法撤销！请谨慎操作！</div>
 											<div class="space-6"></div>
@@ -337,13 +340,15 @@
 			role="navigation">
 			<ul class="nav navbar-nav">
 				<li class="green col-xs-3">
-					<a href="/index.jsp">
-						<i class="ace-icon fa fa-list icon-animated-vertical"></i>
+					<a href="${pageContext.request.contextPath }/index.jsp">
+						<i class="ace-icon fa fa-home icon-animated-vertical"></i>
+						商品首页
 					</a>
 				</li>
 				<li class="green col-xs-3">
 					<a href="/person.jsp">
 						<i class="ace-icon fa fa-user icon-animated-vertical"></i>
+						个人中心
 					</a>
 				</li>
 				<li class="green col-xs-6">
