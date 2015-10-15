@@ -39,9 +39,16 @@ public class SellerService {
 	private TOrderDAO orderDao;
  
  
-	public List<TOrder> findSellerOrder(int openId, int orderState) {
+	@SuppressWarnings("unchecked")
+	public List<TOrder> findSellerOrder(int sellerId, int orderState) {
 		// TODO Auto-generated method stub 
-		return null; 
+		List<TOrder> list=null;
+		list=orderDao.findByString(sellerId, orderState);
+		if(list.size()>0){
+			return list;
+		}else{
+			return null;
+		}
 	} 
  
  
