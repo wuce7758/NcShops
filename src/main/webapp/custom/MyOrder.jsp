@@ -252,15 +252,9 @@
 											</div>
 											<!-- 加载默认地址 -->
 											<c:choose>
-<<<<<<< HEAD
-   												<c:when test="${address!=null}">
-   													<c:forEach var="address" items="${address}">
-   														<c:if test="${address.isDefault }">
-=======
    												<c:when test="${address!=null||address!='' }">
    													<c:forEach var="address" items="${address}">
    														<c:if test="${address.isDefault==true }">
->>>>>>> e19bfcb632afe9015198345adbcf460e02a0cb5f
 	   														<p><c:out value="地址：${address.adsContent }"></c:out></p>
 	   														<p><c:out value="接收人：${user.userName }"></c:out></p>
 	   														<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>

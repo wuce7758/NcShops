@@ -114,18 +114,17 @@ public class UserService {
 
 		for (TSellergoods tSellergoods : list) {
 			TGoods goods = tSellergoods.getTGoods();
-<<<<<<< HEAD
+
 			TGoods tempgGoods = goodsDao
 					.getEntitiestNotLazy(new TGoods(),
 							new String[] { "TGoodstype" },
 							Restrictions.eq("goodsId", goods.getGoodsId()), 0,
 							0, false).get(0);
 			tSellergoods.setTGoods(tempgGoods);
-=======
+
 			TGoodstype findById = goodstypeDAO.findById(goods.getGoodsId());
 			goods.setTGoodstype(findById);
 			tSellergoods.setTGoods(goods);
->>>>>>> e19bfcb632afe9015198345adbcf460e02a0cb5f
 		}
 		return list;
 	}
@@ -152,7 +151,7 @@ public class UserService {
 	}
 
 	public List<TAddress> findAddress(Integer userId) {
-		
+
 		return addressDAO.findByProperty("userId", userId);
 	}
 }
