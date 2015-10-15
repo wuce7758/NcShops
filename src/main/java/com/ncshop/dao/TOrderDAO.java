@@ -69,7 +69,7 @@ public class TOrderDAO extends BaseDao {
 	public List findAll() {
 		log.debug("finding all TOrder instances");
 		try {
-			return getHibernateTemplate().findByExample(new TOrder());
+			return getHibernateTemplate().find("from TOrder");
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

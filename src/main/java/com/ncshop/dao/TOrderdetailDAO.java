@@ -68,7 +68,7 @@ public class TOrderdetailDAO extends BaseDao {
 		log.debug("finding all TOrderdetail instances");
 		try {
 			String queryString = "from TOrderdetail";
-			return getHibernateTemplate().findByExample(new TOrderdetail());
+			return getHibernateTemplate().find(queryString);
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

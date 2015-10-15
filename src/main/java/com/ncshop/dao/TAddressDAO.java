@@ -70,7 +70,7 @@ public class TAddressDAO extends BaseDao {
 	public List findAll() {
 		log.debug("finding all TAddress instances");
 		try {
-			return getHibernateTemplate().findByExample(new TAddress());
+			return getHibernateTemplate().find("from TAddress");
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

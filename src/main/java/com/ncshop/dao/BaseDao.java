@@ -42,7 +42,6 @@ public class BaseDao extends BaseHibernateDAO {
 			}
 			// 判断是否分页
 			if (flag) {
-
 				criteria.setFirstResult(start);
 				criteria.setMaxResults(max);
 			}

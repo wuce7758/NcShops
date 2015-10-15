@@ -95,13 +95,15 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/findGoodsdetail")
-	public void findGoodsdetail(HttpServletResponse response) throws Exception {
+	public void findGoodsdetail(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		// 调用service查找 数据库
 		List<TSellergoods> sellerGoodsList = userService.findGoodsdetail();
 		String json = toJson(new TSellergoods(), sellerGoodsList, null);
-		// 设置response的传输格式为json
-		response.setContentType("application/json");
-		response.getWriter().write(json);
+		request.setAttribute("goodDetail", sellerGoodsList);
+		request.getRequestDispatcher("/admin/goods.jsp").forward(request,
+				response);
+		return;
 	}
 
 	/**
@@ -223,7 +225,7 @@ public class UserController {
 			List<TAddress> address = null;
 			if (user != null) {
 				TUser tempuser = userService.findUser(user.getOpenId());
-				
+
 				if (tempuser != null) {
 					address = userService.findAddress(tempuser.getUserId());
 				}

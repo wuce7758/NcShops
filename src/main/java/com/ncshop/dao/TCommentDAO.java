@@ -68,7 +68,7 @@ public class TCommentDAO extends BaseDao {
 		log.debug("finding all TComment instances");
 		try {
 			String queryString = "from TComment";
-			return getHibernateTemplate().findByExample(new TComment());
+			return getHibernateTemplate().find(queryString);
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;

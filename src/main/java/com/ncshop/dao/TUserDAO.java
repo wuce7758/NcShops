@@ -77,7 +77,7 @@ public class TUserDAO extends BaseDao {
 		log.debug("finding all TUser instances");
 		try {
 			String queryString = "from TUser";
-			return getHibernateTemplate().findByExample(new TUser());
+			return getHibernateTemplate().find(queryString);
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
