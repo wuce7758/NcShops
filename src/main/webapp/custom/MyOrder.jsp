@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -226,24 +227,32 @@
 										<div class="widget-main">
 											<ul class="list-unstyled spaced2">
 												<!-- 循环遍历域里的数据 -->
-												<c:forEach var="orderdetail" items="${odersdetails }">
-													<li>
-														<i class="ace-icon fa fa-check green"></i>
-															${orderdetail.TGoods.goodsName }-
-															${orderdetail.buyMount }个-单价
-															${orderdetail.TGoods.goodsPrice }元-总价
-															${orderdetail.buyCost }元
-													</li>
-												</c:forEach>
+												<table style="width:100%">
+													<c:forEach var="orderdetail" items="${odersdetails }">
+														<tr>
+															<td style="width:70%">
+																<i class="ace-icon fa fa-check green"></i>
+																${orderdetail.TGoods.goodsName }
+														</td>
+														<td style="width:10%">
+															x${orderdetail.buyMount }
+														</td>
+														<td style="width:20%;text-align:right">
+																￥<font class="buyCost">${orderdetail.buyCost }</font>
+														</td>
+														</tr>
+													</c:forEach>
+												</table>
 											</ul>
 
 											<hr />
 											<div id="orderPrice" class="price">
-												共计 <strong>15</strong> <small>元</small>
+												共计 <strong>0
+												</strong> <small>元</small>
 											</div>
 											<!-- 加载默认地址 -->
 											<c:choose>
-   												<c:when test="${user.TAddresses!=null||user.TAddresses!='' }">
+   												<c:when test="${user.TAddresses!=null}">
    													<c:forEach var="address" items="${user.TAddresses}">
    														<c:if test="${address.isDefault==true }">
 	   														<c:out value="<p>地址：${address.adsContent }</p>"></c:out>
@@ -253,16 +262,19 @@
    													</c:forEach>
    												</c:when>
    												<c:otherwise>
+   													<font color='red'>
    													<c:out value="您还没地址，请先设置地址!"></c:out>
+   													</font>
    												</c:otherwise>  
 											</c:choose>
-											<form id="fromAddress" role=from>
+											<form id="fromAddress" action="/user/addAddress" role=from>
 												<div class="form-group">
 													<label class="col-xs-3 control-label no-padding-right"
 														for="userName">客户名称</label>
 
 													<div class="col-xs-9">
-														<input type="text" id="userName" placeholder="客户名称"
+														<input type="hidden" name="userId" value="${sessionScope.user.userId }"/>
+														<input type="text" name="receiveName" id="userName" placeholder="收货人" value="${sessionScope.user.userName }"
 															class="col-xs-12" />
 													</div>
 													<hr class="col-xs-12">
@@ -270,7 +282,7 @@
 														for="userAddress">客戶地址</label>
 
 													<div class="col-xs-9">
-														<input type="text" id="userAddress" placeholder="客户地址"
+														<input type="text" name="adsContent" id="userAddress" placeholder="客户地址"
 															class="col-xs-12" />
 													</div>
 													<hr class="col-xs-12">
@@ -278,7 +290,7 @@
 														for="userPhone">客戶电话</label>
 
 													<div class="col-xs-9">
-														<input type="text" id="userPhone" placeholder="客户电话"
+														<input type="text" name="adsPhone" id="userPhone" placeholder="客户电话"
 															class="col-xs-12" />
 													</div>
 												</div>
@@ -428,16 +440,18 @@
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
 		var price=0;
-		var list="${orderdetails}";
+		var array=$(".buyCost");
 		function sum(){
 			debugger;
-			for(var i=0;i<list.length;i++){
-				price=price+list[i].buyCost;
-			}
+			for(var i=0;i<array.length;i++){
+				var item=array[i].textContent;
+				price=parseFloat(price)+parseFloat(item);
+			} 
 			$("#orderPrice strong").text(price);
 		}
 		
 		$(document).ready(function(){
+			sum();
 			$('#sureBuy').click(function (e) {
                 e.preventDefault();
                 $('#dialog_sureBuy_confirm').removeClass('hide').dialog({

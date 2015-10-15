@@ -52,7 +52,7 @@ public class SellerService {
 		TSellergoods sellergoods=new TSellergoods();
 		goods.setTGoodstype(goodsType);
 		sellergoods.setTGoods(goods);
-		sellergoods.setSellerId(sellerId);
+		sellergoods.setSeller(seller);
 		goodsDao.save(goods);
 		sellergoodsDao.save(sellergoods);
 	} 
@@ -128,5 +128,12 @@ public class SellerService {
 	public void deleteGoods(TGoods goods) {
 		// TODO Auto-generated method stub
 		goodsDao.delete(goods);
+	}
+
+
+	@SuppressWarnings("unchecked")
+	public List<TGoodstype> getAllGoodsType() {
+		// TODO Auto-generated method stub
+		return goodstypeDao.findAll();
 	}
 } 
