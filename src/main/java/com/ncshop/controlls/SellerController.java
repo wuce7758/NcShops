@@ -140,10 +140,7 @@ public class SellerController {
 		// 调用service查找 数据库
 		List<TGoodstype> list=sellerService.getAllGoodsType();
 		String json=toJson(new TGoodstype(),list,null);
-<<<<<<< HEAD
 		response.setContentType("application/json");
-=======
-		response.setContentType("html/json");
 		response.getWriter().write(json);
 	}
 	/**
@@ -155,8 +152,7 @@ public class SellerController {
 		// 调用service查找 数据库
 		List<TSeller> list=sellerService.getAllSeller();
 		String json=toJson(new TSeller(),list,null);
-		response.setContentType("html/json");
->>>>>>> 454930c503ed9b6789b83220b2228cca51cd5e89
+		response.setContentType("application/json");
 		response.getWriter().write(json);
 	}
 	

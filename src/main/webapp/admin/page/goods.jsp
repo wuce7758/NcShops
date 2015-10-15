@@ -103,31 +103,14 @@ request.getServerPort() + path + "/"; %>
 			</div>
 			<jsp:include page="../WebPart/Script.jsp"></jsp:include>
 			<!-- page specific plugin scripts -->
+			<script src="http://ace.zcdreams.com/assets/js/jquery-2.0.3.min.js"></script>
 			<script src="http://ace.zcdreams.com/assets/js/jquery.gritter.js"></script>
 			<script src="http://ace.zcdreams.com/assets/js/date-time/bootstrap-datepicker.js"></script>
 			<script src="http://ace.zcdreams.com/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
 			<script src="http://ace.zcdreams.com/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
 			<!-- inline scripts related to this page -->
-			<script type="text/javascript">
-				$(document).ready(function() {
-					$('.goodsPic').click(function() {
-						//图片名称
-						var picname = this.name;
-						alert(picname);
-						//显示图片
-						$.gritter.add({
-							title: "商品图片",
-							text: "<img width='100px' height='100px' src='http://d.hiphotos.baidu.com/zhidao/wh%3D800%2C450/sign=3915b125a20f4bfb8c85965c337f54c4/cdbf6c81800a19d807295abf35fa828ba61e4666.jpg'>",
-							sticky: true,
-							time: 10000,
-							speed: 10,
-							position: 'center',
-							class_name: 'gritter-dark'
-						});
-					});
-				});
-				
-				//获取所有商品
+			<script type="text/javascript">	
+				 //获取所有商品
 				var goods_data;
 				$.ajax({
 					type: "post",
@@ -138,7 +121,7 @@ request.getServerPort() + path + "/"; %>
 						goods_data = JSON.stringify(data.TSellergoods);
 					}
 				});
-				//获取商品类型
+				 //获取商品类型
 				var goods_type = "";
 				$.ajax({
 					type: "post",
@@ -148,13 +131,30 @@ request.getServerPort() + path + "/"; %>
 					success: function(data) {
 						var goods_types = JSON.stringify(data.TGoodstype);
 						var obj = JSON.parse(goods_types);
-						for(var i = 0;i < obj.length;i++){
+						for (var i = 0; i < obj.length; i++) {
 							goods_type += obj[i].goodsTypeId + ":" + obj[i].goodsTypeName;
-							if(i < obj.length - 1){
+							if (i < obj.length - 1) {
 								goods_type += ";";
 							}
 						}
-						alert(goods_type);
+					}
+				});
+				 //获取商家
+				var seller_list = "";
+				$.ajax({
+					type: "post",
+					url: "../../seller/getAllSeller",
+					data: "hello" + "world!",
+					async: false,
+					success: function(data) {
+						var sellers = JSON.stringify(data.TSeller);
+						var obj = JSON.parse(sellers);
+						for (var i = 0; i < obj.length; i++) {
+							seller_list += obj[i].sellerId + ":" + obj[i].shopName;
+							if (i < obj.length - 1) {
+								seller_list += ";";
+							}
+						}
 					}
 				});
 				var grid_data = JSON.parse(goods_data);
@@ -191,7 +191,7 @@ request.getServerPort() + path + "/"; %>
 					name: "sub grid item 8",
 					qty: 8
 				}];
-				jQuery(function($) {
+				jQuery(function($) {					
 					var grid_selector = "#grid-table";
 					var pager_selector = "#grid-pager";
 					//resize to fit page size
@@ -256,7 +256,7 @@ request.getServerPort() + path + "/"; %>
 						data: grid_data,
 						datatype: "local",
 						height: 250,
-						colNames: [' ', 'ID', '名称', '商家' , '价格', '类型', '图片', '简介'],
+						colNames: [' ', 'ID', '名称', '商家', '单价', '类型', '图片', '简介'],
 						colModel: [{
 								name: 'myac',
 								index: '',
@@ -280,7 +280,7 @@ request.getServerPort() + path + "/"; %>
 								width: 30,
 								sorttype: "int",
 								editable: false
-							},{
+							}, {
 								name: 'TGoods.goodsName',
 								index: 'TGoods.goodsName',
 								width: 80,
@@ -296,8 +296,7 @@ request.getServerPort() + path + "/"; %>
 								editable: true,
 								edittype: "select",
 								editoptions: {
-									size: "20",
-									maxlength: "20"
+									value: seller_list
 								}
 							}, {
 								name: 'TGoods.goodsPrice',
@@ -306,27 +305,25 @@ request.getServerPort() + path + "/"; %>
 								sorttype: "int",
 								editable: true,
 								edittype: "text",
-								/* editoptions: {
-									value: "Yes:No"
-								}, */
 								unformat: aceSwitch
 							}, {
 								name: 'TGoods.TGoodstype.goodsTypeName',
 								index: 'TGoods.TGoodstype.goodsTypeName',
-								width: 70,
+								width: 80,
 								editable: true,
 								edittype: "select",
 								editoptions: {
-									value:goods_type
+									value: goods_type
 								}
 							}, {
 								name: 'TGoods.goodsPic',
 								index: 'TGoods.goodsPic',
 								width: 100,
 								editable: true,
-								edittype:"file",
+								editoptions: {enctype: "multipart/form-data"},
+								edittype: "file",
 								formatter: function(cellvalue, option, rowObject) {
-									return "<a href='javascript:void(0)' name='" + cellvalue + "'><span calss='goodsPic'>查看</span></a>";
+									return "<a href='javascript:void(0)' calss='goodsPic' name='" + cellvalue + "'>查看</a>";
 								}
 							},
 							/* {name:'goodsPic',index:'goodsPic', width:50, editable: true, formatter:function(cellvalue,option,rowObject){
@@ -342,7 +339,7 @@ request.getServerPort() + path + "/"; %>
 								edittype: "textarea",
 								editoptions: {
 									rows: "2",
-									cols: "100"
+									cols: "30"
 								}
 							}
 						],
@@ -379,6 +376,7 @@ request.getServerPort() + path + "/"; %>
 							caption: "Grouping"
 							*/
 					});
+					
 					$(window).triggerHandler('resize.jqGrid'); //trigger window resize to make the grid get the correct size
 					//enable search/filter toolbar
 					//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
@@ -416,7 +414,13 @@ request.getServerPort() + path + "/"; %>
 						refreshicon: 'ace-icon fa fa-refresh green',
 						view: true,
 						viewicon: 'ace-icon fa fa-search-plus grey',
-					}, {
+					},{
+    					jqModal:true,closeAfterEdit: true,recreateForm:true,onInitializeForm : function(formid){
+    						$(formid).attr('method','POST');
+     						$(formid).attr('action','');
+     						$(formid).attr('enctype','multipart/form-data');
+    					}
+    				}, {
 						//edit record form
 						//closeAfterEdit: true,
 						//width: 700,
@@ -438,6 +442,7 @@ request.getServerPort() + path + "/"; %>
 								.wrapInner('<div class="widget-header" />')
 							style_edit_form(form);
 						}
+						//$('#FrmGrid_grid-table').attr('','')
 					}, {
 						//delete record form
 						recreateForm: true,
@@ -596,6 +601,27 @@ request.getServerPort() + path + "/"; %>
 						$('.ui-jqdialog').remove();
 					});
 				});
+			</script>
+			<script>
+			$(document).ready(function(){
+				$(".goodsPic").click(function() {
+					debugger;
+					//图片名称
+					var picname = this.name;
+					alert(picname);
+					//显示图片
+					$.gritter.add({
+						title: "商品图片",
+						text: "<img width='100px' height='100px' src='http://d.hiphotos.baidu.com/zhidao/wh%3D800%2C450/sign=3915b125a20f4bfb8c85965c337f54c4/cdbf6c81800a19d807295abf35fa828ba61e4666.jpg'>",
+						sticky: true,
+						time: 10000,
+						speed: 10,
+						position: 'center',
+						class_name: 'gritter-dark'
+					});
+				});
+				alert("123");
+			});
 			</script>
 		</body>
 
