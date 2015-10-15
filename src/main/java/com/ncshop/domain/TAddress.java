@@ -22,6 +22,7 @@ public class TAddress implements java.io.Serializable {
 	private Integer userId;
 	private String adsContent;
 	private String adsPhone;
+	private String receiverName;
 	private boolean	isDefault;
 
 	// Property accessors
@@ -63,7 +64,15 @@ public class TAddress implements java.io.Serializable {
 	public void setAdsPhone(String adsPhone) {
 		this.adsPhone = adsPhone;
 	}
+	@Column(name="receiverName",length=100)
+	public String getReceiverName() {
+		return receiverName;
+	}
 
+	public void setReceiverName(String receiverName) {
+		this.receiverName = receiverName;
+	}
+	@Column(name="isDefault",length=1)
 	public boolean getIsDefault() {
 		return isDefault;
 	}
