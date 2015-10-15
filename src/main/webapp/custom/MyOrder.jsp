@@ -267,7 +267,22 @@
    													</font>
    												</c:otherwise>  
 											</c:choose>
+<<<<<<< HEAD
 											<div id="addAddress" style="display:none">
+=======
+<<<<<<< HEAD
+											<form id="fromAddress" action="${pageContext.request.contextPath}/user/addAddress" role=from>
+												<div class="form-group">
+													<label class="col-xs-3 control-label no-padding-right"
+														for="userName">客户名称</label>
+
+													<div class="col-xs-9">
+														<input type="hidden" name="userId" value="${sessionScope.user.userId }"/>
+														<input type="text" name="receiveName" id="userName" placeholder="收货人" value="${sessionScope.user.userName }"
+															class="col-xs-12" />
+=======
+											<c:if test="${address!=null||address!='' }">
+>>>>>>> 0a6ae41aecb27ee932d9d63dc756d5ae9dc7040b
 												<form id="fromAddress" action="/user/addAddress" role=from>
 													<div class="form-group">
 														<label class="col-xs-3 control-label no-padding-right"
@@ -294,6 +309,7 @@
 															<input type="text" name="adsPhone" id="userPhone" placeholder="客户电话"
 																class="col-xs-12" />
 														</div>
+>>>>>>> e19bfcb632afe9015198345adbcf460e02a0cb5f
 													</div>
 													<hr class="col-xs-12">
 													<button class="btn btn-white btn-info btn-bold col-xs-12">

@@ -29,8 +29,6 @@ import com.ncshop.util.TargetStrategy;
 public class SellerController {
 
 	@Autowired
-	private UserService userService;
-	@Autowired
 	private SellerService sellerService;
 
 	/**

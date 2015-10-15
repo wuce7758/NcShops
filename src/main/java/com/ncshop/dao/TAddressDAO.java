@@ -1,13 +1,16 @@
 package com.ncshop.dao;
 
+import java.nio.channels.SeekableByteChannel;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.ncshop.domain.TAddress;
+import com.ncshop.domain.TOrder;
 
 import static org.hibernate.criterion.Example.create;
 
@@ -79,17 +82,21 @@ public class TAddressDAO extends BaseDao {
 	}
 
 	public List findByProperty(String propertyName, Object value) {
+		
+		Session session=getSession2();
 		log.debug("finding TAddress instance with property: " + propertyName
 				+ ", value: " + value);
 		try {
 			String queryString = "from TAddress as model where model."
 					+ propertyName + "= ?";
-			Query queryObject = getSession2().createQuery(queryString);
+			Query queryObject = session.createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);
 			throw re;
+		}finally{
+			session.close();
 		}
 	}
 
@@ -145,5 +152,25 @@ public class TAddressDAO extends BaseDao {
 			log.error("attach failed", re);
 			throw re;
 		}
+	}
+
+	public boolean update(Integer addressId) {
+		
+		Session session = getSessionFactory().openSession();
+		try { 
+			 
+			session.beginTransaction();
+			TAddress load = (TAddress) session.load(TAddress.class, addressId);
+			load.setIsDefault(false);
+			session.update(load);
+			session.getTransaction().commit();
+			return true; 
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+			return false; 
+		}finally{ 
+			session.close();
+		} 
 	}
 }

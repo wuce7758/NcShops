@@ -1,7 +1,7 @@
 package com.ncshop.controlls;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -207,13 +207,16 @@ public class UserController {
 				orderdetails.add(orderdetail);
 			}
 			request.getSession().setAttribute("odersdetails", orderdetails);
+			
+			//本地测试
 			TAddress address=new TAddress();
 			address.setAdsContent("nibanabjia");
-			HashSet<TAddress> hashSet = new HashSet<TAddress>();
+			address.setIsDefault(true);
+			List<TAddress> hashSet = new ArrayList<TAddress>();
 			hashSet.add(address);
-			TUser user = new TUser();
-			user.setTAddresses(hashSet);
-			request.getSession().setAttribute("user", user);
+			request.setAttribute("address", hashSet);
+			//
+			
 			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(request, response);
 			
 		} catch (Exception e) {
@@ -275,16 +278,20 @@ public class UserController {
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping("/bind")
-	public void bindInfo(TUser user, HttpServletRequest request,
+	@RequestMapping("/addAddress")
+	public void bindInfo(TAddress address,HttpServletRequest request,
 			HttpServletResponse response) {
 
 		try {
-			TUser usermark = (TUser) request.getSession().getAttribute("user");
-			user.setOpenId(usermark.getOpenId());
-			if (userService.bind(user)) {
-				// 信息填写成功，跳转
-				request.getRequestDispatcher("").forward(request, response);
+			//TUser user = (TUser) request.getSession().getAttribute("user");
+			TUser user=new TUser();
+			user.setUserId(1);
+			address.setUserId(1);
+			if (userService.updateAddress(user.getUserId(),address)) {
+				List<TAddress> findAddress = userService.findAddress(user.getUserId());
+				request.setAttribute("address", findAddress);
+				// 默认地址修改成功，跳转
+				request.getRequestDispatcher("/custom/MyOrder.jsp").forward(request, response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
