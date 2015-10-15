@@ -196,13 +196,14 @@ public class UserController {
 			TOrderdetail orderdetail;
 			String goodId;
 			String num;
-			List<TempOrder> l_orderItems;
 			String json = request.getParameter("jsonString");
 			System.out.println(json);
 			Set<TOrderdetail> orderdetails = new HashSet<TOrderdetail>();
 			Gson gson = new Gson();
 			OrderItemArr fromJson = gson.fromJson(json, OrderItemArr.class);
 
+			double allCost = 0;
+			double cost = 0;
 			for (TempOrder item : fromJson.getArray()) {
 				goodId = item.getGoodsId();
 				num = item.getBuyMount();
@@ -210,16 +211,21 @@ public class UserController {
 				orderdetail = new TOrderdetail();
 				orderdetail.setTGoods(goods);
 				orderdetail.setBuyMount(Integer.parseInt(num));
-				orderdetail.setBuyCost(Integer.parseInt(num)
-						* goods.getGoodsPrice());
+				cost = Integer.parseInt(num) * goods.getGoodsPrice();
+				orderdetail.setBuyCost(cost);
+				allCost += cost;
 				orderdetails.add(orderdetail);
 			}
 			request.getSession().setAttribute("odersdetails", orderdetails);
 
+			request.setAttribute("allCost", allCost);
 			TUser user = (TUser) request.getSession().getAttribute("user");
-			
-			List<TAddress> address = userService.findAddress(user.getUserId());
 
+			TUser tempuser = userService.findUser(user.getOpenId());
+			List<TAddress> address = null;
+			if (user != null) {
+				address = userService.findAddress(tempuser.getUserId());
+			}
 			request.setAttribute("address", address);
 			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
 					request, response);
@@ -244,37 +250,37 @@ public class UserController {
 			Set<TOrderdetail> odersdetails = (Set<TOrderdetail>) request
 					.getSession().getAttribute("odersdetails");
 			double orderTotalCost = 0.0;
+			TUser user = (TUser) request.getSession().getAttribute("user");
+			initMessageContext();
+			WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
+			templateMessage.setToUser(user.getOpenId());
+			templateMessage
+					.setTemplateId("J80K1Uw6c_xDOy-D1btyuPNoi_nKgITtEV3tiwA_bzw");
+			templateMessage.setUrl("www.baidu.com");
+			templateMessage.setTopColor("#ff0000");
 			// 计算总金额
 			for (Iterator iterator = odersdetails.iterator(); iterator
 					.hasNext();) {
 				TOrderdetail tOrderdetail = (TOrderdetail) iterator.next();
 				orderTotalCost = tOrderdetail.getBuyCost()
 						* tOrderdetail.getBuyMount();
+				templateMessage.getDatas().add(
+						new WxMpTemplateData(tOrderdetail.getTGoods()
+								.getGoodsName(), tOrderdetail.getBuyMount()
+								+ " 份", "#173177"));
 			}
-
-			TUser user = (TUser) request.getSession().getAttribute("user");
 
 			TOrder order = new TOrder();
 			order.setOrderState(0);
 			order.setOrderTotalCost(orderTotalCost);
 			order.setTOrderdetails(odersdetails);
 			order.setOrderTime(new Date());
-
 			if (userService.order(order)) {
-
-				initMessageContext();
-				WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
-				templateMessage.setToUser("");
-				templateMessage.setTemplateId("");
-				templateMessage.setUrl("");
-				templateMessage.setTopColor("");
-				templateMessage.getDatas().add(new WxMpTemplateData("", "", ""));
-				templateMessage.getDatas().add(new WxMpTemplateData("", "", ""));
-
+				// 给用户发送消息
+				templateMessage.getDatas().add(
+						new WxMpTemplateData("下单成功", orderTotalCost + "",
+								"#ff000"));
 				wxMpService.templateSend(templateMessage);
-				
-				// 获取配送员OpenID，组织消息并发送
-
 				return null;
 			}
 			return null;
@@ -297,12 +303,19 @@ public class UserController {
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
 			TUser user = (TUser) request.getSession().getAttribute("user");
-			if (userService.updateAddress(user.getUserId(), address)) {
-				List<TAddress> findAddress = userService.findAddress(2);
-				request.setAttribute("address", findAddress);
-				// 默认地址修改成功，跳转
-				request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
-						request, response);
+			if (user.getUserId() != null) {
+				if (userService.updateAddress(user.getUserId(), address)) {
+					List<TAddress> findAddress = userService.findAddress(2);
+					request.setAttribute("address", findAddress);
+					// 默认地址修改成功，跳转
+					request.getRequestDispatcher("/custom/MyOrder.jsp")
+							.forward(request, response);
+				}
+			}else{
+				address.setIsDefault(true);
+				userService.bind(user,address);
+				request.getRequestDispatcher("/custom/MyOrder.jsp")
+				.forward(request, response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
