@@ -249,7 +249,7 @@
 
 											<hr />
 											<div id="orderPrice" class="price">
-												<strong>${requestScope.allCost }</strong><small>元</small>
+												<strong>${sessionScope.allCost }</strong><small>元</small>
 											</div>
 											<!-- 加载默认地址 -->
 											<c:choose>
@@ -257,7 +257,7 @@
    													<c:forEach var="address" items="${address}">
    														<c:if test="${address.isDefault }">
 	   														<p><c:out value="地址：${address.adsContent }"></c:out></p>
-	   														<p><c:out value="接收人：${user.userName }"></c:out></p>
+	   														<p><c:out value="接收人：${address.receiverName }"></c:out></p>
 	   														<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
    														</c:if>
    													</c:forEach>
@@ -274,7 +274,6 @@
 														<label class="col-xs-3 control-label no-padding-right"
 															for="userName" style="margin-top: 5px">姓名：</label>
 														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input type="hidden" name="userId" value="${sessionScope.user.userId }"/>
 															<input type="text" name="receiverName" id="userName" placeholder="收货人" value="${sessionScope.user.userName }"
 																class="col-xs-12" />
 														</div>
