@@ -126,6 +126,8 @@ request.getServerPort() + path + "/"; %>
 						});
 					});
 				});
+				
+				//获取所有商品
 				var goods_data;
 				$.ajax({
 					type: "post",
@@ -134,6 +136,20 @@ request.getServerPort() + path + "/"; %>
 					async: false,
 					success: function(data) {
 						goods_data = JSON.stringify(data.TSellergoods);
+					}
+				});
+				//获取商品类型
+				var goods_type;
+				$.ajax({
+					type: "post",
+					url: "../../seller/getAllGoodsType",
+					data: "hello" + "world!",
+					async: false,
+					success: function(data) {
+						debugger;
+						goods_type = JSON.stringify(data.TGoodstype);
+						var obj = JSON.parse(goods_type);
+						alert(obj.length);
 					}
 				});
 				var grid_data = JSON.parse(goods_data);
@@ -296,7 +312,7 @@ request.getServerPort() + path + "/"; %>
 								editable: true,
 								edittype: "select",
 								editoptions: {
-									dataUrl:"../../seller/getAllGoodsType"
+									value:"1:零食;2:生活用品"
 								}
 							}, {
 								name: 'TGoods.goodsPic',
