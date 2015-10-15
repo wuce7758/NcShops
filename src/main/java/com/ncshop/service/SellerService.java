@@ -43,7 +43,8 @@ public class SellerService {
 	public List<TOrder> findSellerOrder(int sellerId, int orderState) {
 		// TODO Auto-generated method stub 
 		List<TOrder> list=null;
-		list=orderDao.findByString(sellerId, orderState);
+		Object[] params={sellerId,orderState};
+		list=orderDao.getHibernateTemplate().find("from TOrder where sellerId=? and orderState=?",params );
 		if(list.size()>0){
 			return list;
 		}else{
@@ -105,9 +106,10 @@ public class SellerService {
 	
 	public TSeller sellerLogin(String sellerName, String sellerPhone) {
 		// TODO Auto-generated method stub
-		TSeller seller=sellerDao.findBySellerName(sellerName).get(0);
+		Object[] params={sellerName};
+		TSeller seller=(TSeller) sellerDao.getHibernateTemplate().find("from TSeller where sellerName=?",params).get(0);
 		if(seller.getSellerPhone()==sellerPhone){
-			return seller;
+			return seller; 
 		}else{
 			return null;			
 		}
