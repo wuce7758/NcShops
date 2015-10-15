@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional; 
  
  
-import com.ncshop.dao.TGoodsDAO; 
+import com.ncshop.dao.TGoodsDAO;
 import com.ncshop.dao.TGoodstypeDAO; 
 import com.ncshop.dao.TOrderDAO; 
 import com.ncshop.dao.TSellerDAO; 
@@ -121,7 +121,7 @@ public class SellerService {
 		TGoods goods=goodsDao.findById(goodsId);
 		TSellergoods example=new TSellergoods();
 		example.setTGoods(goods);
-		List<TSellergoods> sellergoodsList=sellergoodsDao.findByExample(example);
+		List<TSellergoods> sellergoodsList=sellergoodsDao.getHibernateTemplate().findByExample(example);
 		TSellergoods sellergoods=null;
 		if(sellergoodsList.size()>0){
 			sellergoods=sellergoodsList.get(0);			
