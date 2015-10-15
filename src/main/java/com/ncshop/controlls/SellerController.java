@@ -140,7 +140,19 @@ public class SellerController {
 		// 调用service查找 数据库
 		List<TGoodstype> list=sellerService.getAllGoodsType();
 		String json=toJson(new TGoodstype(),list,null);
-		response.setContentType("html/text;charset=utf-8");
+		response.setContentType("html/json");
+		response.getWriter().write(json);
+	}
+	/**
+	 * 获取所有商家
+	 * @throws Exception
+	 */
+	@RequestMapping("/getAllSeller")
+	public void getAllSeller(HttpServletResponse response) throws Exception {
+		// 调用service查找 数据库
+		List<TSeller> list=sellerService.getAllSeller();
+		String json=toJson(new TSeller(),list,null);
+		response.setContentType("html/json");
 		response.getWriter().write(json);
 	}
 	
