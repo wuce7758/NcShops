@@ -145,8 +145,9 @@ public class TAddressDAO extends BaseDao {
 
 	public void attachClean(TAddress instance) {
 		log.debug("attaching clean TAddress instance");
+		Session session=getSession2();
 		try {
-			getSession2().lock(instance, LockMode.NONE);
+			session.lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -162,6 +163,25 @@ public class TAddressDAO extends BaseDao {
 			session.beginTransaction();
 			TAddress load = (TAddress) session.load(TAddress.class, addressId);
 			load.setIsDefault(false);
+			session.update(load);
+			session.getTransaction().commit();
+			return true; 
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+			return false; 
+		}finally{ 
+			session.close();
+		} 
+	}
+
+	public boolean updateTODefault(Integer addressId) {
+		Session session = getSessionFactory().openSession();
+		try { 
+			 
+			session.beginTransaction();
+			TAddress load = (TAddress) session.load(TAddress.class, addressId);
+			load.setIsDefault(true);
 			session.update(load);
 			session.getTransaction().commit();
 			return true; 

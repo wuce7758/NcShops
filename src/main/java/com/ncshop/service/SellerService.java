@@ -143,4 +143,11 @@ public class SellerService {
 		// TODO Auto-generated method stub
 		return goodstypeDao.findAll();
 	}
+
+
+	@SuppressWarnings("unchecked")
+	public List<TSeller> getAllSeller() {
+		// TODO Auto-generated method stub
+		return sellerDao.findAll();
+	}
 } 

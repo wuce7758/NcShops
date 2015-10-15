@@ -39,7 +39,8 @@ public class BaseDao extends BaseHibernateDAO {
 
 				criteria.add(eq);
 			}
-			return criteria.list();
+			List<T> list = criteria.list();
+			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

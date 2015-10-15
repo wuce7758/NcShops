@@ -268,7 +268,7 @@
    												</c:otherwise>  
 											</c:choose>
 											<div id="addAddress" style="display:none">
-												<form id="fromAddress" action="/user/addAddress" role=from>
+												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role=from>
 													<div class="form-group">
 														<label class="col-xs-3 control-label no-padding-right"
 															for="userName">客户名称</label>
@@ -479,7 +479,7 @@
                                     error: function (request) {
                                         console.log("error");
                                     },
-                                    success: function (data) {
+                                    success: function (cdata) {
                                         if (data == 'ok') {
                                         	console.log("ok");
                                             //$("#menuState").html('按钮提交成功！');
