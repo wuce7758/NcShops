@@ -124,6 +124,17 @@ public class TOrderDAO extends BaseDao {
 			throw re;
 		}
 	}
+	
+	public List findByString(int sellerId,int orderState) {
+		try {
+			String queryString = "from TOrder where sellerId='"+sellerId+"' and orderState='"+orderState+"'";
+			Query queryObject = getSession2().createQuery(queryString);
+			return queryObject.list();
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
 
 	public TOrder merge(TOrder detachedInstance) {
 		log.debug("merging TOrder instance");
