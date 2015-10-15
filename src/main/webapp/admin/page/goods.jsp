@@ -139,17 +139,22 @@ request.getServerPort() + path + "/"; %>
 					}
 				});
 				//获取商品类型
-				var goods_type;
+				var goods_type = "";
 				$.ajax({
 					type: "post",
 					url: "../../seller/getAllGoodsType",
 					data: "hello" + "world!",
 					async: false,
 					success: function(data) {
-						debugger;
-						goods_type = JSON.stringify(data.TGoodstype);
-						var obj = JSON.parse(goods_type);
-						alert(obj.length);
+						var goods_types = JSON.stringify(data.TGoodstype);
+						var obj = JSON.parse(goods_types);
+						for(var i = 0;i < obj.length;i++){
+							goods_type += obj[i].goodsTypeId + ":" + obj[i].goodsTypeName;
+							if(i < obj.length - 1){
+								goods_type += ";";
+							}
+						}
+						alert(goods_type);
 					}
 				});
 				var grid_data = JSON.parse(goods_data);
@@ -312,7 +317,7 @@ request.getServerPort() + path + "/"; %>
 								editable: true,
 								edittype: "select",
 								editoptions: {
-									value:"1:零食;2:生活用品"
+									value:goods_type
 								}
 							}, {
 								name: 'TGoods.goodsPic',
