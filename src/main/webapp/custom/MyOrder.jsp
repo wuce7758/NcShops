@@ -14,7 +14,7 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta charset="utf-8" />
-<title>Blank Page - Ace Admin</title>
+<title>德玛超市-订单确认</title>
 
 <meta name="description" content="" />
 <meta name="viewport"
@@ -69,7 +69,7 @@
 	<div id="navbar" class="navbar navbar-default">
 		<script type="text/javascript">
 			try {
-				ace.settings.check('navbar', 'fixed')
+				ace.settings.check('navbar', 'fixed');
 			} catch (e) {
 			}
 		</script>
@@ -108,7 +108,7 @@
 	<div class="main-container" id="main-container">
 		<script type="text/javascript">
 			try {
-				ace.settings.check('main-container', 'fixed')
+				ace.settings.check('main-container', 'fixed');
 			} catch (e) {
 			}
 		</script>
@@ -117,7 +117,7 @@
 		<div id="sidebar" class="sidebar                  responsive">
 			<script type="text/javascript">
 				try {
-					ace.settings.check('sidebar', 'fixed')
+					ace.settings.check('sidebar', 'fixed');
 				} catch (e) {
 				}
 			</script>
@@ -173,7 +173,7 @@
 			<!-- /section:basics/sidebar.layout.minimize -->
 			<script type="text/javascript">
 				try {
-					ace.settings.check('sidebar', 'collapsed')
+					ace.settings.check('sidebar', 'collapsed');
 				} catch (e) {
 				}
 			</script>
@@ -186,7 +186,7 @@
 				<div class="breadcrumbs" id="breadcrumbs">
 					<script type="text/javascript">
 						try {
-							ace.settings.check('breadcrumbs', 'fixed')
+							ace.settings.check('breadcrumbs', 'fixed');
 						} catch (e) {
 						}
 					</script>
@@ -194,7 +194,7 @@
 					<ul class="breadcrumb">
 						<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">小二百货店</a>
 						</li>
-						<li class="active">生活用品</li>
+						<li class="active">确认订单</li>
 					</ul>
 					<!-- /.breadcrumb -->
 
@@ -247,8 +247,7 @@
 
 											<hr />
 											<div id="orderPrice" class="price">
-												共计 <strong>0
-												</strong> <small>元</small>
+												<strong>${requestScope.allCost }</strong><small>元</small>
 											</div>
 											<!-- 加载默认地址 -->
 											<c:choose>
@@ -268,7 +267,7 @@
    												</c:otherwise>  
 											</c:choose>
 											<div id="addAddress" style="display:none">
-												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role=from>
+												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role="form">
 													<div class="form-group">
 														<label class="col-xs-3 control-label no-padding-right"
 															for="userName">客户名称</label>
@@ -337,12 +336,22 @@
 		<nav class="navbar navbar-default navbar-fixed-bottom"
 			role="navigation">
 			<ul class="nav navbar-nav">
-				<li class="green col-xs-3"><a href="#"> <i
-						class="ace-icon fa fa-list icon-animated-vertical"></i> </a></li>
-				<li class="green col-xs-3"><a href="#"> <i
-						class="ace-icon fa fa-user icon-animated-vertical"></i> </a></li>
-				<li class="green col-xs-6"><a id="sureBuy" href="javascript.void(0)"> <i
-						class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i> <span>确认购买</span></a></li>
+				<li class="green col-xs-3">
+					<a href="/index.jsp">
+						<i class="ace-icon fa fa-list icon-animated-vertical"></i>
+					</a>
+				</li>
+				<li class="green col-xs-3">
+					<a href="/person.jsp">
+						<i class="ace-icon fa fa-user icon-animated-vertical"></i>
+					</a>
+				</li>
+				<li class="green col-xs-6">
+					<a id="sureBuy" href="javascript:void(0)">
+						<i class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i>
+						<span>确认购买</span>
+					</a>
+				</li>
 			</ul>
 		</nav>
 
@@ -440,7 +449,7 @@
 
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
-		var price=0;
+/* 		var price=0;
 		var array=$(".buyCost");
 		function sum(){
 			debugger;
@@ -449,7 +458,7 @@
 				price=parseFloat(price)+parseFloat(item);
 			} 
 			$("#orderPrice strong").text(price);
-		}
+		} */
 		var flag="${requestScope.address}";
 		$(document).ready(function(){
 			sum();
