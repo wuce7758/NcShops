@@ -1,5 +1,6 @@
 package com.ncshop.controlls;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -95,13 +96,15 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/findGoodsdetail")
-	public void findGoodsdetail(HttpServletResponse response) throws Exception {
+	public void findGoodsdetail(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		// 调用service查找 数据库
 		List<TSellergoods> sellerGoodsList = userService.findGoodsdetail();
 		String json = toJson(new TSellergoods(), sellerGoodsList, null);
-		// 设置response的传输格式为json
-		response.setContentType("application/json");
-		response.getWriter().write(json);
+		request.setAttribute("goodDetail", sellerGoodsList);
+		request.getRequestDispatcher("/admin/goods.jsp").forward(request,
+				response);
+		return;
 	}
 
 	/**
@@ -218,12 +221,12 @@ public class UserController {
 			}
 			request.getSession().setAttribute("odersdetails", orderdetails);
 
-			request.setAttribute("allCost", allCost);
+			request.getSession().setAttribute("allCost", allCost);
 			TUser user = (TUser) request.getSession().getAttribute("user");
 			List<TAddress> address = null;
 			if (user != null) {
 				TUser tempuser = userService.findUser(user.getOpenId());
-				
+
 				if (tempuser != null) {
 					address = userService.findAddress(tempuser.getUserId());
 				}
@@ -306,20 +309,28 @@ public class UserController {
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
 			TUser user = (TUser) request.getSession().getAttribute("user");
-			if (user.getUserId() != null) {
-				if (userService.updateAddress(user.getUserId(), address)) {
-					List<TAddress> findAddress = userService.findAddress(2);
-					request.setAttribute("address", findAddress);
-					// 默认地址修改成功，跳转
-					request.getRequestDispatcher("/custom/MyOrder.jsp")
-							.forward(request, response);
+			if (user != null) {
+				if (user.getUserId() != null) {
+					if (userService.updateAddress(user.getUserId(), address)) {
+						List<TAddress> findAddress = userService.findAddress(2);
+						request.setAttribute("address", findAddress);
+						// 默认地址修改成功，跳转
+					}
+				} else {
+					address.setIsDefault(true);
+					userService.bind(user, address);
 				}
-			} else {
+			}else{
 				address.setIsDefault(true);
-				userService.bind(user, address);
-				request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
-						request, response);
+				userService.bind(new TUser(), address);
+				
+				
 			}
+			List<TAddress> addresses=new ArrayList<TAddress>();
+			addresses.add(address);
+			request.setAttribute("address", addresses);
+			request.getRequestDispatcher("/custom/MyOrder.jsp")
+			.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

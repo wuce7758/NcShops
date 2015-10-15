@@ -9,6 +9,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import com.ncshop.domain.TAddress;
 import com.ncshop.domain.TGoods;
 
 import static org.hibernate.criterion.Example.create;
@@ -56,11 +57,11 @@ public class TGoodsDAO extends BaseDao {
 	}
 
 	public TGoods findById(java.lang.Integer id) {
-		log.debug("getting TGoods instance with id: " + id);
+		log.debug("getting TAddress instance with id: " + id);
 		try {
-			TGoods goods = new TGoods();
-			goods.setGoodsId(id);
-			return (TGoods) getHibernateTemplate().findByExample(goods).get(0);
+			TGoods instance = (TGoods) getHibernateTemplate().get(
+					"com.ncshop.domain.TGoods", id);
+			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;

@@ -164,7 +164,7 @@ public class UserService {
 	}
 
 	public TUser findUser(String openId) {
-		List<TUser> list = userDao.getHibernateTemplate().find("from TUser where openId"+openId);
+		List<TUser> list = userDao.getHibernateTemplate().find("from TUser where openId='"+openId+"'");
 		if (list.size() < 1) {
 			return null;
 		} else {

@@ -58,7 +58,8 @@ public class TGoodstypeDAO extends BaseDao {
 			TGoodstype type=new TGoodstype();
 			type.setGoodsTypeId(id);
 			List findByExample = getHibernateTemplate().findByExample(type);
-			return (TGoodstype) findByExample.get(0);
+			return (TGoodstype) findByExample.get(0)
+					;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
@@ -95,6 +96,17 @@ public class TGoodstypeDAO extends BaseDao {
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
+			throw re;
+		}
+		
+	}
+	public List findAll() {
+		log.debug("finding all  instances");
+		try {
+			String queryString = "from TGoodstype";
+			return getHibernateTemplate().find("from TGoodstype");
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
 			throw re;
 		}
 	}

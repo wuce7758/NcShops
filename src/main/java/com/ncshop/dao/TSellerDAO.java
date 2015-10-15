@@ -78,7 +78,7 @@ public class TSellerDAO extends BaseDao {
 		log.debug("finding all TSeller instances");
 		try {
 			String queryString = "from TSeller";
-			return getHibernateTemplate().findByExample(new TSeller());
+			return getHibernateTemplate().find(queryString);
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
