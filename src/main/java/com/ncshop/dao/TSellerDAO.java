@@ -41,7 +41,7 @@ public class TSellerDAO extends BaseDao {
 	public void save(TSeller transientInstance) {
 		log.debug("saving TSeller instance");
 		try {
-			getSession2().save(transientInstance);
+			getHibernateTemplate().save(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
@@ -52,7 +52,7 @@ public class TSellerDAO extends BaseDao {
 	public void delete(TSeller persistentInstance) {
 		log.debug("deleting TSeller instance");
 		try {
-			getSession2().delete(persistentInstance);
+			getHibernateTemplate().delete(persistentInstance);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
@@ -63,7 +63,7 @@ public class TSellerDAO extends BaseDao {
 	public TSeller findById(java.lang.Integer id) {
 		log.debug("getting TSeller instance with id: " + id);
 		try {
-			TSeller instance = (TSeller) getSession2().get(
+			TSeller instance = (TSeller) getHibernateTemplate().get(
 					"com.ncshop.domain.TSeller", id);
 			return instance;
 		} catch (RuntimeException re) {
@@ -72,78 +72,13 @@ public class TSellerDAO extends BaseDao {
 		}
 	}
 
-	public List<TSeller> findByExample(TSeller instance) {
-		log.debug("finding TSeller instance by example");
-		try {
-			List<TSeller> results = (List<TSeller>) getSession2()
-					.createCriteria("com.ncshop.domain.TSeller")
-					.add(create(instance)).list();
-			log.debug("find by example successful, result size: "
-					+ results.size());
-			return results;
-		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
-			throw re;
-		}
-	}
-
-	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding TSeller instance with property: " + propertyName
-				+ ", value: " + value);
-		try {
-			String queryString = "from TSeller as model where model."
-					+ propertyName + "= ?";
-			Query queryObject = getSession2().createQuery(queryString);
-			queryObject.setParameter(0, value);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find by property name failed", re);
-			throw re;
-		}
-	}
-
-	public List<TSeller> findByShopName(Object shopName) {
-		return findByProperty(SHOP_NAME, shopName);
-	}
-
-	public List<TSeller> findBySellerName(Object sellerName) {
-		return findByProperty(SELLER_NAME, sellerName);
-	}
-
-	public List<TSeller> findBySellerAddress(Object sellerAddress) {
-		return findByProperty(SELLER_ADDRESS, sellerAddress);
-	}
-
-	public List<TSeller> findBySellerPhone(Object sellerPhone) {
-		return findByProperty(SELLER_PHONE, sellerPhone);
-	}
-
-	public List<TSeller> findByJoinDeadline(Object joinDeadline) {
-		return findByProperty(JOIN_DEADLINE, joinDeadline);
-	}
-
-	public List<TSeller> findByIsValid(Object isValid) {
-		return findByProperty(IS_VALID, isValid);
-	}
-
-	public List<TSeller> findByMinBuy(Object minBuy) {
-		return findByProperty(MIN_BUY, minBuy);
-	}
-
-	public List<TSeller> findByDeliverMoney(Object deliverMoney) {
-		return findByProperty(DELIVER_MONEY, deliverMoney);
-	}
-
-	public List<TSeller> findBySellerMsg(Object sellerMsg) {
-		return findByProperty(SELLER_MSG, sellerMsg);
-	}
+	
 
 	public List findAll() {
 		log.debug("finding all TSeller instances");
 		try {
 			String queryString = "from TSeller";
-			Query queryObject = getSession2().createQuery(queryString);
-			return queryObject.list();
+			return getHibernateTemplate().findByExample(new TSeller());
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
@@ -153,7 +88,7 @@ public class TSellerDAO extends BaseDao {
 	public TSeller merge(TSeller detachedInstance) {
 		log.debug("merging TSeller instance");
 		try {
-			TSeller result = (TSeller) getSession2().merge(detachedInstance);
+			TSeller result = (TSeller) getHibernateTemplate().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -165,7 +100,7 @@ public class TSellerDAO extends BaseDao {
 	public void attachDirty(TSeller instance) {
 		log.debug("attaching dirty TSeller instance");
 		try {
-			getSession2().saveOrUpdate(instance);
+			getHibernateTemplate().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -176,7 +111,7 @@ public class TSellerDAO extends BaseDao {
 	public void attachClean(TSeller instance) {
 		log.debug("attaching clean TSeller instance");
 		try {
-			getSession2().lock(instance, LockMode.NONE);
+			getHibernateTemplate().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);

@@ -35,22 +35,19 @@ public class TGoodsDAO extends BaseDao {
 
 	public void save(TGoods transientInstance) {
 		log.debug("saving TGoods instance");
-		Session session = getSession2();
 		try {
-			session.save(transientInstance);
+			getHibernateTemplate().save(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
 			throw re;
-		}finally{
-			session.close();
 		}
 	}
 
 	public void delete(TGoods persistentInstance) {
 		log.debug("deleting TGoods instance");
 		try {
-			getSession2().delete(persistentInstance);
+			getHibernateTemplate().delete(persistentInstance);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
@@ -60,71 +57,22 @@ public class TGoodsDAO extends BaseDao {
 
 	public TGoods findById(java.lang.Integer id) {
 		log.debug("getting TGoods instance with id: " + id);
-		Session session = getSession2();
 		try {
-			TGoods instance = (TGoods) session.get(
-					"com.ncshop.domain.TGoods", id);
-			return instance;
+			TGoods goods = new TGoods();
+			goods.setGoodsId(id);
+			return (TGoods) getHibernateTemplate().findByExample(goods).get(0);
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
-		}finally{
-			session.close();
 		}
 	}
 
-	public List<TGoods> findByExample(TGoods instance) {
-		log.debug("finding TGoods instance by example");
-		try {
-			List<TGoods> results = (List<TGoods>) getSession2()
-					.createCriteria("com.ncshop.domain.TGoods")
-					.add(create(instance)).list();
-			log.debug("find by example successful, result size: "
-					+ results.size());
-			return results;
-		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
-			throw re;
-		}
-	}
-
-	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding TGoods instance with property: " + propertyName
-				+ ", value: " + value);
-		try {
-			String queryString = "from TGoods as model where model."
-					+ propertyName + "= ?";
-			Query queryObject = getSession2().createQuery(queryString);
-			queryObject.setParameter(0, value);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find by property name failed", re);
-			throw re;
-		}
-	}
-
-	public List<TGoods> findByGoodsName(Object goodsName) {
-		return findByProperty(GOODS_NAME, goodsName);
-	}
-
-	public List<TGoods> findByGoodsPrice(Object goodsPrice) {
-		return findByProperty(GOODS_PRICE, goodsPrice);
-	}
-
-	public List<TGoods> findByGoodsMsg(Object goodsMsg) {
-		return findByProperty(GOODS_MSG, goodsMsg);
-	}
-
-	public List<TGoods> findByGoodsPic(Object goodsPic) {
-		return findByProperty(GOODS_PIC, goodsPic);
-	}
 
 	public List findAll() {
 		log.debug("finding all TGoods instances");
 		try {
 			String queryString = "from TGoods";
-			Query queryObject = getSession2().createQuery(queryString);
-			return queryObject.list();
+			return getHibernateTemplate().find("from TGoods");
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
@@ -134,7 +82,8 @@ public class TGoodsDAO extends BaseDao {
 	public TGoods merge(TGoods detachedInstance) {
 		log.debug("merging TGoods instance");
 		try {
-			TGoods result = (TGoods) getSession2().merge(detachedInstance);
+			TGoods result = (TGoods) getHibernateTemplate().merge(
+					detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -146,7 +95,7 @@ public class TGoodsDAO extends BaseDao {
 	public void attachDirty(TGoods instance) {
 		log.debug("attaching dirty TGoods instance");
 		try {
-			getSession2().saveOrUpdate(instance);
+			getHibernateTemplate().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -157,7 +106,7 @@ public class TGoodsDAO extends BaseDao {
 	public void attachClean(TGoods instance) {
 		log.debug("attaching clean TGoods instance");
 		try {
-			getSession2().lock(instance, LockMode.NONE);
+			getHibernateTemplate().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);

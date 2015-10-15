@@ -458,6 +458,7 @@
 			} 
 			$("#orderPrice strong").text(price);
 		} */
+		debugger;
 		var flag="${requestScope.address}";
 		function changeStyle(){
 			if(flag.length<1){

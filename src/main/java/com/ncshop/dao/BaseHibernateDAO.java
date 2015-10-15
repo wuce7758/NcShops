@@ -1,23 +1,20 @@
 package com.ncshop.dao;
 
+import javax.annotation.Resource;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Component;
 
 /**
  * Data access object (DAO) for domain model
+ * 
  * @author MyEclipse Persistence Tools
  */
-public class BaseHibernateDAO extends HibernateDaoSupport{
+@Component
+public class BaseHibernateDAO{
 
-	@Autowired
-	public void setMySessionFactory(SessionFactory sessionFactory) {
-		super.setSessionFactory(sessionFactory);
-	}
 	
-	public Session getSession2(){
-		return getSessionFactory().openSession();
-	}
 }
