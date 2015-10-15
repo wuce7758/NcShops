@@ -51,18 +51,18 @@ public class SellerController {
 	}
 	/**
 	 * 根据订单状态和微信标识查找某店铺订单
-	 * @param OpenId 微信号标识
+	 * @param sellerId
 	 * @param orderState 订单状态
 	 * @throws Exception
 	 */
 	@RequestMapping("/findSellerOrders")
-	public void findSellerOrders(HttpServletResponse response, int OpenId,
+	public void findSellerOrders(HttpServletResponse response, int sellerId,
 			int orderState) throws Exception {
-		if (OpenId + "" == "" || orderState + "" == "") {
+		if (sellerId + "" == "" || orderState + "" == "") {
 			return;
 		}
 		// 调用service查找 数据库
-		List<TOrder> orderList = sellerService.findSellerOrder(OpenId,
+		List<TOrder> orderList = sellerService.findSellerOrder(sellerId,
 				orderState);
 		String json=toJson(new TOrder(),orderList,null);
 		response.setContentType("html/text;charset=utf-8");
