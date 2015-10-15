@@ -252,12 +252,12 @@
 											</div>
 											<!-- 加载默认地址 -->
 											<c:choose>
-   												<c:when test="${user.TAddresses!=null}">
-   													<c:forEach var="address" items="${user.TAddresses}">
-   														<c:if test="${address.isDefault==true }">
-	   														<c:out value="<p>地址：${address.adsContent }</p>"></c:out>
-	   														<c:out value="<p>接收人：${user.userName }</p>"></c:out>
-	   														<c:out value="<p>联系方式：${address.adsPhone }</p>"></c:out>
+   												<c:when test="${address!=null}">
+   													<c:forEach var="address" items="${address}">
+   														<c:if test="${address.isDefault }">
+	   														<p><c:out value="地址：${address.adsContent }"></c:out></p>
+	   														<p><c:out value="接收人：${user.userName }"></c:out></p>
+	   														<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
    														</c:if>
    													</c:forEach>
    												</c:when>
@@ -267,7 +267,7 @@
    													</font>
    												</c:otherwise>  
 											</c:choose>
-											<form id="fromAddress" action="/user/addAddress" role=from>
+											<form id="fromAddress" action="${pageContext.request.contextPath}/user/addAddress" role=from>
 												<div class="form-group">
 													<label class="col-xs-3 control-label no-padding-right"
 														for="userName">客户名称</label>
