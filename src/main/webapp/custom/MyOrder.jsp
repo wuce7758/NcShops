@@ -231,16 +231,14 @@
 													<c:forEach var="orderdetail" items="${odersdetails }">
 														<tr>
 															<td style="width:70%">
-															<li>
 																<i class="ace-icon fa fa-check green"></i>
 																${orderdetail.TGoods.goodsName }
-															</li>
 														</td>
 														<td style="width:10%">
 															x${orderdetail.buyMount }
 														</td>
 														<td style="width:20%;text-align:right">
-																￥${orderdetail.buyCost }
+																￥<font class="buyCost">${orderdetail.buyCost }</font>
 														</td>
 														</tr>
 													</c:forEach>
@@ -269,13 +267,14 @@
    													</font>
    												</c:otherwise>  
 											</c:choose>
-											<form id="fromAddress" role=from>
+											<form id="fromAddress" action="/user/addAddress" role=from>
 												<div class="form-group">
 													<label class="col-xs-3 control-label no-padding-right"
 														for="userName">客户名称</label>
 
 													<div class="col-xs-9">
-														<input type="text" id="userName" value="${sessionScope.user.userName }"
+														<input type="hidden" name="userId" value="${sessionScope.user.userId }"/>
+														<input type="text" name="receiveName" id="userName" placeholder="收货人" value="${sessionScope.user.userName }"
 															class="col-xs-12" />
 													</div>
 													<hr class="col-xs-12">
@@ -441,12 +440,12 @@
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
 		var price=0;
-		var length = "${fn:length(odersdetails)}";
-		var array="${odersdetails[0]}";
+		var array=$(".buyCost");
 		function sum(){
 			debugger;
-			for(var i=0;i<length;i++){
-				var item=array.buyCost;
+			for(var i=0;i<array.length;i++){
+				var item=array[i].textContent;
+				price=parseFloat(price)+parseFloat(item);
 			} 
 			$("#orderPrice strong").text(price);
 		}

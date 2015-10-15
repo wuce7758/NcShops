@@ -233,7 +233,8 @@
 						class="ace-icon fa fa-user icon-animated-vertical"></i>
 				</a></li>
 				<li class="green col-xs-6"><a href="#"> <i
-						class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i> <span onClick="goBuy()">确认购买<span class="badge badge-red">4</span></span>
+						class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i>
+						<span onClick="goBuy()">确认购买<span id="countSpan" style="display:none" class="badge badge-red"><font id="count" color="red"></font></span></span>
 				</a></li>
 			</ul>
 		</nav>
@@ -393,13 +394,23 @@
 						}
 					});
 		}
+		var count=0;
 		function downclick(obj) {
 			var input = $(obj).parent().siblings("input");
 			var value = input.val();
-			if (input.val() <= 1) {
+			if (input.val() < 1) {
 				input.val("0");
 			} else {
 				input.val(input.val() - 1);
+				if(parseInt(count)>0){
+				count=count-1;
+				if(count==0){
+					$("#countSpan").css("display","none");
+				}else{
+					$("#countSpan").css("display","inline");
+				}
+				$("#count").text(count);
+			}
 			}
 		}
 		function upclick(obj) {
@@ -409,6 +420,11 @@
 				input.val("100");
 			} else {
 				input.val(parseInt(value) + 1);
+				count=parseInt(count)+1;
+				if(parseInt(count)>0){
+					$("#countSpan").css("display","inline");
+				}
+				$("#count").text(count);
 			}
 		}
 		$(function() {
