@@ -252,12 +252,12 @@
 											</div>
 											<!-- 加载默认地址 -->
 											<c:choose>
-   												<c:when test="${user.TAddresses!=null}">
-   													<c:forEach var="address" items="${user.TAddresses}">
+   												<c:when test="${address!=null||address!='' }">
+   													<c:forEach var="address" items="${address}">
    														<c:if test="${address.isDefault==true }">
-	   														<c:out value="<p>地址：${address.adsContent }</p>"></c:out>
-	   														<c:out value="<p>接收人：${user.userName }</p>"></c:out>
-	   														<c:out value="<p>联系方式：${address.adsPhone }</p>"></c:out>
+	   														<p><c:out value="地址：${address.adsContent }"></c:out></p>
+	   														<p><c:out value="接收人：${user.userName }"></c:out></p>
+	   														<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
    														</c:if>
    													</c:forEach>
    												</c:when>
@@ -267,39 +267,41 @@
    													</font>
    												</c:otherwise>  
 											</c:choose>
-											<form id="fromAddress" action="/user/addAddress" role=from>
-												<div class="form-group">
-													<label class="col-xs-3 control-label no-padding-right"
-														for="userName">客户名称</label>
-
-													<div class="col-xs-9">
-														<input type="hidden" name="userId" value="${sessionScope.user.userId }"/>
-														<input type="text" name="receiveName" id="userName" placeholder="收货人" value="${sessionScope.user.userName }"
-															class="col-xs-12" />
+											<c:if test="${address!=null||address!='' }">
+												<form id="fromAddress" action="/user/addAddress" role=from>
+													<div class="form-group">
+														<label class="col-xs-3 control-label no-padding-right"
+															for="userName">客户名称</label>
+	
+														<div class="col-xs-9">
+															<input type="hidden" name="userId" value="${sessionScope.user.userId }"/>
+															<input type="text" name="receiverName" id="userName" placeholder="收货人" value="${sessionScope.user.userName }"
+																class="col-xs-12" />
+														</div>
+														<hr class="col-xs-12">
+														<label class="col-xs-3 control-label no-padding-right"
+															for="userAddress">客戶地址</label>
+	
+														<div class="col-xs-9">
+															<input type="text" name="adsContent" id="userAddress" placeholder="客户地址"
+																class="col-xs-12" />
+														</div>
+														<hr class="col-xs-12">
+														<label class="col-xs-3 control-label no-padding-right"
+															for="userPhone">客戶电话</label>
+	
+														<div class="col-xs-9">
+															<input type="text" name="adsPhone" id="userPhone" placeholder="客户电话"
+																class="col-xs-12" />
+														</div>
 													</div>
 													<hr class="col-xs-12">
-													<label class="col-xs-3 control-label no-padding-right"
-														for="userAddress">客戶地址</label>
-
-													<div class="col-xs-9">
-														<input type="text" name="adsContent" id="userAddress" placeholder="客户地址"
-															class="col-xs-12" />
-													</div>
-													<hr class="col-xs-12">
-													<label class="col-xs-3 control-label no-padding-right"
-														for="userPhone">客戶电话</label>
-
-													<div class="col-xs-9">
-														<input type="text" name="adsPhone" id="userPhone" placeholder="客户电话"
-															class="col-xs-12" />
-													</div>
-												</div>
-												<hr class="col-xs-12">
-												<button class="btn btn-white btn-info btn-bold col-xs-12">
-													<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
-													<font>修改/保存</font>
-												</button>
-											</form>
+													<button class="btn btn-white btn-info btn-bold col-xs-12">
+														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
+														<font>修改/保存</font>
+													</button>
+												</form>
+											</c:if>
 											<hr>
 											<p id="other" style="margin-top:5px"><font color="red">请详细确认订单信息后再确定订单！</font></p>
 										</div>
