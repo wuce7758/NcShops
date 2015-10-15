@@ -114,14 +114,12 @@ public class UserService {
 
 		for (TSellergoods tSellergoods : list) {
 			TGoods goods = tSellergoods.getTGoods();
-
 			TGoods tempgGoods = goodsDao
 					.getEntitiestNotLazy(new TGoods(),
 							new String[] { "TGoodstype" },
 							Restrictions.eq("goodsId", goods.getGoodsId()), 0,
 							0, false).get(0);
 			tSellergoods.setTGoods(tempgGoods);
-
 			TGoodstype findById = goodstypeDAO.findById(goods.getGoodsId());
 			goods.setTGoodstype(findById);
 			tSellergoods.setTGoods(goods);
@@ -133,10 +131,17 @@ public class UserService {
 
 		try {
 			List<TAddress> findAll = findAddress(userId);
+			//获取用户的所有地址
 			for (TAddress tAddress : findAll) {
 
+				//将原来的默认地址取消
 				if (tAddress.getIsDefault()) {
 					addressDAO.update(tAddress.getAddressId());
+				}
+				//如果改地址已存在
+				if(address.equals(tAddress)){
+					//设为默认地址
+					addressDAO.updateTODefault(tAddress.getAddressId());
 				}
 			}
 

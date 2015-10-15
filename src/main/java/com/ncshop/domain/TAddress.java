@@ -80,7 +80,53 @@ public class TAddress implements java.io.Serializable {
 	public void setIsDefault(boolean isDefault) {
 		this.isDefault = isDefault;
 	}
-	
-	
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((adsContent == null) ? 0 : adsContent.hashCode());
+		result = prime * result
+				+ ((adsPhone == null) ? 0 : adsPhone.hashCode());
+		result = prime * result + (isDefault ? 1231 : 1237);
+		result = prime * result
+				+ ((receiverName == null) ? 0 : receiverName.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TAddress other = (TAddress) obj;
+		if (adsContent == null) {
+			if (other.adsContent != null)
+				return false;
+		} else if (!adsContent.equals(other.adsContent))
+			return false;
+		if (adsPhone == null) {
+			if (other.adsPhone != null)
+				return false;
+		} else if (!adsPhone.equals(other.adsPhone))
+			return false;
+		if (isDefault != other.isDefault)
+			return false;
+		if (receiverName == null) {
+			if (other.receiverName != null)
+				return false;
+		} else if (!receiverName.equals(other.receiverName))
+			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
+		return true;
+	}
 }
