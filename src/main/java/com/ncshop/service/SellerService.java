@@ -150,4 +150,10 @@ public class SellerService {
 		// TODO Auto-generated method stub
 		return sellerDao.findAll();
 	}
+
+
+	public void addSeller(TSeller seller) {
+		// TODO Auto-generated method stub
+		sellerDao.merge(seller);
+	}
 } 

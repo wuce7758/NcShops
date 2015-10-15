@@ -66,6 +66,18 @@ public class SellerController {
 		response.setContentType("html/text;charset=utf-8");
 		response.getWriter().write(json);
 	}
+	/**
+	 * 添加商家
+
+	 * @throws Exception
+	 */
+	@RequestMapping("/addSeller")
+	public void addSeller(HttpServletResponse response, TSeller seller) throws Exception {
+		// 调用service查找 数据库
+		sellerService.addSeller(seller);
+		response.setContentType("html/text;charset=utf-8");
+		response.getWriter().write("商家添加成功！");
+	}
 
 	/**
 	 * 操作店铺商品
@@ -74,21 +86,22 @@ public class SellerController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/addGoods")
-	public void addGoods(HttpServletResponse response, int sellerId,String oper,
-			int goodsTypeId, TGoods goods) throws Exception {
+	public void addGoods(HttpServletRequest request,HttpServletResponse response,String oper,TGoods goods) throws Exception {
 		response.setContentType("text/html;charset=utf-8");
+		String sellerId=request.getParameter("sellerId");
+		String goodsTypeId=request.getParameter("goodsTypeId");
 		// 调用service查找 数据库
 		if(oper=="add"){
-			if(sellerId + "" == "" || goodsTypeId + "" == ""){
+			if(sellerId==""||goodsTypeId + "" == ""){
 				return;
 			}
-			sellerService.addGoods(sellerId, goodsTypeId, goods);
+			sellerService.addGoods(Integer.parseInt(sellerId), Integer.parseInt(goodsTypeId), goods);
 			response.getWriter().write("添加商品成功!");
 		}else if(oper=="edit"){
 			if(sellerId + "" == "" || goodsTypeId + "" == ""){
 				return;
 			}
-			sellerService.updateGoods(goodsTypeId, goods);
+			sellerService.updateGoods(Integer.parseInt(goodsTypeId), goods);
 			response.getWriter().write("修改商品成功!");
 		}else if(oper=="del"){
 			sellerService.deleteGoods(goods);

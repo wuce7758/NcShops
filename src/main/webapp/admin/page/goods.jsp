@@ -1,9 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-	<%
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
 String path = request.getContextPath(); String basePath =
 request.getScheme() + "://" + request.getServerName() + ":" +
-request.getServerPort() + path + "/"; %>
-
+request.getServerPort() + path + "/"; 
+%>
 		<html lang="en">
 
 		<head>
@@ -612,7 +613,63 @@ request.getServerPort() + path + "/"; %>
 						$('.ui-jqdialog').remove();
 					});
 				});
+				function close(){
+					$("#messageDetail").css("display","none");
+				}
+				function getDetails(obj){
+					var title=$(obj).text();
+					var time=$(obj).parent().siblings(".fn_cle").children("span").text();
+					var content=$(obj).parent().siblings(".msg_cont").text();
+					$("#tts").text(title);
+					$("#mailtime").text(time);
+					$("#ctt").text(content);
+					$("#messageDetail").css("display","block");
+				}
 			</script>
+			<div id="messageDetail" style="display:none;position: absolute;top:42%;left:50%;width:30%;height:234px;border:1px solid #BDC94B">
+				<div id="tp" style="text-align: center;height:34px;width:100%;line-height: 34px;background:#DFDFDF">
+					<a href="javascript:close()"><img style="float:right;width:26px;height:26px;margin-right: 4px;margin-top: 4px" src="../images/close.png"/></a>
+					<p id="tts" style="font-size: 18px"></p>
+				</div>
+				<form id="itemForm" action="${pageContext.request.contextPath }/seller/addGoods" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="id" value="${goods.goodId }"/>
+					商品信息：
+					<table width="100%" border=1>
+						<tr>
+							<td>商品名称</td>
+							<td><input type="text" name="goodsName" value="${goods.goodsName }"/></td>
+						</tr>
+						<tr>
+							<td>商品价格</td>
+							<td><input type="text" name="goodsPrice" value="${goods.goodsPrice }"/></td>
+						</tr>
+						<tr>
+							<td>商品类型</td>
+							<td><input type="radio" name="goodsTypeId" value="1"/>饮料</td>
+						</tr>
+						<tr>
+							<td>商品图片</td>
+							<td>
+								<c:if test="${items.pic !=null}">
+									<img src="/pic/${${goods.goodsPic }}" width="100px" height="100px"/>
+									<br/>
+								</c:if>
+								<input type="file"  name="picFile"/> 
+							</td>
+						</tr>
+						<tr>
+							<td>商品简介</td>
+							<td>
+							<textarea rows="3" cols="30" name="goodsMsg">${goods.goodsMsg }</textarea>
+							<input type="hidden" name="sellerId" value="1"/>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center"><input type="submit" value="提交"/></td>
+						</tr>
+					</table>
+				</form>
+			</div>
 		</body>
 
 		</html>
