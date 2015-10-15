@@ -252,7 +252,7 @@
 											</div>
 											<!-- 加载默认地址 -->
 											<c:choose>
-   												<c:when test="${address!=null||address!='' }">
+   												<c:when test="${address!=null }">
    													<c:forEach var="address" items="${address}">
    														<c:if test="${address.isDefault }">
 	   														<p><c:out value="地址：${address.adsContent }"></c:out></p>
@@ -263,12 +263,17 @@
    												</c:when>
    												<c:otherwise>
    													<font color='red'>
-   													<c:out value="您还没地址，请先设置地址!"></c:out>
+   														<c:out value="您还没地址，请先设置地址!"></c:out>
    													</font>
    												</c:otherwise>  
 											</c:choose>
+<<<<<<< HEAD
 											<div id="addAddress">
 												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role=from>
+=======
+											<div id="addAddress" style="display:none">
+												<form id="fromAddress" action="/user/addAddress" role=from>
+>>>>>>> 3a52ccfa3c1bdb0203e30c3ed166311345000937
 													<div class="form-group">
 														<label class="col-xs-3 control-label no-padding-right"
 															for="userName">客户名称</label>
@@ -450,9 +455,12 @@
 			} 
 			$("#orderPrice strong").text(price);
 		}
-		
+		var flag="${requestScope.address}";
 		$(document).ready(function(){
 			sum();
+			if(flag==""){
+				$("#addAddress").css("display","inline");
+			}
 			$('#sureBuy').click(function (e) {
                 e.preventDefault();
                 $('#dialog_sureBuy_confirm').removeClass('hide').dialog({
