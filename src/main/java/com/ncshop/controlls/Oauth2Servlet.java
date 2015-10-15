@@ -1,11 +1,15 @@
 package com.ncshop.controlls;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ncshop.dao.TUserDAO;
+import com.ncshop.domain.TUser;
 
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
@@ -23,6 +27,8 @@ public class Oauth2Servlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		WxMpUser wxMpUser=null;
+		String state=null;
 		try {
 			wxMpConfigStorage = new WxMpInMemoryConfigStorage();
 			wxMpConfigStorage.setAppId("wxd8276cabf8323d91"); // 设置微信公众号的appid
@@ -42,17 +48,29 @@ public class Oauth2Servlet extends HttpServlet {
 			wxMpOAuth2AccessToken = wxMpService
 					.oauth2refreshAccessToken(wxMpOAuth2AccessToken
 							.getRefreshToken());
-			WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(
+			wxMpUser= wxMpService.oauth2getUserInfo(
 					wxMpOAuth2AccessToken, null);
 			boolean valid = wxMpService
 					.oauth2validateAccessToken(wxMpOAuth2AccessToken);
 			//根据不同的状态值跳转不同页面
-			String state=req.getParameter("state");
+			state=req.getParameter("state");
 			
 			if(state.equals("1")){
 				//跳转到首页
-				req.getRequestDispatcher("").forward(req, resp);
-				return;
+				TUser user=new TUser();
+				user.setOpenId(wxMpUser.getOpenId());
+//				TUserDAO dao=new TUserDAO();
+//				//List list = dao.findByProperty("oppenId", wxMpUser.getOpenId());
+//				if(list.size()>1){
+//					user=(TUser) list.get(0);
+//				}else{
+//					user=new TUser();
+//					user.setOpenId(wxMpUser.getOpenId());
+//					dao.save(user);
+//					//user=(TUser) dao.findByProperty("openId", wxMpUser.getOpenId()).get(0);
+//				}
+				req.getSession().setAttribute("user", user);
+				req.getRequestDispatcher("/index.jsp").forward(req, resp);
 			}
 			if(state.equals("2")){
 				//跳转到订单页
@@ -63,7 +81,7 @@ public class Oauth2Servlet extends HttpServlet {
 			resp.getWriter().write(wxMpUser.getOpenId());
 		} catch (Exception e) {
 			e.printStackTrace();
-			resp.getWriter().write("cuowu");
+			resp.getWriter().write(e.getMessage()+"cause: "+e.getCause()+" "+e.getLocalizedMessage()+wxMpUser.getNickname()+state);
 		}
 	}
 

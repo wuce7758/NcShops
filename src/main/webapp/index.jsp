@@ -12,7 +12,7 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta charset="utf-8" />
-<title>Blank Page - Ace Admin</title>
+<title>德玛超市-首页</title>
 
 <meta name="description" content="" />
 <meta name="viewport"
@@ -38,6 +38,9 @@
 <!-- ace styles -->
 <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css"
 	class="ace-main-stylesheet" id="main-ace-style" />
+	<style type="text/css">
+		.nav li a{padding:10px 3px}
+	</style>
 
 <!--[if lte IE 9]>
 			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" class="ace-main-stylesheet" />
@@ -65,7 +68,7 @@
 	<div id="navbar" class="navbar navbar-default">
 		<script type="text/javascript">
 			try {
-				ace.settings.check('navbar', 'fixed')
+				ace.settings.check('navbar', 'fixed');
 			} catch (e) {
 			}
 		</script>
@@ -83,7 +86,7 @@
 			<div class="navbar-header pull-left">
 				<!-- #section:basics/navbar.layout.brand -->
 				<a href="#" class="navbar-brand"> <small> <i
-						class="fa fa-leaf"></i> 欢迎光顾xx商店 </small> </a>
+						class="fa fa-leaf"></i> 欢迎光顾德玛商店 </small> </a>
 
 				<!-- /section:basics/navbar.layout.brand -->
 
@@ -104,7 +107,7 @@
 	<div class="main-container" id="main-container">
 		<script type="text/javascript">
 			try {
-				ace.settings.check('main-container', 'fixed')
+				ace.settings.check('main-container', 'fixed');
 			} catch (e) {
 			}
 		</script>
@@ -113,7 +116,7 @@
 		<div id="sidebar" class="sidebar                  responsive">
 			<script type="text/javascript">
 				try {
-					ace.settings.check('sidebar', 'fixed')
+					ace.settings.check('sidebar', 'fixed');
 				} catch (e) {
 				}
 			</script>
@@ -167,7 +170,7 @@
 			<!-- /section:basics/sidebar.layout.minimize -->
 			<script type="text/javascript">
 				try {
-					ace.settings.check('sidebar', 'collapsed')
+					ace.settings.check('sidebar', 'collapsed');
 				} catch (e) {
 				}
 			</script>
@@ -180,7 +183,7 @@
 				<div class="breadcrumbs" id="breadcrumbs">
 					<script type="text/javascript">
 						try {
-							ace.settings.check('breadcrumbs', 'fixed')
+							ace.settings.check('breadcrumbs', 'fixed');
 						} catch (e) {
 						}
 					</script>
@@ -188,7 +191,7 @@
 					<ul class="breadcrumb">
 						<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">小二百货店</a>
 						</li>
-						<li class="active">生活用品</li>
+						<li class="active">所有商品</li>
 					</ul>
 					<!-- /.breadcrumb -->
 
@@ -226,16 +229,29 @@
 		<nav class="navbar navbar-default navbar-fixed-bottom"
 			role="navigation">
 			<ul class="nav navbar-nav">
-				<li class="green col-xs-3"><a href="#"> <i
-						class="ace-icon fa fa-list icon-animated-vertical"></i>
-				</a></li>
-				<li class="green col-xs-3"><a href="#"> <i
-						class="ace-icon fa fa-user icon-animated-vertical"></i>
-				</a></li>
-				<li class="green col-xs-6"><a href="#"> <i
-						class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i>
-						<span onClick="goBuy()">确认购买<span id="countSpan" style="display:none" class="badge badge-red"><font id="count" color="red"></font></span></span>
-				</a></li>
+				<li class="green col-xs-4">
+					<a href="${pageContext.request.contextPath }/index.jsp">
+						<i class="ace-icon fa fa-home icon-animated-vertical"></i>
+						商品首页
+					</a>
+				</li>
+				<li class="green col-xs-4">
+					<a href="${pageContext.request.contextPath }/custom/person.jsp">
+						<i class="ace-icon fa fa-user icon-animated-vertical"></i>
+						个人中心
+					</a>
+				</li>
+				<li class="green col-xs-4">
+					<a href="javascript:void(0)">
+						<i class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i>
+						<span onClick="goBuy()">
+							确认购买
+							<span id="countSpan" style="display:none;position: absolute;" class="badge badge-red">
+								<font id="count" color="red"></font>
+							</span>
+						</span>
+					</a>
+				</li>
 			</ul>
 		</nav>
 
@@ -464,6 +480,8 @@
 			var lastIndex = jsonString.lastIndexOf(',');
 			if (lastIndex > -1) {
           		jsonString = jsonString.substring(0, lastIndex) + jsonString.substring(lastIndex + 1, jsonString.length);
+      		}else if(lastIndex==-1){
+      			return;
       		}
       		window.location.href="user/addOrders?jsonString="+jsonString;
 			//$.post("user/addOrders",{jsonString:jsonString});

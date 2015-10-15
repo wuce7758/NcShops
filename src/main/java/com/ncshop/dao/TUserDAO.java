@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -36,13 +37,16 @@ public class TUserDAO extends BaseDao {
 	public static final String IS_ATTENTION = "isAttention";
 
 	public void save(TUser transientInstance) {
+		Session session = getSession2();
 		log.debug("saving TUser instance");
 		try {
-			getSession2().save(transientInstance);
+			session.save(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
 			throw re;
+		}finally{
+			session.close();
 		}
 	}
 
@@ -84,18 +88,21 @@ public class TUserDAO extends BaseDao {
 		}
 	}
 
-	public List findByProperty(String propertyName, Object value) {
+	public List<TUser> findByProperty(String propertyName, Object value) {
 		log.debug("finding TUser instance with property: " + propertyName
 				+ ", value: " + value);
+		Session session = getSession2();
 		try {
 			String queryString = "from TUser as model where model."
 					+ propertyName + "= ?";
-			Query queryObject = getSession2().createQuery(queryString);
+			Query queryObject = session.createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find by property name failed", re);
 			throw re;
+		}finally{
+			session.close();
 		}
 	}
 
