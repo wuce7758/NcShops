@@ -154,7 +154,24 @@ request.getServerPort() + path + "/"; %>
 								goods_type += ";";
 							}
 						}
-						alert(goods_type);
+					}
+				});
+				//获取商家
+				var seller_list = "";
+				$.ajax({
+					type: "post",
+					url: "../../seller/getAllSeller",
+					data: "hello" + "world!",
+					async: false,
+					success: function(data) {
+						var sellers = JSON.stringify(data.TSeller);
+						var obj = JSON.parse(sellers);
+						for(var i = 0;i < obj.length;i++){
+							seller_list += obj[i].sellerId + ":" + obj[i].shopName;
+							if(i < obj.length - 1){
+								seller_list += ";";
+							}
+						}
 					}
 				});
 				var grid_data = JSON.parse(goods_data);
@@ -256,7 +273,7 @@ request.getServerPort() + path + "/"; %>
 						data: grid_data,
 						datatype: "local",
 						height: 250,
-						colNames: [' ', 'ID', '名称', '商家' , '价格', '类型', '图片', '简介'],
+						colNames: [' ', 'ID', '名称', '商家' , '单价', '类型', '图片', '简介'],
 						colModel: [{
 								name: 'myac',
 								index: '',
@@ -296,8 +313,7 @@ request.getServerPort() + path + "/"; %>
 								editable: true,
 								edittype: "select",
 								editoptions: {
-									size: "20",
-									maxlength: "20"
+									value:seller_list
 								}
 							}, {
 								name: 'TGoods.goodsPrice',
@@ -313,7 +329,7 @@ request.getServerPort() + path + "/"; %>
 							}, {
 								name: 'TGoods.TGoodstype.goodsTypeName',
 								index: 'TGoods.TGoodstype.goodsTypeName',
-								width: 70,
+								width: 80,
 								editable: true,
 								edittype: "select",
 								editoptions: {
@@ -342,7 +358,7 @@ request.getServerPort() + path + "/"; %>
 								edittype: "textarea",
 								editoptions: {
 									rows: "2",
-									cols: "100"
+									cols: "30"
 								}
 							}
 						],
