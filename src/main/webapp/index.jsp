@@ -435,7 +435,6 @@
 			});
 		});
 		function goBuy(){
-			debugger;
 			var goodsItem=$("input.spinner");
 			var jsonString="{\"array\":[";
 			for(var i=0;i<goodsItem.length;i++){
