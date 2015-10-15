@@ -235,7 +235,7 @@ request.getServerPort() + path + "/"; %>
 						data: grid_data,
 						datatype: "local",
 						height: 250,
-						colNames: [' ', 'ID', '名称', '价格', '类型', '图片', '简介'],
+						colNames: [' ', 'ID', '名称', '商家' , '价格', '类型', '图片', '简介'],
 						colModel: [{
 								name: 'myac',
 								index: '',
@@ -259,11 +259,21 @@ request.getServerPort() + path + "/"; %>
 								width: 30,
 								sorttype: "int",
 								editable: false
-							}, {
+							},{
 								name: 'TGoods.goodsName',
 								index: 'TGoods.goodsName',
 								width: 80,
 								editable: true,
+								editoptions: {
+									size: "20",
+									maxlength: "20"
+								}
+							}, {
+								name: 'seller.shopName',
+								index: 'seller.shopName',
+								width: 80,
+								editable: true,
+								edittype: "select",
 								editoptions: {
 									size: "20",
 									maxlength: "20"
@@ -286,13 +296,14 @@ request.getServerPort() + path + "/"; %>
 								editable: true,
 								edittype: "select",
 								editoptions: {
-									value: "FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"
+									dataUrl:"../../seller/getAllGoodsType"
 								}
 							}, {
 								name: 'TGoods.goodsPic',
 								index: 'TGoods.goodsPic',
-								width: 20,
+								width: 100,
 								editable: true,
+								edittype:"file",
 								formatter: function(cellvalue, option, rowObject) {
 									return "<a href='javascript:void(0)' name='" + cellvalue + "'><span calss='goodsPic'>查看</span></a>";
 								}
@@ -310,7 +321,7 @@ request.getServerPort() + path + "/"; %>
 								edittype: "textarea",
 								editoptions: {
 									rows: "2",
-									cols: "10"
+									cols: "100"
 								}
 							}
 						],
@@ -332,7 +343,7 @@ request.getServerPort() + path + "/"; %>
 								enableTooltips(table);
 							}, 0);
 						},
-						editurl: "../../user/findSellergoods", //nothing is saved
+						editurl: "../../seller/addGoods", //nothing is saved
 						caption: "商品管理列表"
 							//,autowidth: true,
 							/**
