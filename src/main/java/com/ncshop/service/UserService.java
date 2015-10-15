@@ -158,11 +158,13 @@ public class UserService {
 
 	public List<TAddress> findAddress(Integer userId) {
 
-		return addressDAO.findByProperty("userId", userId);
+		TAddress address=new TAddress();
+		address.setUserId(userId);
+		return addressDAO.getHibernateTemplate().findByExample(address);
 	}
 
 	public TUser findUser(String openId) {
-		List<TUser> list = userDao.findByProperty("openId", openId);
+		List<TUser> list = userDao.getHibernateTemplate().find("from TUser where openId"+openId);
 		if (list.size() < 1) {
 			return null;
 		} else {

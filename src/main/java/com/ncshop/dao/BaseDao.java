@@ -6,9 +6,20 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.SimpleExpression;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BaseDao extends BaseHibernateDAO {
+	private HibernateTemplate hibernateTemplate;
 
+	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
+		this.hibernateTemplate = hibernateTemplate;
+	}
+
+	public HibernateTemplate getHibernateTemplate() {
+		return hibernateTemplate;
+	}
 	/**
 	 * 
 	 * @param t
@@ -19,7 +30,8 @@ public class BaseDao extends BaseHibernateDAO {
 	 */
 	public <T> List<T> getEntitiestNotLazy(T t, String[] fields,
 			SimpleExpression eq, int start, int max, boolean flag) {
-		Session session = getSessionFactory().openSession();
+		Session session = getHibernateTemplate().getSessionFactory()
+				.openSession();
 		try {
 			Criteria criteria = session.createCriteria(t.getClass());
 			criteria.setTimeout(1000);

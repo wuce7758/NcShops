@@ -464,6 +464,7 @@
 			} 
 			$("#orderPrice strong").text(price);
 		} */
+		debugger;
 		var flag="${requestScope.address}";
 		$(document).ready(function(){
 			sum();

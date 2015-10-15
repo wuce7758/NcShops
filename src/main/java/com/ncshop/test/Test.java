@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ncshop.dao.TAddressDAO;
+import com.ncshop.dao.TGoodsDAO;
 import com.ncshop.dao.TUserDAO;
 import com.ncshop.domain.TAddress;
 import com.ncshop.domain.TUser;
@@ -38,18 +39,14 @@ public class Test{
 		
 	}
 	@org.junit.Test
-	public void test2() {
-		Set<TAddress> a=userDAO.findById(1).getTAddresses();
-		TAddress address=new TAddress();
-		address.setAdsContent("高新7路");
-		address.setUserId(1);
-		address.setAdsPhone("15879023814");
-		List<TAddress> addressList=addressDAO.findByExample(address);
-		addressDAO.save(address);	
-	}
-	@org.junit.Test
 	public void testMenu(){
 		
 		new BuildMenu().setConfig().build();
+	}
+	@org.junit.Test
+	public void test(){
+		TGoodsDAO tGoodsDAO = new TGoodsDAO();
+		List findAll = tGoodsDAO.findAll();
+		System.out.println("");
 	}
 }
