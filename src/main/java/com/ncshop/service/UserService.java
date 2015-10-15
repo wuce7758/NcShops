@@ -100,7 +100,7 @@ public class UserService {
 		
 		for (TSellergoods tSellergoods : list) {
 			TGoods goods = tSellergoods.getTGoods();
-			TGoodstype findById = goodstypeDAO.findById(tSellergoods.getTGoods().getGoodsId());
+			TGoodstype findById = goodstypeDAO.findById(goods.getGoodsId());
 			goods.setTGoodstype(findById);
 			tSellergoods.setTGoods(goods);
 		}
