@@ -310,12 +310,13 @@ public class UserController {
 	 * @param response
 	 */
 	@RequestMapping("/addAddress")
-	public void bindInfo(TAddress address, int userId,
-			HttpServletRequest request, HttpServletResponse response) {
+	public void bindInfo(TAddress address, HttpServletRequest request,
+			HttpServletResponse response) {
 		try {
 			TUser user = (TUser) request.getSession().getAttribute("user");
 			if (user != null) {
 				if (user.getUserId() != null) {
+					address.setUserId(user.getUserId());
 					if (userService.updateAddress(user.getUserId(), address)) {
 						List<TAddress> findAddress = userService
 								.findAddress(user.getUserId());
@@ -329,10 +330,10 @@ public class UserController {
 				address.setIsDefault(true);
 				userService.bind(new TUser(), address);
 
+				List<TAddress> addresses = new ArrayList<TAddress>();
+				addresses.add(address);
+				request.setAttribute("address", addresses);
 			}
-			List<TAddress> addresses = new ArrayList<TAddress>();
-			addresses.add(address);
-			request.setAttribute("address", addresses);
 			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
 					request, response);
 		} catch (Exception e) {
