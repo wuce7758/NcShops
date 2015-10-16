@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
 
@@ -197,6 +198,8 @@ public class UserController {
 		TOrderdetail orderdetail;
 		String goodId;
 		String num;
+		/* 本地测试 */
+		TAddress taddress=new TAddress();
 		try {
 
 			String json = request.getParameter("jsonString");
@@ -231,7 +234,13 @@ public class UserController {
 					address = userService.findAddress(tempuser.getUserId());
 				}
 			}
-			request.setAttribute("address", address);
+			taddress.setAdsContent("本地测试");
+			taddress.setIsDefault(true);
+			taddress.setReceiverName("本地");
+			taddress.setAdsPhone("123");
+			address=new ArrayList<TAddress>();
+			address.add(taddress);
+			request.setAttribute("address",address);
 			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
 					request, response);
 			return null;
@@ -256,9 +265,10 @@ public class UserController {
 					.getSession().getAttribute("odersdetails");
 			double orderTotalCost = 0.0;
 			TUser user = (TUser) request.getSession().getAttribute("user");
+			
 			initMessageContext();
 			WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
-			templateMessage.setToUser(user.getOpenId());
+			templateMessage.setToUser("okbTSviVtX78Bs36wXPu8bwc9mKI");
 			templateMessage
 					.setTemplateId("J80K1Uw6c_xDOy-D1btyuPNoi_nKgITtEV3tiwA_bzw");
 			templateMessage.setUrl("www.baidu.com");
@@ -405,6 +415,9 @@ public class UserController {
 		wxMpConfigStorage.setSecret(configInfo.getWeChatAppSecret()); // 设置微信公众号的app
 		wxMpConfigStorage.setToken(configInfo.getWeChatToken()); // 设置微信公众号的token
 		wxMpConfigStorage.setAesKey(configInfo.getWeChatAESKey()); // 设置微信公众号的EncodingAESKey
+		wxMpService = new WxMpServiceImpl();
+		wxMpService.setWxMpConfigStorage(wxMpConfigStorage);
+
 	}
 
 }
