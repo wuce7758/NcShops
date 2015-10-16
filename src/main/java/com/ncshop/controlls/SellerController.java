@@ -36,16 +36,19 @@ public class SellerController {
 	 * @throws IOException 
 	 * @throws ServletException 
 	 */
+	@RequestMapping("/sellerLogin")
 	public void sellerLogin(HttpServletRequest request,HttpServletResponse response,String sellerName,String sellerPhone) throws ServletException, IOException{
-		if(sellerName=="admin123"&&sellerPhone=="123"){
-			TSeller seller=sellerService.sellerLogin(sellerName,sellerPhone);
-			request.getSession().setAttribute("seller", seller);
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
-		}else{
-			request.getSession().setAttribute("sellerName", "用户名错误！");
-			request.getSession().setAttribute("sellerPassword", "用户名密码错误！");
-			request.getRequestDispatcher("/login.jsp").forward(request, response);
-		}
+		//if(sellerName=="admin123"&&sellerPhone=="123"){
+			//TSeller seller=sellerService.sellerLogin(sellerName,sellerPhone);
+			List<TGoods> list= sellerService.findAllGoods();
+			request.setAttribute("allGoods",list);
+			//request.getSession().setAttribute("seller", seller);
+			request.getRequestDispatcher("/admin/page/goods.jsp").forward(request, response);
+		//}else{
+			//request.getSession().setAttribute("sellerName", "用户名错误！");
+			//request.getSession().setAttribute("sellerPassword", "用户名密码错误！");
+			//request.getRequestDispatcher("/login.jsp").forward(request, response);
+		//}
 	}
 	/**
 	 * 根据订单状态和微信标识查找某店铺订单
@@ -86,9 +89,8 @@ public class SellerController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/addGoods")
-	public void addGoods(HttpServletRequest request,HttpServletResponse response,String oper,TGoods goods) throws Exception {
+	public void addGoods(HttpServletRequest request,HttpServletResponse response,String sellerId,String oper,TGoods goods) throws Exception {
 		response.setContentType("text/html;charset=utf-8");
-		String sellerId=request.getParameter("sellerId");
 		String goodsTypeId=request.getParameter("goodsTypeId");
 		// 调用service查找 数据库
 		if(oper=="add"){
@@ -103,7 +105,7 @@ public class SellerController {
 			}
 			sellerService.updateGoods(Integer.parseInt(goodsTypeId), goods);
 			response.getWriter().write("修改商品成功!");
-		}else if(oper=="del"){
+		}else if(oper=="delete"){
 			sellerService.deleteGoods(goods);
 			response.getWriter().write("删除商品成功!");
 		}
