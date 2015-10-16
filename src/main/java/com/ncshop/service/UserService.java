@@ -13,6 +13,7 @@ import com.ncshop.dao.TAddressDAO;
 import com.ncshop.dao.TGoodsDAO;
 import com.ncshop.dao.TGoodstypeDAO;
 import com.ncshop.dao.TOrderDAO;
+import com.ncshop.dao.TOrderdetailDAO;
 import com.ncshop.dao.TSellerDAO;
 import com.ncshop.dao.TSellergoodsDAO;
 import com.ncshop.dao.TUserDAO;
@@ -20,6 +21,7 @@ import com.ncshop.domain.TAddress;
 import com.ncshop.domain.TGoods;
 import com.ncshop.domain.TGoodstype;
 import com.ncshop.domain.TOrder;
+import com.ncshop.domain.TOrderdetail;
 import com.ncshop.domain.TSeller;
 import com.ncshop.domain.TSellergoods;
 import com.ncshop.domain.TUser;
@@ -40,6 +42,8 @@ public class UserService {
 	private TGoodstypeDAO goodstypeDAO;
 	@Autowired
 	private TAddressDAO addressDAO;
+	@Autowired
+	private TOrderdetailDAO orderdetailDAO;
 
 	@SuppressWarnings("unchecked")
 	public List<TSeller> findAllSellers() {
@@ -58,10 +62,14 @@ public class UserService {
 				new String[] { "TGoodstype" }, null, start, max, true);
 	}
 
-	public boolean order(TOrder order) {
+	public boolean order(TOrder order, Set<TOrderdetail> odersdetails) {
 
 		try {
 			orderDao.save(order);
+			for (TOrderdetail tOrderdetail : odersdetails) {
+				tOrderdetail.setOrderId(order.getOrderId());
+				orderdetailDAO.save(tOrderdetail);
+			}
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
