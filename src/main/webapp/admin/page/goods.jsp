@@ -97,6 +97,7 @@
 								<div class="pull-right tableTools-container"></div>
 							</div>
 							<div class="table-header">商品列表</div>
+							<s:action/>
 							<table id="dynamic-table"
 								class="table table-striped table-bordered table-hover">
 								<thead>
@@ -115,7 +116,7 @@
 										<th>
 											<p class="text-center">
 												<a class="blue buttongoods" href="javascript:void(0)"
-													id="buttonadd"> <i
+													id="buttonadd" oper="add"> <i
 													class="fa fa-plus-square-o bigger-130"><small>添加商品</small>
 												</i> </a>
 											</p>
@@ -124,37 +125,37 @@
 								</thead>
 
 								<tbody>
-									<%-- <c:forEach items="${allGoods}" var="trl" varStatus="status"> --%>
+									<c:forEach items="${requestScope.allGoods}" var="trl" varStatus="status">
 									<tr>
 										<td class="center"><label class="pos-rel"> <input
 												type="checkbox" class="ace" /> <span class="lbl"></span> </label>
 										</td>
 
 										<td><a href="">1</a></td>
-										<td>${trl.rolename}</td>
-										<td class="hidden-480">${trl.price}</td>
-										<td class="hidden-480">${trl.shop}</td>
-										<td class="hidden-480">${trl.type}</td>
+										<td>${trl.goodsId}</td>
+										<td class="hidden-480">${trl.goodsName}</td>
+										<td class="hidden-480">${trl.goodsPrice}</td>
+										<td class="hidden-480">${trl.TGoodstype.goodsTypeName}</td>
 										<td><a name="time" href="javascript:void(0);"
 											data-container="body" data-toggle="popover"
-											data-placement="bottom" data-content="${trl.pic}"> </a>
+											data-placement="bottom" data-content="${trl.goodsPic}"> </a>
 										</td>
-										<td id="roleSeq${trl.msg}"><span class="label label-sm "
-											name="roleSeq${trl.msg}">${trl.msg}</span></td>
-										<td class="hidden-480">${trl.state}</td>
+										<td id="roleSeq${trl.goodsMsg}"><span class="label label-sm "
+											name="roleSeq${trl.goodsMsg}">${trl.goodsMsg}</span></td>
+										<td class="hidden-480">${trl.goodsMsg}</td>
 										<td>
 											<div class="hidden-sm hidden-xs action-buttons">
 												<a class="blue buttongoods" href="javascript:void(0)"
-													name="${trl.getRoleid()}" oper="detaill"> <i
+													name="${trl.goodsId}" oper="detaill"> <i
 													class="fa fa-search-plus bigger-130"><small></small> </i> </a>
 												<a class="green buttongoods" href="javascript:void(0)"
-													name="${trl.getRoleid()}" oper="modify"> <i
+													name="${trl.goodsId}" oper="modify"> <i
 													class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
 													class="red buttongoods" href="javascript:void(0)"
-													name="${trl.getRoleid()}" oper="delete"> <i
-													id="roleSeqAction${trl.getRoleid()}"
+													name="${trl.goodsId}" oper="delete"> <i
+													id="roleSeqAction${trl.goodsId}"
 													class="fa fa-toggle-off bigger-130"
-													name="roleSeqAction${trl.seq}"></i> </a>
+													name="roleSeqAction${trl.goodsId}"></i> </a>
 											</div>
 											<div class="hidden-md hidden-lg">
 												<div class="inline pos-rel">
@@ -166,21 +167,21 @@
 													<ul
 														class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 														<li><a href="javascript:void(0)"
-															name="${trl.getRoleid()}" onclick="GetDetail(this)"
+															name="${trl.goodsId}" onclick="GetDetail(this)"
 															class="tooltip-info" data-rel="tooltip" title="View">
 																<span class="blue"> <i
 																	class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a>
 														</li>
 
 														<li><a href="javascript:void(0)"
-															name="${trl.getRoleid()}" onclick="Modify(this)"
+															name="${trl.goodsId}" onclick="Modify(this)"
 															class="tooltip-success" data-rel="tooltip" title="Edit">
 																<span class="green"> <i
 																	class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 															</span> </a>
 														</li>
 
-														<li><a href="ClassDelete?classId=${trl.getRoleid()}"
+														<li><a href="ClassDelete?classId=${trl.goodsId}"
 															class="tooltip-error" data-rel="tooltip" title="Delete">
 																<span class="red"> <i
 																	class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a>
@@ -190,21 +191,24 @@
 											</div>
 										</td>
 									</tr>
-									<%-- </c:forEach> --%>
+									</c:forEach>
 								</tbody>
 							</table>
 							<!-- PAGE CONTENT ENDS -->
 						</div>
-						<!-- <form id="formgoodsinfo"> -->
-							<form id="dialog-message" class="hide">
+
+						<div id="dialog-message" class="hide">
+							<form id="formgoodsinfo">
+								<input type="hidden" name="oper" value="" id="oper"/>
 								<div class="col-sm-12">
+									<input type="hidden" name="oper" value="" id="oper" />
 									<div class="form-group col-sm-12">
 										<label class="col-sm-3 control-label no-padding-right"
 											for="form-field-1">名称</label>
 
 										<div class="col-sm-9">
-											<input type="text" id="form-field-1" name="goodsname"
-												placeholder="Username" class="col-xs-12 col-sm-12" />
+											<input type="text" id="form-field-1" name="goodsName"
+												placeholder="商品名称" class="col-xs-12 col-sm-12" />
 										</div>
 									</div>
 									<div class="form-group col-sm-12">
@@ -212,44 +216,39 @@
 											for="form-field-1">价格</label>
 
 										<div class="col-sm-9">
-											<input type="text" id="form-field-1" name="goodsprice"
-												placeholder="Username" class="col-xs-12 col-sm-12" />
+											<input type="text" id="form-field-1" name="goodsPrice"
+												placeholder="商品价格" class="col-xs-12 col-sm-12" />
 										</div>
 									</div>
 									<div class="form-group col-sm-12">
-										<label for="form-field-select-3"
+										<label for="goodsShop"
 											class="col-sm-3 control-label no-padding-right">商店</label>
 										<div class="col-sm-9">
 											<select
 												class="chosen-select form-control col-xs-12 col-sm-12"
-												name="goodsshop" id="form-field-select-3"
+												name="goodsshop" id="goodsShop"
 												data-placeholder="Choose a State...">
-												<option value="AL">Alabama</option>
+												<option value=""></option>
 											</select>
 										</div>
 									</div>
 									<div class="form-group col-sm-12">
-										<label for="form-field-select-3"
+										<label for="goodsType"
 											class="col-sm-3 control-label no-padding-right">分类</label>
 										<div class="col-sm-9">
 											<select
 												class="chosen-select form-control col-xs-12 col-sm-12"
-												name="goodstype" id="form-field-select-3"
+												name="goodstype" id="goodsType"
 												data-placeholder="Choose a State...">
-												<option value="AL">Alabama</option>
+												<option value=""></option>
 											</select>
 										</div>
 									</div>
 									<div class="form-group col-sm-12">
 										<label class="col-sm-3 control-label no-padding-right"
 											for="id-input-field-2">照片</label>
-										<!-- <div class="col-xs-9 col-sm-9">
-													<span class="profile-picture">
-                                                        <img src="../images/biguser.gif" id="avatar" class="editable img-responsive" alt="点击更换照片" />
-                                                    </span>
-                                                </div> -->
 										<div class="col-sm-9">
-											<input type="file" name="goodspic" id="id-input-file-3" />
+											<input type="file" name="goodsPic" id="id-input-file-3" />
 										</div>
 									</div>
 									<div class="form-group col-sm-12">
@@ -258,7 +257,7 @@
 
 										<div class="col-sm-9">
 											<textarea id="form-field-11"
-												class="autosize-transition form-control" name="goodsmsg"
+												class="autosize-transition form-control" name="goodsMsg"
 												maxlength="100"></textarea>
 										</div>
 									</div>
@@ -266,16 +265,15 @@
 
 								<div class="hr hr-12 hr-double"></div>
 
-								<div id="error"></div>
-								<div class="clearfix form-actions">
-									<div class="col-md-offset-3 col-md-9">
-										<button class="btn btn-info" id="goodssave" type="button">
-											<i class="ace-icon fa fa-check bigger-110"></i>保存
-										</button>
-									</div>
+								<div id="error">123</div>
+								<div>
+									<button class="btn btn-info btn-block" id="goodssave"
+										type="button">
+										<i class="ace-icon fa fa-check bigger-110"></i>保存
+									</button>
 								</div>
-							<!-- </div> -->
-						</form>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -285,7 +283,7 @@
 	<jsp:include page="../WebPart/Script.jsp"></jsp:include>
 	<!-- page specific plugin scripts -->
 	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.js"></script>
-	<script src="http://malsup.github.io/jquery.form.js"></script> 
+	<script src="http://malsup.github.io/jquery.form.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/jquery.ui.touch-punch.js"></script>
 
@@ -302,108 +300,173 @@
 		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/ColVis/js/dataTables.colVis.js"></script>
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
-		$(document).ready(function(){
-			//图片上传 及数据保存 
-    		$("#goodssave").click(function(){
-       			var ext = '.jpg.jpeg.gif.bmp.png.';
-        		var f = $("#file").val();
-        		if (f == "") { //先判断是否已选择了文件 
-            		$("#error").attr("class", "error_div").html("<img src='../images/error_img2.gif' style='width:15px;height:15px;'/>" + "请添加商圈logo！");
-            		return false;
-        		}
-        		/* f = f.substr(f.lastIndexOf('.') + 1).toLowerCase();
-        		if (ext.indexOf('.' + f + '.') == -1) {
-            		$("#error").attr("class", "error_div").html("<img src='../images/error_img2.gif' style='width:15px;height:15px;'/>" + "图片格式不正确！");
-            		return false;
-        		} */
+		$(document)
+				.ready(
+						function() {
+							//获取商品类型
+							$
+									.ajax({
+										type : "post",
+										url : "../../seller/getAllGoodsType",
+										dataType : "json",
+										async : false,
+										/*这句可用可不用，没有影响*/
+										contentType : "application/json; charset=utf-8",
+										success : function(data) {
+											var goodstypes = JSON .stringify(data.TGoodstype);
+											var obj = JSON.parse(goodstypes);
+											for ( var i = 0; i < obj.length; i++) {
+												$("#goodsType").append("<option value='"+obj[i].goodsTypeId+"'>"+obj[i].goodsTypeName+"</option>");
+											}
+										},
+										error : function(XMLHttpRequest,
+												textStatus, errorThrown) {
+											alert(errorThrown);
+										}
+									});
+									//获取店铺信息类型
+							$
+									.ajax({
+										type : "post",
+										url : "../../seller/getAllSeller",
+										dataType : "json",
+										async : false,
+										/*这句可用可不用，没有影响*/
+										contentType : "application/json; charset=utf-8",
+										success : function(data) {
+											var goodstypes = JSON .stringify(data.TSeller);
+											var obj = JSON.parse(goodstypes);
+											for ( var i = 0; i < obj.length; i++) {
+												$("#goodsShop").append("<option value='"+obj[i].sellerId+"'>"+obj[i].shopName+"</option>");
+											}
+										},
+										error : function(XMLHttpRequest,
+												textStatus, errorThrown) {
+											alert(errorThrown);
+										}
+									});
+							//图片上传 及数据保存 
+							$("#goodssave")
+									.click(
+											function() {
+												var ext = '.jpg.jpeg.gif.bmp.png.';
+												var f = $("#file").val();
+												if (f == "") { //先判断是否已选择了文件 
+													$("#error")
+															.attr("class",
+																	"error_div")
+															.html(
+																	"<img src='../images/error_img2.gif' style='width:15px;height:15px;'/>"
+																			+ "请添加商圈logo！");
+													return false;
+												}
+												/* f = f.substr(f.lastIndexOf('.') + 1).toLowerCase();
+												if (ext.indexOf('.' + f + '.') == -1) {
+													$("#error").attr("class", "error_div").html("<img src='../images/error_img2.gif' style='width:15px;height:15px;'/>" + "图片格式不正确！");
+													return false;
+												} */
 
-        		var options = {
-            		url: "../../seller/addGoods",
-            		dataType: 'json',
-            		contentType: "application/json; charset=utf-8",
-            		success: function(data) {
-                		// 'data' is an object representing the the evaluated json data 
-                		// 如果图片上传成功则保存表单注册数据 
-                		alert(data);
-                		if (data == "0") {
-                    		var fileName = data.fileName;
-                    		alert(fileName);               		
-                    		$.ajax({
-                        		type: "post",
-                        		url: "user/findAllGoods",
-                        		dataType: "json",
-                        		/*这句可用可不用，没有影响*/
-                        		contentType: "application/json; charset=utf-8",
-                        		success: function(data) {
-                            		if (data == "0") {
-                                		alert("注册成功!");
-                            		} else {
-                                		alert("注册失败!原因是：" + data.message);
-                            		}
-                        		},
-                        		error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            		alert(errorThrown);
-                        		}
-                    		});
-                		} else {
-                    		$("#error").attr("class", "error_div").html("<img src='${ctx}/images/error_img2.gif' style='width:15px;height:15px;'/>" + data.message);
-                		}
-            		}
-        		}
-        		// 提交表单 
-        		$('#dialog-message').ajaxSubmit(options);
-    		});
-					$('[data-toggle="popover"]').popover();
-					//myEach();
-					myEachPopover("time", 0, 10);
+												var options = {
+													url : "../../seller/addGoods",
+													dataType : 'json',
+													contentType : "application/json; charset=utf-8",
+													success : function(data) {
+														// 'data' is an object representing the the evaluated json data 
+														// 如果图片上传成功则保存表单注册数据 
+														alert(data);
+														if (data == "0") {
+															var fileName = data.fileName;
+															alert(fileName);
+															$
+																	.ajax({
+																		type : "post",
+																		url : "user/findAllGoods",
+																		dataType : "json",
+																		/*这句可用可不用，没有影响*/
+																		contentType : "application/json; charset=utf-8",
+																		success : function(
+																				data) {
+																			if (data == "0") {
+																				alert("注册成功!");
+																			} else {
+																				alert("注册失败!原因是："
+																						+ data.message);
+																			}
+																		},
+																		error : function(
+																				XMLHttpRequest,
+																				textStatus,
+																				errorThrown) {
+																			alert(errorThrown);
+																		}
+																	});
+														} else {
+															$("#error")
+																	.attr(
+																			"class",
+																			"error_div")
+																	.html(
+																			"<img src='${ctx}/images/error_img2.gif' style='width:15px;height:15px;'/>"
+																					+ data.message);
+														}
+													}
+												}
+												// 提交表单 
+												$('#formgoodsinfo').ajaxSubmit(
+														options);
+											});
+							$('[data-toggle="popover"]').popover();
+							//myEach();
+							myEachPopover("time", 0, 10);
 
-					//图片上传框
-					$('#id-input-file-3').ace_file_input({
-						style : 'well',
-						btn_choose : '选择图片...',
-						btn_change : null,
-						no_icon : 'ace-icon fa fa-cloud-upload',
-						droppable : true,
-						thumbnail : 'small' //large | fit
-						//,icon_remove:null//set null, to hide remove/reset button
-						/**,before_change:function(files, dropped) {
-							//Check an example below
-							//or examples/file-upload.html
-							return true;
-						}*/
-						/**,before_remove : function() {
-							return true;
-						}*/
-						,
-						preview_error : function(filename, error_code) {
-							//name of the file that failed
-							//error_code values
-							//1 = 'FILE_LOAD_FAILED',
-							//2 = 'IMAGE_LOAD_FAILED',
-							//3 = 'THUMBNAIL_FAILED'
-							//alert(error_code);
-						}
-					}).on('change', function() {
-						console.log($(this).data('ace_input_files'));
-						console.log($(this).data('ace_input_method'));
+							//图片上传框
+							$('#id-input-file-3').ace_file_input({
+								style : 'well',
+								btn_choose : '选择图片...',
+								btn_change : null,
+								no_icon : 'ace-icon fa fa-cloud-upload',
+								droppable : true,
+								thumbnail : 'small' //large | fit
+								//,icon_remove:null//set null, to hide remove/reset button
+								/**,before_change:function(files, dropped) {
+									//Check an example below
+									//or examples/file-upload.html
+									return true;
+								}*/
+								/**,before_remove : function() {
+									return true;
+								}*/
+								,
+								preview_error : function(filename, error_code) {
+									//name of the file that failed
+									//error_code values
+									//1 = 'FILE_LOAD_FAILED',
+									//2 = 'IMAGE_LOAD_FAILED',
+									//3 = 'THUMBNAIL_FAILED'
+									//alert(error_code);
+								}
+							}).on('change', function() {
+								console.log($(this).data('ace_input_files'));
+								console.log($(this).data('ace_input_method'));
 
-					});
-					var whitelist_ext, whitelist_mime;
-					var btn_choose;
-					var no_icon;
-					btn_choose = "选择照片...";
-					no_icon = "ace-icon fa fa-picture-o";
-					whitelist_ext = [ "jpeg", "jpg", "png", "gif", "bmp" ];
-					whitelist_mime = [ "image/jpg", "image/jpeg", "image/png",
-							"image/gif", "image/bmp" ];
-					var file_input = $('#id-input-file-3');
-					file_input.ace_file_input('update_settings', {
-						'btn_choose' : btn_choose,
-						'no_icon' : no_icon,
-						'allowExt' : whitelist_ext,
-						'allowMime' : whitelist_mime
-					});
-				});
+							});
+							var whitelist_ext, whitelist_mime;
+							var btn_choose;
+							var no_icon;
+							btn_choose = "选择照片...";
+							no_icon = "ace-icon fa fa-picture-o";
+							whitelist_ext = [ "jpeg", "jpg", "png", "gif",
+									"bmp" ];
+							whitelist_mime = [ "image/jpg", "image/jpeg",
+									"image/png", "image/gif", "image/bmp" ];
+							var file_input = $('#id-input-file-3');
+							file_input.ace_file_input('update_settings', {
+								'btn_choose' : btn_choose,
+								'no_icon' : no_icon,
+								'allowExt' : whitelist_ext,
+								'allowMime' : whitelist_mime
+							});
+						});
 
 		function myEach() {
 			$("span[name='roleSeq1']").each(function() {
@@ -444,6 +507,7 @@
 					.click(
 							function() {
 								var oper = $(this).attr('oper');
+								$("#oper").val(oper);
 								var dialog = $("#dialog-message")
 										.removeClass('hide')
 										.dialog(

@@ -50,7 +50,18 @@ public class SellerService {
 		}else{
 			return null;
 		}
-	} 
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<TGoods> findAllGoods() {
+		// TODO Auto-generated method stub 
+		List<TGoods> list=orderDao.getHibernateTemplate().find("from TGoods");
+		if(list.size()>0){
+			return list;
+		}else{
+			return null;
+		}
+	}
  
  
 	public void addGoods(int sellerId,int goodsTypeId,TGoods goods) {

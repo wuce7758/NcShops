@@ -258,8 +258,8 @@
 	   											</font>
 	   										</c:if>
    											<c:forEach var="address" items="${address}">
-		   										<p><c:out value="地址：${address.adsContent }"></c:out></p>
 		   										<p><c:out value="接收人：${address.receiverName }"></c:out></p>
+		   										<p><c:out value="地址：${address.adsContent }"></c:out></p>
 		   										<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
 		   										<div style="height:25px;width:100%;text-align:right">
 													<div style="float:right;width:50%">
@@ -298,7 +298,7 @@
 																class="b col-xs-12" />
 														</div>
 													</div>
-													<button style="margin-left:14px" disabled id="updateButton" class="btn btn-white btn-info btn-bold col-xs-5">
+													<button style="margin-left:13px" disabled id="updateButton" class="btn btn-white btn-info btn-bold col-xs-5">
 														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
 														<font>修改</font>
 													</button>
@@ -334,7 +334,7 @@
 																class="a col-xs-12" />
 														</div>
 													</div>
-													<button style="margin-left:14px" disabled id="savaOrUpdate" class="btn btn-white btn-info btn-bold col-xs-5">
+													<button style="margin-left:13px" disabled id="savaOrUpdate" class="btn btn-white btn-info btn-bold col-xs-5">
 														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
 														<font>保存</font>
 													</button>
@@ -356,11 +356,6 @@
 												<i class="ace-icon fa fa-hand-o-right blue bigger-120"></i>
 												确定提交?
 											</p>
-										</div>
-										<div id="buttonBuy" class="hide">
-											<a href="${pageContext.request.contextPath }/user/buy" class="btn btn-block btn-primary"> <i
-												class="ace-icon fa fa-shopping-cart bigger-110"></i> <span>Buy</span>
-											</a>
 										</div>
 									</div>
 								</div>
