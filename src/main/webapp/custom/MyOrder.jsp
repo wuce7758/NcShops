@@ -252,9 +252,14 @@
 												<strong>${sessionScope.allCost }</strong><small>元</small>
 											</div>
 											<!-- 加载默认地址 -->
+   											<c:if test="${address==null }">
+		   										<font color='red'>
+	   												<c:out value="您还没地址，请先设置地址!"></c:out>
+	   											</font>
+	   										</c:if>
    											<c:forEach var="address" items="${address}">
 													<c:choose>
-		   												<c:when test="${address!=null }">
+		   												<c:when test="${address eq '' }">
 	   														<c:if test="${address.isDefault }">
 		   														<p><c:out value="地址：${address.adsContent }"></c:out></p>
 		   														<p><c:out value="接收人：${address.receiverName }"></c:out></p>
@@ -263,7 +268,7 @@
 	   													</c:when>
 	   													<c:otherwise>
 	   														<font color='red'>
-	   															<c:out value="您还没地址，请先设置地址!"></c:out>
+	   															<c:out value="最多显示3个地址!"></c:out>
 	   														</font>
 	   													</c:otherwise>  
 													</c:choose>
@@ -467,7 +472,6 @@
 			/* sum(); */
 			changeStyle();
 			$(".a").keyup(function(){
-				debugger;
 				var input=$(".a");
 				for(var i=0;i<input.length;i++){
 					var item=input[i];
