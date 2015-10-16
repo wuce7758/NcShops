@@ -83,8 +83,9 @@ public class UserService {
 
 	public boolean bind(TUser user, TAddress address) {
 		try {
-			user.getTAddresses().add(address);
 			userDao.save(user);
+			address.setUserId(user.getUserId());
+			addressDAO.save(address);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -158,7 +159,13 @@ public class UserService {
 
 	public List<TAddress> findAddress(Integer userId) {
 
+<<<<<<< HEAD
 		return addressDAO.getHibernateTemplate().find("from TAddress where userId="+userId+" and isDefault="+true);
+=======
+		TAddress address=new TAddress();
+		address.setUserId(userId);
+		return addressDAO.getHibernateTemplate().find("from TAddress where userId="+userId+" and isDefault"+true);
+>>>>>>> df5a22a3f780f9130a2fb700e87f58cea9288416
 	}
 
 	public TUser findUser(String openId) {
