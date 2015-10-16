@@ -41,7 +41,7 @@ public class TGoods implements java.io.Serializable {
 		this.goodsId = goodsId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "goodsTypeId")
 	public TGoodstype getTGoodstype() {
 		return this.TGoodstype;

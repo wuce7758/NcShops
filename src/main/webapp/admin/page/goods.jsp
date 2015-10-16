@@ -21,7 +21,7 @@
 <!-- bootstrap & fontawesome -->
 <link rel="stylesheet"
 	href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
-<link rel="stylesheet" href="../../plugins/fonts/font-awesome.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/plugins/fonts/font-awesome.css" />
 
 <!-- page specific plugin styles -->
 <link rel="stylesheet"
@@ -64,7 +64,7 @@
 	<div class="main-container" id="main-container">
 		<script type="text/javascript">
 			try {
-				ace.settings.check('main-container', 'fixed')
+				ace.settings.check('main-container', 'fixed');
 			} catch (e) {
 			}
 		</script>
@@ -75,7 +75,7 @@
 				<div class="breadcrumbs" id="breadcrumbs">
 					<script type="text/javascript">
 						try {
-							ace.settings.check('breadcrumbs', 'fixed')
+							ace.settings.check('breadcrumbs', 'fixed');
 						} catch (e) {
 						}
 					</script>
@@ -98,7 +98,6 @@
 								<div class="pull-right tableTools-container"></div>
 							</div>
 							<div class="table-header">商品列表</div>
-							<s:action />
 							<table id="dynamic-table"
 								class="table table-striped table-bordered table-hover">
 								<thead>
@@ -132,69 +131,71 @@
 								</thead>
 
 								<tbody>
-									<c:forEach items="${requestScope.allGoods}" var="trl"
-										varStatus="status">
-										<tr>
-											<td class="center"><label class="pos-rel"> <input
-													type="checkbox" class="ace" /> <span class="lbl"></span> </label>
-											</td>
-											<td>${trl.goodsId}</td>
-											<td class="hidden-480">${trl.goodsName}</td>
-											<td class="hidden-480">${trl.goodsPrice}</td>
-											<td class="hidden-480">${trl.goodsPrice}</td>
-											<td class="hidden-480">${trl.TGoodstype.goodsTypeName}</td>
-											<td><a name="time" href="javascript:void(0);"
-												data-container="body" data-toggle="popover"
-												data-placement="bottom" data-content="${trl.goodsPic}">
-											</a></td>
-											<td id="roleSeq${trl.goodsMsg}"><span
-												class="label label-sm " name="roleSeq${trl.goodsMsg}">${trl.goodsMsg}</span>
-											</td>
-											<td class="hidden-480">${trl.goodsMsg}</td>
-											<td>
-												<div class="hidden-sm hidden-xs action-buttons">
-													<a class="blue buttongoods" href="javascript:void(0)"
-														name="${trl.goodsId}" oper="detaill"> <i
-														class="fa fa-search-plus bigger-130"><small></small> </i>
-													</a> <a class="green buttongoods" href="javascript:void(0)"
-														name="${trl.goodsId}" oper="modify"> <i
-														class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
-														class="red buttongoods" href="javascript:void(0)"
-														name="${trl.goodsId}" oper="delete"> <i
-														id="roleSeqAction${trl.goodsId}"
-														class="fa fa-toggle-off bigger-130"
-														name="roleSeqAction${trl.goodsId}"></i> </a>
+									<c:forEach items="${requestScope.goodDetail}" var="trl" varStatus="status">
+									<tr>
+										<td class="center"><label class="pos-rel"> <input
+												type="checkbox" class="ace" /> <span class="lbl"></span> </label>
+										</td>
+										<td>${trl.TGoods.goodsId}</td>
+										<td class="hidden-480">${trl.TGoods.goodsName}</td>
+										<td class="hidden-480">${trl.TGoods.goodsPrice}</td>
+										<td class="hidden-480">${trl.seller.sellerName}</td>
+										<td class="hidden-480">${trl.TGoods.TGoodstype.goodsTypeName}</td>
+										<td><a name="time" href="javascript:void(0);"
+											data-container="body" data-toggle="popover"
+											data-placement="bottom"> </a>
+										</td>
+										<td id="roleSeq${trl.TGoods.goodsMsg}"><span class="label label-sm "
+											name="roleSeq${trl.TGoods.goodsMsg}">${trl.TGoods.goodsMsg}</span></td>
+										<td class="hidden-480">${trl.TGoods.goodsMsg}</td>
+										<td>
+											<div class="hidden-sm hidden-xs action-buttons">
+												<a class="blue buttongoods" href="javascript:void(0)"
+													name="${trl.TGoods.goodsId}" oper="detaill"> <i
+													class="fa fa-search-plus bigger-130"><small></small> </i> </a>
+												<a class="green buttongoods" href="javascript:void(0)"
+													name="${trl.TGoods.goodsId}" oper="modify"> <i
+													class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
+													class="red buttongoods" href="javascript:void(0)"
+													name="${trl.TGoods.goodsId}" oper="delete"> <i
+													id="roleSeqAction${trl.TGoods.goodsId}"
+													class="fa fa-toggle-off bigger-130"
+													name="roleSeqAction${trl.TGoods.goodsId}"></i> </a>
+											</div>
+											<div class="hidden-md hidden-lg">
+												<div class="inline pos-rel">
+													<button class="btn btn-minier btn-yellow dropdown-toggle"
+														data-toggle="dropdown" data-position="auto">
+														<i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+													</button>
+
+													<ul
+														class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+														<li><a href="javascript:void(0)"
+															name="${trl.TGoods.goodsId}" onclick="GetDetail(this)"
+															class="tooltip-info" data-rel="tooltip" title="View">
+																<span class="blue"> <i
+																	class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a>
+														</li>
+
+														<li><a href="javascript:void(0)"
+															name="${trl.TGoods.goodsId}" onclick="Modify(this)"
+															class="tooltip-success" data-rel="tooltip" title="Edit">
+																<span class="green"> <i
+																	class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+															</span> </a>
+														</li>
+
+														<li><a href="ClassDelete?classId=${trl.TGoods.goodsId}"
+															class="tooltip-error" data-rel="tooltip" title="Delete">
+																<span class="red"> <i
+																	class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a>
+														</li>
+													</ul>
 												</div>
-												<div class="hidden-md hidden-lg">
-													<div class="inline pos-rel">
-														<button class="btn btn-minier btn-yellow dropdown-toggle"
-															data-toggle="dropdown" data-position="auto">
-															<i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-														</button>
-
-														<ul
-															class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-															<li><a href="javascript:void(0)"
-																name="${trl.goodsId}" onclick="GetDetail(this)"
-																class="tooltip-info" data-rel="tooltip" title="View">
-																	<span class="blue"> <i
-																		class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a></li>
-
-															<li><a href="javascript:void(0)"
-																name="${trl.goodsId}" onclick="Modify(this)"
-																class="tooltip-success" data-rel="tooltip" title="Edit">
-																	<span class="green"> <i
-																		class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																</span> </a></li>
-
-															<li><a href="ClassDelete?classId=${trl.goodsId}"
-																class="tooltip-error" data-rel="tooltip" title="Delete">
-																	<span class="red"> <i
-																		class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a></li>
-														</ul>
-													</div>
-												</div></td>
-										</tr>
+											</div>
+										</td>
+									</tr>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -205,7 +206,6 @@
 							<form id="formgoodsinfo">
 								<input type="hidden" name="oper" value="" id="oper" />
 								<div class="col-sm-12">
-									<input type="hidden" name="oper" value="" id="oper" />
 									<div class="form-group col-sm-12">
 										<label class="col-sm-3 control-label no-padding-right"
 											for="form-field-1">名称</label>
@@ -230,7 +230,7 @@
 										<div class="col-sm-9">
 											<select
 												class="chosen-select form-control col-xs-12 col-sm-12"
-												name="goodsshop" id="goodsShop"
+												name="sellerId" id="goodsShop"
 												data-placeholder="Choose a State...">
 												<option value=""></option>
 											</select>
@@ -242,7 +242,7 @@
 										<div class="col-sm-9">
 											<select
 												class="chosen-select form-control col-xs-12 col-sm-12"
-												name="goodstype" id="goodsType"
+												name="goodsTypeId" id="goodsType"
 												data-placeholder="Choose a State...">
 												<option value=""></option>
 											</select>
@@ -311,7 +311,7 @@
 							$
 									.ajax({
 										type : "post",
-										url : "../../seller/getAllGoodsType",
+										url : "${pageContext.request.contextPath }/seller/getAllGoodsType",
 										dataType : "json",
 										async : false,
 										/*这句可用可不用，没有影响*/
@@ -337,7 +337,7 @@
 							$
 									.ajax({
 										type : "post",
-										url : "../../seller/getAllSeller",
+										url : "${pageContext.request.contextPath }/seller/getAllSeller",
 										dataType : "json",
 										async : false,
 										/*这句可用可不用，没有影响*/
@@ -381,7 +381,7 @@
 												} */
 
 												var options = {
-													url : "../../seller/addGoods",
+													url : "${pageContext.request.contextPath }/seller/addGoods",
 													dataType : 'json',
 													contentType : "application/json; charset=utf-8",
 													success : function(data) {
@@ -432,7 +432,7 @@
 							$('[data-toggle="popover"]').popover({
 								html : true,
 								title : function() {
-									return $("#popover-head").html();
+									return "图片";
 								},
 								content : function() {
 									return "<img src='1.jpg'/>";

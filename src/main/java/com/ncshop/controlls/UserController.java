@@ -104,9 +104,9 @@ public class UserController {
 		List<TSellergoods> sellerGoodsList = userService.findGoodsdetail();
 		String json = toJson(new TSellergoods(), sellerGoodsList, null);
 		request.setAttribute("goodDetail", sellerGoodsList);
-		request.getRequestDispatcher("/admin/goods.jsp").forward(request,
+		request.getRequestDispatcher("/admin/page/goods.jsp").forward(request,
 				response);
-		return;
+		//return;
 	}
 
 	/**

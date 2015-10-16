@@ -21,7 +21,6 @@ import com.ncshop.domain.TGoodstype;
 import com.ncshop.domain.TOrder;
 import com.ncshop.domain.TSeller;
 import com.ncshop.service.SellerService;
-import com.ncshop.service.UserService;
 import com.ncshop.util.TargetStrategy;
 
 @Controller
@@ -89,23 +88,23 @@ public class SellerController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/addGoods")
-	public void addGoods(HttpServletRequest request,HttpServletResponse response,String sellerId,String oper,TGoods goods) throws Exception {
+	public void addGoods(HttpServletRequest request,HttpServletResponse response,
+			String sellerId,String goodsTypeId,String oper,TGoods goods) throws Exception {
 		response.setContentType("text/html;charset=utf-8");
-		String goodsTypeId=request.getParameter("goodsTypeId");
 		// 调用service查找 数据库
-		if(oper=="add"){
+		if(oper.equals("add")){
 			if(sellerId==""||goodsTypeId + "" == ""){
 				return;
 			}
 			sellerService.addGoods(Integer.parseInt(sellerId), Integer.parseInt(goodsTypeId), goods);
 			response.getWriter().write("添加商品成功!");
-		}else if(oper=="edit"){
+		}else if(oper.equals("edit")){
 			if(sellerId + "" == "" || goodsTypeId + "" == ""){
 				return;
 			}
 			sellerService.updateGoods(Integer.parseInt(goodsTypeId), goods);
 			response.getWriter().write("修改商品成功!");
-		}else if(oper=="delete"){
+		}else if(oper.equals("delete")){
 			sellerService.deleteGoods(goods);
 			response.getWriter().write("删除商品成功!");
 		}
