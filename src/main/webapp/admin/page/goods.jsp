@@ -647,7 +647,7 @@ request.getServerPort() + path + "/";
 							<td>商品类型</td>
 							<td><input type="radio" name="goodsTypeId" value="1"/>饮料</td>
 						</tr>
-						<tr>
+						<tr> 
 							<td>商品图片</td>
 							<td>
 								<c:if test="${items.pic !=null}">
