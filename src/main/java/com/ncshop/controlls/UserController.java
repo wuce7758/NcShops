@@ -193,12 +193,12 @@ public class UserController {
 	@RequestMapping("/addOrders")
 	public String addOrders(HttpServletRequest request,
 			HttpServletResponse response) {
-
+		TGoods goods;
+		TOrderdetail orderdetail;
+		String goodId;
+		String num;
 		try {
-			TGoods goods;
-			TOrderdetail orderdetail;
-			String goodId;
-			String num;
+
 			String json = request.getParameter("jsonString");
 			System.out.println(json);
 			Set<TOrderdetail> orderdetails = new HashSet<TOrderdetail>();
@@ -232,7 +232,6 @@ public class UserController {
 					request.getSession().setAttribute("user", tempuser);
 				}
 			}
-			TUser tempuser = userService.findUser("eee");
 			request.setAttribute("address", address);
 			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
 					request, response);
