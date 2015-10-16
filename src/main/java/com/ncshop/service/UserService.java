@@ -83,8 +83,9 @@ public class UserService {
 
 	public boolean bind(TUser user, TAddress address) {
 		try {
-			user.getTAddresses().add(address);
 			userDao.save(user);
+			address.setUserId(user.getUserId());
+			addressDAO.save(address);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

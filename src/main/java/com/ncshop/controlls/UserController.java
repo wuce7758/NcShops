@@ -290,6 +290,12 @@ public class UserController {
 				wxMpService.templateSend(templateMessage);
 				return null;
 			}
+			if (request.getSession().getAttribute("user") != null) {
+				request.getSession().removeAttribute("user");
+			}
+			if (request.getSession().getAttribute("allCost") != null) {
+				request.getSession().removeAttribute("allCost");
+			}
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -313,9 +319,9 @@ public class UserController {
 			if (user != null) {
 				if (user.getUserId() != null) {
 					if (userService.updateAddress(user.getUserId(), address)) {
-						List<TAddress> findAddress = userService.findAddress(user.getUserId());
+						List<TAddress> findAddress = userService
+								.findAddress(user.getUserId());
 						request.setAttribute("address", findAddress);
-						// 默认地址修改成功，跳转
 					}
 				} else {
 					address.setIsDefault(true);
