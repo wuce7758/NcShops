@@ -37,23 +37,20 @@ public class TUserDAO extends BaseDao {
 	public static final String IS_ATTENTION = "isAttention";
 
 	public void save(TUser transientInstance) {
-		Session session = getSession2();
 		log.debug("saving TUser instance");
 		try {
-			session.save(transientInstance);
+			getHibernateTemplate().save(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
 			throw re;
-		}finally{
-			session.close();
 		}
 	}
 
 	public void delete(TUser persistentInstance) {
 		log.debug("deleting TUser instance");
 		try {
-			getSession2().delete(persistentInstance);
+			getHibernateTemplate().delete(persistentInstance);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
@@ -64,7 +61,7 @@ public class TUserDAO extends BaseDao {
 	public TUser findById(java.lang.Integer id) {
 		log.debug("getting TUser instance with id: " + id);
 		try {
-			TUser instance = (TUser) getSession2().get(
+			TUser instance = (TUser) getHibernateTemplate().get(
 					"com.ncshop.domain.TUser", id);
 			return instance;
 		} catch (RuntimeException re) {
@@ -73,69 +70,14 @@ public class TUserDAO extends BaseDao {
 		}
 	}
 
-	public List<TUser> findByExample(TUser instance) {
-		log.debug("finding TUser instance by example");
-		try {
-			List<TUser> results = (List<TUser>) getSession2()
-					.createCriteria("com.ncshop.domain.TUser")
-					.add(create(instance)).list();
-			log.debug("find by example successful, result size: "
-					+ results.size());
-			return results;
-		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
-			throw re;
-		}
-	}
-
-	public List<TUser> findByProperty(String propertyName, Object value) {
-		log.debug("finding TUser instance with property: " + propertyName
-				+ ", value: " + value);
-		Session session = getSession2();
-		try {
-			String queryString = "from TUser as model where model."
-					+ propertyName + "= ?";
-			Query queryObject = session.createQuery(queryString);
-			queryObject.setParameter(0, value);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find by property name failed", re);
-			throw re;
-		}finally{
-			session.close();
-		}
-	}
-
-	public List<TUser> findByOpenId(Object openId) {
-		return findByProperty(OPEN_ID, openId);
-	}
-
-	public List<TUser> findByUserName(Object userName) {
-		return findByProperty(USER_NAME, userName);
-	}
-
-	public List<TUser> findByTelNumber(Object telNumber) {
-		return findByProperty(TEL_NUMBER, telNumber);
-	}
-
-	public List<TUser> findByEmail(Object email) {
-		return findByProperty(EMAIL, email);
-	}
-
-	public List<TUser> findBySex(Object sex) {
-		return findByProperty(SEX, sex);
-	}
-
-	public List<TUser> findByIsAttention(Object isAttention) {
-		return findByProperty(IS_ATTENTION, isAttention);
-	}
+	
+	
 
 	public List findAll() {
 		log.debug("finding all TUser instances");
 		try {
 			String queryString = "from TUser";
-			Query queryObject = getSession2().createQuery(queryString);
-			return queryObject.list();
+			return getHibernateTemplate().find(queryString);
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
@@ -145,7 +87,7 @@ public class TUserDAO extends BaseDao {
 	public TUser merge(TUser detachedInstance) {
 		log.debug("merging TUser instance");
 		try {
-			TUser result = (TUser) getSession2().merge(detachedInstance);
+			TUser result = (TUser) getHibernateTemplate().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -157,7 +99,7 @@ public class TUserDAO extends BaseDao {
 	public void attachDirty(TUser instance) {
 		log.debug("attaching dirty TUser instance");
 		try {
-			getSession2().saveOrUpdate(instance);
+			getHibernateTemplate().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -168,7 +110,7 @@ public class TUserDAO extends BaseDao {
 	public void attachClean(TUser instance) {
 		log.debug("attaching clean TUser instance");
 		try {
-			getSession2().lock(instance, LockMode.NONE);
+			getHibernateTemplate().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);

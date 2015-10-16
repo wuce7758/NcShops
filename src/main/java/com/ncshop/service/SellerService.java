@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional; 
  
  
-import com.ncshop.dao.TGoodsDAO; 
+import com.ncshop.dao.TGoodsDAO;
 import com.ncshop.dao.TGoodstypeDAO; 
 import com.ncshop.dao.TOrderDAO; 
 import com.ncshop.dao.TSellerDAO; 
@@ -43,7 +43,8 @@ public class SellerService {
 	public List<TOrder> findSellerOrder(int sellerId, int orderState) {
 		// TODO Auto-generated method stub 
 		List<TOrder> list=null;
-		list=orderDao.findByString(sellerId, orderState);
+		Object[] params={sellerId,orderState};
+		list=orderDao.getHibernateTemplate().find("from TOrder where sellerId=? and orderState=?",params );
 		if(list.size()>0){
 			return list;
 		}else{
@@ -105,9 +106,10 @@ public class SellerService {
 	
 	public TSeller sellerLogin(String sellerName, String sellerPhone) {
 		// TODO Auto-generated method stub
-		TSeller seller=sellerDao.findBySellerName(sellerName).get(0);
+		Object[] params={sellerName};
+		TSeller seller=(TSeller) sellerDao.getHibernateTemplate().find("from TSeller where sellerName=?",params).get(0);
 		if(seller.getSellerPhone()==sellerPhone){
-			return seller;
+			return seller; 
 		}else{
 			return null;			
 		}
@@ -119,7 +121,7 @@ public class SellerService {
 		TGoods goods=goodsDao.findById(goodsId);
 		TSellergoods example=new TSellergoods();
 		example.setTGoods(goods);
-		List<TSellergoods> sellergoodsList=sellergoodsDao.findByExample(example);
+		List<TSellergoods> sellergoodsList=sellergoodsDao.getHibernateTemplate().findByExample(example);
 		TSellergoods sellergoods=null;
 		if(sellergoodsList.size()>0){
 			sellergoods=sellergoodsList.get(0);			
@@ -149,5 +151,11 @@ public class SellerService {
 	public List<TSeller> getAllSeller() {
 		// TODO Auto-generated method stub
 		return sellerDao.findAll();
+	}
+
+
+	public void addSeller(TSeller seller) {
+		// TODO Auto-generated method stub
+		sellerDao.merge(seller);
 	}
 } 

@@ -89,7 +89,7 @@
 			<div class="navbar-header pull-left">
 				<!-- #section:basics/navbar.layout.brand -->
 				<a href="#" class="navbar-brand"> <small> <i
-						class="fa fa-leaf"></i> 欢迎光顾xx商店 </small> </a>
+						class="fa fa-leaf"></i> 欢迎光顾德玛超市 </small> </a>
 
 				<!-- /section:basics/navbar.layout.brand -->
 
@@ -217,10 +217,10 @@
 				<!-- /section:basics/content.breadcrumbs -->
 				<div class="page-content">
 					<div class="row">
-						<div id="order" class="col-xs-12">
+						<div id="order" class="col-xs-12" style="margin-bottom: 10px">
 							<!-- PAGE CONTENT BEGINS -->
-							<div class="col-xs-6 col-sm-3 pricing-box">
-								<div class="widget-box widget-color-blue">
+							<div class="col-xs-6 col-sm-3 pricing-box" style="height:100%">
+								<div class="widget-box widget-color-blue" style="height:100%">
 									<div class="widget-header">
 										<h5 class="widget-title bigger lighter">确认订单</h5>
 									</div>
@@ -249,62 +249,95 @@
 
 											<hr />
 											<div id="orderPrice" class="price">
-												<strong>${requestScope.allCost }</strong><small>元</small>
+												<strong>${sessionScope.allCost }</strong><small>元</small>
 											</div>
 											<!-- 加载默认地址 -->
-											<c:choose>
-   												<c:when test="${address!=null }">
-   													<c:forEach var="address" items="${address}">
-   														<c:if test="${address.isDefault }">
-	   														<p><c:out value="地址：${address.adsContent }"></c:out></p>
-	   														<p><c:out value="接收人：${user.userName }"></c:out></p>
-	   														<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
-   														</c:if>
-   													</c:forEach>
-   												</c:when>
-   												<c:otherwise>
-   													<font color='red'>
-   														<c:out value="您还没地址，请先设置地址!"></c:out>
-   													</font>
-   												</c:otherwise>  
-											</c:choose>
+   											<c:if test="${address==null }">
+		   										<font color='red'>
+	   												<c:out value="您还没地址，请先设置地址!"></c:out>
+	   											</font>
+	   										</c:if>
+   											<c:forEach var="address" items="${address}">
+		   										<p><c:out value="地址：${address.adsContent }"></c:out></p>
+		   										<p><c:out value="接收人：${address.receiverName }"></c:out></p>
+		   										<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
+		   										<div style="height:25px;width:100%;text-align:right">
+												<div style="float:right;width:50%">
+												<button id="update" style="margin-right:5px" class="btn btn-minier btn-info btn-bold col-xs-5">
+													<i class="bigger-120 orange"></i>
+													<font>修改</font>
+												</button>
+												<button id="add" style="margin-right:5px;float:right" class="btn btn-minier btn-info btn-bold col-xs-5">
+													<i class="bigger-120 orange"></i>
+													<font>添加</font>
+												</button>
+												</div>
+											</div>
+   											</c:forEach>
 											<div id="addAddress" style="display:none">
 												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role="form">
 													<div class="form-group">
 														<label class="col-xs-3 control-label no-padding-right"
-															for="userName">客户名称</label>
-	
-														<div class="col-xs-9">
-															<input type="hidden" name="userId" value="${sessionScope.user.userId }"/>
-															<input type="text" name="receiverName" id="userName" placeholder="收货人" value="${sessionScope.user.userName }"
-																class="col-xs-12" />
+															for="userName" style="margin-top: 5px">姓名：</label>
+														<div class="col-xs-9" style="margin-bottom: 3px">
+															<input class="a" type="text" name="receiverName" id="userName" placeholder="收货人" value="${sessionScope.user.userName }"
+																class="a col-xs-12" />
 														</div>
-														<hr class="col-xs-12">
 														<label class="col-xs-3 control-label no-padding-right"
-															for="userAddress">客戶地址</label>
+															for="userAddress" style="margin-top: 5px">地址：</label>
 	
-														<div class="col-xs-9">
-															<input type="text" name="adsContent" id="userAddress" placeholder="客户地址"
-																class="col-xs-12" />
+														<div class="col-xs-9" style="margin-bottom: 3px">
+															<input class="a" type="text" name="adsContent" id="userAddress" placeholder="客户地址"
+																class="a col-xs-12" />
 														</div>
-														<hr class="col-xs-12">
 														<label class="col-xs-3 control-label no-padding-right"
-															for="userPhone">客戶电话</label>
-	
-														<div class="col-xs-9">
+															for="userPhone" style="margin-top: 5px">电话：</label>
+														<div class="col-xs-9" style="margin-bottom: 3px">
 															<input type="text" name="adsPhone" id="userPhone" placeholder="客户电话"
-																class="col-xs-12" />
+																class="a col-xs-12" />
 														</div>
 													</div>
-													<hr class="col-xs-12">
-													<button class="btn btn-white btn-info btn-bold col-xs-12">
+													<button disabled id="savaOrUpdate" class="btn btn-white btn-info btn-bold col-xs-12">
 														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
-														<font>修改/保存</font>
+														<font>保存</font>
+													</button>
+												</form>
+											<p style="margin-top: 5px"><font color="red">请检查地址正确后再确认订单！</font></p>
+											
+											</div>
+											<div id="updateAddress" style="display:none">
+												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role="form">
+													<div class="form-group">
+														<label class="col-xs-3 control-label no-padding-right"
+															for="userName" style="margin-top: 5px">姓名：</label>
+														<div class="col-xs-9" style="margin-bottom: 3px">
+															<input class="a" type="text" name="receiverName" id="userName" value="${requestScope.address.receiverName }"
+																class="b col-xs-12" />
+														</div>
+														<label class="col-xs-3 control-label no-padding-right"
+															for="userAddress" style="margin-top: 5px">地址：</label>
+	
+														<div class="col-xs-9" style="margin-bottom: 3px">
+															<input class="a" type="text" name="adsContent" id="userAddress" value="${requestScope.address.adsContent }"
+																class="b col-xs-12" />
+														</div>
+														<label class="col-xs-3 control-label no-padding-right"
+															for="userPhone" style="margin-top: 5px">电话：</label>
+														<div class="col-xs-9" style="margin-bottom: 3px">
+															<input type="text" name="adsPhone" id="userPhone" value="${requestScope.address.adsPhone }"
+																class="b col-xs-12" />
+														</div>
+													</div>
+													<button disabled id="updateButton" class="btn btn-white btn-info btn-bold col-xs-5">
+														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
+														<font>修改</font>
+													</button>
+													<button id="concelUpdate" class="btn btn-white btn-info btn-bold col-xs-5">
+														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
+														<font>取消</font>
 													</button>
 												</form>
 											</div>
-											<hr>
-											<p id="other" style="margin-top:5px"><font color="red">请详细确认订单信息后再确定订单！</font></p>
 										</div>
 
 										<div id="dialog_sureBuy_confirm" class="hide">
@@ -318,7 +351,7 @@
 											</p>
 										</div>
 										<div id="buttonBuy" class="hide">
-											<a href="#" class="btn btn-block btn-primary"> <i
+											<a href="${pageContext.request.contextPath }/user/buy" class="btn btn-block btn-primary"> <i
 												class="ace-icon fa fa-shopping-cart bigger-110"></i> <span>Buy</span>
 											</a>
 										</div>
@@ -339,19 +372,19 @@
 		<nav class="navbar navbar-default navbar-fixed-bottom"
 			role="navigation">
 			<ul class="nav navbar-nav">
-				<li class="green col-xs-3">
+				<li class="green col-xs-4">
 					<a href="${pageContext.request.contextPath }/index.jsp">
 						<i class="ace-icon fa fa-home icon-animated-vertical"></i>
 						商品首页
 					</a>
 				</li>
-				<li class="green col-xs-3">
+				<li class="green col-xs-4">
 					<a href="/person.jsp">
 						<i class="ace-icon fa fa-user icon-animated-vertical"></i>
 						个人中心
 					</a>
 				</li>
-				<li class="green col-xs-6">
+				<li class="green col-xs-4">
 					<a id="sureBuy" href="javascript:void(0)">
 						<i class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i>
 						<span>确认购买</span>
@@ -465,11 +498,45 @@
 			$("#orderPrice strong").text(price);
 		} */
 		var flag="${requestScope.address}";
-		$(document).ready(function(){
-			sum();
-			if(flag==""){
+		function changeStyle(){
+			if(flag.length<1){
 				$("#addAddress").css("display","inline");
 			}
+		}
+		$(document).ready(function(){
+			/* sum(); */
+			changeStyle();
+			$("#update").click(function(){
+				$("#updateAddress").css("display","inline");
+			});
+			$("#add").click(function(){
+				$("#addAddress").css("display","inline");
+			});
+			$("#cancelUpdate").click(function(){
+				$("#updateAddress").css("display","none");
+			});
+			$(".a").keyup(function(){
+				var input=$(".a");
+				for(var i=0;i<input.length;i++){
+					var item=input[i];
+					if(item.value!=""&&i==input.length-1){
+						$("#savaOrUpdate").attr("disabled",false);
+					}else{
+						$("#savaOrUpdate").attr("disabled",true);
+					}
+				}
+			});
+			$(".b").keyup(function(){
+				var input=$(".b");
+				for(var i=0;i<input.length;i++){
+					var item=input[i];
+					if(item.value!=""&&i==input.length-1){
+						$("#updateButton").attr("disabled",false);
+					}else{
+						$("#updateButton").attr("disabled",true);
+					}
+				}
+			});
 			$('#sureBuy').click(function (e) {
                 e.preventDefault();
                 $('#dialog_sureBuy_confirm').removeClass('hide').dialog({

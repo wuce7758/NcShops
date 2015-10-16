@@ -33,7 +33,8 @@ public class TCommentDAO extends BaseDao {
 	public void save(TComment transientInstance) {
 		log.debug("saving TComment instance");
 		try {
-			getSession2().save(transientInstance);
+			getHibernateTemplate().save(transientInstance);
+			
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
@@ -44,7 +45,7 @@ public class TCommentDAO extends BaseDao {
 	public void delete(TComment persistentInstance) {
 		log.debug("deleting TComment instance");
 		try {
-			getSession2().delete(persistentInstance);
+			getHibernateTemplate().delete(persistentInstance);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
@@ -55,7 +56,7 @@ public class TCommentDAO extends BaseDao {
 	public TComment findById(java.lang.Integer id) {
 		log.debug("getting TComment instance with id: " + id);
 		try {
-			TComment instance = (TComment) getSession2().get(
+			TComment instance = (TComment) getHibernateTemplate().get(
 					"com.ncshop.domain.TComment", id);
 			return instance;
 		} catch (RuntimeException re) {
@@ -63,51 +64,11 @@ public class TCommentDAO extends BaseDao {
 			throw re;
 		}
 	}
-
-	public List<TComment> findByExample(TComment instance) {
-		log.debug("finding TComment instance by example");
-		try {
-			List<TComment> results = (List<TComment>) getSession2()
-					.createCriteria("com.ncshop.domain.TComment")
-					.add(create(instance)).list();
-			log.debug("find by example successful, result size: "
-					+ results.size());
-			return results;
-		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
-			throw re;
-		}
-	}
-
-	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding TComment instance with property: " + propertyName
-				+ ", value: " + value);
-		try {
-			String queryString = "from TComment as model where model."
-					+ propertyName + "= ?";
-			Query queryObject = getSession2().createQuery(queryString);
-			queryObject.setParameter(0, value);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find by property name failed", re);
-			throw re;
-		}
-	}
-
-	public List<TComment> findByCredit(Object credit) {
-		return findByProperty(CREDIT, credit);
-	}
-
-	public List<TComment> findByCommentMsg(Object commentMsg) {
-		return findByProperty(COMMENT_MSG, commentMsg);
-	}
-
 	public List findAll() {
 		log.debug("finding all TComment instances");
 		try {
 			String queryString = "from TComment";
-			Query queryObject = getSession2().createQuery(queryString);
-			return queryObject.list();
+			return getHibernateTemplate().find(queryString);
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
@@ -117,7 +78,7 @@ public class TCommentDAO extends BaseDao {
 	public TComment merge(TComment detachedInstance) {
 		log.debug("merging TComment instance");
 		try {
-			TComment result = (TComment) getSession2().merge(detachedInstance);
+			TComment result = (TComment) getHibernateTemplate().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -129,7 +90,7 @@ public class TCommentDAO extends BaseDao {
 	public void attachDirty(TComment instance) {
 		log.debug("attaching dirty TComment instance");
 		try {
-			getSession2().saveOrUpdate(instance);
+			getHibernateTemplate().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -140,7 +101,7 @@ public class TCommentDAO extends BaseDao {
 	public void attachClean(TComment instance) {
 		log.debug("attaching clean TComment instance");
 		try {
-			getSession2().lock(instance, LockMode.NONE);
+			getHibernateTemplate().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);

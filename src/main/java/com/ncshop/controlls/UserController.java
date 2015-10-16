@@ -1,5 +1,6 @@
 package com.ncshop.controlls;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -95,13 +96,15 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/findGoodsdetail")
-	public void findGoodsdetail(HttpServletResponse response) throws Exception {
+	public void findGoodsdetail(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		// 调用service查找 数据库
 		List<TSellergoods> sellerGoodsList = userService.findGoodsdetail();
 		String json = toJson(new TSellergoods(), sellerGoodsList, null);
-		// 设置response的传输格式为json
-		response.setContentType("application/json");
-		response.getWriter().write(json);
+		request.setAttribute("goodDetail", sellerGoodsList);
+		request.getRequestDispatcher("/admin/goods.jsp").forward(request,
+				response);
+		return;
 	}
 
 	/**
@@ -190,12 +193,12 @@ public class UserController {
 	@RequestMapping("/addOrders")
 	public String addOrders(HttpServletRequest request,
 			HttpServletResponse response) {
-
+		TGoods goods;
+		TOrderdetail orderdetail;
+		String goodId;
+		String num;
 		try {
-			TGoods goods;
-			TOrderdetail orderdetail;
-			String goodId;
-			String num;
+
 			String json = request.getParameter("jsonString");
 			System.out.println(json);
 			Set<TOrderdetail> orderdetails = new HashSet<TOrderdetail>();
@@ -218,17 +221,16 @@ public class UserController {
 			}
 			request.getSession().setAttribute("odersdetails", orderdetails);
 
-			request.setAttribute("allCost", allCost);
+			request.getSession().setAttribute("allCost", allCost);
 			TUser user = (TUser) request.getSession().getAttribute("user");
 			List<TAddress> address = null;
 			if (user != null) {
 				TUser tempuser = userService.findUser(user.getOpenId());
-				
+
 				if (tempuser != null) {
 					address = userService.findAddress(tempuser.getUserId());
 				}
 			}
-			TUser tempuser = userService.findUser("eee");
 			request.setAttribute("address", address);
 			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
 					request, response);
@@ -286,6 +288,12 @@ public class UserController {
 				wxMpService.templateSend(templateMessage);
 				return null;
 			}
+			if (request.getSession().getAttribute("user") != null) {
+				request.getSession().removeAttribute("user");
+			}
+			if (request.getSession().getAttribute("allCost") != null) {
+				request.getSession().removeAttribute("allCost");
+			}
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -302,24 +310,32 @@ public class UserController {
 	 * @param response
 	 */
 	@RequestMapping("/addAddress")
-	public void bindInfo(TAddress address, int userId,
-			HttpServletRequest request, HttpServletResponse response) {
+	public void bindInfo(TAddress address, HttpServletRequest request,
+			HttpServletResponse response) {
 		try {
 			TUser user = (TUser) request.getSession().getAttribute("user");
-			if (user.getUserId() != null) {
-				if (userService.updateAddress(user.getUserId(), address)) {
-					List<TAddress> findAddress = userService.findAddress(2);
-					request.setAttribute("address", findAddress);
-					// 默认地址修改成功，跳转
-					request.getRequestDispatcher("/custom/MyOrder.jsp")
-							.forward(request, response);
+			if (user != null) {
+				if (user.getUserId() != null) {
+					address.setUserId(user.getUserId());
+					if (userService.updateAddress(user.getUserId(), address)) {
+						List<TAddress> findAddress = userService
+								.findAddress(user.getUserId());
+						request.setAttribute("address", findAddress);
+					}
+				} else {
+					address.setIsDefault(true);
+					userService.bind(user, address);
 				}
 			} else {
 				address.setIsDefault(true);
-				userService.bind(user, address);
-				request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
-						request, response);
+				userService.bind(new TUser(), address);
+
+				List<TAddress> addresses = new ArrayList<TAddress>();
+				addresses.add(address);
+				request.setAttribute("address", addresses);
 			}
+			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
+					request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

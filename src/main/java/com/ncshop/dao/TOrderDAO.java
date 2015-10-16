@@ -11,6 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
+import com.ncshop.domain.TAddress;
 import com.ncshop.domain.TOrder;
 
 /**
@@ -36,7 +37,7 @@ public class TOrderDAO extends BaseDao {
 	public void save(TOrder transientInstance) {
 		log.debug("saving TOrder instance");
 		try {
-			getSession2().save(transientInstance);
+			getHibernateTemplate().save(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
@@ -47,18 +48,17 @@ public class TOrderDAO extends BaseDao {
 	public void delete(TOrder persistentInstance) {
 		log.debug("deleting TOrder instance");
 		try {
-			getSession2().delete(persistentInstance);
+			getHibernateTemplate().delete(persistentInstance);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
 			throw re;
 		}
 	}
-
 	public TOrder findById(java.lang.Integer id) {
 		log.debug("getting TOrder instance with id: " + id);
 		try {
-			TOrder instance = (TOrder) getSession2().get(
+			TOrder instance = (TOrder) getHibernateTemplate().get(
 					"com.ncshop.domain.TOrder", id);
 			return instance;
 		} catch (RuntimeException re) {
@@ -66,80 +66,19 @@ public class TOrderDAO extends BaseDao {
 			throw re;
 		}
 	}
-
-	public List<TOrder> findByExample(TOrder instance) {
-		log.debug("finding TOrder instance by example");
-		try {
-			List<TOrder> results = (List<TOrder>) getSession2()
-					.createCriteria("com.ncshop.domain.TOrder")
-					.add(create(instance)).list();
-			log.debug("find by example successful, result size: "
-					+ results.size());
-			return results;
-		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
-			throw re;
-		}
-	}
-
-	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding TOrder instance with property: " + propertyName
-				+ ", value: " + value);
-		try {
-			String queryString = "from TOrder as model where model."
-					+ propertyName + "= ?";
-			Query queryObject = getSession2().createQuery(queryString);
-			queryObject.setParameter(0, value);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find by property name failed", re);
-			throw re;
-		}
-	}
-
-	public List<TOrder> findByOrderNo(Object orderNo) {
-		return findByProperty(ORDER_NO, orderNo);
-	}
-
-	public List<TOrder> findByOrderTotalCost(Object orderTotalCost) {
-		return findByProperty(ORDER_TOTAL_COST, orderTotalCost);
-	}
-
-	public List<TOrder> findByOrderMsg(Object orderMsg) {
-		return findByProperty(ORDER_MSG, orderMsg);
-	}
-
-	public List<TOrder> findByOrderState(Object orderState) {
-		return findByProperty(ORDER_STATE, orderState);
-	}
-
 	public List findAll() {
 		log.debug("finding all TOrder instances");
 		try {
-			String queryString = "from TOrder";
-			Query queryObject = getSession2().createQuery(queryString);
-			return queryObject.list();
+			return getHibernateTemplate().find("from TOrder");
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
 			throw re;
 		}
 	}
-	
-	public List findByString(int sellerId,int orderState) {
-		try {
-			String queryString = "from TOrder where sellerId='"+sellerId+"' and orderState='"+orderState+"'";
-			Query queryObject = getSession2().createQuery(queryString);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find all failed", re);
-			throw re;
-		}
-	}
-
 	public TOrder merge(TOrder detachedInstance) {
 		log.debug("merging TOrder instance");
 		try {
-			TOrder result = (TOrder) getSession2().merge(detachedInstance);
+			TOrder result = (TOrder) getHibernateTemplate().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -151,7 +90,7 @@ public class TOrderDAO extends BaseDao {
 	public void attachDirty(TOrder instance) {
 		log.debug("attaching dirty TOrder instance");
 		try {
-			getSession2().saveOrUpdate(instance);
+			getHibernateTemplate().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -162,7 +101,7 @@ public class TOrderDAO extends BaseDao {
 	public void attachClean(TOrder instance) {
 		log.debug("attaching clean TOrder instance");
 		try {
-			getSession2().lock(instance, LockMode.NONE);
+			getHibernateTemplate().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -171,26 +110,14 @@ public class TOrderDAO extends BaseDao {
 	}
 
 	public boolean update(String orderId) {
-		Session session = getSessionFactory().openSession();
-		try { 
-			 
-			session.beginTransaction();
-			 
-			TOrder load = (TOrder) session.load(TOrder.class, Integer.parseInt(orderId));
-			 
-			load.setOrderState(1);
-			
-			 
-			session.update(load);
-			 
-			session.getTransaction().commit();
-			return true; 
+		try {
+			TOrder order=new TOrder();
+			order.setOrderState(1);
+			getHibernateTemplate().update(order);
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			session.getTransaction().rollback();
-			return false; 
-		}finally{ 
-			session.close();
-		} 
+			return false;
+		}
 	}
 }

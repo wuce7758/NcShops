@@ -33,7 +33,7 @@ public class TGoodstypeDAO extends BaseDao {
 	public void save(TGoodstype transientInstance) {
 		log.debug("saving TGoodstype instance");
 		try {
-			getSession2().save(transientInstance);
+			getHibernateTemplate().save(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
@@ -44,7 +44,7 @@ public class TGoodstypeDAO extends BaseDao {
 	public void delete(TGoodstype persistentInstance) {
 		log.debug("deleting TGoodstype instance");
 		try {
-			getSession2().delete(persistentInstance);
+			getHibernateTemplate().delete(persistentInstance);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
@@ -54,69 +54,21 @@ public class TGoodstypeDAO extends BaseDao {
 
 	public TGoodstype findById(java.lang.Integer id) {
 		log.debug("getting TGoodstype instance with id: " + id);
-		Session session = getSession2();
 		try {
-			TGoodstype instance =(TGoodstype)session.get(
-					"com.ncshop.domain.TGoodstype", id);
-			return instance;
+			TGoodstype type=new TGoodstype();
+			type.setGoodsTypeId(id);
+			List findByExample = getHibernateTemplate().findByExample(type);
+			return (TGoodstype) findByExample.get(0)
+					;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
-		}finally{
-			session.close();
 		}
 	}
-
-	public List<TGoodstype> findByExample(TGoodstype instance) {
-		log.debug("finding TGoodstype instance by example");
-		try {
-			List<TGoodstype> results = (List<TGoodstype>) getSession2()
-					.createCriteria("com.ncshop.domain.TGoodstype")
-					.add(create(instance)).list();
-			log.debug("find by example successful, result size: "
-					+ results.size());
-			return results;
-		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
-			throw re;
-		}
-	}
-
-	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding TGoodstype instance with property: " + propertyName
-				+ ", value: " + value);
-		try {
-			String queryString = "from TGoodstype as model where model."
-					+ propertyName + "= ?";
-			Query queryObject = getSession2().createQuery(queryString);
-			queryObject.setParameter(0, value);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find by property name failed", re);
-			throw re;
-		}
-	}
-
-	public List<TGoodstype> findByGoodsTypeName(Object goodsTypeName) {
-		return findByProperty(GOODS_TYPE_NAME, goodsTypeName);
-	}
-
-	public List findAll() {
-		log.debug("finding all TGoodstype instances");
-		try {
-			String queryString = "from TGoodstype";
-			Query queryObject = getSession2().createQuery(queryString);
-			return queryObject.list();
-		} catch (RuntimeException re) {
-			log.error("find all failed", re);
-			throw re;
-		}
-	}
-
 	public TGoodstype merge(TGoodstype detachedInstance) {
 		log.debug("merging TGoodstype instance");
 		try {
-			TGoodstype result = (TGoodstype) getSession2().merge(
+			TGoodstype result = (TGoodstype) getHibernateTemplate().merge(
 					detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -129,7 +81,7 @@ public class TGoodstypeDAO extends BaseDao {
 	public void attachDirty(TGoodstype instance) {
 		log.debug("attaching dirty TGoodstype instance");
 		try {
-			getSession2().saveOrUpdate(instance);
+			getHibernateTemplate().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -140,10 +92,21 @@ public class TGoodstypeDAO extends BaseDao {
 	public void attachClean(TGoodstype instance) {
 		log.debug("attaching clean TGoodstype instance");
 		try {
-			getSession2().lock(instance, LockMode.NONE);
+			getHibernateTemplate().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
+			throw re;
+		}
+		
+	}
+	public List findAll() {
+		log.debug("finding all  instances");
+		try {
+			String queryString = "from TGoodstype";
+			return getHibernateTemplate().find("from TGoodstype");
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
 			throw re;
 		}
 	}

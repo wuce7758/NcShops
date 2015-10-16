@@ -83,8 +83,9 @@ public class UserService {
 
 	public boolean bind(TUser user, TAddress address) {
 		try {
-			user.getTAddresses().add(address);
 			userDao.save(user);
+			address.setUserId(user.getUserId());
+			addressDAO.save(address);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -157,12 +158,11 @@ public class UserService {
 	}
 
 	public List<TAddress> findAddress(Integer userId) {
-
-		return addressDAO.findByProperty("userId", userId);
+		return addressDAO.getHibernateTemplate().find("from TAddress where userId="+userId+" and isDefault="+true);
 	}
 
 	public TUser findUser(String openId) {
-		List<TUser> list = userDao.findByProperty("openId", openId);
+		List<TUser> list = userDao.getHibernateTemplate().find("from TUser where openId='"+openId+"'");
 		if (list.size() < 1) {
 			return null;
 		} else {
