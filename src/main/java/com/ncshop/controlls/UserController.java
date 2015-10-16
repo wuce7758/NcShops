@@ -21,6 +21,7 @@ import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
@@ -199,7 +200,7 @@ public class UserController {
 		String goodId;
 		String num;
 		/* 本地测试 */
-		TAddress taddress=new TAddress();
+		TAddress taddress = new TAddress();
 		try {
 
 			String json = request.getParameter("jsonString");
@@ -238,9 +239,9 @@ public class UserController {
 			taddress.setIsDefault(true);
 			taddress.setReceiverName("本地");
 			taddress.setAdsPhone("123");
-			address=new ArrayList<TAddress>();
+			address = new ArrayList<TAddress>();
 			address.add(taddress);
-			request.setAttribute("address",address);
+			request.setAttribute("address", address);
 			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
 					request, response);
 			return null;
@@ -257,15 +258,18 @@ public class UserController {
 	 * @param request
 	 * @return
 	 */
+	@Transactional
 	@RequestMapping("/buy")
 	public String buy(HttpServletRequest request) {
 
+		String msg = "";
+		TOrderdetail tOrderdetail = null;
 		try {
 			Set<TOrderdetail> odersdetails = (Set<TOrderdetail>) request
 					.getSession().getAttribute("odersdetails");
 			double orderTotalCost = 0.0;
 			TUser user = (TUser) request.getSession().getAttribute("user");
-			
+
 			initMessageContext();
 			WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
 			templateMessage.setToUser("okbTSviVtX78Bs36wXPu8bwc9mKI");
@@ -274,28 +278,60 @@ public class UserController {
 			templateMessage.setUrl("www.baidu.com");
 			templateMessage.setTopColor("#ff0000");
 			// 计算总金额
+
 			for (Iterator iterator = odersdetails.iterator(); iterator
 					.hasNext();) {
-				TOrderdetail tOrderdetail = (TOrderdetail) iterator.next();
+				tOrderdetail = (TOrderdetail) iterator.next();
 				orderTotalCost = tOrderdetail.getBuyCost()
 						* tOrderdetail.getBuyMount();
-				templateMessage.getDatas().add(
-						new WxMpTemplateData(tOrderdetail.getTGoods()
-								.getGoodsName(), tOrderdetail.getBuyMount()
-								+ " 份", "#173177"));
+				msg += tOrderdetail.getTGoods().getGoodsName() + ":"
+						+ tOrderdetail.getBuyMount() + "\n";
 			}
-
+			templateMessage.getDatas().add(
+					new WxMpTemplateData("商品信息", msg, "#173177"));
+			templateMessage.getDatas().add(
+					new WxMpTemplateData("支付金额", orderTotalCost + "RMB",
+							"#173177"));
 			TOrder order = new TOrder();
 			order.setOrderState(0);
 			order.setOrderTotalCost(orderTotalCost);
-			order.setTOrderdetails(odersdetails);
+			order.setUserId(1);
+			order.setSellerId(userService.findSellergoodsByGoodsID(tOrderdetail
+					.getTGoods().getGoodsId()));
 			order.setOrderTime(new Date());
-			if (userService.order(order)) {
+			if (userService.order(order, odersdetails)) {
 				// 给用户发送消息
 				templateMessage.getDatas().add(
 						new WxMpTemplateData("下单成功", orderTotalCost + "",
 								"#ff000"));
 				wxMpService.templateSend(templateMessage);
+
+				// 通知商家有新的订单
+
+				WxMpTemplateMessage toBoss = new WxMpTemplateMessage();
+				toBoss.setToUser("okbTSvpMmbJxwyVbK1_zlhrOXRbM");
+				toBoss.setTemplateId("7oq5rzoc4sJ9-mYUWIb36TBookvArpV-d8sg2MQtKrs");
+				templateMessage.setUrl("www.baidu.com");
+				templateMessage.setTopColor("#ff0000");
+				// TAddress address =
+				// userService.findAddress(user.getUserId()).get(0);
+				// toBoss.getDatas().add(new
+				// WxMpTemplateData("address:",address.getAdsContent()));
+				// toBoss.getDatas().add(new
+				// WxMpTemplateData("phone:",address.getAdsPhone()));
+				// toBoss.getDatas().add(new WxMpTemplateData("content:",msg));
+
+				TAddress address =new TAddress();
+				address.setAdsContent("sadas");
+				address.setAdsPhone("2312412");
+				toBoss.getDatas().add(
+						new WxMpTemplateData("address:", address
+								.getAdsContent()));
+				toBoss.getDatas().add(
+						new WxMpTemplateData("phone:", address.getAdsPhone()));
+				toBoss.getDatas().add(new WxMpTemplateData("content:", msg));
+				System.out.println(toBoss.toJson());
+				wxMpService.templateSend(toBoss);
 				return null;
 			}
 			if (request.getSession().getAttribute("user") != null) {
@@ -303,6 +339,9 @@ public class UserController {
 			}
 			if (request.getSession().getAttribute("allCost") != null) {
 				request.getSession().removeAttribute("allCost");
+			}
+			if (request.getSession().getAttribute("odersdetails") != null) {
+				request.getSession().removeAttribute("odersdetails");
 			}
 			return null;
 		} catch (Exception e) {
