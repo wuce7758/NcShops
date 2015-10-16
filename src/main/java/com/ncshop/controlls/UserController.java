@@ -1,5 +1,6 @@
 package com.ncshop.controlls;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -231,6 +233,7 @@ public class UserController {
 
 				if (tempuser != null) {
 					address = userService.findAddress(tempuser.getUserId());
+					request.getSession().setAttribute("user", tempuser);
 				}
 			}
 			request.setAttribute("address", address);
@@ -251,9 +254,9 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/buy")
-	public String buy(HttpServletRequest request, HttpServletResponse response) {
+	public void buy(HttpServletRequest request, HttpServletResponse response) {
 
-		String msg = "      ";
+		String msg ="";
 		TOrderdetail tOrderdetail = null;
 		try {
 			Set<TOrderdetail> odersdetails = (Set<TOrderdetail>) request
@@ -263,6 +266,7 @@ public class UserController {
 
 			initMessageContext();
 			WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
+			// templateMessage.setToUser(user.getOpenId());
 			templateMessage.setToUser(user.getOpenId());
 			// 发送给下单人的消息
 			templateMessage
@@ -276,14 +280,18 @@ public class UserController {
 				tOrderdetail = (TOrderdetail) iterator.next();
 				orderTotalCost += tOrderdetail.getBuyCost()
 						* tOrderdetail.getBuyMount();
-				msg += tOrderdetail.getTGoods().getGoodsName() + "x"
+				msg += "                     "+tOrderdetail.getTGoods().getGoodsName() + "  x"
 						+ tOrderdetail.getBuyMount() + "\n";
 			}
 
 			TOrder order = new TOrder();
 			order.setOrderState(0);
 			order.setOrderTotalCost(orderTotalCost);
-			order.setUserId(1);
+			if (user == null) {
+				order.setUserId(1);
+			} else {
+				order.setUserId(user.getUserId());
+			}
 			order.setSellerId(userService.findSellergoodsByGoodsID(tOrderdetail
 					.getTGoods().getGoodsId()));
 			order.setOrderTime(new Date());
@@ -321,9 +329,6 @@ public class UserController {
 				System.out.println(toBoss.toJson());
 				wxMpService.templateSend(toBoss);
 			}
-			if (request.getSession().getAttribute("user") != null) {
-				request.getSession().removeAttribute("user");
-			}
 			if (request.getSession().getAttribute("allCost") != null) {
 				request.getSession().removeAttribute("allCost");
 			}
@@ -332,12 +337,15 @@ public class UserController {
 			}
 			request.getRequestDispatcher("/index.jsp").forward(request,
 					response);
-			return null;
 		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
 
+			try {
+				response.getWriter().write(e.getMessage());
+			} catch (Exception e1) {
+				e.printStackTrace();
+				e1.printStackTrace();
+			}
+		}
 	}
 
 	/**
@@ -353,27 +361,29 @@ public class UserController {
 		try {
 			TUser user = (TUser) request.getSession().getAttribute("user");
 			if (user != null) {
-				if (user.getUserId() != null) {
+				if (user.getUserId() != null) {//老用户添加新的默认地址
 					address.setUserId(user.getUserId());
 					if (userService.updateAddress(user.getUserId(), address)) {
 						List<TAddress> findAddress = userService
 								.findAddress(user.getUserId());
 						request.setAttribute("address", findAddress);
 					}
-				} else {
+				} else {//新用户
 					address.setIsDefault(true);
 					userService.bind(user, address);
+					List<TAddress> firstAdr=new ArrayList<TAddress>();
+					firstAdr.add(address);
+					request.setAttribute("address", firstAdr);
 				}
 			} else {
+				//本地测试进入
 				address.setIsDefault(true);
 				userService.bind(new TUser(), address);
-
 				List<TAddress> addresses = new ArrayList<TAddress>();
 				addresses.add(address);
 				request.setAttribute("address", addresses);
 			}
-			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
-					request, response);
+			response.getWriter().write(1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
