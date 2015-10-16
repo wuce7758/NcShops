@@ -134,35 +134,39 @@
 											<td>${trl.TGoods.goodsId}</td>
 											<td class="hidden-480">${trl.TGoods.goodsName}</td>
 											<td class="hidden-480">${trl.TGoods.goodsPrice}</td>
-											<td class="hidden-480">
-												<a class="goodSellerPopover" href="javascript:void(0);"
-													data-container="body" data-placement="bottom" 
-													data-content="${trl.seller.sellerName}&nbsp;
+											<td class="hidden-480"><a class="goodSellerPopover"
+												href="javascript:void(0);" data-container="body"
+												data-placement="bottom"
+												data-content="${trl.seller.sellerName}&nbsp;
 																  ${trl.seller.sellerPhone}&nbsp;
 																  ${trl.seller.sellerAddress}">
-													${trl.seller.shopName}
-												</a>
+													${trl.seller.shopName} </a>
 											</td>
 											<td class="hidden-480">${trl.TGoods.TGoodstype.goodsTypeName}</td>
 											<td><a class="goodPicPopover" href="javascript:void(0);"
-												data-container="body" data-placement="bottom" pic="${trl.TGoods.goodsPic}">
-												${trl.TGoods.goodsPic}
-												</a>
+												data-container="body" data-placement="bottom"
+												pic="${trl.TGoods.goodsPic}"> ${trl.TGoods.goodsPic} </a>
 											</td>
-											<td class="hidden-480">${trl.TGoods.goodsMsg}</td>
+											<td class="hidden-480"><a name="goodsMsgPopover"
+												class="goodPicPopover" href="javascript:void(0);"
+												data-container="body" data-placement="bottom"
+												data-content="${trl.TGoods.goodsMsg}">
+													${trl.TGoods.goodsMsg} </a></td>
 											<td id="goodsIsSale${trl.isSale}"><span
 												class="label label-sm " name="goodsIsSale${trl.isSale}">${trl.isSale}</span>
-											</td>				
+											</td>
 											<td>
 												<div class="hidden-sm hidden-xs action-buttons">
 													<a class="blue buttongoods" href="javascript:void(0)"
 														name="${trl.TGoods.goodsId}" oper="detaill"> <i
-														class="fa fa-search-plus bigger-130"><small></small> </i>
-													</a> <a class="green buttongoods" href="javascript:void(0)"
+														　class="fa fa-search-plus bigger-130"><small></small>
+													</i> </a> 
+													<a class="green buttongoods" href="javascript:void(0)"
 														name="${trl.TGoods.goodsId}" oper="modify"> <i
-														class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
-														class="red buttongoods" href="javascript:void(0)"
-														name="${trl.TGoods.goodsId}" oper="delete"> <i
+														class="fa fa-pencil bigger-130"><small></small> </i> 
+													</a> 
+														<a class="red buttongoods" href="javascript:void(0)"
+														 name="${trl.TGoods.goodsId}" oper="delete" state="${trl.isSale}"> <i
 														id="goodsIsSaleAction${trl.isSale}"
 														class="fa fa-toggle-off bigger-130"
 														name="goodsIsSaleAction${trl.isSale}"></i> </a>
@@ -205,7 +209,8 @@
 						</div>
 
 						<div id="dialog-message" class="hide">
-							<form id="formgoodsinfo">
+							<form id="formgoodsinfo" method="post"
+								enctype="multipart/form-data">
 								<input type="hidden" name="oper" value="" id="oper" />
 								<div class="col-sm-12">
 									<div class="form-group col-sm-12">
@@ -222,7 +227,8 @@
 											for="form-field-1">价格</label>
 
 										<div class="col-sm-9">
-											<input type="text" id="form-field-1" name="goodsPrice"
+											<input onkeyup="value=value.replace(/[^0-9|.]/g,'')"
+												type="text" id="form-field-1" name="goodsPrice"
 												placeholder="商品价格" class="col-xs-12 col-sm-12" />
 										</div>
 									</div>
@@ -254,7 +260,7 @@
 										<label class="col-sm-3 control-label no-padding-right"
 											for="id-input-field-2">照片</label>
 										<div class="col-sm-9">
-											<input type="file" name="picFile" id="id-input-file-3" />
+											<input type="file" name="pic" id="id-input-file-3" />
 										</div>
 									</div>
 									<div class="form-group col-sm-12">
@@ -271,11 +277,15 @@
 
 								<div class="hr hr-12 hr-double"></div>
 
-								<div id="error">123</div>
+								<div style="width:100%;text-align: center" id="error"></div>
 								<div>
-									<button class="btn btn-info btn-block" id="goodssave"
-										type="button">
+									<button style="margin-left:10px" class="btn btn-info col-sm-5"
+										id="goodssave" type="button">
 										<i class="ace-icon fa fa-check bigger-110"></i>保存
+									</button>
+									<button style="margin-left:25px"
+										class="btn btn-success col-sm-5" id="goodssave" type="reset">
+										<i class="ace-icon fa fa-check bigger-110"></i>重置
 									</button>
 								</div>
 							</form>
@@ -389,33 +399,30 @@
 													success : function(data) {
 														// 'data' is an object representing the the evaluated json data 
 														// 如果图片上传成功则保存表单注册数据 
-														alert(data);
-														if (data == "0") {
-															var fileName = data.fileName;
-															alert(fileName);
-															$
-																	.ajax({
-																		type : "post",
-																		url : "user/findAllGoods",
-																		dataType : "json",
-																		/*这句可用可不用，没有影响*/
-																		contentType : "application/json; charset=utf-8",
-																		success : function(
-																				data) {
-																			if (data == "0") {
-																				$(this).dialog("close");
-																			} else {
-																				alert("注册失败!原因是："
-																						+ data.message);
-																			}
-																		},
-																		error : function(
-																				XMLHttpRequest,
-																				textStatus,
-																				errorThrown) {
+														if (data == "1") {
+															$("#error")
+																	.html(
+																			"<font color='green'>操作成功!</font>");
+															//var fileName = data.fileName;
+															//alert(fileName);
+															/* $.ajax({
+																type : "post",
+																url : "${pageContext.request.contextPath }/user/findAllGoods",
+																dataType : "json",
+																这句可用可不用，没有影响
+																contentType : "application/json; charset=utf-8",
+																success : function(data) {
+																	alert(data);
+																	if (typeof(data)=="object") {
+																		$("#error").html("<font color='green'>操作成功!</font>");
+																	} else {
+																		$("#error").html("<font color='red'>操作失败失败!原因是："+data+"</font>");
+																	}
+																},
+																error : function(XMLHttpRequest,textStatus,errorThrown) {
 																			alert(errorThrown);
 																		}
-																	});
+															}); */
 														} else {
 															$("#error")
 																	.attr(
@@ -431,33 +438,38 @@
 												$('#formgoodsinfo').ajaxSubmit(
 														options);
 											});
-											//显示商家详细信息
-											$(".goodSellerPopover").popover();
-											//鼠标经过显示图片
-							$(".goodPicPopover").popover({
-								html : true,
-								/* title : function() {
-									return "图片";
-								}, */
-								content : function() {
-									return "<img width='100px' height='100px' src='${pageContext.request.contextPath }/images/"+$(this).attr('pic')+"'/>";
-								}
-							}).on("mouseenter", function () {
-                    				var _this = this;
-                    				$(this).popover("show");
-                    				$(this).siblings(".popover").on("mouseleave", function () {
-                        				$(_this).popover('hide');
-                    				});
-                				}).on("mouseleave", function () {
-                    			var _this = this;
-                    			setTimeout(function () {
-                        			if (!$(".popover:hover").length) {
-                            			$(_this).popover("hide")
-                        			}
-                    			}, 100);
-                			});
+							//显示商家详细信息
+							$(".goodSellerPopover").popover();
+							//鼠标经过显示图片
+							$(".goodPicPopover")
+									.popover(
+											{
+												html : true,
+												/* title : function() {
+													return "图片";
+												}, */
+												content : function() {
+													return "<img width='100px' height='100px' src='${pageContext.request.contextPath }/images/"
+															+ $(this).attr(
+																	'pic')
+															+ "'/>";
+												}
+											})/* .on("mouseenter", function () {
+														                    				var _this = this;
+														                    				$(this).popover("show");
+														                    				$(this).siblings(".popover").on("mouseleave", function () {
+														                        				$(_this).popover('hide');
+														                    				});
+														                				}).on("mouseleave", function () {
+														                    			var _this = this;
+														                    			setTimeout(function () {
+														                        			if (!$(".popover:hover").length) {
+														                            			$(_this).popover("hide")
+														                        			}
+														                    			}, 100);
+														                			}) */;
 							myEach();
-							myEachPopover("", 0, 10);
+							myEachPopover("a", "goodsMsgPopover", 0, 10);
 
 							//图片上传框
 							$('#id-input-file-3').ace_file_input({
@@ -525,21 +537,21 @@
 				$(this).addClass("label-warning");
 				$(this).text("已下架");
 			});
-			$("i[name='goodsIsSaleAction1']").each(function() {
+			$("i[name='goodsIsSaleActiontrue']").each(function() {
 				try {
 					$(this).removeClass("fa-toggle-off");
 				} catch (e) {
 				}
 				$(this).addClass("fa-toggle-on");
-				//$(this).text("刪除");
+				$(this).text("下架");
 			});
-			$("i[name='goodsIsSaleAction0']").each(function() {
+			$("i[name='goodsIsSaleActionfalse']").each(function() {
 				try {
 					$(this).removeClass("fa-toggle-on");
 				} catch (e) {
 				}
 				$(this).addClass("fa-toggle-off");
-				//$(this).text("激活");
+				$(this).text("上架");
 			});
 		}
 		jQuery(function($) {
@@ -548,47 +560,67 @@
 							function() {
 								var oper = $(this).attr('oper');
 								$("#oper").val(oper);
-								var dialog = $("#dialog-message")
-										.removeClass('hide')
-										.dialog(
-												{
-													modal : true,
-													title : (oper == 'detaill') ? "查看详细"
-															: (oper == 'modify') ? "修改商品信息"
-																	: (oper == 'delete') ? "确认删除商品"
-																			: "添加商品",
-													title_html : true,
-												/* buttons: [{
-													text: "关闭窗口",
-													"class": "btn btn-minier",
-													click: function() {
-														$(this).dialog("close");
-													}
-												}, {
-													text: "确定",
-													"class": "btn btn-primary btn-minier",
-													click: function() {
-														var goods_type = "";
-														$.ajax({
-														type: "post",
-														url: "../../seller/getAllGoodsType",
-														enctype: 'multipart/form-data',
-														data:$('#dialog-message').serialize(),//$("#dialog-message").serialize(),
-														async: false,
-														success: function(data) {
-															var goods_types = JSON.stringify(data.TGoodstype);
-															var obj = JSON.parse(goods_types);
-															for (var i = 0; i < obj.length; i++) {
-																goods_type += obj[i].goodsTypeId + ":" + obj[i].goodsTypeName;
-																if (i < obj.length - 1) {
-																	goods_type += ";";
+								if (oper == "delete") {
+									alert($(this).attr('name'));
+									alert($(this).attr('state'));
+									$.ajax({
+										cache : false,
+										type : "POST",
+										url : "${pageContext.request.contextPath }/seller/updownGoods",
+										datatype : "json",
+										data : {"goodsId":$(this).attr('name'),"isSale":$(this).attr('state')},
+										async : true,
+										success : function(data) {
+											if(data == "商品下架成功"){
+												alert(1);
+											}
+										},error:function(data){
+											
+										}
+									});
+								} else {
+									var dialog = $("#dialog-message")
+											.removeClass('hide')
+											.dialog(
+													{
+														modal : true,
+														title : (oper == 'detaill') ? "查看详细"
+																: (oper == 'modify') ? "修改商品信息"
+																		: (oper == 'add') ? "添加商品"
+																				: "确认删除商品",
+														title_html : true,
+													/* buttons: [{
+														text: "关闭窗口",
+														"class": "btn btn-minier",
+														click: function() {
+															$(this).dialog("close");
+														}
+													}, {
+														text: "确定",
+														"class": "btn btn-primary btn-minier",
+														click: function() {
+															var goods_type = "";
+															$.ajax({
+															type: "post",
+															url: "../../seller/getAllGoodsType",
+															enctype: 'multipart/form-data',
+															data:$('#dialog-message').serialize(),//$("#dialog-message").serialize(),
+															async: false,
+															success: function(data) {
+																var goods_types = JSON.stringify(data.TGoodstype);
+																var obj = JSON.parse(goods_types);
+																for (var i = 0; i < obj.length; i++) {
+																	goods_type += obj[i].goodsTypeId + ":" + obj[i].goodsTypeName;
+																	if (i < obj.length - 1) {
+																		goods_type += ";";
+																	}
 																}
 															}
+														});
 														}
+													}] */
 													});
-													}
-												}] */
-												});
+								}
 							});
 			//initiate dataTables plugin
 			var oTable1 = $('#dynamic-table')

@@ -60,9 +60,9 @@
 <script
 	src="http://ace.zcdreams.com/assets/js/ace/ace.searchbox-autocomplete.js"></script>
 <script>
-	function myEachPopover(Name, Start, End) {
+	function myEachPopover(tag, Name, Start, End) {
 
-		$("a[name='" + Name + "']").each(function() {
+		$(tag+"[name='" + Name + "']").each(function() {
 			var info = $(this).attr("data-content").substring(Start, End);
 			$(this).html(info);
 		});

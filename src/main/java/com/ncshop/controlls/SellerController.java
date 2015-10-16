@@ -1,6 +1,8 @@
 package com.ncshop.controlls;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -89,24 +92,51 @@ public class SellerController {
 	 */
 	@RequestMapping("/addGoods")
 	public void addGoods(HttpServletRequest request,HttpServletResponse response,
-			String sellerId,String goodsTypeId,String oper,TGoods goods) throws Exception {
+			String sellerId,String goodsTypeId,MultipartFile pic,String oper,TGoods goods) throws Exception {
 		response.setContentType("text/html;charset=utf-8");
+		if(sellerId+""==""||goodsTypeId+""==""){
+			return;
+		}
+		//定义物理路径
+		String basePath=request.getRealPath("/")+"images\\";
+		System.out.println(basePath);
+		File f=new File(basePath);
+		if(!f.exists()) {
+			f.mkdirs();
+		}
+		if(pic!=null){
+			//旧文件名
+			String fileName=pic.getOriginalFilename();
+			//新文件名
+			String newFileName=new Date().getTime()+fileName.substring(fileName.lastIndexOf("."));
+			File file=new File(basePath+newFileName);
+			//将文件保存到硬盘
+			pic.transferTo(file);
+			//重新设置图片名
+			goods.setGoodsPic(newFileName);
+			//调用service查找 数据库
+		}else{
+			//设置默认图片
+			goods.setGoodsPic("default.jpg");
+		}
 		// 调用service查找 数据库
 		if(oper.equals("add")){
 			if(sellerId==""||goodsTypeId + "" == ""){
 				return;
 			}
 			sellerService.addGoods(Integer.parseInt(sellerId), Integer.parseInt(goodsTypeId), goods);
-			response.getWriter().write("添加商品成功!");
+			response.getWriter().write("1");
 		}else if(oper.equals("edit")){
 			if(sellerId + "" == "" || goodsTypeId + "" == ""){
 				return;
 			}
 			sellerService.updateGoods(Integer.parseInt(goodsTypeId), goods);
-			response.getWriter().write("修改商品成功!");
+			response.getWriter().write("1");
 		}else if(oper.equals("delete")){
 			sellerService.deleteGoods(goods);
-			response.getWriter().write("删除商品成功!");
+			response.getWriter().write("1");
+		}else{
+			response.getWriter().write("表单填写不完整！");
 		}
 	}
 	
