@@ -251,6 +251,8 @@ public class UserController {
 	@RequestMapping("/buy")
 	public String buy(HttpServletRequest request) {
 
+		String msg="";
+		TOrderdetail tOrderdetail = null;
 		try {
 			Set<TOrderdetail> odersdetails = (Set<TOrderdetail>) request
 					.getSession().getAttribute("odersdetails");
@@ -264,21 +266,26 @@ public class UserController {
 			templateMessage.setUrl("www.baidu.com");
 			templateMessage.setTopColor("#ff0000");
 			// 计算总金额
+			
 			for (Iterator iterator = odersdetails.iterator(); iterator
 					.hasNext();) {
-				TOrderdetail tOrderdetail = (TOrderdetail) iterator.next();
+				tOrderdetail = (TOrderdetail) iterator.next();
 				orderTotalCost = tOrderdetail.getBuyCost()
 						* tOrderdetail.getBuyMount();
-				templateMessage.getDatas().add(
-						new WxMpTemplateData(tOrderdetail.getTGoods()
-								.getGoodsName(), tOrderdetail.getBuyMount()
-								+ " 份", "#173177"));
+				msg+=tOrderdetail.getTGoods().getGoodsName()+":"+tOrderdetail.getBuyMount()+"\n";
 			}
-
+			templateMessage.getDatas().add(
+					new WxMpTemplateData("商品信息",msg 
+							, "#173177"));
+			templateMessage.getDatas().add(
+					new WxMpTemplateData("支付金额",orderTotalCost+"RMB" 
+							, "#173177"));
 			TOrder order = new TOrder();
 			order.setOrderState(0);
 			order.setOrderTotalCost(orderTotalCost);
 			order.setTOrderdetails(odersdetails);
+			order.setUserId(user.getUserId());
+			order.setSellerId(userService.findSellergoodsByGoodsID(tOrderdetail.getTGoods().getGoodsId()));
 			order.setOrderTime(new Date());
 			if (userService.order(order)) {
 				// 给用户发送消息
@@ -286,6 +293,17 @@ public class UserController {
 						new WxMpTemplateData("下单成功", orderTotalCost + "",
 								"#ff000"));
 				wxMpService.templateSend(templateMessage);
+				
+				
+				//通知商家有新的订单
+				
+				WxMpTemplateMessage toBoss=new WxMpTemplateMessage();
+				toBoss.setToUser("okbTSvpMmbJxwyVbK1_zlhrOXRbM");
+				toBoss.setTemplateId("Epbh6BQwQDa5izKsLnoTnAL3FucE23VoTUxemjfXBKQ");
+				templateMessage.setUrl("www.baidu.com");
+				templateMessage.setTopColor("#ff0000");
+				toBoss.getDatas().add(new WxMpTemplateData("dsdsa:","9898"));
+				wxMpService.templateSend(toBoss);
 				return null;
 			}
 			if (request.getSession().getAttribute("user") != null) {
@@ -293,6 +311,9 @@ public class UserController {
 			}
 			if (request.getSession().getAttribute("allCost") != null) {
 				request.getSession().removeAttribute("allCost");
+			}
+			if (request.getSession().getAttribute("odersdetails") != null) {
+				request.getSession().removeAttribute("odersdetails");
 			}
 			return null;
 		} catch (Exception e) {

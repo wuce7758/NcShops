@@ -26,7 +26,6 @@ public class TOrder implements java.io.Serializable {
 	// Fields
 
 	private Integer orderId;
-	private TGoods TGoods;
 	private Integer userId;
 	private String orderNo;
 	private Integer sellerId;
@@ -47,17 +46,6 @@ public class TOrder implements java.io.Serializable {
 	public void setOrderId(Integer orderId) {
 		this.orderId = orderId;
 	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "goodsId")
-	public TGoods getTGoods() {
-		return this.TGoods;
-	}
-
-	public void setTGoods(TGoods TGoods) {
-		this.TGoods = TGoods;
-	}
-
 
 	@Column(name = "userId", length = 11)
 	public Integer getUserId() {

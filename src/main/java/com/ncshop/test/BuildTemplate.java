@@ -66,7 +66,7 @@ public class BuildTemplate {
 
 			conn.setRequestProperty("Referer", "https://api.weixin.qq.com/");
 
-			String json = "{\"industry_id1\":\"1\",\"industry_id2\":\"4\";}";
+			String json = "{\"industry_id1\":\"34\",\"industry_id2\":\"4\";}";
 
 			System.out.println(json);
 

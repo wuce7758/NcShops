@@ -169,4 +169,10 @@ public class UserService {
 			return list.get(0);
 		}
 	}
+
+	public Integer findSellergoodsByGoodsID(Integer goodsId) {
+		
+		TSellergoods sellergoods = (TSellergoods) sellergoodsDAO.getHibernateTemplate().find("from TSellergoods where GoodsId="+goodsId).get(0);
+		return sellergoods.getSeller().getSellerId();
+	}
 }
