@@ -258,20 +258,21 @@
 	   											</font>
 	   										</c:if>
    											<c:forEach var="address" items="${address}">
-													<c:choose>
-		   												<c:when test="${address eq '' }">
-	   														<c:if test="${address.isDefault }">
-		   														<p><c:out value="地址：${address.adsContent }"></c:out></p>
-		   														<p><c:out value="接收人：${address.receiverName }"></c:out></p>
-		   														<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
-	   														</c:if>
-	   													</c:when>
-	   													<c:otherwise>
-	   														<font color='red'>
-	   															<c:out value="最多显示3个地址!"></c:out>
-	   														</font>
-	   													</c:otherwise>  
-													</c:choose>
+		   										<p><c:out value="地址：${address.adsContent }"></c:out></p>
+		   										<p><c:out value="接收人：${address.receiverName }"></c:out></p>
+		   										<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
+		   										<div style="height:25px;width:100%;text-align:right">
+												<div style="float:right;width:50%">
+												<button id="update" style="margin-right:5px" class="btn btn-minier btn-info btn-bold col-xs-5">
+													<i class="bigger-120 orange"></i>
+													<font>修改</font>
+												</button>
+												<button id="add" style="margin-right:5px;float:right" class="btn btn-minier btn-info btn-bold col-xs-5">
+													<i class="bigger-120 orange"></i>
+													<font>添加</font>
+												</button>
+												</div>
+											</div>
    											</c:forEach>
 											<div id="addAddress" style="display:none">
 												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role="form">
@@ -298,11 +299,45 @@
 													</div>
 													<button disabled id="savaOrUpdate" class="btn btn-white btn-info btn-bold col-xs-12">
 														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
-														<font>修改/保存</font>
+														<font>保存</font>
+													</button>
+												</form>
+											<p style="margin-top: 5px"><font color="red">请检查地址正确后再确认订单！</font></p>
+											
+											</div>
+											<div id="updateAddress" style="display:none">
+												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role="form">
+													<div class="form-group">
+														<label class="col-xs-3 control-label no-padding-right"
+															for="userName" style="margin-top: 5px">姓名：</label>
+														<div class="col-xs-9" style="margin-bottom: 3px">
+															<input class="a" type="text" name="receiverName" id="userName" value="${requestScope.address.receiverName }"
+																class="b col-xs-12" />
+														</div>
+														<label class="col-xs-3 control-label no-padding-right"
+															for="userAddress" style="margin-top: 5px">地址：</label>
+	
+														<div class="col-xs-9" style="margin-bottom: 3px">
+															<input class="a" type="text" name="adsContent" id="userAddress" value="${requestScope.address.adsContent }"
+																class="b col-xs-12" />
+														</div>
+														<label class="col-xs-3 control-label no-padding-right"
+															for="userPhone" style="margin-top: 5px">电话：</label>
+														<div class="col-xs-9" style="margin-bottom: 3px">
+															<input type="text" name="adsPhone" id="userPhone" value="${requestScope.address.adsPhone }"
+																class="b col-xs-12" />
+														</div>
+													</div>
+													<button disabled id="updateButton" class="btn btn-white btn-info btn-bold col-xs-5">
+														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
+														<font>修改</font>
+													</button>
+													<button id="concelUpdate" class="btn btn-white btn-info btn-bold col-xs-5">
+														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
+														<font>取消</font>
 													</button>
 												</form>
 											</div>
-											<p style="margin-top: 5px"><font color="red">请检查地址正确后再确认订单！</font></p>
 										</div>
 
 										<div id="dialog_sureBuy_confirm" class="hide">
@@ -316,7 +351,7 @@
 											</p>
 										</div>
 										<div id="buttonBuy" class="hide">
-											<a href="#" class="btn btn-block btn-primary"> <i
+											<a href="${pageContext.request.contextPath }/user/buy" class="btn btn-block btn-primary"> <i
 												class="ace-icon fa fa-shopping-cart bigger-110"></i> <span>Buy</span>
 											</a>
 										</div>
@@ -471,6 +506,15 @@
 		$(document).ready(function(){
 			/* sum(); */
 			changeStyle();
+			$("#update").click(function(){
+				$("#updateAddress").css("display","inline");
+			});
+			$("#add").click(function(){
+				$("#addAddress").css("display","inline");
+			});
+			$("#cancelUpdate").click(function(){
+				$("#updateAddress").css("display","none");
+			});
 			$(".a").keyup(function(){
 				var input=$(".a");
 				for(var i=0;i<input.length;i++){
@@ -479,6 +523,17 @@
 						$("#savaOrUpdate").attr("disabled",false);
 					}else{
 						$("#savaOrUpdate").attr("disabled",true);
+					}
+				}
+			});
+			$(".b").keyup(function(){
+				var input=$(".b");
+				for(var i=0;i<input.length;i++){
+					var item=input[i];
+					if(item.value!=""&&i==input.length-1){
+						$("#updateButton").attr("disabled",false);
+					}else{
+						$("#updateButton").attr("disabled",true);
 					}
 				}
 			});
