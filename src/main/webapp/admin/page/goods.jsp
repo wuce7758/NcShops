@@ -196,7 +196,7 @@
 						</div>
 
 						<div id="dialog-message" class="hide">
-							<form id="formgoodsinfo">
+							<form id="formgoodsinfo" method="post" enctype="multipart/form-data">
 								<input type="hidden" name="oper" value="" id="oper"/>
 								<div class="col-sm-12">
 									<div class="form-group col-sm-12">
@@ -213,7 +213,7 @@
 											for="form-field-1">价格</label>
 
 										<div class="col-sm-9">
-											<input type="text" id="form-field-1" name="goodsPrice"
+											<input onkeyup="value=value.replace(/[^0-9|.]/g,'')" type="text" id="form-field-1" name="goodsPrice"
 												placeholder="商品价格" class="col-xs-12 col-sm-12" />
 										</div>
 									</div>
@@ -245,7 +245,7 @@
 										<label class="col-sm-3 control-label no-padding-right"
 											for="id-input-field-2">照片</label>
 										<div class="col-sm-9">
-											<input type="file" name="picFile" id="id-input-file-3" />
+											<input type="file" name="pic" id="id-input-file-3" />
 										</div>
 									</div>
 									<div class="form-group col-sm-12">
@@ -262,11 +262,15 @@
 
 								<div class="hr hr-12 hr-double"></div>
 
-								<div id="error">123</div>
+								<div style="width:100%;text-align: center" id="error"></div>
 								<div>
-									<button class="btn btn-info btn-block" id="goodssave"
+									<button style="margin-left:10px" class="btn btn-info col-sm-5" id="goodssave"
 										type="button">
 										<i class="ace-icon fa fa-check bigger-110"></i>保存
+									</button>
+									<button style="margin-left:25px" class="btn btn-success col-sm-5" id="goodssave"
+										type="reset">
+										<i class="ace-icon fa fa-check bigger-110"></i>重置
 									</button>
 								</div>
 							</form>
@@ -370,41 +374,32 @@
 													success : function(data) {
 														// 'data' is an object representing the the evaluated json data 
 														// 如果图片上传成功则保存表单注册数据 
-														alert(data);
-														if (data == "0") {
-															var fileName = data.fileName;
-															alert(fileName);
-															$
-																	.ajax({
-																		type : "post",
-																		url : "user/findAllGoods",
-																		dataType : "json",
-																		/*这句可用可不用，没有影响*/
-																		contentType : "application/json; charset=utf-8",
-																		success : function(
-																				data) {
-																			if (data == "0") {
-																				alert("注册成功!");
-																			} else {
-																				alert("注册失败!原因是："
-																						+ data.message);
-																			}
-																		},
-																		error : function(
-																				XMLHttpRequest,
-																				textStatus,
-																				errorThrown) {
+														if (data == "1") {
+															$("#error").html("<font color='green'>操作成功!</font>");
+															//var fileName = data.fileName;
+															//alert(fileName);
+															/* $.ajax({
+																type : "post",
+																url : "${pageContext.request.contextPath }/user/findAllGoods",
+																dataType : "json",
+																这句可用可不用，没有影响
+																contentType : "application/json; charset=utf-8",
+																success : function(data) {
+																	alert(data);
+																	if (typeof(data)=="object") {
+																		$("#error").html("<font color='green'>操作成功!</font>");
+																	} else {
+																		$("#error").html("<font color='red'>操作失败失败!原因是："+data+"</font>");
+																	}
+																},
+																error : function(XMLHttpRequest,textStatus,errorThrown) {
 																			alert(errorThrown);
 																		}
-																	});
+															}); */
 														} else {
-															$("#error")
-																	.attr(
-																			"class",
-																			"error_div")
-																	.html(
-																			"<img src='${ctx}/images/error_img2.gif' style='width:15px;height:15px;'/>"
-																					+ data.message);
+															$("#error").attr("class","error_div").
+																html("<img src='${ctx}/images/error_img2.gif' style='width:15px;height:15px;'/>"
+																+ data.message);
 														}
 													}
 												}
