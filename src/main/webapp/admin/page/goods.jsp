@@ -130,10 +130,9 @@
 										<td class="center"><label class="pos-rel"> <input
 												type="checkbox" class="ace" /> <span class="lbl"></span> </label>
 										</td>
-
-										<td><a href="">1</a></td>
 										<td>${trl.goodsId}</td>
 										<td class="hidden-480">${trl.goodsName}</td>
+										<td class="hidden-480">${trl.goodsPrice}</td>
 										<td class="hidden-480">${trl.goodsPrice}</td>
 										<td class="hidden-480">${trl.TGoodstype.goodsTypeName}</td>
 										<td><a name="time" href="javascript:void(0);"
