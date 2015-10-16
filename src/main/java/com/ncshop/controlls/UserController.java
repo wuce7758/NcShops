@@ -229,7 +229,6 @@ public class UserController {
 
 				if (tempuser != null) {
 					address = userService.findAddress(tempuser.getUserId());
-					request.getSession().setAttribute("user", tempuser);
 				}
 			}
 			TUser tempuser = userService.findUser("eee");
@@ -306,14 +305,14 @@ public class UserController {
 	 * @param response
 	 */
 	@RequestMapping("/addAddress")
-	public void bindInfo(TAddress address, HttpServletRequest request,
-			HttpServletResponse response) {
+	public void bindInfo(TAddress address, int userId,
+			HttpServletRequest request, HttpServletResponse response) {
 		try {
 			TUser user = (TUser) request.getSession().getAttribute("user");
 			if (user != null) {
 				if (user.getUserId() != null) {
 					if (userService.updateAddress(user.getUserId(), address)) {
-						List<TAddress> findAddress = userService.findAddress(user.getUserId());
+						List<TAddress> findAddress = userService.findAddress(2);
 						request.setAttribute("address", findAddress);
 						// 默认地址修改成功，跳转
 					}
@@ -321,16 +320,17 @@ public class UserController {
 					address.setIsDefault(true);
 					userService.bind(user, address);
 				}
-			} else {
+			}else{
 				address.setIsDefault(true);
 				userService.bind(new TUser(), address);
-
+				
+				
 			}
-			List<TAddress> addresses = new ArrayList<TAddress>();
+			List<TAddress> addresses=new ArrayList<TAddress>();
 			addresses.add(address);
 			request.setAttribute("address", addresses);
-			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
-					request, response);
+			request.getRequestDispatcher("/custom/MyOrder.jsp")
+			.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
