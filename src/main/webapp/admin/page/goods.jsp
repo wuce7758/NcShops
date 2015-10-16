@@ -97,6 +97,7 @@
 								<div class="pull-right tableTools-container"></div>
 							</div>
 							<div class="table-header">商品列表</div>
+							<s:action/>
 							<table id="dynamic-table"
 								class="table table-striped table-bordered table-hover">
 								<thead>
@@ -124,37 +125,37 @@
 								</thead>
 
 								<tbody>
-									<%-- <c:forEach items="${allGoods}" var="trl" varStatus="status"> --%>
+									<c:forEach items="${requestScope.allGoods}" var="trl" varStatus="status">
 									<tr>
 										<td class="center"><label class="pos-rel"> <input
 												type="checkbox" class="ace" /> <span class="lbl"></span> </label>
 										</td>
 
 										<td><a href="">1</a></td>
-										<td>${trl.rolename}</td>
-										<td class="hidden-480">${trl.price}</td>
-										<td class="hidden-480">${trl.shop}</td>
-										<td class="hidden-480">${trl.type}</td>
+										<td>${trl.goodsId}</td>
+										<td class="hidden-480">${trl.goodsName}</td>
+										<td class="hidden-480">${trl.goodsPrice}</td>
+										<td class="hidden-480">${trl.TGoodstype.goodsTypeName}</td>
 										<td><a name="time" href="javascript:void(0);"
 											data-container="body" data-toggle="popover"
-											data-placement="bottom" data-content="${trl.pic}"> </a>
+											data-placement="bottom" data-content="${trl.goodsPic}"> </a>
 										</td>
-										<td id="roleSeq${trl.msg}"><span class="label label-sm "
-											name="roleSeq${trl.msg}">${trl.msg}</span></td>
-										<td class="hidden-480">${trl.state}</td>
+										<td id="roleSeq${trl.goodsMsg}"><span class="label label-sm "
+											name="roleSeq${trl.goodsMsg}">${trl.goodsMsg}</span></td>
+										<td class="hidden-480">${trl.goodsMsg}</td>
 										<td>
 											<div class="hidden-sm hidden-xs action-buttons">
 												<a class="blue buttongoods" href="javascript:void(0)"
-													name="${trl.getRoleid()}" oper="detaill"> <i
+													name="${trl.goodsId}" oper="detaill"> <i
 													class="fa fa-search-plus bigger-130"><small></small> </i> </a>
 												<a class="green buttongoods" href="javascript:void(0)"
-													name="${trl.getRoleid()}" oper="modify"> <i
+													name="${trl.goodsId}" oper="modify"> <i
 													class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
 													class="red buttongoods" href="javascript:void(0)"
-													name="${trl.getRoleid()}" oper="delete"> <i
-													id="roleSeqAction${trl.getRoleid()}"
+													name="${trl.goodsId}" oper="delete"> <i
+													id="roleSeqAction${trl.goodsId}"
 													class="fa fa-toggle-off bigger-130"
-													name="roleSeqAction${trl.seq}"></i> </a>
+													name="roleSeqAction${trl.goodsId}"></i> </a>
 											</div>
 											<div class="hidden-md hidden-lg">
 												<div class="inline pos-rel">
@@ -166,21 +167,21 @@
 													<ul
 														class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 														<li><a href="javascript:void(0)"
-															name="${trl.getRoleid()}" onclick="GetDetail(this)"
+															name="${trl.goodsId}" onclick="GetDetail(this)"
 															class="tooltip-info" data-rel="tooltip" title="View">
 																<span class="blue"> <i
 																	class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a>
 														</li>
 
 														<li><a href="javascript:void(0)"
-															name="${trl.getRoleid()}" onclick="Modify(this)"
+															name="${trl.goodsId}" onclick="Modify(this)"
 															class="tooltip-success" data-rel="tooltip" title="Edit">
 																<span class="green"> <i
 																	class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 															</span> </a>
 														</li>
 
-														<li><a href="ClassDelete?classId=${trl.getRoleid()}"
+														<li><a href="ClassDelete?classId=${trl.goodsId}"
 															class="tooltip-error" data-rel="tooltip" title="Delete">
 																<span class="red"> <i
 																	class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a>
@@ -190,7 +191,7 @@
 											</div>
 										</td>
 									</tr>
-									<%-- </c:forEach> --%>
+									</c:forEach>
 								</tbody>
 							</table>
 							<!-- PAGE CONTENT ENDS -->
@@ -198,6 +199,7 @@
 
 						<div id="dialog-message" class="hide">
 							<form id="formgoodsinfo">
+								<input type="hidden" name="oper" value="" id="oper"/>
 								<div class="col-sm-12">
 									<input type="hidden" name="oper" value="" id="oper" />
 									<div class="form-group col-sm-12">
@@ -205,7 +207,7 @@
 											for="form-field-1">名称</label>
 
 										<div class="col-sm-9">
-											<input type="text" id="form-field-1" name="goodsname"
+											<input type="text" id="form-field-1" name="goodsName"
 												placeholder="商品名称" class="col-xs-12 col-sm-12" />
 										</div>
 									</div>
@@ -214,7 +216,7 @@
 											for="form-field-1">价格</label>
 
 										<div class="col-sm-9">
-											<input type="text" id="form-field-1" name="goodsprice"
+											<input type="text" id="form-field-1" name="goodsPrice"
 												placeholder="商品价格" class="col-xs-12 col-sm-12" />
 										</div>
 									</div>
@@ -246,7 +248,7 @@
 										<label class="col-sm-3 control-label no-padding-right"
 											for="id-input-field-2">照片</label>
 										<div class="col-sm-9">
-											<input type="file" name="goodspic" id="id-input-file-3" />
+											<input type="file" name="goodsPic" id="id-input-file-3" />
 										</div>
 									</div>
 									<div class="form-group col-sm-12">
@@ -255,7 +257,7 @@
 
 										<div class="col-sm-9">
 											<textarea id="form-field-11"
-												class="autosize-transition form-control" name="goodsmsg"
+												class="autosize-transition form-control" name="goodsMsg"
 												maxlength="100"></textarea>
 										</div>
 									</div>
