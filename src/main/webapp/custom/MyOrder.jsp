@@ -563,9 +563,10 @@
                                         console.log("error");
                                     },
                                     success: function (data) {
-                                        if (data == 'ok') {
-                                        	console.log("ok");
+                                        if (data == "1") {
+                                        	//console.log("ok");
                                             //$("#menuState").html('按钮提交成功！');
+                                            window.location.href="${pageContext.request.contextPath}/index.jsp";
                                         }
                                         else {
                                         	$("#buttonBuy").removeClass('hide');
