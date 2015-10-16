@@ -152,7 +152,7 @@
 												data-container="body" data-placement="bottom"
 												data-content="${trl.TGoods.goodsMsg}">
 													${trl.TGoods.goodsMsg} </a></td>
-											<td id="goodsIsSale${trl.isSale}"><span
+											<td id="goodsIsSale${trl.TGoods.goodsId}"><span
 												class="label label-sm " name="goodsIsSale${trl.isSale}">${trl.isSale}</span>
 											</td>
 											<td>
@@ -160,14 +160,13 @@
 													<a class="blue buttongoods" href="javascript:void(0)"
 														name="${trl.TGoods.goodsId}" oper="detaill"> <i
 														　class="fa fa-search-plus bigger-130"><small></small>
-													</i> </a> 
-													<a class="green buttongoods" href="javascript:void(0)"
+													</i> </a> <a class="green buttongoods" href="javascript:void(0)"
 														name="${trl.TGoods.goodsId}" oper="modify"> <i
-														class="fa fa-pencil bigger-130"><small></small> </i> 
-													</a> 
-														<a class="red buttongoods" href="javascript:void(0)"
-														 name="${trl.TGoods.goodsId}" oper="delete" state="${trl.isSale}"> <i
-														id="goodsIsSaleAction${trl.isSale}"
+														class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
+														class="red buttongoods" href="javascript:void(0)"
+														name="${trl.TGoods.goodsId}" oper="delete"
+														state="${trl.isSale}"> <i
+														id="goodsIsSaleAction${trl.TGoods.goodsId}"
 														class="fa fa-toggle-off bigger-130"
 														name="goodsIsSaleAction${trl.isSale}"></i> </a>
 												</div>
@@ -399,10 +398,9 @@
 													success : function(data) {
 														// 'data' is an object representing the the evaluated json data 
 														// 如果图片上传成功则保存表单注册数据 
+
 														if (data == "1") {
-															$("#error")
-																	.html(
-																			"<font color='green'>操作成功!</font>");
+
 															//var fileName = data.fileName;
 															//alert(fileName);
 															/* $.ajax({
@@ -420,6 +418,7 @@
 																	}
 																},
 																error : function(XMLHttpRequest,textStatus,errorThrown) {
+																				errorThrown) {
 																			alert(errorThrown);
 																		}
 															}); */
@@ -455,19 +454,7 @@
 															+ "'/>";
 												}
 											})/* .on("mouseenter", function () {
-														                    				var _this = this;
-														                    				$(this).popover("show");
-														                    				$(this).siblings(".popover").on("mouseleave", function () {
-														                        				$(_this).popover('hide');
-														                    				});
-														                				}).on("mouseleave", function () {
-														                    			var _this = this;
-														                    			setTimeout(function () {
-														                        			if (!$(".popover:hover").length) {
-														                            			$(_this).popover("hide")
-														                        			}
-														                    			}, 100);
-														                			}) */;
+																}) */;
 							myEach();
 							myEachPopover("a", "goodsMsgPopover", 0, 10);
 
@@ -561,23 +548,60 @@
 								var oper = $(this).attr('oper');
 								$("#oper").val(oper);
 								if (oper == "delete") {
-									alert($(this).attr('name'));
-									alert($(this).attr('state'));
-									$.ajax({
-										cache : false,
-										type : "POST",
-										url : "${pageContext.request.contextPath }/seller/updownGoods",
-										datatype : "json",
-										data : {"goodsId":$(this).attr('name'),"isSale":$(this).attr('state')},
-										async : true,
-										success : function(data) {
-											if(data == "商品下架成功"){
-												alert(1);
-											}
-										},error:function(data){
-											
-										}
-									});
+									var goodsId = $(this).attr('name');
+									var isSale = $(this).attr('state');
+									$
+											.ajax({
+												cache : false,
+												type : "POST",
+												url : "${pageContext.request.contextPath }/seller/updownGoods",
+												datatype : "json",
+												data : {
+													"goodsId" : goodsId,
+													"isSale" : isSale
+												},
+												async : true,
+												success : function(data) {
+													if (data == "商品下架成功!") {
+													alert(isSale);
+														if (isSale == "true") {
+															$(
+																	"td[id='goodsIsSaleId"
+																			+ goodsId
+																			+ "'] span")
+																	.attr(
+																			"name",
+																			"goodsIsSalefalse");
+															$(
+																	"i[id='goodsIsSaleAction"
+																			+ goodsId
+																			+ "']")
+																	.attr(
+																			"name",
+																			"goodsIsSaleActionfalse");
+														} else {
+															$(
+																	"td[id='goodsIsSaleId"
+																			+ goodsId
+																			+ "'] span")
+																	.attr(
+																			"name",
+																			"goodsIsSaletrue");
+															$(
+																	"i[id='goodsIsSaleAction"
+																			+ goodsId
+																			+ "']")
+																	.attr(
+																			"name",
+																			"goodsIsSaleActiontrue");
+														}
+														myEach();
+													}
+												},
+												error : function(data) {
+												alert("error");
+												}
+											});
 								} else {
 									var dialog = $("#dialog-message")
 											.removeClass('hide')
