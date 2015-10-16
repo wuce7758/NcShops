@@ -83,7 +83,8 @@
 					<ul class="breadcrumb">
 						<li><i class="ace-icon fa fa-home home-icon"></i><a href="#">商城管理系统</a>
 						</li>
-						<li><a href="#">商品管理</a></li>
+						<li><a href="#">商品管理</a>
+						</li>
 					</ul>
 					<jsp:include page="../WebPart/SearchBox.jsp"></jsp:include>
 				</div>
@@ -103,24 +104,30 @@
 								<thead>
 									<tr>
 										<th class="center"><label class="pos-rel"> <input
-												type="checkbox" class="ace" /> <span class="lbl"></span> </label>
+												type="checkbox" class="ace" /> <span class="lbl"></span> </label></th>
+										<th><small>ID</small>
 										</th>
-										<th><small>ID</small></th>
-										<th><small>名称</small></th>
-										<th><small>价格</small></th>
-										<th><small>商户</small></th>
-										<th><small>类别</small></th>
-										<th><small>图片</small></th>
-										<th><small>简介</small></th>
-										<th><small>状态</small></th>
+										<th><small>名称</small>
+										</th>
+										<th><small>价格</small>
+										</th>
+										<th><small>商户</small>
+										</th>
+										<th><small>类别</small>
+										</th>
+										<th><small>图片</small>
+										</th>
+										<th><small>简介</small>
+										</th>
+										<th><small>状态</small>
+										</th>
 										<th>
 											<p class="text-center">
 												<a class="blue buttongoods" href="javascript:void(0)"
 													id="buttonadd" oper="add"> <i
 													class="fa fa-plus-square-o bigger-130"><small>添加商品</small>
 												</i> </a>
-											</p>
-										</th>
+											</p></th>
 									</tr>
 								</thead>
 
@@ -140,18 +147,17 @@
 												data-content="${trl.seller.sellerName}&nbsp;
 																  ${trl.seller.sellerPhone}&nbsp;
 																  ${trl.seller.sellerAddress}">
-													${trl.seller.shopName} </a>
-											</td>
+													${trl.seller.shopName} </a></td>
 											<td class="hidden-480">${trl.TGoods.TGoodstype.goodsTypeName}</td>
 											<td><a class="goodPicPopover" href="javascript:void(0);"
 												data-container="body" data-placement="bottom"
-												pic="${trl.TGoods.goodsPic}"> ${trl.TGoods.goodsPic} </a>
-											</td>
+												pic="${trl.TGoods.goodsPic}"> ${trl.TGoods.goodsPic} </a></td>
 											<td class="hidden-480"><a name="goodsMsgPopover"
 												class="goodPicPopover" href="javascript:void(0);"
 												data-container="body" data-placement="bottom"
 												data-content="${trl.TGoods.goodsMsg}">
-													${trl.TGoods.goodsMsg} </a></td>
+													${trl.TGoods.goodsMsg} </a>
+											</td>
 											<td id="goodsIsSale${trl.isSale}"><span
 												class="label label-sm " name="goodsIsSale${trl.isSale}">${trl.isSale}</span>
 											</td>
@@ -160,13 +166,12 @@
 													<a class="blue buttongoods" href="javascript:void(0)"
 														name="${trl.TGoods.goodsId}" oper="detaill"> <i
 														　class="fa fa-search-plus bigger-130"><small></small>
-													</i> </a> 
-													<a class="green buttongoods" href="javascript:void(0)"
+													</i> </a> <a class="green buttongoods" href="javascript:void(0)"
 														name="${trl.TGoods.goodsId}" oper="modify"> <i
-														class="fa fa-pencil bigger-130"><small></small> </i> 
-													</a> 
-														<a class="red buttongoods" href="javascript:void(0)"
-														 name="${trl.TGoods.goodsId}" oper="delete" state="${trl.isSale}"> <i
+														class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
+														class="red buttongoods" href="javascript:void(0)"
+														name="${trl.TGoods.goodsId}" oper="delete"
+														state="${trl.isSale}"> <i
 														id="goodsIsSaleAction${trl.isSale}"
 														class="fa fa-toggle-off bigger-130"
 														name="goodsIsSaleAction${trl.isSale}"></i> </a>
@@ -184,23 +189,27 @@
 																name="${trl.TGoods.goodsId}" onclick="GetDetail(this)"
 																class="tooltip-info" data-rel="tooltip" title="View">
 																	<span class="blue"> <i
-																		class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a></li>
+																		class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a>
+															</li>
 
 															<li><a href="javascript:void(0)"
 																name="${trl.TGoods.goodsId}" onclick="Modify(this)"
 																class="tooltip-success" data-rel="tooltip" title="Edit">
 																	<span class="green"> <i
 																		class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																</span> </a></li>
+																</span> </a>
+															</li>
 
 															<li><a
 																href="ClassDelete?classId=${trl.TGoods.goodsId}"
 																class="tooltip-error" data-rel="tooltip" title="Delete">
 																	<span class="red"> <i
-																		class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a></li>
+																		class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a>
+															</li>
 														</ul>
 													</div>
-												</div></td>
+												</div>
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -399,10 +408,9 @@
 													success : function(data) {
 														// 'data' is an object representing the the evaluated json data 
 														// 如果图片上传成功则保存表单注册数据 
+
 														if (data == "1") {
-															$("#error")
-																	.html(
-																			"<font color='green'>操作成功!</font>");
+
 															//var fileName = data.fileName;
 															//alert(fileName);
 															/* $.ajax({
@@ -420,6 +428,7 @@
 																	}
 																},
 																error : function(XMLHttpRequest,textStatus,errorThrown) {
+																				errorThrown) {
 																			alert(errorThrown);
 																		}
 															}); */
@@ -455,19 +464,19 @@
 															+ "'/>";
 												}
 											})/* .on("mouseenter", function () {
-														                    				var _this = this;
-														                    				$(this).popover("show");
-														                    				$(this).siblings(".popover").on("mouseleave", function () {
-														                        				$(_this).popover('hide');
-														                    				});
-														                				}).on("mouseleave", function () {
-														                    			var _this = this;
-														                    			setTimeout(function () {
-														                        			if (!$(".popover:hover").length) {
-														                            			$(_this).popover("hide")
-														                        			}
-														                    			}, 100);
-														                			}) */;
+																					                    				var _this = this;
+																					                    				$(this).popover("show");
+																					                    				$(this).siblings(".popover").on("mouseleave", function () {
+																					                        				$(_this).popover('hide');
+																					                    				});
+																					                				}).on("mouseleave", function () {
+																					                    			var _this = this;
+																					                    			setTimeout(function () {
+																					                        			if (!$(".popover:hover").length) {
+																					                            			$(_this).popover("hide")
+																					                        			}
+																					                    			}, 100);
+																					                			}) */;
 							myEach();
 							myEachPopover("a", "goodsMsgPopover", 0, 10);
 
@@ -563,21 +572,28 @@
 								if (oper == "delete") {
 									alert($(this).attr('name'));
 									alert($(this).attr('state'));
-									$.ajax({
-										cache : false,
-										type : "POST",
-										url : "${pageContext.request.contextPath }/seller/updownGoods",
-										datatype : "json",
-										data : {"goodsId":$(this).attr('name'),"isSale":$(this).attr('state')},
-										async : true,
-										success : function(data) {
-											if(data == "商品下架成功"){
-												alert(1);
-											}
-										},error:function(data){
-											
-										}
-									});
+									$
+											.ajax({
+												cache : false,
+												type : "POST",
+												url : "${pageContext.request.contextPath }/seller/updownGoods",
+												datatype : "json",
+												data : {
+													"goodsId" : $(this).attr(
+															'name'),
+													"isSale" : $(this).attr(
+															'state')
+												},
+												async : true,
+												success : function(data) {
+													if (data == "商品下架成功") {
+														alert(1);
+													}
+												},
+												error : function(data) {
+
+												}
+											});
 								} else {
 									var dialog = $("#dialog-message")
 											.removeClass('hide')

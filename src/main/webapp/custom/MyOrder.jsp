@@ -294,7 +294,7 @@
 														<label class="col-xs-3 control-label no-padding-right"
 															for="userPhone" style="margin-top: 5px">电话：</label>
 														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input type="text" name="adsPhone" id="userPhone" value="${address.adsPhone }"
+															<input onkeyup="value=value.replace(/[^0-9]/g,'')" type="text" name="adsPhone" id="userPhone" value="${address.adsPhone }"
 																class="b col-xs-12" />
 														</div>
 													</div>
@@ -330,7 +330,7 @@
 														<label class="col-xs-3 control-label no-padding-right"
 															for="userPhone" style="margin-top: 5px">电话：</label>
 														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input type="text" name="adsPhone" id="userPhone" placeholder="客户电话"
+															<input onkeyup="value=value.replace(/[^0-9]/g,'')" type="text" name="adsPhone" id="userPhone" placeholder="客户电话"
 																class="a col-xs-12" />
 														</div>
 													</div>
@@ -563,9 +563,10 @@
                                         console.log("error");
                                     },
                                     success: function (data) {
-                                        if (data == 'ok') {
-                                        	console.log("ok");
+                                        if (data == "1") {
+                                        	//console.log("ok");
                                             //$("#menuState").html('按钮提交成功！');
+                                            window.location.href="${pageContext.request.contextPath}/index.jsp";
                                         }
                                         else {
                                         	$("#buttonBuy").removeClass('hide');
