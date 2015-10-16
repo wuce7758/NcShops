@@ -21,7 +21,8 @@
 <!-- bootstrap & fontawesome -->
 <link rel="stylesheet"
 	href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath }/plugins/fonts/font-awesome.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/plugins/fonts/font-awesome.css" />
 
 <!-- page specific plugin styles -->
 <link rel="stylesheet"
@@ -124,71 +125,79 @@
 								</thead>
 
 								<tbody>
-									<c:forEach items="${requestScope.goodDetail}" var="trl" varStatus="status">
-									<tr>
-										<td class="center"><label class="pos-rel"> <input
-												type="checkbox" class="ace" /> <span class="lbl"></span> </label>
-										</td>
-										<td>${trl.TGoods.goodsId}</td>
-										<td class="hidden-480">${trl.TGoods.goodsName}</td>
-										<td class="hidden-480">${trl.TGoods.goodsPrice}</td>
-										<td class="hidden-480">${trl.seller.sellerName}</td>
-										<td class="hidden-480">${trl.TGoods.TGoodstype.goodsTypeName}</td>
-										<td><a name="time" href="javascript:void(0);"
-											data-container="body" data-toggle="popover"
-											data-placement="bottom" data-content="${trl.TGoods.goodsPic}"> </a>
-										</td>
-										<td id="roleSeq${trl.TGoods.goodsMsg}"><span class="label label-sm "
-											name="roleSeq${trl.TGoods.goodsMsg}">${trl.TGoods.goodsMsg}</span></td>
-										<td class="hidden-480">${trl.TGoods.goodsMsg}</td>
-										<td>
-											<div class="hidden-sm hidden-xs action-buttons">
-												<a class="blue buttongoods" href="javascript:void(0)"
-													name="${trl.TGoods.goodsId}" oper="detaill"> <i
-													class="fa fa-search-plus bigger-130"><small></small> </i> </a>
-												<a class="green buttongoods" href="javascript:void(0)"
-													name="${trl.TGoods.goodsId}" oper="modify"> <i
-													class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
-													class="red buttongoods" href="javascript:void(0)"
-													name="${trl.TGoods.goodsId}" oper="delete"> <i
-													id="roleSeqAction${trl.TGoods.goodsId}"
-													class="fa fa-toggle-off bigger-130"
-													name="roleSeqAction${trl.TGoods.goodsId}"></i> </a>
-											</div>
-											<div class="hidden-md hidden-lg">
-												<div class="inline pos-rel">
-													<button class="btn btn-minier btn-yellow dropdown-toggle"
-														data-toggle="dropdown" data-position="auto">
-														<i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-													</button>
-
-													<ul
-														class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-														<li><a href="javascript:void(0)"
-															name="${trl.TGoods.goodsId}" onclick="GetDetail(this)"
-															class="tooltip-info" data-rel="tooltip" title="View">
-																<span class="blue"> <i
-																	class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a>
-														</li>
-
-														<li><a href="javascript:void(0)"
-															name="${trl.TGoods.goodsId}" onclick="Modify(this)"
-															class="tooltip-success" data-rel="tooltip" title="Edit">
-																<span class="green"> <i
-																	class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-															</span> </a>
-														</li>
-
-														<li><a href="ClassDelete?classId=${trl.TGoods.goodsId}"
-															class="tooltip-error" data-rel="tooltip" title="Delete">
-																<span class="red"> <i
-																	class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a>
-														</li>
-													</ul>
+									<c:forEach items="${requestScope.goodDetail}" var="trl"
+										varStatus="status">
+										<tr>
+											<td class="center"><label class="pos-rel"> <input
+													type="checkbox" class="ace" /> <span class="lbl"></span> </label>
+											</td>
+											<td>${trl.TGoods.goodsId}</td>
+											<td class="hidden-480">${trl.TGoods.goodsName}</td>
+											<td class="hidden-480">${trl.TGoods.goodsPrice}</td>
+											<td class="hidden-480">
+												<a class="goodSellerPopover" href="javascript:void(0);"
+													data-container="body" data-placement="bottom" 
+													data-content="${trl.seller.sellerName}&nbsp;
+																  ${trl.seller.sellerPhone}&nbsp;
+																  ${trl.seller.sellerAddress}">
+													${trl.seller.shopName}
+												</a>
+											</td>
+											<td class="hidden-480">${trl.TGoods.TGoodstype.goodsTypeName}</td>
+											<td><a class="goodPicPopover" href="javascript:void(0);"
+												data-container="body" data-placement="bottom" pic="${trl.TGoods.goodsPic}">
+												${trl.TGoods.goodsPic}
+												</a>
+											</td>
+											<td class="hidden-480">${trl.TGoods.goodsMsg}</td>
+											<td id="goodsIsSale${trl.isSale}"><span
+												class="label label-sm " name="goodsIsSale${trl.isSale}">${trl.isSale}</span>
+											</td>				
+											<td>
+												<div class="hidden-sm hidden-xs action-buttons">
+													<a class="blue buttongoods" href="javascript:void(0)"
+														name="${trl.TGoods.goodsId}" oper="detaill"> <i
+														class="fa fa-search-plus bigger-130"><small></small> </i>
+													</a> <a class="green buttongoods" href="javascript:void(0)"
+														name="${trl.TGoods.goodsId}" oper="modify"> <i
+														class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
+														class="red buttongoods" href="javascript:void(0)"
+														name="${trl.TGoods.goodsId}" oper="delete"> <i
+														id="goodsIsSaleAction${trl.isSale}"
+														class="fa fa-toggle-off bigger-130"
+														name="goodsIsSaleAction${trl.isSale}"></i> </a>
 												</div>
-											</div>
-										</td>
-									</tr>
+												<div class="hidden-md hidden-lg">
+													<div class="inline pos-rel">
+														<button class="btn btn-minier btn-yellow dropdown-toggle"
+															data-toggle="dropdown" data-position="auto">
+															<i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+														</button>
+
+														<ul
+															class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+															<li><a href="javascript:void(0)"
+																name="${trl.TGoods.goodsId}" onclick="GetDetail(this)"
+																class="tooltip-info" data-rel="tooltip" title="View">
+																	<span class="blue"> <i
+																		class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a></li>
+
+															<li><a href="javascript:void(0)"
+																name="${trl.TGoods.goodsId}" onclick="Modify(this)"
+																class="tooltip-success" data-rel="tooltip" title="Edit">
+																	<span class="green"> <i
+																		class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																</span> </a></li>
+
+															<li><a
+																href="ClassDelete?classId=${trl.TGoods.goodsId}"
+																class="tooltip-error" data-rel="tooltip" title="Delete">
+																	<span class="red"> <i
+																		class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a></li>
+														</ul>
+													</div>
+												</div></td>
+										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -197,7 +206,7 @@
 
 						<div id="dialog-message" class="hide">
 							<form id="formgoodsinfo" method="post" enctype="multipart/form-data">
-								<input type="hidden" name="oper" value="" id="oper"/>
+								<input type="hidden" name="oper" value="" id="oper" />
 								<div class="col-sm-12">
 									<div class="form-group col-sm-12">
 										<label class="col-sm-3 control-label no-padding-right"
@@ -314,10 +323,15 @@
 										/*这句可用可不用，没有影响*/
 										contentType : "application/json; charset=utf-8",
 										success : function(data) {
-											var goodstypes = JSON .stringify(data.TGoodstype);
+											var goodstypes = JSON
+													.stringify(data.TGoodstype);
 											var obj = JSON.parse(goodstypes);
 											for ( var i = 0; i < obj.length; i++) {
-												$("#goodsType").append("<option value='"+obj[i].goodsTypeId+"'>"+obj[i].goodsTypeName+"</option>");
+												$("#goodsType")
+														.append(
+																"<option value='"+obj[i].goodsTypeId+"'>"
+																		+ obj[i].goodsTypeName
+																		+ "</option>");
 											}
 										},
 										error : function(XMLHttpRequest,
@@ -325,7 +339,7 @@
 											alert(errorThrown);
 										}
 									});
-									//获取店铺信息类型
+							//获取店铺信息类型
 							$
 									.ajax({
 										type : "post",
@@ -335,10 +349,15 @@
 										/*这句可用可不用，没有影响*/
 										contentType : "application/json; charset=utf-8",
 										success : function(data) {
-											var goodstypes = JSON .stringify(data.TSeller);
+											var goodstypes = JSON
+													.stringify(data.TSeller);
 											var obj = JSON.parse(goodstypes);
 											for ( var i = 0; i < obj.length; i++) {
-												$("#goodsShop").append("<option value='"+obj[i].sellerId+"'>"+obj[i].shopName+"</option>");
+												$("#goodsShop")
+														.append(
+																"<option value='"+obj[i].sellerId+"'>"
+																		+ obj[i].shopName
+																		+ "</option>");
 											}
 										},
 										error : function(XMLHttpRequest,
@@ -407,9 +426,33 @@
 												$('#formgoodsinfo').ajaxSubmit(
 														options);
 											});
-							$('[data-toggle="popover"]').popover();
-							//myEach();
-							myEachPopover("time", 0, 10);
+											//显示商家详细信息
+											$(".goodSellerPopover").popover();
+											//鼠标经过显示图片
+							$(".goodPicPopover").popover({
+								html : true,
+								/* title : function() {
+									return "图片";
+								}, */
+								content : function() {
+									return "<img width='100px' height='100px' src='${pageContext.request.contextPath }/images/"+$(this).attr('pic')+"'/>";
+								}
+							}).on("mouseenter", function () {
+                    				var _this = this;
+                    				$(this).popover("show");
+                    				$(this).siblings(".popover").on("mouseleave", function () {
+                        				$(_this).popover('hide');
+                    				});
+                				}).on("mouseleave", function () {
+                    			var _this = this;
+                    			setTimeout(function () {
+                        			if (!$(".popover:hover").length) {
+                            			$(_this).popover("hide")
+                        			}
+                    			}, 100);
+                			});
+							myEach();
+							myEachPopover("", 0, 10);
 
 							//图片上传框
 							$('#id-input-file-3').ace_file_input({
@@ -461,23 +504,23 @@
 						});
 
 		function myEach() {
-			$("span[name='roleSeq1']").each(function() {
+			$("span[name='goodsIsSaletrue']").each(function() {
 				try {
 					$(this).removeClass("label-warning");
 				} catch (e) {
 				}
 				$(this).addClass("label-success");
-				$(this).text("有效角色");
+				$(this).text("已上架");
 			});
-			$("span[name='roleSeq0']").each(function() {
+			$("span[name='goodsIsSalefalse']").each(function() {
 				try {
 					$(this).removeClass("label-success");
 				} catch (e) {
 				}
 				$(this).addClass("label-warning");
-				$(this).text("无效角色");
+				$(this).text("已下架");
 			});
-			$("i[name='roleSeqAction1']").each(function() {
+			$("i[name='goodsIsSaleAction1']").each(function() {
 				try {
 					$(this).removeClass("fa-toggle-off");
 				} catch (e) {
@@ -485,7 +528,7 @@
 				$(this).addClass("fa-toggle-on");
 				//$(this).text("刪除");
 			});
-			$("i[name='roleSeqAction0']").each(function() {
+			$("i[name='goodsIsSaleAction0']").each(function() {
 				try {
 					$(this).removeClass("fa-toggle-on");
 				} catch (e) {
