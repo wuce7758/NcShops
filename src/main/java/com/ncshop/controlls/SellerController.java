@@ -21,7 +21,6 @@ import com.ncshop.domain.TGoodstype;
 import com.ncshop.domain.TOrder;
 import com.ncshop.domain.TSeller;
 import com.ncshop.service.SellerService;
-import com.ncshop.service.UserService;
 import com.ncshop.util.TargetStrategy;
 
 @Controller
