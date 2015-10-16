@@ -158,14 +158,7 @@ public class UserService {
 	}
 
 	public List<TAddress> findAddress(Integer userId) {
-
-<<<<<<< HEAD
 		return addressDAO.getHibernateTemplate().find("from TAddress where userId="+userId+" and isDefault="+true);
-=======
-		TAddress address=new TAddress();
-		address.setUserId(userId);
-		return addressDAO.getHibernateTemplate().find("from TAddress where userId="+userId+" and isDefault"+true);
->>>>>>> df5a22a3f780f9130a2fb700e87f58cea9288416
 	}
 
 	public TUser findUser(String openId) {
