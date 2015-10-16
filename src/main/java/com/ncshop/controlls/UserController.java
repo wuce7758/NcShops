@@ -298,7 +298,7 @@ public class UserController {
 				
 				WxMpTemplateMessage toBoss=new WxMpTemplateMessage();
 				toBoss.setToUser("okbTSvpMmbJxwyVbK1_zlhrOXRbM");
-				toBoss.setTemplateId("Epbh6BQwQDa5izKsLnoTnAL3FucE23VoTUxemjfXBKQ");
+				toBoss.setTemplateId("7oq5rzoc4sJ9-mYUWIb36TBookvArpV-d8sg2MQtKrs");
 				templateMessage.setUrl("www.baidu.com");
 				templateMessage.setTopColor("#ff0000");
 				TAddress address = userService.findAddress(user.getUserId()).get(0);
