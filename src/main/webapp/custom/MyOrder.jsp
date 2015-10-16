@@ -252,46 +252,46 @@
 												<strong>${sessionScope.allCost }</strong><small>元</small>
 											</div>
 											<!-- 加载默认地址 -->
-											<c:choose>
-   												<c:when test="${address!=null }">
-   													<c:forEach var="address" items="${address}">
-   														<c:if test="${address.isDefault }">
-	   														<p><c:out value="地址：${address.adsContent }"></c:out></p>
-	   														<p><c:out value="接收人：${address.receiverName }"></c:out></p>
-	   														<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
-   														</c:if>
-   													</c:forEach>
-   												</c:when>
-   												<c:otherwise>
-   													<font color='red'>
-   														<c:out value="您还没地址，请先设置地址!"></c:out>
-   													</font>
-   												</c:otherwise>  
-											</c:choose>
+   											<c:forEach var="address" items="${address}">
+													<c:choose>
+		   												<c:when test="${address!=null }">
+	   														<c:if test="${address.isDefault }">
+		   														<p><c:out value="地址：${address.adsContent }"></c:out></p>
+		   														<p><c:out value="接收人：${address.receiverName }"></c:out></p>
+		   														<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
+	   														</c:if>
+	   													</c:when>
+	   													<c:otherwise>
+	   														<font color='red'>
+	   															<c:out value="您还没地址，请先设置地址!"></c:out>
+	   														</font>
+	   													</c:otherwise>  
+													</c:choose>
+   											</c:forEach>
 											<div id="addAddress" style="display:none">
 												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role="form">
 													<div class="form-group">
 														<label class="col-xs-3 control-label no-padding-right"
 															for="userName" style="margin-top: 5px">姓名：</label>
 														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input type="text" name="receiverName" id="userName" placeholder="收货人" value="${sessionScope.user.userName }"
-																class="col-xs-12" />
+															<input class="a" type="text" name="receiverName" id="userName" placeholder="收货人" value="${sessionScope.user.userName }"
+																class="a col-xs-12" />
 														</div>
 														<label class="col-xs-3 control-label no-padding-right"
 															for="userAddress" style="margin-top: 5px">地址：</label>
 	
 														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input type="text" name="adsContent" id="userAddress" placeholder="客户地址"
-																class="col-xs-12" />
+															<input class="a" type="text" name="adsContent" id="userAddress" placeholder="客户地址"
+																class="a col-xs-12" />
 														</div>
 														<label class="col-xs-3 control-label no-padding-right"
 															for="userPhone" style="margin-top: 5px">电话：</label>
 														<div class="col-xs-9" style="margin-bottom: 3px">
 															<input type="text" name="adsPhone" id="userPhone" placeholder="客户电话"
-																class="col-xs-12" />
+																class="a col-xs-12" />
 														</div>
 													</div>
-													<button class="btn btn-white btn-info btn-bold col-xs-12">
+													<button disabled id="savaOrUpdate" class="btn btn-white btn-info btn-bold col-xs-12">
 														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
 														<font>修改/保存</font>
 													</button>
@@ -457,7 +457,6 @@
 			} 
 			$("#orderPrice strong").text(price);
 		} */
-		debugger;
 		var flag="${requestScope.address}";
 		function changeStyle(){
 			if(flag.length<1){
@@ -467,6 +466,18 @@
 		$(document).ready(function(){
 			/* sum(); */
 			changeStyle();
+			$(".a").keyup(function(){
+				debugger;
+				var input=$(".a");
+				for(var i=0;i<input.length;i++){
+					var item=input[i];
+					if(item.value!=""&&i==input.length-1){
+						$("#savaOrUpdate").attr("disabled",false);
+					}else{
+						$("#savaOrUpdate").attr("disabled",true);
+					}
+				}
+			});
 			$('#sureBuy').click(function (e) {
                 e.preventDefault();
                 $('#dialog_sureBuy_confirm').removeClass('hide').dialog({
