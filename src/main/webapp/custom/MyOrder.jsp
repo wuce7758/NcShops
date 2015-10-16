@@ -235,13 +235,13 @@
 															<td style="width:70%">
 																<i class="ace-icon fa fa-check green"></i>
 																${orderdetail.TGoods.goodsName }
-														</td>
-														<td style="width:10%">
-															x${orderdetail.buyMount }
-														</td>
-														<td style="width:20%;text-align:right">
-																￥<font class="buyCost">${orderdetail.buyCost }</font>
-														</td>
+															</td>
+															<td style="width:10%">
+																x${orderdetail.buyMount }
+															</td>
+															<td style="width:20%;text-align:right">
+																	￥<font class="buyCost">${orderdetail.buyCost }</font>
+															</td>
 														</tr>
 													</c:forEach>
 												</table>
@@ -252,42 +252,79 @@
 												<strong>${sessionScope.allCost }</strong><small>元</small>
 											</div>
 											<!-- 加载默认地址 -->
-   											<c:if test="${address==null }">
+   											<c:if test="${requestScope.address==null }">
 		   										<font color='red'>
 	   												<c:out value="您还没地址，请先设置地址!"></c:out>
 	   											</font>
 	   										</c:if>
    											<c:forEach var="address" items="${address}">
-		   										<p><c:out value="地址：${address.adsContent }"></c:out></p>
 		   										<p><c:out value="接收人：${address.receiverName }"></c:out></p>
+		   										<p><c:out value="地址：${address.adsContent }"></c:out></p>
 		   										<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
 		   										<div style="height:25px;width:100%;text-align:right">
-												<div style="float:right;width:50%">
-												<button id="update" style="margin-right:5px" class="btn btn-minier btn-info btn-bold col-xs-5">
-													<i class="bigger-120 orange"></i>
-													<font>修改</font>
-												</button>
-												<button id="add" style="margin-right:5px;float:right" class="btn btn-minier btn-info btn-bold col-xs-5">
-													<i class="bigger-120 orange"></i>
-													<font>添加</font>
-												</button>
+													<div style="float:right;width:50%">
+														<button id="update" style="margin-right:5px" class="btn btn-minier btn-info btn-bold col-xs-5">
+															<i class="bigger-120 orange"></i>
+															<font>修改</font>
+														</button>
+														<button id="add" style="margin-right:5px;float:right" class="btn btn-minier btn-info btn-bold col-xs-5">
+															<i class="bigger-120 orange"></i>
+															<font>添加</font>
+														</button>
+													</div>
 												</div>
+												<!-- 修改地址 -->
+											<div id="updateAddress" style="display:none;height:150px">
+												<c:forEach var="address" items="${requestScope.address}">
+												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role="form">
+													<div class="form-group">
+														<label class="col-xs-3 control-label no-padding-right"
+															for="userName" style="margin-top: 5px">姓名：</label>
+														<div class="col-xs-9" style="margin-bottom: 3px">
+															<input type="text" name="receiverName" id="userName" value="${address.receiverName }"
+																class="b col-xs-12" />
+														</div>
+														<label class="col-xs-3 control-label no-padding-right"
+															for="userAddress" style="margin-top: 5px">地址：</label>
+	
+														<div class="col-xs-9" style="margin-bottom: 3px">
+															<input type="text" name="adsContent" id="userAddress" value="${address.adsContent }"
+																class="b col-xs-12" />
+														</div>
+														<label class="col-xs-3 control-label no-padding-right"
+															for="userPhone" style="margin-top: 5px">电话：</label>
+														<div class="col-xs-9" style="margin-bottom: 3px">
+															<input type="text" name="adsPhone" id="userPhone" value="${address.adsPhone }"
+																class="b col-xs-12" />
+														</div>
+													</div>
+													<button style="margin-left:13px" disabled id="updateButton" class="btn btn-white btn-info btn-bold col-xs-5">
+														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
+														<font>修改</font>
+													</button>
+												</form>
+													<button style="margin-left:25px" id="cancelUpdate" class="btn btn-white btn-info btn-bold col-xs-5">
+														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
+														<font>取消</font>
+													</button>
+												</c:forEach>
 											</div>
    											</c:forEach>
+   											<!-- 添加地址 -->
 											<div id="addAddress" style="display:none">
 												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role="form">
 													<div class="form-group">
 														<label class="col-xs-3 control-label no-padding-right"
 															for="userName" style="margin-top: 5px">姓名：</label>
 														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input class="a" type="text" name="receiverName" id="userName" placeholder="收货人" value="${sessionScope.user.userName }"
+															<input type="text" name="receiverName" id="userName" placeholder="收货人" value="${sessionScope.user.userName }"
 																class="a col-xs-12" />
 														</div>
 														<label class="col-xs-3 control-label no-padding-right"
 															for="userAddress" style="margin-top: 5px">地址：</label>
 	
 														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input class="a" type="text" name="adsContent" id="userAddress" placeholder="客户地址"
+															<input type="text" name="adsContent" id="userAddress" placeholder="客户地址"
 																class="a col-xs-12" />
 														</div>
 														<label class="col-xs-3 control-label no-padding-right"
@@ -297,63 +334,28 @@
 																class="a col-xs-12" />
 														</div>
 													</div>
-													<button disabled id="savaOrUpdate" class="btn btn-white btn-info btn-bold col-xs-12">
+													<button style="margin-left:13px" disabled id="savaOrUpdate" class="btn btn-white btn-info btn-bold col-xs-5">
 														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
 														<font>保存</font>
 													</button>
 												</form>
-											<p style="margin-top: 5px"><font color="red">请检查地址正确后再确认订单！</font></p>
-											
-											</div>
-											<div id="updateAddress" style="display:none">
-												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role="form">
-													<div class="form-group">
-														<label class="col-xs-3 control-label no-padding-right"
-															for="userName" style="margin-top: 5px">姓名：</label>
-														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input class="a" type="text" name="receiverName" id="userName" value="${requestScope.address.receiverName }"
-																class="b col-xs-12" />
-														</div>
-														<label class="col-xs-3 control-label no-padding-right"
-															for="userAddress" style="margin-top: 5px">地址：</label>
-	
-														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input class="a" type="text" name="adsContent" id="userAddress" value="${requestScope.address.adsContent }"
-																class="b col-xs-12" />
-														</div>
-														<label class="col-xs-3 control-label no-padding-right"
-															for="userPhone" style="margin-top: 5px">电话：</label>
-														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input type="text" name="adsPhone" id="userPhone" value="${requestScope.address.adsPhone }"
-																class="b col-xs-12" />
-														</div>
-													</div>
-													<button disabled id="updateButton" class="btn btn-white btn-info btn-bold col-xs-5">
-														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
-														<font>修改</font>
-													</button>
-													<button id="concelUpdate" class="btn btn-white btn-info btn-bold col-xs-5">
+													<button style="margin-left:25px" id="cancelAdd" class="btn btn-white btn-info btn-bold col-xs-5">
 														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
 														<font>取消</font>
 													</button>
-												</form>
+											<p style="margin-top: 5px"><font color="red">请检查地址正确后再确认订单！</font></p>
+											
 											</div>
+											
 										</div>
 
 										<div id="dialog_sureBuy_confirm" class="hide">
 											<font color="red">提示</font>
-											<div class="alert alert-info bigger-110">
-												确定要提交吗？此操作无法撤销！请谨慎操作！</div>
 											<div class="space-6"></div>
 											<p class="bigger-110 bolder center grey">
 												<i class="ace-icon fa fa-hand-o-right blue bigger-120"></i>
 												确定提交?
 											</p>
-										</div>
-										<div id="buttonBuy" class="hide">
-											<a href="${pageContext.request.contextPath }/user/buy" class="btn btn-block btn-primary"> <i
-												class="ace-icon fa fa-shopping-cart bigger-110"></i> <span>Buy</span>
-											</a>
 										</div>
 									</div>
 								</div>
@@ -487,16 +489,6 @@
 
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
-/* 		var price=0;
-		var array=$(".buyCost");
-		function sum(){
-			debugger;
-			for(var i=0;i<array.length;i++){
-				var item=array[i].textContent;
-				price=parseFloat(price)+parseFloat(item);
-			} 
-			$("#orderPrice strong").text(price);
-		} */
 		var flag="${requestScope.address}";
 		function changeStyle(){
 			if(flag.length<1){
@@ -504,16 +496,26 @@
 			}
 		}
 		$(document).ready(function(){
-			/* sum(); */
 			changeStyle();
 			$("#update").click(function(){
-				$("#updateAddress").css("display","inline");
+				$("#updateAddress").css("display","");
+				$("#update").attr("disabled",true);
+				$("#add").attr("disabled",true);
 			});
 			$("#add").click(function(){
+				$("#add").attr("disabled",true);
+				$("#update").attr("disabled",true);
 				$("#addAddress").css("display","inline");
 			});
 			$("#cancelUpdate").click(function(){
-				$("#updateAddress").css("display","none");
+				$("#updateAddress").hide();
+				$("#update").attr("disabled",false);
+				$("#add").attr("disabled",false);
+			});
+			$("#cancelAdd").click(function(){
+				$("#addAddress").hide();
+				$("#update").attr("disabled",false);
+				$("#add").attr("disabled",false);
 			});
 			$(".a").keyup(function(){
 				var input=$(".a");
@@ -547,20 +549,20 @@
                     title_html: true,
                     buttons: [
                         {
-                            html: "<i class='ace-icon fa fa-save bigger-110'></i>确定提交按钮",
+                            html: "<i class='ace-icon fa fa-save bigger-110'></i>确认下单",
                             "class": "btn btn-success btn-minier",
                             click: function () {
                                 $(this).dialog("close");
                                 $.ajax({
                                     cache: false,
                                     type: "POST",
-                                    url: "../user/findAllGoods",
+                                    url: "../user/buy",
                                     data: "123",//$('#form_Menu').serialize(),
                                     async: false,
                                     error: function (request) {
                                         console.log("error");
                                     },
-                                    success: function (cdata) {
+                                    success: function (data) {
                                         if (data == 'ok') {
                                         	console.log("ok");
                                             //$("#menuState").html('按钮提交成功！');
