@@ -165,10 +165,10 @@
 														class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
 														class="red buttongoods" href="javascript:void(0)"
 														name="${trl.TGoods.goodsId}" oper="delete"
-														state="${trl.isSale}"> <i
+														> <i
 														id="goodsIsSaleAction${trl.TGoods.goodsId}"
 														class="fa fa-toggle-off bigger-130"
-														name="goodsIsSaleAction${trl.isSale}"></i> </a>
+														name="goodsIsSaleAction${trl.isSale}" state="${trl.isSale}"></i> </a>
 												</div>
 												<div class="hidden-md hidden-lg">
 													<div class="inline pos-rel">
@@ -549,7 +549,7 @@
 								$("#oper").val(oper);
 								if (oper == "delete") {
 									var goodsId = $(this).attr('name');
-									var isSale = $(this).attr('state');
+									var isSale = $("#goodsIsSaleAction"+goodsId).attr('state');
 									$
 											.ajax({
 												cache : false,
@@ -562,11 +562,10 @@
 												},
 												async : true,
 												success : function(data) {
-													if (data == "商品下架成功!") {
-													alert(isSale);
+													if (data == "1") {
 														if (isSale == "true") {
 															$(
-																	"td[id='goodsIsSaleId"
+																	"td[id='goodsIsSale"
 																			+ goodsId
 																			+ "'] span")
 																	.attr(
@@ -579,9 +578,17 @@
 																	.attr(
 																			"name",
 																			"goodsIsSaleActionfalse");
+															$(
+																	"i[id='goodsIsSaleAction"
+																			+ goodsId
+																			+ "']")
+																	.attr(
+																			"state",
+																			"false");
+																			
 														} else {
 															$(
-																	"td[id='goodsIsSaleId"
+																	"td[id='goodsIsSale"
 																			+ goodsId
 																			+ "'] span")
 																	.attr(
@@ -594,6 +601,13 @@
 																	.attr(
 																			"name",
 																			"goodsIsSaleActiontrue");
+															$(
+																	"i[id='goodsIsSaleAction"
+																			+ goodsId
+																			+ "']")
+																	.attr(
+																			"state",
+																			"true");
 														}
 														myEach();
 													}
