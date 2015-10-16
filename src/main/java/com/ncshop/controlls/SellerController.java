@@ -154,7 +154,7 @@ public class SellerController {
 		// 调用service查找 数据库
 		sellerService.downGoods(goodsId,isSale);
 		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().write("商品下架成功!");
+		response.getWriter().write("1");
 	}
 
 	/**

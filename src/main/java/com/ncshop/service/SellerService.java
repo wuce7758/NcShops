@@ -132,7 +132,7 @@ public class SellerService {
 		TGoods goods=goodsDao.findById(goodsId);
 		TSellergoods example=new TSellergoods();
 		example.setTGoods(goods);
-		List<TSellergoods> sellergoodsList=sellergoodsDao.getHibernateTemplate().findByExample(example);
+		List<TSellergoods> sellergoodsList=sellergoodsDao.getHibernateTemplate().find("from TSellergoods where goodsId="+goodsId);
 		TSellergoods sellergoods=null;
 		if(sellergoodsList.size()>0){
 			sellergoods=sellergoodsList.get(0);			
