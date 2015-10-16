@@ -294,7 +294,6 @@ public class UserController {
 								"#ff000"));
 				wxMpService.templateSend(templateMessage);
 				
-				
 				//通知商家有新的订单
 				
 				WxMpTemplateMessage toBoss=new WxMpTemplateMessage();
@@ -302,7 +301,10 @@ public class UserController {
 				toBoss.setTemplateId("Epbh6BQwQDa5izKsLnoTnAL3FucE23VoTUxemjfXBKQ");
 				templateMessage.setUrl("www.baidu.com");
 				templateMessage.setTopColor("#ff0000");
-				toBoss.getDatas().add(new WxMpTemplateData("dsdsa:","9898"));
+				TAddress address = userService.findAddress(user.getUserId()).get(0);
+				toBoss.getDatas().add(new WxMpTemplateData("address:",address.getAdsContent()));
+				toBoss.getDatas().add(new WxMpTemplateData("phone:",address.getAdsPhone()));
+				toBoss.getDatas().add(new WxMpTemplateData("content:",msg));
 				wxMpService.templateSend(toBoss);
 				return null;
 			}
