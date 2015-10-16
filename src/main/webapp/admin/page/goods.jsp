@@ -82,7 +82,8 @@
 					<ul class="breadcrumb">
 						<li><i class="ace-icon fa fa-home home-icon"></i><a href="#">商城管理系统</a>
 						</li>
-						<li><a href="#">商品管理</a></li>
+						<li><a href="#">商品管理</a>
+						</li>
 					</ul>
 					<jsp:include page="../WebPart/SearchBox.jsp"></jsp:include>
 				</div>
@@ -97,100 +98,103 @@
 								<div class="pull-right tableTools-container"></div>
 							</div>
 							<div class="table-header">商品列表</div>
-							<s:action/>
+							<s:action />
 							<table id="dynamic-table"
 								class="table table-striped table-bordered table-hover">
 								<thead>
 									<tr>
 										<th class="center"><label class="pos-rel"> <input
-												type="checkbox" class="ace" /> <span class="lbl"></span> </label>
+												type="checkbox" class="ace" /> <span class="lbl"></span> </label></th>
+										<th><small>ID</small>
 										</th>
-										<th><small>ID</small></th>
-										<th><small>名称</small></th>
-										<th><small>价格</small></th>
-										<th><small>商户</small></th>
-										<th><small>类别</small></th>
-										<th><small>图片</small></th>
-										<th><small>简介</small></th>
-										<th><small>状态</small></th>
+										<th><small>名称</small>
+										</th>
+										<th><small>价格</small>
+										</th>
+										<th><small>商户</small>
+										</th>
+										<th><small>类别</small>
+										</th>
+										<th><small>图片</small>
+										</th>
+										<th><small>简介</small>
+										</th>
+										<th><small>状态</small>
+										</th>
 										<th>
 											<p class="text-center">
 												<a class="blue buttongoods" href="javascript:void(0)"
 													id="buttonadd" oper="add"> <i
 													class="fa fa-plus-square-o bigger-130"><small>添加商品</small>
 												</i> </a>
-											</p>
-										</th>
+											</p></th>
 									</tr>
 								</thead>
 
 								<tbody>
-									<c:forEach items="${requestScope.allGoods}" var="trl" varStatus="status">
-									<tr>
-										<td class="center"><label class="pos-rel"> <input
-												type="checkbox" class="ace" /> <span class="lbl"></span> </label>
-										</td>
-
-										<td><a href="">1</a></td>
-										<td>${trl.goodsId}</td>
-										<td class="hidden-480">${trl.goodsName}</td>
-										<td class="hidden-480">${trl.goodsPrice}</td>
-										<td class="hidden-480">${trl.TGoodstype.goodsTypeName}</td>
-										<td><a name="time" href="javascript:void(0);"
-											data-container="body" data-toggle="popover"
-											data-placement="bottom" data-content="${trl.goodsPic}"> </a>
-										</td>
-										<td id="roleSeq${trl.goodsMsg}"><span class="label label-sm "
-											name="roleSeq${trl.goodsMsg}">${trl.goodsMsg}</span></td>
-										<td class="hidden-480">${trl.goodsMsg}</td>
-										<td>
-											<div class="hidden-sm hidden-xs action-buttons">
-												<a class="blue buttongoods" href="javascript:void(0)"
-													name="${trl.goodsId}" oper="detaill"> <i
-													class="fa fa-search-plus bigger-130"><small></small> </i> </a>
-												<a class="green buttongoods" href="javascript:void(0)"
-													name="${trl.goodsId}" oper="modify"> <i
-													class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
-													class="red buttongoods" href="javascript:void(0)"
-													name="${trl.goodsId}" oper="delete"> <i
-													id="roleSeqAction${trl.goodsId}"
-													class="fa fa-toggle-off bigger-130"
-													name="roleSeqAction${trl.goodsId}"></i> </a>
-											</div>
-											<div class="hidden-md hidden-lg">
-												<div class="inline pos-rel">
-													<button class="btn btn-minier btn-yellow dropdown-toggle"
-														data-toggle="dropdown" data-position="auto">
-														<i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-													</button>
-
-													<ul
-														class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-														<li><a href="javascript:void(0)"
-															name="${trl.goodsId}" onclick="GetDetail(this)"
-															class="tooltip-info" data-rel="tooltip" title="View">
-																<span class="blue"> <i
-																	class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a>
-														</li>
-
-														<li><a href="javascript:void(0)"
-															name="${trl.goodsId}" onclick="Modify(this)"
-															class="tooltip-success" data-rel="tooltip" title="Edit">
-																<span class="green"> <i
-																	class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-															</span> </a>
-														</li>
-
-														<li><a href="ClassDelete?classId=${trl.goodsId}"
-															class="tooltip-error" data-rel="tooltip" title="Delete">
-																<span class="red"> <i
-																	class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a>
-														</li>
-													</ul>
+									<c:forEach items="${requestScope.allGoods}" var="trl"
+										varStatus="status">
+										<tr>
+											<td class="center"><label class="pos-rel"> <input
+													type="checkbox" class="ace" /> <span class="lbl"></span> </label>
+											</td>
+											<td>${trl.goodsId}</td>
+											<td class="hidden-480">${trl.goodsName}</td>
+											<td class="hidden-480">${trl.goodsPrice}</td>
+											<td class="hidden-480">${trl.goodsPrice}</td>
+											<td class="hidden-480">${trl.TGoodstype.goodsTypeName}</td>
+											<td><a name="time" href="javascript:void(0);"
+												data-container="body" data-toggle="popover"
+												data-placement="bottom" data-content="${trl.goodsPic}">
+											</a></td>
+											<td id="roleSeq${trl.goodsMsg}"><span
+												class="label label-sm " name="roleSeq${trl.goodsMsg}">${trl.goodsMsg}</span>
+											</td>
+											<td class="hidden-480">${trl.goodsMsg}</td>
+											<td>
+												<div class="hidden-sm hidden-xs action-buttons">
+													<a class="blue buttongoods" href="javascript:void(0)"
+														name="${trl.goodsId}" oper="detaill"> <i
+														class="fa fa-search-plus bigger-130"><small></small> </i>
+													</a> <a class="green buttongoods" href="javascript:void(0)"
+														name="${trl.goodsId}" oper="modify"> <i
+														class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
+														class="red buttongoods" href="javascript:void(0)"
+														name="${trl.goodsId}" oper="delete"> <i
+														id="roleSeqAction${trl.goodsId}"
+														class="fa fa-toggle-off bigger-130"
+														name="roleSeqAction${trl.goodsId}"></i> </a>
 												</div>
-											</div>
-										</td>
-									</tr>
+												<div class="hidden-md hidden-lg">
+													<div class="inline pos-rel">
+														<button class="btn btn-minier btn-yellow dropdown-toggle"
+															data-toggle="dropdown" data-position="auto">
+															<i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+														</button>
+
+														<ul
+															class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+															<li><a href="javascript:void(0)"
+																name="${trl.goodsId}" onclick="GetDetail(this)"
+																class="tooltip-info" data-rel="tooltip" title="View">
+																	<span class="blue"> <i
+																		class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a></li>
+
+															<li><a href="javascript:void(0)"
+																name="${trl.goodsId}" onclick="Modify(this)"
+																class="tooltip-success" data-rel="tooltip" title="Edit">
+																	<span class="green"> <i
+																		class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																</span> </a></li>
+
+															<li><a href="ClassDelete?classId=${trl.goodsId}"
+																class="tooltip-error" data-rel="tooltip" title="Delete">
+																	<span class="red"> <i
+																		class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a></li>
+														</ul>
+													</div>
+												</div></td>
+										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -199,7 +203,7 @@
 
 						<div id="dialog-message" class="hide">
 							<form id="formgoodsinfo">
-								<input type="hidden" name="oper" value="" id="oper"/>
+								<input type="hidden" name="oper" value="" id="oper" />
 								<div class="col-sm-12">
 									<input type="hidden" name="oper" value="" id="oper" />
 									<div class="form-group col-sm-12">
@@ -313,10 +317,15 @@
 										/*这句可用可不用，没有影响*/
 										contentType : "application/json; charset=utf-8",
 										success : function(data) {
-											var goodstypes = JSON .stringify(data.TGoodstype);
+											var goodstypes = JSON
+													.stringify(data.TGoodstype);
 											var obj = JSON.parse(goodstypes);
 											for ( var i = 0; i < obj.length; i++) {
-												$("#goodsType").append("<option value='"+obj[i].goodsTypeId+"'>"+obj[i].goodsTypeName+"</option>");
+												$("#goodsType")
+														.append(
+																"<option value='"+obj[i].goodsTypeId+"'>"
+																		+ obj[i].goodsTypeName
+																		+ "</option>");
 											}
 										},
 										error : function(XMLHttpRequest,
@@ -324,7 +333,7 @@
 											alert(errorThrown);
 										}
 									});
-									//获取店铺信息类型
+							//获取店铺信息类型
 							$
 									.ajax({
 										type : "post",
@@ -334,10 +343,15 @@
 										/*这句可用可不用，没有影响*/
 										contentType : "application/json; charset=utf-8",
 										success : function(data) {
-											var goodstypes = JSON .stringify(data.TSeller);
+											var goodstypes = JSON
+													.stringify(data.TSeller);
 											var obj = JSON.parse(goodstypes);
 											for ( var i = 0; i < obj.length; i++) {
-												$("#goodsShop").append("<option value='"+obj[i].sellerId+"'>"+obj[i].shopName+"</option>");
+												$("#goodsShop")
+														.append(
+																"<option value='"+obj[i].sellerId+"'>"
+																		+ obj[i].shopName
+																		+ "</option>");
 											}
 										},
 										error : function(XMLHttpRequest,
@@ -415,7 +429,15 @@
 												$('#formgoodsinfo').ajaxSubmit(
 														options);
 											});
-							$('[data-toggle="popover"]').popover();
+							$('[data-toggle="popover"]').popover({
+								html : true,
+								title : function() {
+									return $("#popover-head").html();
+								},
+								content : function() {
+									return "<img src='1.jpg'/>";
+								}
+							});
 							//myEach();
 							myEachPopover("time", 0, 10);
 
