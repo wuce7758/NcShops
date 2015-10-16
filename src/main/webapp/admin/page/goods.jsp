@@ -245,7 +245,7 @@
 										<label class="col-sm-3 control-label no-padding-right"
 											for="id-input-field-2">照片</label>
 										<div class="col-sm-9">
-											<input type="file" name="goodsPic" id="id-input-file-3" />
+											<input type="file" name="picFile" id="id-input-file-3" />
 										</div>
 									</div>
 									<div class="form-group col-sm-12">
