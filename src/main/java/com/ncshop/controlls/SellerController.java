@@ -253,7 +253,6 @@ public class SellerController {
 		List<TOrder> list=sellerService.findAllOrder();
 		request.setAttribute("orderList", list);
 		String json=toJson(new TOrder(),list,null);
-		response.getWriter().write(json);
 		request.getRequestDispatcher("/admin/page/order.jsp").forward(request,response);
 	}
 	

@@ -83,7 +83,7 @@
 					<ul class="breadcrumb">
 						<li><i class="ace-icon fa fa-home home-icon"></i><a href="#">商城管理系统</a>
 						</li>
-						<li><a href="#">商品管理</a></li>
+						<li><a href="#">订单管理</a></li>
 					</ul>
 					<jsp:include page="../WebPart/SearchBox.jsp"></jsp:include>
 				</div>
@@ -92,12 +92,12 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
-							<h3 class="header smaller lighter blue">所有商品</h3>
+							<h3 class="header smaller lighter blue">所有订单</h3>
 
 							<div class="clearfix">
 								<div class="pull-right tableTools-container"></div>
 							</div>
-							<div class="table-header">商品列表</div>
+							<div class="table-header">订单列表</div>
 							<table id="dynamic-table"
 								class="table table-striped table-bordered table-hover">
 								<thead>
@@ -105,21 +105,17 @@
 										<th class="center"><label class="pos-rel"> <input
 												type="checkbox" class="ace" /> <span class="lbl"></span> </label>
 										</th>
-										<th><small>ID</small></th>
-										<th><small>商店名称</small></th>
-										<th><small>商户姓名</small></th>
-										<th><small>商店地址</small></th>
-										<th><small>配送费用（元）</small></th>
-										<th><small>最低消费（元）</small></th>
-										<th><small>加盟时间</small></th>
-										<th><small>加盟期限（个月）</small></th>
-										<th><small>商家简介</small></th>
-										<th><small>商家状态</small></th>
+										<th><small>订单号</small></th>
+										<th><small>客户ID</small></th>
+										<th><small>商户ID</small></th>
+										<th><small>下单时间</small></th>
+										<th><small>应付</small></th>
+										<th><small>状态</small></th>
 										<th>
 											<p class="text-center">
 												<a class="blue buttongoods" href="javascript:void(0)"
 													id="buttonadd" oper="add"> <i
-													class="fa fa-plus-square-o bigger-130"><small>添加商家</small>
+													class="fa fa-plus-square-o bigger-130"><small>批量打印</small>
 												</i> </a>
 											</p>
 										</th>
@@ -127,45 +123,42 @@
 								</thead>
 
 								<tbody>
-									<c:forEach items="${requestScope.goodDetail}" var="trl"
+									<c:forEach items="${requestScope.orderList}" var="trl"
 										varStatus="status">
 										<tr>
 											<td class="center"><label class="pos-rel"> <input
 													type="checkbox" class="ace" /> <span class="lbl"></span> </label>
 											</td>
-											<td>${trl.sellerId}</td>
-											<td class="hidden-480">${trl.shopName}</td>
-											<td class="hidden-480">${trl.sellerName}</td>
-											<td class="hidden-480"><a class="goodSellerPopover"
+											<td>${trl.orderNo}</td>
+											
+											<td class="hidden-480"><a class="orderuserPopover"
 												href="javascript:void(0);" data-container="body"
-												data-placement="bottom"
-												data-content="${trl.shopName}&nbsp;
-																  ${trl.sellerPhone}&nbsp;
-																  ${trl.sellerAddress}">
-													${trl.sellerAddress} </a>
+												data-placement="bottom" name="${trl.userId}">
+													${trl.userId} </a>
 											</td>
-											<td class="hidden-480">${trl.deliverMoney}</td>
-											<td> ${trl.minBuy}</td>
-											<td class="hidden-480">${trl.joinTime}</td>
-											<td class="hidden-480">${trl.joinDeadline}</td>
-											<td class="hidden-480">${trl.sellerMsg}</td>
-											<td id="goodsIsSale${trl.sellerId}"><span
-												class="label label-sm " name="goodsIsSale${trl.isValid}">${trl.isValid}</span>
+											<td class="hidden-480"><a class="ordersellerPopover"
+												href="javascript:void(0);" data-container="body"
+												data-placement="bottom" name="${trl.sellerId }">
+													${trl.sellerId }</a>
+											</td>
+											<td class="hidden-480">${trl.orderTime}</td>
+											<td class="hidden-480">${trl.orderTotalCost}</td>
+											<td id="orderState${trl.orderId}"><span
+												class="label label-sm " name="orderState${trl.orderId}">${trl.orderState}</span>
 											</td>
 											<td>
 												<div class="hidden-sm hidden-xs action-buttons">
 													<a class="blue buttongoods" href="javascript:void(0)"
-														name="${trl.sellerId}" oper="detaill"> <i
-														　class="fa fa-search-plus bigger-130"><small></small>
-													</i> </a> <a class="green buttongoods" href="javascript:void(0)"
-														name="${trl.sellerId}" oper="modify"> <i
-														class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
-														class="red buttongoods" href="javascript:void(0)"
-														name="${trl.sellerId}" oper="delete"
-														> <i
-														id="goodsIsSaleAction${trl.sellerId}"
+														name="${trl.orderId}" oper="detaill"> 
+														<i class="fa fa-search-plus bigger-130"><small></small>
+														</i> 
+													</a> 
+													<a class="red buttongoods" href="javascript:void(0)"
+														name="${trl.orderId}" oper="delete"> 
+														<i id="goodsIsSaleAction${trl.orderId}"
 														class="fa fa-toggle-off bigger-130"
-														name="goodsIsSaleAction${trl.isValid}" state="${trl.isValid}"></i> </a>
+														name="goodsIsSaleAction${trl.orderId}" state="${trl.orderId}"></i> 
+													</a>
 												</div>
 												<div class="hidden-md hidden-lg">
 													<div class="inline pos-rel">
@@ -177,20 +170,20 @@
 														<ul
 															class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 															<li><a href="javascript:void(0)"
-																name="${trl.sellerId}" onclick="GetDetail(this)"
+																name="${trl.orderId}" onclick="GetDetail(this)"
 																class="tooltip-info" data-rel="tooltip" title="View">
 																	<span class="blue"> <i
 																		class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a></li>
 
 															<li><a href="javascript:void(0)"
-																name="${trl.sellerId}" onclick="Modify(this)"
+																name="${trl.orderId}" onclick="Modify(this)"
 																class="tooltip-success" data-rel="tooltip" title="Edit">
 																	<span class="green"> <i
 																		class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																</span> </a></li>
 
 															<li><a
-																href="ClassDelete?classId=${trl.sellerId}"
+																href="ClassDelete?classId=${trl.orderId}"
 																class="tooltip-error" data-rel="tooltip" title="Delete">
 																	<span class="red"> <i
 																		class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a></li>
@@ -631,7 +624,7 @@
 				bAutoWidth : false,
 				"aoColumns" : [ {
 					"bSortable" : false
-				}, null, null, null, null, null, null, null, null,null,null, {
+				}, null, null, null, null, null, null, {
 					"bSortable" : false
 				} ],
 				"aaSorting" : [],
