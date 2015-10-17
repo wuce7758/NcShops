@@ -93,7 +93,11 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
+<<<<<<< HEAD
 							<h3 class="header smaller lighter blue">所有商店信息</h3>
+=======
+							<h3 class="header smaller lighter blue">所有商家</h3>
+>>>>>>> 16df999e79c3b86984b9edec51c69a6db15266b4
 
 							<div class="clearfix">
 								<div class="pull-right tableTools-container"></div>
@@ -138,7 +142,7 @@
 								</thead>
 
 								<tbody>
-									<c:forEach items="${requestScope.goodDetail}" var="trl"
+									<c:forEach items="${requestScope.sellerList}" var="trl"
 										varStatus="status">
 										<tr>
 											<td class="center"><label class="pos-rel"> <input
