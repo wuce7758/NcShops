@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ncshop.util.ConfigDao;
 import com.ncshop.util.ConfigInfo;
+import com.ncshop.util.LogBuilder;
 
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
@@ -64,53 +65,59 @@ public class NcWxMpServlet extends HttpServlet {
 
 	@Override
 	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+			HttpServletResponse response) throws ServletException{
+		
+		try {
+			response.setContentType("text/html;charset=utf-8");
+			response.setStatus(HttpServletResponse.SC_OK);
 
-		response.setContentType("text/html;charset=utf-8");
-		response.setStatus(HttpServletResponse.SC_OK);
+			String signature = request.getParameter("signature");
+			String nonce = request.getParameter("nonce");
+			String timestamp = request.getParameter("timestamp");
 
-		String signature = request.getParameter("signature");
-		String nonce = request.getParameter("nonce");
-		String timestamp = request.getParameter("timestamp");
+			if (!wxMpService.checkSignature(timestamp, nonce, signature)) {
+				// 消息签名不正确，说明不是公众平台发过来的消息
+				response.getWriter().println("非法请求");
+				return;
+			}
 
-		if (!wxMpService.checkSignature(timestamp, nonce, signature)) {
-			// 消息签名不正确，说明不是公众平台发过来的消息
-			response.getWriter().println("非法请求");
+			String echostr = request.getParameter("echostr");
+			if (StringUtils.isNotBlank(echostr)) {
+				// 说明是一个仅仅用来验证的请求，回显echostr
+				response.getWriter().println(echostr);
+				return;
+			}
+
+			String encryptType = StringUtils.isBlank(request
+					.getParameter("encrypt_type")) ? "raw" : request
+					.getParameter("encrypt_type");
+
+			if ("raw".equals(encryptType)) {
+				// 明文传输的消息
+				WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request
+						.getInputStream());
+				WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
+				response.getWriter().write(outMessage.toXml());
+				return;
+			}
+			if ("aes".equals(encryptType)) {
+				// 是aes加密的消息
+				String msgSignature = request.getParameter("msg_signature");
+				WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(
+						request.getInputStream(), wxMpConfigStorage, timestamp,
+						nonce, msgSignature);
+				WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
+				response.getWriter().write(
+						outMessage.toEncryptedXml(wxMpConfigStorage));
+				return;
+			}
+			response.getWriter().println("不可识别的加密类型");
 			return;
+		} catch (Exception e) {
+			LogBuilder.writeToLog(e.getMessage());
 		}
 
-		String echostr = request.getParameter("echostr");
-		if (StringUtils.isNotBlank(echostr)) {
-			// 说明是一个仅仅用来验证的请求，回显echostr
-			response.getWriter().println(echostr);
-			return;
-		}
-
-		String encryptType = StringUtils.isBlank(request
-				.getParameter("encrypt_type")) ? "raw" : request
-				.getParameter("encrypt_type");
-
-		if ("raw".equals(encryptType)) {
-			// 明文传输的消息
-			WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request
-					.getInputStream());
-			WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
-			response.getWriter().write(outMessage.toXml());
-			return;
-		}
-		if ("aes".equals(encryptType)) {
-			// 是aes加密的消息
-			String msgSignature = request.getParameter("msg_signature");
-			WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(
-					request.getInputStream(), wxMpConfigStorage, timestamp,
-					nonce, msgSignature);
-			WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
-			response.getWriter().write(
-					outMessage.toEncryptedXml(wxMpConfigStorage));
-			return;
-		}
-		response.getWriter().println("不可识别的加密类型");
-		return;
+		
 	}
 
 }

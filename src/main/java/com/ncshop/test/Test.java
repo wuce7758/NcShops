@@ -15,6 +15,7 @@ import com.ncshop.dao.TGoodsDAO;
 import com.ncshop.dao.TUserDAO;
 import com.ncshop.domain.TAddress;
 import com.ncshop.domain.TUser;
+import com.ncshop.util.LogBuilder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
@@ -48,5 +49,11 @@ public class Test{
 		TGoodsDAO tGoodsDAO = new TGoodsDAO();
 		List findAll = tGoodsDAO.findAll();
 		System.out.println("");
+	}
+	@org.junit.Test
+	public void TestLog(){
+		
+	
+		
 	}
 }

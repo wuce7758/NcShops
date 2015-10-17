@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ncshop.domain.TAddress;
 import com.ncshop.domain.TGoods;
+import com.ncshop.util.LogBuilder;
 
 import static org.hibernate.criterion.Example.create;
 
@@ -41,6 +42,7 @@ public class TGoodsDAO extends BaseDao {
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -52,6 +54,7 @@ public class TGoodsDAO extends BaseDao {
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -64,6 +67,7 @@ public class TGoodsDAO extends BaseDao {
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -76,6 +80,7 @@ public class TGoodsDAO extends BaseDao {
 			return getHibernateTemplate().find("from TGoods");
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -89,6 +94,7 @@ public class TGoodsDAO extends BaseDao {
 			return result;
 		} catch (RuntimeException re) {
 			log.error("merge failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -100,6 +106,7 @@ public class TGoodsDAO extends BaseDao {
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -111,6 +118,7 @@ public class TGoodsDAO extends BaseDao {
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}

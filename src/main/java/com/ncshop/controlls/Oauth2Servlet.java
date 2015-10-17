@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ncshop.dao.TUserDAO;
 import com.ncshop.domain.TUser;
+import com.ncshop.util.LogBuilder;
 
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
@@ -80,7 +81,7 @@ public class Oauth2Servlet extends HttpServlet {
 			
 			resp.getWriter().write(wxMpUser.getOpenId());
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogBuilder.writeToLog(e.getMessage());
 			resp.getWriter().write(e.getMessage()+"cause: "+e.getCause()+" "+e.getLocalizedMessage()+wxMpUser.getNickname()+state);
 		}
 	}
