@@ -79,7 +79,7 @@ public class TOrderdetail implements java.io.Serializable {
 		this.buyCost = buyCost;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="detailId")
 	public Set<TComment> getTComments() {
 		return this.TComments;
