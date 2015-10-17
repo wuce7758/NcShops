@@ -1,628 +1,854 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-	<%
-String path = request.getContextPath(); String basePath =
-request.getScheme() + "://" + request.getServerName() + ":" +
-request.getServerPort() + path + "/"; %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 
-		<html lang="en">
+<html lang="en">
 
-		<head>
-			<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-			<meta charset="utf-8" />
-			<title>商城管理后台</title>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8" />
+<title>商城管理系统</title>
 
-			<meta name="description" content="" />
-			<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<meta name="description" content="" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-			<!-- bootstrap & fontawesome -->
-			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
-			<link rel="stylesheet" href="../../plugins/fonts/font-awesome.css" />
+<!-- bootstrap & fontawesome -->
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/plugins/fonts/font-awesome.css" />
 
-			<!-- page specific plugin styles -->
-			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/jquery.gritter.css" />
-			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/jquery-ui.css" />
-			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/datepicker.css" />
-			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ui.jqgrid.css" />
-			<!-- text fonts -->
-			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
+<!-- page specific plugin styles -->
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/jquery-ui.css" />
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/chosen.css" />
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/jquery.gritter.css" />
+<!-- text fonts -->
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
 
-			<!-- ace styles -->
-			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+<!-- ace styles -->
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css"
+	class="ace-main-stylesheet" id="main-ace-style" />
 
-			<!--[if lte IE 9]>
+<!--[if lte IE 9]>
 			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" class="ace-main-stylesheet" />
 		<![endif]-->
 
-			<!--[if lte IE 9]>
+<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-ie.css" />
 		<![endif]-->
 
-			<!-- inline styles related to this page -->
+<!-- inline styles related to this page -->
 
-			<!-- ace settings handler -->
-			<script src="http://ace.zcdreams.com/assets/js/ace-extra.js"></script>
+<!-- ace settings handler -->
+<script src="http://ace.zcdreams.com/assets/js/ace-extra.js"></script>
 
-			<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 
-			<!--[if lte IE 8]>
+<!--[if lte IE 8]>
 		<script src="http://ace.zcdreams.com/assets/js/html5shiv.js"></script>
 		<script src="http://ace.zcdreams.com/assets/js/respond.js"></script>
 		<![endif]-->
-		</head>
+</head>
 
-		<body class="no-skin">
-			<jsp:include page="../WebPart/Head.jsp"></jsp:include>
-			<div class="main-container" id="main-container">
-				<script type="text/javascript">
-					try {
-						ace.settings.check('main-container', 'fixed')
-					} catch (e) {}
-				</script>
-				<jsp:include page="../WebPart/Menu.jsp"></jsp:include>
-				<!-- /section:basics/sidebar -->
-				<div class="main-content">
-					<div class="main-content-inner">
-						<div class="breadcrumbs" id="breadcrumbs">
-							<script type="text/javascript">
-								try {
-									ace.settings.check('breadcrumbs', 'fixed')
-								} catch (e) {}
-							</script>
-							<ul class="breadcrumb">
-								<li><i class="ace-icon fa fa-home home-icon"></i><a href="#">商城管理后台</a>
-								</li>
-								<li><a href="#">商品管理</a>
-								</li>
-							</ul>
-							<jsp:include page="../WebPart/SearchBox.jsp"></jsp:include>
-						</div>
-						<div class="page-content">
-							<jsp:include page="../WebPart/Skin.jsp"></jsp:include>
-							<div class="row">
-								<div class="col-xs-12">
-									<!-- PAGE CONTENT BEGINS -->
-									<div class="well well-sm">
-										对商品的管理操作集中在一个页面完成。
-										<a href="http://www.trirand.com/blog/?page_id=6" target="_blank">
-									    查看jqgrid
-									<i class="fa fa-external-link bigger-110"></i>
-								</a>
-									</div>
-									<table id="grid-table"></table>
-									<div id="grid-pager"></div>
-									<script type="text/javascript">
-										var $path_base = ".."; //in Ace demo this will be used for editurl parameter
-									</script>
-									<!-- PAGE CONTENT ENDS -->
-								</div>
+<body class="no-skin">
+	<jsp:include page="../WebPart/Head.jsp"></jsp:include>
+	<div class="main-container" id="main-container">
+		<script type="text/javascript">
+			try {
+				ace.settings.check('main-container', 'fixed');
+			} catch (e) {
+			}
+		</script>
+		<jsp:include page="../WebPart/Menu.jsp"></jsp:include>
+		<!-- /section:basics/sidebar -->
+		<div class="main-content">
+			<div class="main-content-inner">
+				<div class="breadcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
+						try {
+							ace.settings.check('breadcrumbs', 'fixed');
+						} catch (e) {
+						}
+					</script>
+					<ul class="breadcrumb">
+						<li><i class="ace-icon fa fa-home home-icon"></i><a href="#">商城管理系统</a>
+						</li>
+						<li><a href="#">商品管理</a></li>
+					</ul>
+					<jsp:include page="../WebPart/SearchBox.jsp"></jsp:include>
+				</div>
+				<div class="page-content">
+					<jsp:include page="../WebPart/Skin.jsp"></jsp:include>
+					<div class="row">
+						<div class="col-xs-12">
+							<!-- PAGE CONTENT BEGINS -->
+							<h3 class="header smaller lighter blue">所有商品</h3>
+
+							<div class="clearfix">
+								<div class="pull-right tableTools-container"></div>
 							</div>
+							<div class="table-header">商品列表</div>
+							<table id="dynamic-table"
+								class="table table-striped table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="center"><label class="pos-rel"> <input
+												type="checkbox" class="ace" /> <span class="lbl"></span> </label>
+										</th>
+										<th><small>ID</small></th>
+										<th><small>商店名称</small></th>
+										<th><small>商户姓名</small></th>
+										<th><small>商店地址</small></th>
+										<th><small>配送费用（元）</small></th>
+										<th><small>最低消费（元）</small></th>
+										<th><small>加盟时间</small></th>
+										<th><small>加盟期限（个月）</small></th>
+										<th><small>商家简介</small></th>
+										<th><small>商家状态</small></th>
+										<th>
+											<p class="text-center">
+												<a class="blue buttongoods" href="javascript:void(0)"
+													id="buttonadd" oper="add"> <i
+													class="fa fa-plus-square-o bigger-130"><small>添加商家</small>
+												</i> </a>
+											</p>
+										</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<c:forEach items="${requestScope.goodDetail}" var="trl"
+										varStatus="status">
+										<tr>
+											<td class="center"><label class="pos-rel"> <input
+													type="checkbox" class="ace" /> <span class="lbl"></span> </label>
+											</td>
+											<td>${trl.sellerId}</td>
+											<td class="hidden-480">${trl.shopName}</td>
+											<td class="hidden-480">${trl.sellerName}</td>
+											<td class="hidden-480"><a class="goodSellerPopover"
+												href="javascript:void(0);" data-container="body"
+												data-placement="bottom"
+												data-content="${trl.shopName}&nbsp;
+																  ${trl.sellerPhone}&nbsp;
+																  ${trl.sellerAddress}">
+													${trl.sellerAddress} </a>
+											</td>
+											<td class="hidden-480">${trl.deliverMoney}</td>
+											<td> ${trl.minBuy}</td>
+											<td class="hidden-480">${trl.joinTime}</td>
+											<td class="hidden-480">${trl.joinDeadline}</td>
+											<td class="hidden-480">${trl.sellerMsg}</td>
+											<td id="goodsIsSale${trl.sellerId}"><span
+												class="label label-sm " name="goodsIsSale${trl.isValid}">${trl.isValid}</span>
+											</td>
+											<td>
+												<div class="hidden-sm hidden-xs action-buttons">
+													<a class="blue buttongoods" href="javascript:void(0)"
+														name="${trl.sellerId}" oper="detaill"> <i
+														　class="fa fa-search-plus bigger-130"><small></small>
+													</i> </a> <a class="green buttongoods" href="javascript:void(0)"
+														name="${trl.sellerId}" oper="modify"> <i
+														class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
+														class="red buttongoods" href="javascript:void(0)"
+														name="${trl.sellerId}" oper="delete"
+														> <i
+														id="goodsIsSaleAction${trl.sellerId}"
+														class="fa fa-toggle-off bigger-130"
+														name="goodsIsSaleAction${trl.isValid}" state="${trl.isValid}"></i> </a>
+												</div>
+												<div class="hidden-md hidden-lg">
+													<div class="inline pos-rel">
+														<button class="btn btn-minier btn-yellow dropdown-toggle"
+															data-toggle="dropdown" data-position="auto">
+															<i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+														</button>
+
+														<ul
+															class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+															<li><a href="javascript:void(0)"
+																name="${trl.sellerId}" onclick="GetDetail(this)"
+																class="tooltip-info" data-rel="tooltip" title="View">
+																	<span class="blue"> <i
+																		class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a></li>
+
+															<li><a href="javascript:void(0)"
+																name="${trl.sellerId}" onclick="Modify(this)"
+																class="tooltip-success" data-rel="tooltip" title="Edit">
+																	<span class="green"> <i
+																		class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																</span> </a></li>
+
+															<li><a
+																href="ClassDelete?classId=${trl.sellerId}"
+																class="tooltip-error" data-rel="tooltip" title="Delete">
+																	<span class="red"> <i
+																		class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a></li>
+														</ul>
+													</div>
+												</div></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+							<!-- PAGE CONTENT ENDS -->
+						</div>
+
+						<div id="dialog-message" class="hide">
+							<form id="formgoodsinfo">
+								<input disabled type="hidden" name="sellerId" value="0" id="sellerId" />
+								<div class="col-sm-12">
+									<!-- 商店名称 -->
+									<div class="form-group col-sm-12">
+										<label for="form-field-0" class="col-sm-3 control-label no-padding-right">店名:</label>
+										<div class="col-sm-9">
+											<input type="text" id="form-field-0" name="shopName" placeholder="商店名称" class="col-xs-12 col-sm-12" />
+										</div>
+									</div>
+									<!-- 商家姓名 -->
+									<div class="form-group col-sm-12">
+										<label for="form-field-1" class="col-sm-3 control-label no-padding-right">姓名:</label>
+										<div class="col-sm-9">
+											<input type="text" id="form-field-1" name="sellerName" placeholder="商家姓名" class="col-xs-12 col-sm-12" />
+										</div>
+									</div>
+									<!-- 商家电话 -->
+									<div class="form-group col-sm-12">
+										<label for="form-field-2" class="col-sm-3 control-label no-padding-right">电话:</label>
+										<div class="col-sm-9">
+											<input onkeyup="value=value.replace(/[^0-9]/g,'')" type="text" id="form-field-2" name="sellerPhone" placeholder="商家联系方式" class="col-xs-12 col-sm-12" />
+										</div>
+									</div>
+									<!-- 配送费用 -->
+									<div class="form-group col-sm-12">
+										<label for="form-field-3" class="col-sm-3 control-label no-padding-right">运费:</label>
+										<div class="col-sm-9">
+											<input onkeyup="value=value.replace(/[^0-9|.]/g,'')" type="text" id="form-field-3" name="deliverMoney"
+												placeholder="配送费用" class="col-xs-12 col-sm-12" />
+										</div>
+									</div>
+									<!-- 最低费用 -->
+									<div class="form-group col-sm-12">
+										<label for="form-field-4" class="col-sm-3 control-label no-padding-right">消费：</label>
+										<div class="col-sm-9">
+											<input onkeyup="value=value.replace(/[^0-9|.]/g,'')" type="text" id="form-field-4" name="minBuy"
+												placeholder="最低消费" class="col-xs-12 col-sm-12" />
+										</div>
+									</div>
+									<!-- 最低费用 -->
+									<div class="form-group col-sm-12">
+										<label for="form-field-5" class="col-sm-3 control-label no-padding-right">期限:</label>
+										<div class="col-sm-9">
+											<input onkeyup="value=value.replace(/[^0-9]/g,'')" type="text" id="form-field-5" name="joinDeadline"
+												placeholder="加盟期限" class="col-xs-12 col-sm-12" />
+										</div>
+									</div>
+									<!--  -->
+									<div class="form-group col-sm-12">
+										<label for="form-field-6" class="col-sm-3 control-label no-padding-right">地址:</label>
+										<div class="col-sm-9">
+											<input type="text" name="sellerAddress" id="form-field-6" placeholder="商家地址" class="col-xs-12 col-sm-12" />
+										</div>
+									</div>
+									<!-- 商家简介 -->
+									<div class="form-group col-sm-12">
+										<label for="form-field-7" class="col-sm-3 control-label no-padding-right">简介:</label>
+										<div class="col-sm-9">
+											<textarea id="form-field-7"
+												class="autosize-transition form-control" name="sellerMsg" placeholder="商家说明"
+												maxlength="100"></textarea>
+										</div>
+									</div>
+								</div>
+
+								<div class="hr hr-12 hr-double"></div>
+
+								<div style="width:100%;text-align: center" id="error"></div>
+								<div>
+									<button style="margin-left:10px" class="btn btn-info col-sm-5"
+										id="goodssave" type="button">
+										<i class="ace-icon fa fa-check bigger-110"></i>保存
+									</button>
+									<button style="margin-left:25px"
+										class="btn btn-success col-sm-5" id="goodssave" type="reset">
+										<i class="ace-icon fa fa-check bigger-110"></i>重置
+									</button>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
-				<jsp:include page="../WebPart/CopyRight.jsp"></jsp:include>
 			</div>
-			<jsp:include page="../WebPart/Script.jsp"></jsp:include>
-			<!-- page specific plugin scripts -->
-			<script src="http://ace.zcdreams.com/assets/js/jquery-2.0.3.min.js"></script>
-			<script src="http://ace.zcdreams.com/assets/js/jquery.gritter.js"></script>
-			<script src="http://ace.zcdreams.com/assets/js/date-time/bootstrap-datepicker.js"></script>
-			<script src="http://ace.zcdreams.com/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
-			<script src="http://ace.zcdreams.com/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
-			<!-- inline scripts related to this page -->
-			<script type="text/javascript">	
-				 //获取所有商品
-				var goods_data;
+		</div>
+		<jsp:include page="../WebPart/CopyRight.jsp"></jsp:include>
+	</div>
+	<jsp:include page="../WebPart/Script.jsp"></jsp:include>
+	<!-- page specific plugin scripts -->
+	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.js"></script>
+	<script src="http://malsup.github.io/jquery.form.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/jquery.ui.touch-punch.js"></script>
+
+	<script type="text/javascript"
+		src="http://ace.zcdreams.com/assets/js/jquery.gritter.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.bootstrap.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/bootstrap.min.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/TableTools/js/dataTables.tableTools.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/ColVis/js/dataTables.colVis.js"></script>
+	<!-- inline scripts related to this page -->
+	<script type="text/javascript">
+		$(document).ready(
+			function() {
+				//获取商品类型
 				$.ajax({
-					type: "post",
-					url: "../../user/findGoodsdetail",
-					data: "hello" + "world!",
-					async: false,
-					success: function(data) {
-						goods_data = JSON.stringify(data.TSellergoods);
-					}
-				});
-				 //获取商品类型
-				var goods_type = "";
+					type : "post",
+					url : "${pageContext.request.contextPath }/seller/getAllGoodsType",
+					dataType : "json",
+					async : false,
+					/*这句可用可不用，没有影响*/
+					contentType : "application/json; charset=utf-8",
+					success : function(data) {
+								var goodstypes = JSON.stringify(data.TGoodstype);
+								var obj = JSON.parse(goodstypes);
+								for ( var i = 0; i < obj.length; i++) {
+									$("#goodsType").append("<option value='"+obj[i].goodsTypeId+"'>"
+														+ obj[i].goodsTypeName
+														+ "</option>");
+							}
+					},
+					error : function(XMLHttpRequest,textStatus, errorThrown) {
+								alert(errorThrown);
+							}
+					});
+				//获取店铺信息类型
 				$.ajax({
-					type: "post",
-					url: "../../seller/getAllGoodsType",
-					data: "hello" + "world!",
-					async: false,
-					success: function(data) {
-						var goods_types = JSON.stringify(data.TGoodstype);
-						var obj = JSON.parse(goods_types);
-						for (var i = 0; i < obj.length; i++) {
-							goods_type += obj[i].goodsTypeId + ":" + obj[i].goodsTypeName;
-							if (i < obj.length - 1) {
-								goods_type += ";";
-							}
-						}
-					}
-				});
-				 //获取商家
-				var seller_list = "";
-				$.ajax({
-					type: "post",
-					url: "../../seller/getAllSeller",
-					data: "hello" + "world!",
-					async: false,
-					success: function(data) {
-						var sellers = JSON.stringify(data.TSeller);
-						var obj = JSON.parse(sellers);
-						for (var i = 0; i < obj.length; i++) {
-							seller_list += obj[i].sellerId + ":" + obj[i].shopName;
-							if (i < obj.length - 1) {
-								seller_list += ";";
-							}
-						}
-					}
-				});
-				var grid_data = JSON.parse(goods_data);
-				var subgrid_data = [{
-					id: "1",
-					name: "sub grid item 1",
-					qty: 11
-				}, {
-					id: "2",
-					name: "sub grid item 2",
-					qty: 3
-				}, {
-					id: "3",
-					name: "sub grid item 3",
-					qty: 12
-				}, {
-					id: "4",
-					name: "sub grid item 4",
-					qty: 5
-				}, {
-					id: "5",
-					name: "sub grid item 5",
-					qty: 2
-				}, {
-					id: "6",
-					name: "sub grid item 6",
-					qty: 9
-				}, {
-					id: "7",
-					name: "sub grid item 7",
-					qty: 3
-				}, {
-					id: "8",
-					name: "sub grid item 8",
-					qty: 8
-				}];
-				jQuery(function($) {					
-					var grid_selector = "#grid-table";
-					var pager_selector = "#grid-pager";
-					//resize to fit page size
-					$(window).on('resize.jqGrid', function() {
-							$(grid_selector).jqGrid('setGridWidth', $(".page-content").width());
-						})
-						//resize on sidebar collapse/expand
-					var parent_column = $(grid_selector).closest('[class*="col-"]');
-					$(document).on('settings.ace.jqGrid', function(ev, event_name, collapsed) {
-							if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
-								//setTimeout is for webkit only to give time for DOM changes and then redraw!!!
-								setTimeout(function() {
-									$(grid_selector).jqGrid('setGridWidth', parent_column.width());
-								}, 0);
-							}
-						})
-						//if your grid is inside another element, for example a tab pane, you should use its parent's width:
-						/**
-						$(window).on('resize.jqGrid', function () {
-							var parent_width = $(grid_selector).closest('.tab-pane').width();
-							$(grid_selector).jqGrid( 'setGridWidth', parent_width );
-						})
-						//and also set width when tab pane becomes visible
-						$('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-						  if($(e.target).attr('href') == '#mygrid') {
-							var parent_width = $(grid_selector).closest('.tab-pane').width();
-							$(grid_selector).jqGrid( 'setGridWidth', parent_width );
-						  }
-						})
-						*/
-					jQuery(grid_selector).jqGrid({
-						//direction: "rtl",
-						//subgrid options
-						subGrid: true,
-						//subGridModel: [{ name : ['No','Item Name','Qty'], width : [55,200,80] }],
-						//datatype: "xml",
-						subGridOptions: {
-							plusicon: "ace-icon fa fa-plus center bigger-110 blue",
-							minusicon: "ace-icon fa fa-minus center bigger-110 blue",
-							openicon: "ace-icon fa fa-chevron-right center orange"
-						},
-						//for this example we are using local data
-						subGridRowExpanded: function(subgridDivId, rowId) {
-							var subgridTableId = subgridDivId + "_t";
-							$("#" + subgridDivId).html("<table id='" + subgridTableId + "'></table>");
-							$("#" + subgridTableId).jqGrid({
-								datatype: 'local',
-								data: subgrid_data,
-								colNames: ['No', 'Item Name', 'Qty'],
-								colModel: [{
-									name: 'id',
-									width: 50
-								}, {
-									name: 'name',
-									width: 150
-								}, {
-									name: 'qty',
-									width: 50
-								}]
-							});
-						},
-						data: grid_data,
-						datatype: "local",
-						height: 250,
-						colNames: [' ', 'ID', '名称', '商家', '单价', '类型', '图片', '简介'],
-						colModel: [{
-								name: 'myac',
-								index: '',
-								width: 80,
-								fixed: true,
-								sortable: false,
-								resize: false,
-								formatter: 'actions',
-								formatoptions: {
-									keys: true,
-									//delbutton: false,//disable delete button
-									delOptions: {
-										recreateForm: true,
-										beforeShowForm: beforeDeleteCallback
-									},
-									//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
-								}
-							}, {
-								name: 'TGoods.goodsId',
-								index: 'TGoods.goodsId',
-								width: 30,
-								sorttype: "int",
-								editable: false
-							}, {
-								name: 'TGoods.goodsName',
-								index: 'TGoods.goodsName',
-								width: 80,
-								editable: true,
-								editoptions: {
-									size: "20",
-									maxlength: "20"
-								}
-							}, {
-								name: 'seller.shopName',
-								index: 'seller.shopName',
-								width: 80,
-								editable: true,
-								edittype: "select",
-								editoptions: {
-									value: seller_list
-								}
-							}, {
-								name: 'TGoods.goodsPrice',
-								index: 'TGoods.goodsPrice',
-								width: 50,
-								sorttype: "int",
-								editable: true,
-								edittype: "text",
-								unformat: aceSwitch
-							}, {
-								name: 'TGoods.TGoodstype.goodsTypeName',
-								index: 'TGoods.TGoodstype.goodsTypeName',
-								width: 80,
-								editable: true,
-								edittype: "select",
-								editoptions: {
-									value: goods_type
-								}
-							}, {
-								name: 'TGoods.goodsPic',
-								index: 'TGoods.goodsPic',
-								width: 100,
-								editable: true,
-								editoptions: {enctype: "multipart/form-data"},
-								edittype: "file",
-								formatter: function(cellvalue, option, rowObject) {
-									return "<a href='javascript:void(0)' calss='goodsPic' name='" + cellvalue + "'>查看</a>";
-								}
+					type : "post",
+					url : "${pageContext.request.contextPath }/seller/getAllSeller",
+					dataType : "json",
+					async : false,
+					/*这句可用可不用，没有影响*/
+					contentType : "application/json; charset=utf-8",
+					success : function(data) {
+						var goodstypes = JSON.stringify(data.TSeller);
+								var obj = JSON.parse(goodstypes);
+								for ( var i = 0; i < obj.length; i++) {
+									$("#goodsShop").append("<option value='"+obj[i].sellerId+"'>"
+															+ obj[i].shopName
+															+ "</option>");
+									}
 							},
-							/* {name:'goodsPic',index:'goodsPic', width:50, editable: true, formatter:function(cellvalue,option,rowObject){
-							return "<a name='goodPicLink' href='javascript:void(0);' data-container='body'"+
-							"data-toggle='popover' data-placement='bottom'"+
-							"data-content='<img src=\"1.jpg\">'>1</a>";}}, */
-							{
-								name: 'TGoods.goodsMsg',
-								index: 'TGoods.goodsMsg',
-								width: 150,
-								sortable: false,
-								editable: true,
-								edittype: "textarea",
-								editoptions: {
-									rows: "2",
-									cols: "30"
-								}
+					error : function(XMLHttpRequest,textStatus, errorThrown) {
+								alert(errorThrown);
 							}
-						],
-						viewrecords: true,
-						rowNum: 10,
-						rowList: [10, 20, 30],
-						pager: pager_selector,
-						altRows: true,
-						//toppager: true,
-						multiselect: true,
-						//multikey: "ctrlKey",
-						multiboxonly: true,
-						loadComplete: function() {
-							var table = this;
-							setTimeout(function() {
-								styleCheckbox(table);
-								updateActionIcons(table);
-								updatePagerIcons(table);
-								enableTooltips(table);
-							}, 0);
-						},
-						editurl: "../../seller/addGoods", //nothing is saved
-						caption: "商品管理列表"
-							//,autowidth: true,
-							/**
-							,
-							grouping:true, 
-							groupingView : { 
-								 groupField : ['name'],
-								 groupDataSorted : true,
-								 plusicon : 'fa fa-chevron-down bigger-110',
-								 minusicon : 'fa fa-chevron-up bigger-110'
-							},
-							caption: "Grouping"
-							*/
 					});
-					
-					$(window).triggerHandler('resize.jqGrid'); //trigger window resize to make the grid get the correct size
-					//enable search/filter toolbar
-					//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
-					//jQuery(grid_selector).filterToolbar({});
-					//switch element when editing inline
-					function aceSwitch(cellvalue, options, cell) {
-							setTimeout(function() {
-								$(cell).find('input[type=checkbox]')
-									.addClass('ace ace-switch ace-switch-5')
-									.after('<span class="lbl"></span>');
-							}, 0);
-						}
-						//enable datepicker
+					//图片上传 及数据保存 
+					$("#goodssave").click(function() {
+												var ext = '.jpg.jpeg.gif.bmp.png.';
+												var f = $("#file").val();
+												if (f == "") { //先判断是否已选择了文件 
+													$("#error")
+															.attr("class",
+																	"error_div")
+															.html(
+																	"<img src='../images/error_img2.gif' style='width:15px;height:15px;'/>"
+																			+ "请添加商圈logo！");
+													return false;
+												}
+												/* f = f.substr(f.lastIndexOf('.') + 1).toLowerCase();
+												if (ext.indexOf('.' + f + '.') == -1) {
+													$("#error").attr("class", "error_div").html("<img src='../images/error_img2.gif' style='width:15px;height:15px;'/>" + "图片格式不正确！");
+													return false;
+												} */
 
-					function pickDate(cellvalue, options, cell) {
-							setTimeout(function() {
-								$(cell).find('input[type=text]')
-									.datepicker({
-										format: 'yyyy-mm-dd',
-										autoclose: true
-									});
-							}, 0);
-						}
-						//navButtons
-					jQuery(grid_selector).jqGrid('navGrid', pager_selector, { //navbar options
-						edit: true,
-						editicon: 'ace-icon fa fa-pencil blue',
-						add: true,
-						addicon: 'ace-icon fa fa-plus-circle purple',
-						del: true,
-						delicon: 'ace-icon fa fa-trash-o red',
-						search: true,
-						searchicon: 'ace-icon fa fa-search orange',
-						refresh: true,
-						refreshicon: 'ace-icon fa fa-refresh green',
-						view: true,
-						viewicon: 'ace-icon fa fa-search-plus grey',
-					},{
-    					jqModal:true,closeAfterEdit: true,recreateForm:true,onInitializeForm : function(formid){
-    						$(formid).attr('method','POST');
-     						$(formid).attr('action','');
-     						$(formid).attr('enctype','multipart/form-data');
-    					}
-    				}, {
-						//edit record form
-						//closeAfterEdit: true,
-						//width: 700,
-						recreateForm: true,
-						beforeShowForm: function(e) {
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-							style_edit_form(form);
-						}
-					}, {
-						//new record form
-						//width: 700,
-						closeAfterAdd: true,
-						recreateForm: true,
-						viewPagerButtons: false,
-						beforeShowForm: function(e) {
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
-								.wrapInner('<div class="widget-header" />')
-							style_edit_form(form);
-						}
-						//$('#FrmGrid_grid-table').attr('','')
-					}, {
-						//delete record form
-						recreateForm: true,
-						beforeShowForm: function(e) {
-							var form = $(e[0]);
-							if (form.data('styled')) return false;
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-							style_delete_form(form);
-							form.data('styled', true);
-						},
-						onClick: function(e) {
-							//alert(1);
-						}
-					}, {
-						//search form
-						recreateForm: true,
-						afterShowSearch: function(e) {
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
-							style_search_form(form);
-						},
-						afterRedraw: function() {
-							style_search_filters($(this));
-						},
-						multipleSearch: true,
-						/**
-						multipleGroup:true,
-						showQuery: true
-						*/
-					}, {
-						//view record form
-						recreateForm: true,
-						beforeShowForm: function(e) {
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
-						}
-					})
+												var options = {
+													url : "${pageContext.request.contextPath }/seller/addSeller",
+													dataType : 'json',
+													contentType : "application/json; charset=utf-8",
+													success : function(data) {
+														// 'data' is an object representing the the evaluated json data 
+														// 如果图片上传成功则保存表单注册数据 
 
-					function style_edit_form(form) {
-						//enable datepicker on "sdate" field and switches for "stock" field
-						form.find('input[name=sdate]').datepicker({
-							format: 'yyyy-mm-dd',
-							autoclose: true
-						})
-						form.find('input[name=stock]').addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
-						//don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
-						//.addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
-						//update buttons classes
-						var buttons = form.next().find('.EditButton .fm-button');
-						buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide(); //ui-icon, s-icon
-						buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
-						buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
-						buttons = form.next().find('.navButton a');
-						buttons.find('.ui-icon').hide();
-						buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
-						buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
-					}
+														if (data == "1") {
+															var dialog = $("#dialog-message");
+															dialog.dialog("close");
+														} else {
+															$("#error")
+																	.attr(
+																			"class",
+																			"error_div")
+																	.html(
+																			"<img src='${ctx}/images/error_img2.gif' style='width:15px;height:15px;'/>"
+																					+ data.message);
+														}
+													}
+												}
+												// 提交表单 
+												$('#formgoodsinfo').ajaxSubmit(
+														options);
+											});
+					//显示商家详细信息
+					$(".goodSellerPopover").popover();
+					//鼠标经过显示图片
+					$(".goodPicPopover").popover(
+						{
+							html : true,
+							/* title : function() {
+											return "图片";
+							}, */
+							content : function() {
+											return "<img width='100px' height='100px' src='${pageContext.request.contextPath }/images/"
+													+ $(this).attr('pic')+ "'/>";
+										}
+											})/* .on("mouseenter", function () {
+																}) */;
+							myEach();
+							myEachPopover("a", "goodsMsgPopover", 0, 10);
 
-					function style_delete_form(form) {
-						var buttons = form.next().find('.EditButton .fm-button');
-						buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide(); //ui-icon, s-icon
-						buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
-						buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
-					}
+							//图片上传框
+							$('#id-input-file-3').ace_file_input({
+								style : 'well',
+								btn_choose : '选择图片...',
+								btn_change : null,
+								no_icon : 'ace-icon fa fa-cloud-upload',
+								droppable : true,
+								thumbnail : 'small' //large | fit
+								//,icon_remove:null//set null, to hide remove/reset button
+								/**,before_change:function(files, dropped) {
+									//Check an example below
+									//or examples/file-upload.html
+									return true;
+								}*/
+								/**,before_remove : function() {
+									return true;
+								}*/
+								,
+								preview_error : function(filename, error_code) {
+									//name of the file that failed
+									//error_code values
+									//1 = 'FILE_LOAD_FAILED',
+									//2 = 'IMAGE_LOAD_FAILED',
+									//3 = 'THUMBNAIL_FAILED'
+									//alert(error_code);
+								}
+							}).on('change', function() {
+								console.log($(this).data('ace_input_files'));
+								console.log($(this).data('ace_input_method'));
 
-					function style_search_filters(form) {
-						form.find('.delete-rule').val('X');
-						form.find('.add-rule').addClass('btn btn-xs btn-primary');
-						form.find('.add-group').addClass('btn btn-xs btn-success');
-						form.find('.delete-group').addClass('btn btn-xs btn-danger');
-					}
-
-					function style_search_form(form) {
-						var dialog = form.closest('.ui-jqdialog');
-						var buttons = dialog.find('.EditTable')
-						buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
-						buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
-						buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
-					}
-
-					function beforeDeleteCallback(e) {
-						var form = $(e[0]);
-						if (form.data('styled')) return false;
-						form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-						style_delete_form(form);
-						form.data('styled', true);
-					}
-
-					function beforeEditCallback(e) {
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-							style_edit_form(form);
-						}
-						//it causes some flicker when reloading or navigating grid
-						//it may be possible to have some custom formatter to do this as the grid is being created to prevent this
-						//or go back to default browser checkbox styles for the grid
-
-					function styleCheckbox(table) {
-							/**
-					$(table).find('input:checkbox').addClass('ace')
-					.wrap('<label />')
-					.after('<span class="lbl align-top" />')
-			
-			
-					$('.ui-jqgrid-labels th[id*="_cb"]:first-child')
-					.find('input.cbox[type=checkbox]').addClass('ace')
-					.wrap('<label />').after('<span class="lbl align-top" />');
-				*/
-						}
-						//unlike navButtons icons, action icons in rows seem to be hard-coded
-						//you can change them like this in here if you want
-
-					function updateActionIcons(table) {
-							/**
-							var replacement = 
-							{
-								'ui-ace-icon fa fa-pencil' : 'ace-icon fa fa-pencil blue',
-								'ui-ace-icon fa fa-trash-o' : 'ace-icon fa fa-trash-o red',
-								'ui-icon-disk' : 'ace-icon fa fa-check green',
-								'ui-icon-cancel' : 'ace-icon fa fa-times red'
-							};
-							$(table).find('.ui-pg-div span.ui-icon').each(function(){
-								var icon = $(this);
-								var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-								if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
-							})
-							*/
-						}
-						//replace icons with FontAwesome icons like above
-
-					function updatePagerIcons(table) {
-						var replacement = {
-							'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
-							'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
-							'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
-							'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
-						};
-						$('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function() {
-							var icon = $(this);
-							var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-							if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
-						})
-					}
-
-					function enableTooltips(table) {
-							$('.navtable .ui-pg-button').tooltip({
-								container: 'body'
 							});
-							$(table).find('.ui-pg-div').tooltip({
-								container: 'body'
+							var whitelist_ext, whitelist_mime;
+							var btn_choose;
+							var no_icon;
+							btn_choose = "选择照片...";
+							no_icon = "ace-icon fa fa-picture-o";
+							whitelist_ext = [ "jpeg", "jpg", "png", "gif",
+									"bmp" ];
+							whitelist_mime = [ "image/jpg", "image/jpeg",
+									"image/png", "image/gif", "image/bmp" ];
+							var file_input = $('#id-input-file-3');
+							file_input.ace_file_input('update_settings', {
+								'btn_choose' : btn_choose,
+								'no_icon' : no_icon,
+								'allowExt' : whitelist_ext,
+								'allowMime' : whitelist_mime
 							});
-						}
-						//var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
-					$(document).one('ajaxloadstart.page', function(e) {
-						$(grid_selector).jqGrid('GridUnload');
-						$('.ui-jqdialog').remove();
-					});
-				});
-			</script>
-			<script>
-			$(document).ready(function(){
-				$(".goodsPic").click(function() {
-					debugger;
-					//图片名称
-					var picname = this.name;
-					alert(picname);
-					//显示图片
-					$.gritter.add({
-						title: "商品图片",
-						text: "<img width='100px' height='100px' src='http://d.hiphotos.baidu.com/zhidao/wh%3D800%2C450/sign=3915b125a20f4bfb8c85965c337f54c4/cdbf6c81800a19d807295abf35fa828ba61e4666.jpg'>",
-						sticky: true,
-						time: 10000,
-						speed: 10,
-						position: 'center',
-						class_name: 'gritter-dark'
-					});
-				});
-				alert("123");
+						});
+
+		function myEach() {
+			$("span[name='goodsIsSaletrue']").each(function() {
+				try {
+					$(this).removeClass("label-warning");
+				} catch (e) {
+				}
+				$(this).addClass("label-success");
+				$(this).text("服务中");
 			});
-			</script>
-		</body>
+			$("span[name='goodsIsSalefalse']").each(function() {
+				try {
+					$(this).removeClass("label-success");
+				} catch (e) {
+				}
+				$(this).addClass("label-warning");
+				$(this).text("待审核");
+			});
+			$("i[name='goodsIsSaleActiontrue']").each(function() {
+				try {
+					$(this).removeClass("fa-toggle-off");
+				} catch (e) {
+				}
+				$(this).addClass("fa-toggle-on");
+				$(this).text("解除合作");
+			});
+			$("i[name='goodsIsSaleActionfalse']").each(function() {
+				try {
+					$(this).removeClass("fa-toggle-on");
+				} catch (e) {
+				}
+				$(this).addClass("fa-toggle-off");
+				$(this).text("开始合作");
+			});
+		}
+		jQuery(function($) {
+			$(".buttongoods")
+					.click(
+							function() {
+								var oper = $(this).attr('oper');
+								var name=$(this).attr("name");
+								$("#oper").val(oper);
+								if (oper == "delete") {
+									var goodsId = $(this).attr('name');
+									var isSale = $("#goodsIsSaleAction"+goodsId).attr('state');
+									$
+											.ajax({
+												cache : false,
+												type : "POST",
+												url : "${pageContext.request.contextPath }/seller/updownSeller",
+												datatype : "json",
+												data : {
+													"sellerId" : goodsId,
+													"isValid" : isSale
+												},
+												async : true,
+												success : function(data) {
+													if (data == "1") {
+														if (isSale == "true") {
+															$(
+																	"td[id='goodsIsSale"
+																			+ goodsId
+																			+ "'] span")
+																	.attr(
+																			"name",
+																			"goodsIsSalefalse");
+															$(
+																	"i[id='goodsIsSaleAction"
+																			+ goodsId
+																			+ "']")
+																	.attr(
+																			"name",
+																			"goodsIsSaleActionfalse");
+															$(
+																	"i[id='goodsIsSaleAction"
+																			+ goodsId
+																			+ "']")
+																	.attr(
+																			"state",
+																			"false");
+																			
+														} else {
+															$(
+																	"td[id='goodsIsSale"
+																			+ goodsId
+																			+ "'] span")
+																	.attr(
+																			"name",
+																			"goodsIsSaletrue");
+															$(
+																	"i[id='goodsIsSaleAction"
+																			+ goodsId
+																			+ "']")
+																	.attr(
+																			"name",
+																			"goodsIsSaleActiontrue");
+															$(
+																	"i[id='goodsIsSaleAction"
+																			+ goodsId
+																			+ "']")
+																	.attr(
+																			"state",
+																			"true");
+														}
+														myEach();
+													}
+												},
+												error : function(data) {
+												alert("error");
+												}
+											});
+								} else {
+									var dialog = $("#dialog-message").removeClass('hide').dialog(
+													{
+														modal : true,
+														title : (oper == 'detaill') ? "查看详细"
+																: (oper == 'modify') ? "修改商家信息"
+																		: (oper == 'add') ? "添加商品"
+																				: "确认删除商品",
+														title_html : true,
+													/* buttons: [{
+														text: "关闭窗口",
+														"class": "btn btn-minier",
+														click: function() {
+															$(this).dialog("close");
+														}
+													}, {
+														text: "确定",
+														"class": "btn btn-primary btn-minier",
+														click: function() {
+															var goods_type = "";
+															$.ajax({
+															type: "post",
+															url: "../../seller/getAllGoodsType",
+															enctype: 'multipart/form-data',
+															data:$('#dialog-message').serialize(),//$("#dialog-message").serialize(),
+															async: false,
+															success: function(data) {
+																var goods_types = JSON.stringify(data.TGoodstype);
+																var obj = JSON.parse(goods_types);
+																for (var i = 0; i < obj.length; i++) {
+																	goods_type += obj[i].goodsTypeId + ":" + obj[i].goodsTypeName;
+																	if (i < obj.length - 1) {
+																		goods_type += ";";
+																	}
+																}
+															}
+														});
+														}
+													}] */
+													});
+									if(oper=="modify"){
+										$("#sellerId").attr("disabled",false).val(name);
+									}				
+								}
+							});
+			//initiate dataTables plugin
+			var oTable1 = $('#dynamic-table')
+			//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+			.dataTable({
+				bAutoWidth : false,
+				"aoColumns" : [ {
+					"bSortable" : false
+				}, null, null, null, null, null, null, null, null,null,null, {
+					"bSortable" : false
+				} ],
+				"aaSorting" : [],
+				//,
+				//"sScrollY": "200px",
+				"bPaginate" : true,
+			//"sScrollX": "100%",
+			//"sScrollXInner": "120%",
+			//"bScrollCollapse": true,
+			//Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+			//you may want to wrap the table inside a "div.dataTables_borderWrap" element
+			//"iDisplayLength": 50
+			});
+			//oTable1.fnAdjustColumnSizing();
+			//TableTools settings
+			TableTools.classes.container = "btn-group btn-overlap";
+			TableTools.classes.print = {
+				"body" : "DTTT_Print",
+				"info" : "tableTools-alert gritter-item-wrapper gritter-info gritter-center white",
+				"message" : "tableTools-print-navbar"
+			}
+			//initiate TableTools extension
+			var tableTools_obj = new $.fn.dataTable.TableTools(
+					oTable1,
+					{
+						"sSwfPath" : "http://ace.zcdreams.com/assets/js/dataTables/extensions/TableTools/swf/copy_csv_xls_pdf.swf", //in Ace demo ../assets will be replaced by correct assets path
+						"sRowSelector" : "td:not(:last-child)",
+						"sRowSelect" : "multi",
+						"fnRowSelected" : function(row) {
+							//check checkbox when row is selected
+							try {
+								$(row).find('input[type=checkbox]').get(0).checked = true
+							} catch (e) {
+							}
+						},
+						"fnRowDeselected" : function(row) {
+							//uncheck checkbox
+							try {
+								$(row).find('input[type=checkbox]').get(0).checked = false
+							} catch (e) {
+							}
+						},
+						"sSelectedClass" : "success",
+						"aButtons" : [
+								{
+									"sExtends" : "copy",
+									"sToolTip" : "复制到剪贴板",
+									"sButtonClass" : "btn btn-white btn-primary btn-bold",
+									"sButtonText" : "<i class='fa fa-copy bigger-110 pink'></i>",
+									"fnComplete" : function() {
+										this
+												.fnInfo(
+														'<h3 class="no-margin-top smaller">Table copied</h3>\<p>Copied '
+																+ (oTable1
+																		.fnSettings()
+																		.fnRecordsTotal())
+																+ 'row(s) to the clipboard.</p>',
+														1500);
+									}
+								},
+								{
+									"sExtends" : "xls",
+									"sToolTip" : "导出Excel",
+									"sButtonClass" : "btn btn-white btn-primary  btn-bold",
+									"sCharSet" : "utf8",
+									"sButtonText" : "<i class='fa fa-file-excel-o bigger-110 green'></i>"
+								},
+								{
+									"sExtends" : "pdf",
+									"sToolTip" : "Export to PDF",
+									"sButtonClass" : "btn btn-white btn-primary  btn-bold",
+									"sButtonText" : "<i class='fa fa-file-pdf-o bigger-110 red'></i>"
+								},
+								{
+									"sExtends" : "print",
+									"sToolTip" : "Print view",
+									"sButtonClass" : "btn btn-white btn-primary  btn-bold",
+									"sButtonText" : "<i class='fa fa-print bigger-110 grey'></i>",
+									"sMessage" : "<div class='navbar navbar-default'><div class='navbar-header pull-left'><a class='navbar-brand' href='#'><small>Optional Navbar &amp; Text</small></a></div></div>",
+									"sInfo" : "<h3 class='no-margin-top'>Print view</h3>\
+									  <p>Please use your browser's print function to\
+									  print this table.\
+									  <br />Press <b>escape</b> when finished.</p>",
+								} ]
+					});
+			//we put a container before our table and append TableTools element to it
+			$(tableTools_obj.fnContainer())
+					.appendTo($('.tableTools-container'));
+			//also add tooltips to table tools buttons
+			//addding tooltips directly to "A" buttons results in buttons disappearing (weired! don't know why!)
+			//so we add tooltips to the "DIV" child after it becomes inserted
+			//flash objects inside table tools buttons are inserted with some delay (100ms) (for some reason)
+			setTimeout(function() {
+				$(tableTools_obj.fnContainer()).find('a.DTTT_button').each(
+						function() {
+							var div = $(this).find('> div');
+							if (div.length > 0)
+								div.tooltip({
+									container : 'body'
+								});
+							else
+								$(this).tooltip({
+									container : 'body'
+								});
+						});
+			}, 200);
+			//ColVis extension
+			var colvis = new $.fn.dataTable.ColVis(oTable1, {
+				"buttonText" : "<i class='fa fa-search'></i>",
+				"aiExclude" : [ 0, 6 ],
+				"bShowAll" : true,
+				//"bRestore": true,
+				"sAlign" : "right",
+				"fnLabel" : function(i, title, th) {
+					return $(th).text(); //remove icons, etc
+				}
+			});
+			//style it
+			$(colvis.button()).addClass('btn-group').find('button').addClass(
+					'btn btn-white btn-info btn-bold')
+			//and append it to our table tools btn-group, also add tooltip
+			$(colvis.button()).prependTo('.tableTools-container .btn-group')
+					.attr('title', '选择要导出的数据列').tooltip({
+						container : 'body'
+					});
+			//and make the list, buttons and checkboxed Ace-like
+			$(colvis.dom.collection)
+					.addClass(
+							'dropdown-menu dropdown-light dropdown-caret dropdown-caret-right')
+					.find('li').wrapInner('<a href="javascript:void(0)" />') //'A' tag is required for better styling
+					.find('input[type=checkbox]').addClass('ace').next()
+					.addClass('lbl padding-8');
+			/////////////////////////////////
+			//table checkboxes
+			$('th input[type=checkbox], td input[type=checkbox]').prop(
+					'checked', false);
+			//select/deselect all rows according to table header checkbox
+			$('#dynamic-table > thead > tr > th input[type=checkbox]').eq(0)
+					.on(
+							'click',
+							function() {
+								var th_checked = this.checked; //checkbox inside "TH" table header
+								$(this).closest('table').find('tbody > tr')
+										.each(function() {
+											var row = this;
+											if (th_checked)
+												tableTools_obj.fnSelect(row);
+											else
+												tableTools_obj.fnDeselect(row);
+										});
+							});
+			//select/deselect a row when the checkbox is checked/unchecked
+			$('#dynamic-table').on(
+					'click',
+					'td input[type=checkbox]',
+					function() {
+						var row = $(this).closest('tr').get(0);
+						if (!this.checked)
+							tableTools_obj.fnSelect(row);
+						else
+							tableTools_obj.fnDeselect($(this).closest('tr')
+									.get(0));
+					});
+			$(document).on('click', '#dynamic-table .dropdown-toggle',
+					function(e) {
+						e.stopImmediatePropagation();
+						e.stopPropagation();
+						e.preventDefault();
+					});
+			//And for the first simple table, which doesn't have TableTools or dataTables
+			//select/deselect all rows according to table header checkbox
+			var active_class = 'active';
+			$('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on(
+					'click',
+					function() {
+						var th_checked = this.checked; //checkbox inside "TH" table header
+						$(this).closest('table').find('tbody > tr').each(
+								function() {
+									var row = this;
+									if (th_checked)
+										$(row).addClass(active_class).find(
+												'input[type=checkbox]').eq(0)
+												.prop('checked', true);
+									else
+										$(row).removeClass(active_class).find(
+												'input[type=checkbox]').eq(0)
+												.prop('checked', false);
+								});
+					});
+			//select/deselect a row when the checkbox is checked/unchecked
+			$('#simple-table').on('click', 'td input[type=checkbox]',
+					function() {
+						var $row = $(this).closest('tr');
+						if (this.checked)
+							$row.addClass(active_class);
+						else
+							$row.removeClass(active_class);
+					});
+			/********************************/
+			//add tooltip for small view action buttons in dropdown menu
+			$('[data-rel="tooltip"]').tooltip({
+				placement : tooltip_placement
+			});
+			//tooltip placement on right or left
+			function tooltip_placement(context, source) {
+				var $source = $(source);
+				var $parent = $source.closest('table')
+				var off1 = $parent.offset();
+				var w1 = $parent.width();
+				var off2 = $source.offset();
+				//var w2 = $source.width();
+				if (parseInt(off2.left) < parseInt(off1.left)
+						+ parseInt(w1 / 2))
+					return 'right';
+				return 'left';
+			}
+		});
+	</script>
+</body>
 
-		</html>
+</html>

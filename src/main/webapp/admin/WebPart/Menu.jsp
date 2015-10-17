@@ -47,7 +47,7 @@
 
 	<ul class="nav nav-list">
 		<li id="tachometer" class="">
-			<a href="index.jsp" class="">
+			<a href="${pageContext.request.contextPath }/admin/page/index.jsp" class="">
 				<i class="menu-icon fa fa-tachometer"></i>
 				<span class="menu-text">控制台</span>
 				<b class="arrow"></b>
@@ -55,7 +55,7 @@
 			<b cite="arrow"></b>
 		</li>
 		<li id="authority" name="menu1" class="">
-			<a href="goods.jsp" class="">
+			<a href="${pageContext.request.contextPath }/user/findGoodsdetail" class="">
 				<i class="menu-icon fa fa-unlock-alt"></i>
 				<span class="menu-text"> 商品管理 </span>
 				<b class="arrow"></b> 
@@ -63,7 +63,7 @@
 			<b class="arrow"></b>
 		</li>
 		<li id="authority" name="menu1" class="">
-			<a href="store.jsp" class="">
+			<a href="${pageContext.request.contextPath }/seller/findAllSeller" class="">
 				<i class="menu-icon fa fa-unlock-alt"></i>
 				<span class="menu-text">商家管理 </span>
 				<b class="arrow"></b> 
@@ -71,7 +71,7 @@
 			<b class="arrow"></b>
 		</li>
 		<li id="authority" name="menu1" class="">
-			<a href="order.jsp" class="">
+			<a href="${pageContext.request.contextPath }/seller/findAllOrder" class="">
 				<i class="menu-icon fa fa-unlock-alt"></i>
 				<span class="menu-text">订单管理</span>
 				<b class="arrow"></b> 

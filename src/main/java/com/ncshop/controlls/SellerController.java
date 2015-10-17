@@ -79,9 +79,10 @@ public class SellerController {
 	@RequestMapping("/addSeller")
 	public void addSeller(HttpServletResponse response, TSeller seller) throws Exception {
 		// 调用service查找 数据库
+		seller.setIsValid(true);
 		sellerService.addSeller(seller);
 		response.setContentType("html/text;charset=utf-8");
-		response.getWriter().write("商家添加成功！");
+		response.getWriter().write("1");
 	}
 
 	/**
@@ -156,6 +157,23 @@ public class SellerController {
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write("1");
 	}
+	
+	/**
+	 * 改变商家状态
+	 * @param sellerId 卖家唯一标识
+	 * @param goods 新商品
+	 * @throws Exception
+	 */
+	@RequestMapping("/updownSeller")
+	public void updownSeller(HttpServletResponse response,int sellerId,boolean isValid) throws Exception {
+		if (sellerId + "" == ""&&isValid+""!="") {
+			return;
+		}
+		// 调用service查找 数据库
+		sellerService.updownSeller(sellerId,isValid);
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write("1");
+	}
 
 	/**
 	 * 添加商品类型
@@ -198,6 +216,19 @@ public class SellerController {
 		String json=toJson(new TSeller(),list,null);
 		response.setContentType("application/json");
 		response.getWriter().write(json);
+	}
+	
+	/**
+	 * 获取所有商家信息
+	 * @throws Exception
+	 */
+	@RequestMapping("/findAllSeller")
+	public void findAllSeller(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		// 调用service查找 数据库
+		List<TSeller> list=sellerService.getAllSeller();
+		request.setAttribute("goodDetail", list);
+		request.getRequestDispatcher("/admin/page/store.jsp").forward(request,
+				response);
 	}
 	
 	/**
