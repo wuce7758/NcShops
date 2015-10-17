@@ -193,7 +193,7 @@ public class UserService {
 
 	public List<TOrder> findOrderByeUser(String userId) {
 		
-		Object [] objs={userId};
+		Object [] objs={Integer.parseInt(userId)};
 		return orderDao.getHibernateTemplate().find("from TOrder where userId=? order by orderTime desc",objs);
 	}
 }
