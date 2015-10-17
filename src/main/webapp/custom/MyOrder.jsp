@@ -26,14 +26,6 @@
 <link rel="stylesheet" href="../plugins/fonts/font-awesome.css" />
 
 <!-- page specific plugin styles -->
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/jquery-ui.css" />
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/jquery-ui.custom.css" />
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/colorbox.css">
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/chosen.css" />
 
 <!-- text fonts -->
 <link rel="stylesheet"
@@ -259,7 +251,7 @@
 	   										</c:if>
    											<c:forEach var="address" items="${address}">
 		   										<p><c:out value="接收人：${address.receiverName }"></c:out></p>
-		   										<p><c:out value="地址：${address.adsContent }"></c:out></p>
+		   										<p><c:out value="送货地址：${address.adsContent }"></c:out></p>
 		   										<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
 		   										<div style="height:25px;width:100%;text-align:right">
 													<div style="float:right;width:50%">
@@ -349,7 +341,7 @@
 											
 										</div>
 
-										<div id="dialog_sureBuy_confirm" class="hide">
+										<div style="height:150px" id="dialog_sureBuy_confirm" class="hide">
 											<font color="red">提示</font>
 											<div class="space-6"></div>
 											<p class="bigger-110 bolder center grey">
@@ -427,72 +419,20 @@
 	<script src="http://ace.zcdreams.com/assets/js/bootstrap.js"></script>
 
 	<!-- page specific plugin scripts -->
-	<script src="http://ace.zcdreams.com/assets/js/jquery.gritter.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/jquery.colorbox.js"></script>
 	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.js"></script>
 	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.custom.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/jquery.ui.touch-punch.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/chosen.jquery.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/fuelux/fuelux.spinner.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/date-time/bootstrap-datepicker.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/date-time/bootstrap-timepicker.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/date-time/moment.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/date-time/daterangepicker.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/date-time/bootstrap-datetimepicker.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/bootstrap-colorpicker.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/jquery.knob.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/jquery.autosize.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/jquery.inputlimiter.1.3.1.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/jquery.maskedinput.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/bootstrap-tag.js"></script>
 
 	<!-- ace scripts -->
-	<script
-		src="http://ace.zcdreams.com/assets/js/ace/elements.scroller.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/ace/elements.colorpicker.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/ace/elements.fileinput.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/ace/elements.typeahead.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/ace/elements.wysiwyg.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/ace/elements.spinner.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/ace/elements.treeview.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/ace/elements.wizard.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/ace/elements.aside.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/ace/ace.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/ace/ace.ajax-content.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/ace/ace.touch-drag.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/ace.js"></script>	
 	<script src="http://ace.zcdreams.com/assets/js/ace/ace.sidebar.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/ace/ace.sidebar-scroll-1.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/ace/ace.submenu-hover.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/ace/ace.widget-box.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/ace/ace.settings.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/ace/ace.settings-rtl.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/ace/ace.settings-skin.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/ace/ace.widget-on-reload.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/ace/ace.searchbox-autocomplete.js"></script>
-
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
 		var flag="${requestScope.address}";
 		function changeStyle(){
 			if(flag.length<1){
 				$("#addAddress").css("display","inline");
+				//$("#sureBuy").attr("disabled",true);
+				$("#cancelAdd").attr("disabled",true);
 			}
 		}
 		$(document).ready(function(){
@@ -501,21 +441,25 @@
 				$("#updateAddress").css("display","");
 				$("#update").attr("disabled",true);
 				$("#add").attr("disabled",true);
+				$("#sureBuy").attr("disabled",true);
 			});
 			$("#add").click(function(){
 				$("#add").attr("disabled",true);
 				$("#update").attr("disabled",true);
+				$("#sureBuy").attr("disabled",true);
 				$("#addAddress").css("display","inline");
 			});
 			$("#cancelUpdate").click(function(){
 				$("#updateAddress").hide();
 				$("#update").attr("disabled",false);
 				$("#add").attr("disabled",false);
+				$("#sureBuy").attr("disabled",false);
 			});
 			$("#cancelAdd").click(function(){
 				$("#addAddress").hide();
 				$("#update").attr("disabled",false);
 				$("#add").attr("disabled",false);
+				$("#sureBuy").attr("disabled",false);
 			});
 			$(".a").keyup(function(){
 				var input=$(".a");
@@ -540,6 +484,9 @@
 				}
 			});
 			$('#sureBuy').click(function (e) {
+				if($("#cancelAdd").attr("disabled")){
+					return;
+				}
                 e.preventDefault();
                 $('#dialog_sureBuy_confirm').removeClass('hide').dialog({
                     resizable: false,
