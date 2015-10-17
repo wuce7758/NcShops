@@ -110,9 +110,13 @@ public class SellerService {
 	public TOrder changeOrderState(int orderId, int orderState) {
 		// TODO Auto-generated method stub 
 		TOrder order=orderDao.findById(orderId);
-		order.setOrderState(orderState);
-		orderDao.save(order);
-		return order;
+		if(order==null){
+			return null;
+		}else{
+			order.setOrderState(orderState);
+			orderDao.getHibernateTemplate().update(order);			
+			return order;
+		}
 	}
 	
 	public TSeller sellerLogin(String sellerName, String sellerPhone) {
@@ -129,7 +133,6 @@ public class SellerService {
 
 	public void downGoods(int goodsId,boolean isSale) {
 		// TODO Auto-generated method stub
-		TGoods goods=goodsDao.findById(goodsId);
 		List<TSellergoods> sellergoodsList=sellergoodsDao.getHibernateTemplate().find("from TSellergoods where goodsId="+goodsId);
 		TSellergoods sellergoods=null;
 		if(sellergoodsList.size()>0){
@@ -140,7 +143,7 @@ public class SellerService {
 		}else{
 			sellergoods.setIsSale(true);			
 		}
-		sellergoodsDao.merge(sellergoods);
+		sellergoodsDao.getHibernateTemplate().update(sellergoods);
 	}
 
 
@@ -166,7 +169,7 @@ public class SellerService {
 
 	public void addSeller(TSeller seller) {
 		// TODO Auto-generated method stub
-		sellerDao.merge(seller);
+		sellerDao.getHibernateTemplate().saveOrUpdate(seller);
 	}
 
 	public void updownSeller(int sellerId, boolean isValid) {
@@ -177,6 +180,16 @@ public class SellerService {
 		}else{
 			seller.setIsValid(true);			
 		}
-		sellerDao.merge(seller);
+		sellerDao.getHibernateTemplate().update(seller);
+	}
+
+	public List<TOrder> findAllOrder() {
+		// TODO Auto-generated method stub
+		List<TOrder> list=orderDao.findAll();
+		if(list.size()>1){
+			return list;
+		}else{
+			return null;			
+		}
 	}
 } 

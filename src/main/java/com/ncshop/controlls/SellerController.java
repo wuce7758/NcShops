@@ -160,8 +160,6 @@ public class SellerController {
 	
 	/**
 	 * 改变商家状态
-	 * @param sellerId 卖家唯一标识
-	 * @param goods 新商品
 	 * @throws Exception
 	 */
 	@RequestMapping("/updownSeller")
@@ -171,6 +169,21 @@ public class SellerController {
 		}
 		// 调用service查找 数据库
 		sellerService.updownSeller(sellerId,isValid);
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write("1");
+	}
+	
+	/**
+	 * 改变订单状态
+	 * @throws Exception
+	 */
+	@RequestMapping("/changeOrderState")
+	public void changeOrderState(HttpServletResponse response,int orderId,int orderState) throws Exception {
+		if (orderId + "" == ""&&orderState+""!="") {
+			return;
+		}
+		// 调用service操作数据库
+		sellerService.changeOrderState(orderId,orderState);
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write("1");
 	}
@@ -219,7 +232,7 @@ public class SellerController {
 	}
 	
 	/**
-	 * 获取所有商家信息
+	 * 获取商家信息转发
 	 * @throws Exception
 	 */
 	@RequestMapping("/findAllSeller")
@@ -228,6 +241,18 @@ public class SellerController {
 		List<TSeller> list=sellerService.getAllSeller();
 		request.setAttribute("goodDetail", list);
 		request.getRequestDispatcher("/admin/page/store.jsp").forward(request,
+				response);
+	}
+	/**
+	 * 获取所有订单信息
+	 * @throws Exception
+	 */
+	@RequestMapping("/findAllOrder")
+	public void findAllOrder(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		// 调用service查找 数据库
+		List<TOrder> list=sellerService.findAllOrder();
+		request.setAttribute("orderList", list);
+		request.getRequestDispatcher("/admin/page/order.jsp").forward(request,
 				response);
 	}
 	

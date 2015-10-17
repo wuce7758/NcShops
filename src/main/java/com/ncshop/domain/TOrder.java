@@ -110,7 +110,7 @@ public class TOrder implements java.io.Serializable {
 		this.orderState = orderState;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name="orderId")
 	public Set<TOrderdetail> getTOrderdetails() {
 		return this.TOrderdetails;
