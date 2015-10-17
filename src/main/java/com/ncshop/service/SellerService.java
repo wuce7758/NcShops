@@ -103,7 +103,7 @@ public class SellerService {
 		gs.setGoodsPic(goods.getGoodsPic());
 		gs.setGoodsPrice(goods.getGoodsPrice());
 		gs.setTGoodstype(goodsType);
-		goodsDao.save(gs);
+		goodsDao.merge(gs);
 	} 
  
  
@@ -130,9 +130,7 @@ public class SellerService {
 	public void downGoods(int goodsId,boolean isSale) {
 		// TODO Auto-generated method stub
 		TGoods goods=goodsDao.findById(goodsId);
-		TSellergoods example=new TSellergoods();
-		example.setTGoods(goods);
-		List<TSellergoods> sellergoodsList=sellergoodsDao.getHibernateTemplate().findByExample(example);
+		List<TSellergoods> sellergoodsList=sellergoodsDao.getHibernateTemplate().find("from TSellergoods where goodsId="+goodsId);
 		TSellergoods sellergoods=null;
 		if(sellergoodsList.size()>0){
 			sellergoods=sellergoodsList.get(0);			
@@ -142,6 +140,7 @@ public class SellerService {
 		}else{
 			sellergoods.setIsSale(true);			
 		}
+		sellergoodsDao.merge(sellergoods);
 	}
 
 

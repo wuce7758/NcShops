@@ -419,124 +419,14 @@
 	<script src="http://ace.zcdreams.com/assets/js/bootstrap.js"></script>
 
 	<!-- page specific plugin scripts -->
-	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.custom.js"></script>
 
 	<!-- ace scripts -->
-	<script src="http://ace.zcdreams.com/assets/js/ace/ace.js"></script>	
+	<script src="http://ace.zcdreams.com/assets/js/ace/ace.js"></script>
 	<script src="http://ace.zcdreams.com/assets/js/ace/ace.sidebar.js"></script>
+
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
-		var flag="${requestScope.address}";
-		function changeStyle(){
-			if(flag.length<1){
-				$("#addAddress").css("display","inline");
-				//$("#sureBuy").attr("disabled",true);
-				$("#cancelAdd").attr("disabled",true);
-			}
-		}
-		$(document).ready(function(){
-			changeStyle();
-			$("#update").click(function(){
-				$("#updateAddress").css("display","");
-				$("#update").attr("disabled",true);
-				$("#add").attr("disabled",true);
-				$("#sureBuy").attr("disabled",true);
-			});
-			$("#add").click(function(){
-				$("#add").attr("disabled",true);
-				$("#update").attr("disabled",true);
-				$("#sureBuy").attr("disabled",true);
-				$("#addAddress").css("display","inline");
-			});
-			$("#cancelUpdate").click(function(){
-				$("#updateAddress").hide();
-				$("#update").attr("disabled",false);
-				$("#add").attr("disabled",false);
-				$("#sureBuy").attr("disabled",false);
-			});
-			$("#cancelAdd").click(function(){
-				$("#addAddress").hide();
-				$("#update").attr("disabled",false);
-				$("#add").attr("disabled",false);
-				$("#sureBuy").attr("disabled",false);
-			});
-			$(".a").keyup(function(){
-				var input=$(".a");
-				for(var i=0;i<input.length;i++){
-					var item=input[i];
-					if(item.value!=""&&i==input.length-1){
-						$("#savaOrUpdate").attr("disabled",false);
-					}else{
-						$("#savaOrUpdate").attr("disabled",true);
-					}
-				}
-			});
-			$(".b").keyup(function(){
-				var input=$(".b");
-				for(var i=0;i<input.length;i++){
-					var item=input[i];
-					if(item.value!=""&&i==input.length-1){
-						$("#updateButton").attr("disabled",false);
-					}else{
-						$("#updateButton").attr("disabled",true);
-					}
-				}
-			});
-			$('#sureBuy').click(function (e) {
-				if($("#cancelAdd").attr("disabled")){
-					return;
-				}
-                e.preventDefault();
-                $('#dialog_sureBuy_confirm').removeClass('hide').dialog({
-                    resizable: false,
-                    width: '320',
-                    modal: true,
-                    title: "",
-                    title_html: true,
-                    buttons: [
-                        {
-                            html: "<i class='ace-icon fa fa-save bigger-110'></i>确认下单",
-                            "class": "btn btn-success btn-minier",
-                            click: function () {
-                                $(this).dialog("close");
-                                $.ajax({
-                                    cache: false,
-                                    type: "POST",
-                                    url: "../user/buy",
-                                    data: "123",//$('#form_Menu').serialize(),
-                                    async: false,
-                                    error: function (request) {
-                                        console.log("error");
-                                    },
-                                    success: function (data) {
-                                        if (data == "1") {
-                                        	//console.log("ok");
-                                            //$("#menuState").html('按钮提交成功！');
-                                            window.location.href="${pageContext.request.contextPath}/index.jsp";
-                                        }
-                                        else {
-                                        	$("#buttonBuy").removeClass('hide');
-                                        	console.log("someCatch");
-                                            //$("#menuState").html(data);
-                                        }
-                                    }
-                                });
-                            }
-                        },
-                        {
-                            html: "<i class='ace-icon fa fa-times bigger-110'></i>取消",
-                            "class": "btn btn-minier",
-                            click: function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    ]
-                });
-            });
-            
-            
-		});
+		
 	</script>
 </body>
 </html>
