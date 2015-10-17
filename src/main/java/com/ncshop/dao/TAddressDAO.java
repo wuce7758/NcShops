@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ncshop.domain.TAddress;
 import com.ncshop.domain.TOrder;
+import com.ncshop.util.LogBuilder;
 
 import static org.hibernate.criterion.Example.create;
 
@@ -40,6 +41,7 @@ public class TAddressDAO extends BaseDao {
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -51,6 +53,7 @@ public class TAddressDAO extends BaseDao {
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -63,6 +66,7 @@ public class TAddressDAO extends BaseDao {
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -72,6 +76,7 @@ public class TAddressDAO extends BaseDao {
 		try {
 			return getHibernateTemplate().find("from TAddress");
 		} catch (RuntimeException re) {
+			LogBuilder.writeToLog(re.getMessage());
 			log.error("find all failed", re);
 			throw re;
 		}
@@ -84,6 +89,7 @@ public class TAddressDAO extends BaseDao {
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
+			LogBuilder.writeToLog(re.getMessage());
 			log.error("merge failed", re);
 			throw re;
 		}
@@ -95,6 +101,7 @@ public class TAddressDAO extends BaseDao {
 			getHibernateTemplate().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
+			LogBuilder.writeToLog(re.getMessage());
 			log.error("attach failed", re);
 			throw re;
 		}
@@ -106,6 +113,7 @@ public class TAddressDAO extends BaseDao {
 			getHibernateTemplate().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
+			LogBuilder.writeToLog(re.getMessage());
 			log.error("attach failed", re);
 			throw re;
 		}
@@ -124,6 +132,7 @@ public class TAddressDAO extends BaseDao {
 			return true; 
 		} catch (Exception e) {
 			e.printStackTrace();
+			LogBuilder.writeToLog(e.getMessage());
 			session.getTransaction().rollback();
 			return false; 
 		}finally{ 

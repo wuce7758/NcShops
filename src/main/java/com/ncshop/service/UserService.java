@@ -166,11 +166,14 @@ public class UserService {
 	}
 
 	public List<TAddress> findAddress(Integer userId) {
-		return addressDAO.getHibernateTemplate().find("from TAddress where userId="+userId+" and isDefault="+true);
+		
+		Object []objs={userId,true};
+		return addressDAO.getHibernateTemplate().find("from TAddress where userId=? and isDefault=?",objs);
 	}
 
 	public TUser findUser(String openId) {
-		List<TUser> list = userDao.getHibernateTemplate().find("from TUser where openId='"+openId+"'");
+		Object []objs={openId};
+		List<TUser> list = userDao.getHibernateTemplate().find("from TUser where openId=?",objs);
 		if (list.size() < 1) {
 			return null;
 		} else {
@@ -179,13 +182,18 @@ public class UserService {
 	}
 
 	public TSellergoods findSellergoodsByGoodsID(Integer goodsId) {
-		
-		TSellergoods sellergoods = (TSellergoods) sellergoodsDAO.getHibernateTemplate().find("from TSellergoods where GoodsId="+goodsId).get(0);
+		Object [] objs={goodsId};
+		TSellergoods sellergoods = (TSellergoods) sellergoodsDAO.getHibernateTemplate().find("from TSellergoods where GoodsId=?",objs).get(0);
 		return sellergoods;
 	}
 
 	public TSeller findSellerByID(Integer sellerId) {
-		
 		return sellerDao.findById(sellerId);
+	}
+
+	public List<TOrder> findOrderByeUser(String userId) {
+		
+		Object [] objs={userId};
+		return orderDao.getHibernateTemplate().find("from TOrder where userId=? order by orderTime desc",objs);
 	}
 }

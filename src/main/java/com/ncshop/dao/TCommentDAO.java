@@ -9,6 +9,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ncshop.domain.TComment;
+import com.ncshop.util.LogBuilder;
 
 import static org.hibernate.criterion.Example.create;
 
@@ -37,6 +38,7 @@ public class TCommentDAO extends BaseDao {
 			
 			log.debug("save successful");
 		} catch (RuntimeException re) {
+			LogBuilder.writeToLog(re.getMessage());
 			log.error("save failed", re);
 			throw re;
 		}
@@ -48,6 +50,7 @@ public class TCommentDAO extends BaseDao {
 			getHibernateTemplate().delete(persistentInstance);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
+			LogBuilder.writeToLog(re.getMessage());
 			log.error("delete failed", re);
 			throw re;
 		}
@@ -60,6 +63,7 @@ public class TCommentDAO extends BaseDao {
 					"com.ncshop.domain.TComment", id);
 			return instance;
 		} catch (RuntimeException re) {
+			LogBuilder.writeToLog(re.getMessage());
 			log.error("get failed", re);
 			throw re;
 		}
@@ -70,6 +74,7 @@ public class TCommentDAO extends BaseDao {
 			String queryString = "from TComment";
 			return getHibernateTemplate().find(queryString);
 		} catch (RuntimeException re) {
+			LogBuilder.writeToLog(re.getMessage());
 			log.error("find all failed", re);
 			throw re;
 		}
@@ -82,6 +87,7 @@ public class TCommentDAO extends BaseDao {
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
+			LogBuilder.writeToLog(re.getMessage());
 			log.error("merge failed", re);
 			throw re;
 		}
@@ -93,6 +99,7 @@ public class TCommentDAO extends BaseDao {
 			getHibernateTemplate().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
+			LogBuilder.writeToLog(re.getMessage());
 			log.error("attach failed", re);
 			throw re;
 		}
@@ -104,6 +111,7 @@ public class TCommentDAO extends BaseDao {
 			getHibernateTemplate().lock(instance, LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
+			LogBuilder.writeToLog(re.getMessage());
 			log.error("attach failed", re);
 			throw re;
 		}

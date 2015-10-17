@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ncshop.domain.TAddress;
 import com.ncshop.domain.TOrder;
+import com.ncshop.util.LogBuilder;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -41,6 +42,7 @@ public class TOrderDAO extends BaseDao {
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -52,6 +54,7 @@ public class TOrderDAO extends BaseDao {
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -63,6 +66,7 @@ public class TOrderDAO extends BaseDao {
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -72,6 +76,7 @@ public class TOrderDAO extends BaseDao {
 			return getHibernateTemplate().find("from TOrder");
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -83,6 +88,7 @@ public class TOrderDAO extends BaseDao {
 			return result;
 		} catch (RuntimeException re) {
 			log.error("merge failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -94,6 +100,7 @@ public class TOrderDAO extends BaseDao {
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -105,6 +112,7 @@ public class TOrderDAO extends BaseDao {
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
+			LogBuilder.writeToLog(re.getMessage());
 			throw re;
 		}
 	}
@@ -116,6 +124,7 @@ public class TOrderDAO extends BaseDao {
 			getHibernateTemplate().update(order);
 			return true;
 		} catch (Exception e) {
+			LogBuilder.writeToLog(e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
