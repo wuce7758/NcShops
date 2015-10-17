@@ -75,7 +75,7 @@ public class Oauth2Servlet extends HttpServlet {
 			}
 			if(state.equals("2")){
 				//跳转到订单页
-				req.getRequestDispatcher("").forward(req, resp);
+				req.getRequestDispatcher("/user/findOrdersByUser").forward(req, resp);
 				return;
 			}
 			
