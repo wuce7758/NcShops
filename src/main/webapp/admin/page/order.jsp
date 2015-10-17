@@ -131,12 +131,12 @@
 											</td>
 											<td>${trl.orderNo}</td>
 											
-											<td class="hidden-480"><a class="orderuserPopover"
+											<td class="hidden-480"><a class="orderUserPopover"
 												href="javascript:void(0);" data-container="body"
 												data-placement="bottom" name="${trl.userId}">
 													${trl.userId} </a>
 											</td>
-											<td class="hidden-480"><a class="ordersellerPopover"
+											<td class="hidden-480"><a class="orderSellerPopover"
 												href="javascript:void(0);" data-container="body"
 												data-placement="bottom" name="${trl.sellerId }">
 													${trl.sellerId }</a>
@@ -396,22 +396,69 @@
 														options);
 											});
 					//显示商家详细信息
-					$(".goodSellerPopover").popover();
-					//鼠标经过显示图片
-					$(".goodPicPopover").popover(
-						{
-							html : true,
-							/* title : function() {
-											return "图片";
-							}, */
-							content : function() {
-											return "<img width='100px' height='100px' src='${pageContext.request.contextPath }/images/"
-													+ $(this).attr('pic')+ "'/>";
-										}
-											})/* .on("mouseenter", function () {
-																}) */;
-							myEach();
-							myEachPopover("a", "goodsMsgPopover", 0, 10);
+					$(".orderSellerPopover").popover({
+						html : true,
+						title : function() {
+							return "图片";
+						}, 
+						content : function() {
+							var sellerinfo;
+							$.ajax({
+								type : "post",
+								url : "${pageContext.request.contextPath }/seller/getUserById",	
+								dataType : "json",
+								data:{"sellerId":$(this).attr('name')},
+								async : false,
+								success : function(data) {
+									/* var goodstypes = JSON.stringify(data.TSeller);
+									var obj = JSON.parse(goodstypes);
+										for ( var i = 0; i < obj.length; i++) {
+											$("#goodsShop").append("<option value='"+obj[i].sellerId+"'>"
+															+ obj[i].shopName
+															+ "</option>");
+										} */
+										sellerinfo = data;
+									},
+								error : function(XMLHttpRequest,textStatus, errorThrown) {
+									sellerinfo = errorThrown;
+								}
+							});
+							return userinfo;
+						}
+					});
+					//显示订单用户信息
+					$(".orderUserPopover").popover({
+						html : true,
+						title : function() {
+							return "图片";
+						}, 
+						content : function() {
+							var userinfo;
+							$.ajax({
+								type : "post",
+								url : "${pageContext.request.contextPath }/seller/getUserById",	
+								dataType : "json",
+								data:{"userId":$(this).attr('name')},
+								async : false,
+								success : function(data) {
+									/* var goodstypes = JSON.stringify(data.TSeller);
+									var obj = JSON.parse(goodstypes);
+										for ( var i = 0; i < obj.length; i++) {
+											$("#goodsShop").append("<option value='"+obj[i].sellerId+"'>"
+															+ obj[i].shopName
+															+ "</option>");
+										} */
+										userinfo = data;
+									},
+								error : function(XMLHttpRequest,textStatus, errorThrown) {
+									userinfo = errorThrown;
+								}
+							});
+							return userinfo;
+						}
+					});
+					myEach();
+					myEachPopover("a", "goodsMsgPopover", 0, 10);
 
 							//图片上传框
 							$('#id-input-file-3').ace_file_input({

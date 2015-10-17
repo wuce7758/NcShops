@@ -25,6 +25,7 @@ import com.ncshop.domain.TOrderdetail;
 import com.ncshop.domain.TSeller;
 import com.ncshop.domain.TSellergoods;
 import com.ncshop.domain.TUser;
+import com.ncshop.util.LogBuilder;
 
 @Service
 public class UserService {
@@ -172,13 +173,21 @@ public class UserService {
 	}
 
 	public TUser findUser(String openId) {
-		Object []objs={openId};
-		List<TUser> list = userDao.getHibernateTemplate().find("from TUser where openId=?",objs);
-		if (list.size() < 1) {
+		try {
+			Object []objs={openId};
+			List<TUser> list = userDao.getHibernateTemplate().find("from TUser where openId=?",objs);
+			if (list.size() < 1) {
+				LogBuilder.writeToLog("新用户"+openId);
+				return null;
+			} else {
+				LogBuilder.writeToLog(list.get(0).getOpenId());
+				return list.get(0);
+			}
+		} catch (Exception e) {
+			LogBuilder.writeToLog("出错了");
 			return null;
-		} else {
-			return list.get(0);
 		}
+		
 	}
 
 	public TSellergoods findSellergoodsByGoodsID(Integer goodsId) {
