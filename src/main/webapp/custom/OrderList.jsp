@@ -225,8 +225,8 @@
 							<!-- <h3 class="header blue lighter smaller">
 								<i class="ace-icon fa fa-list smaller-90"></i> 历史订单
 							</h3> -->
-							<c:forEach var="order" items="${request.orderList}">
 								<div id="accordion" class="accordion-style2">
+									<c:forEach var="order" items="${requestScope.orderList}">
 									<div class="group">
 										<h3 class="accordion-header">下单时间：${order.orderTime }</h3>
 	
@@ -298,7 +298,7 @@
 																			<div class="widget-toolbox clearfix">
 																				<div class="pull-left">
 																					<i class="ace-icon fa fa-hand-o-right grey bigger-125"></i>
-																					<a id="orderId" href="javascript:vodi(0)" class="bigger-110">查看订单详情... </a>
+																					<a id="orderId" href="javascript:void(0)" class="bigger-110">详情</a>
 																				</div>
 	
 																				<!-- #section:custom/extra.action-buttons -->
@@ -391,8 +391,8 @@
 											</div>
 										</div>
 									</div>
+									</c:forEach>
 								</div>
-							</c:forEach>
 							<!-- #accordion -->
 							<!-- PAGE CONTENT ENDS -->
 						</div>
