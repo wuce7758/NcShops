@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -26,7 +26,8 @@
 <link rel="stylesheet" href="../plugins/fonts/font-awesome.css" />
 
 <!-- page specific plugin styles -->
-
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/jquery-ui.css" />
 <!-- text fonts -->
 <link rel="stylesheet"
 	href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
@@ -35,7 +36,9 @@
 <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css"
 	class="ace-main-stylesheet" id="main-ace-style" />
 <style type="text/css">
-		.nav li a{padding:10px 3px}
+.nav li a {
+	padding: 10px 3px
+}
 </style>
 <!--[if lte IE 9]>
 			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" class="ace-main-stylesheet" />
@@ -148,12 +151,10 @@
 			<ul class="nav nav-list">
 				<li class=""><a href="index.html"> <i
 						class="menu-icon fa fa-tachometer"></i> <span class="menu-text">
-							Dashboard </span> </a> <b class="arrow"></b>
-				</li>
+							Dashboard </span> </a> <b class="arrow"></b></li>
 				<li class=""><a href="index.html"> <i
 						class="menu-icon fa fa-tachometer"></i> <span class="menu-text">动态显示物品类别</span>
-				</a> <b class="arrow"></b>
-				</li>
+				</a> <b class="arrow"></b></li>
 			</ul>
 			<!-- /.nav-list -->
 
@@ -188,7 +189,7 @@
 					<ul class="breadcrumb">
 						<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">小二百货店</a>
 						</li>
-						<li class="active">确认订单</li>
+						<li class="active"><i class="ace-icon fa fa-list smaller-90"></i>订单列表</li>
 					</ul>
 					<!-- /.breadcrumb -->
 
@@ -209,149 +210,239 @@
 				<!-- /section:basics/content.breadcrumbs -->
 				<div class="page-content">
 					<div class="row">
-						<div id="order" class="col-xs-12" style="margin-bottom: 10px">
+						<div id="orderlist" class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
-							<div class="col-xs-6 col-sm-3 pricing-box" style="height:100%">
-								<div class="widget-box widget-color-blue" style="height:100%">
-									<div class="widget-header">
-										<h5 class="widget-title bigger lighter">确认订单</h5>
-									</div>
+							<div class="align-right">
+								<span class="green middle bolder">商家电话：</span>
 
-									<div class="widget-body">
-										<div class="widget-main">
-											<ul class="list-unstyled spaced2">
-												<!-- 循环遍历域里的数据 -->
-												<table style="width:100%">
-													<c:forEach var="orderdetail" items="${odersdetails }">
-														<tr>
-															<td style="width:70%">
-																<i class="ace-icon fa fa-check green"></i>
-																${orderdetail.TGoods.goodsName }
-															</td>
-															<td style="width:10%">
-																x${orderdetail.buyMount }
-															</td>
-															<td style="width:20%;text-align:right">
-																	￥<font class="buyCost">${orderdetail.buyCost }</font>
-															</td>
-														</tr>
-													</c:forEach>
-												</table>
-											</ul>
-
-											<hr />
-											<div id="orderPrice" class="price">
-												<strong>${sessionScope.allCost }</strong><small>元</small>
-											</div>
-											<!-- 加载默认地址 -->
-   											<c:if test="${requestScope.address==null }">
-		   										<font color='red'>
-	   												<c:out value="您还没地址，请先设置地址!"></c:out>
-	   											</font>
-	   										</c:if>
-   											<c:forEach var="address" items="${address}">
-		   										<p><c:out value="接收人：${address.receiverName }"></c:out></p>
-		   										<p><c:out value="送货地址：${address.adsContent }"></c:out></p>
-		   										<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
-		   										<div style="height:25px;width:100%;text-align:right">
-													<div style="float:right;width:50%">
-														<button id="update" style="margin-right:5px" class="btn btn-minier btn-info btn-bold col-xs-5">
-															<i class="bigger-120 orange"></i>
-															<font>修改</font>
-														</button>
-														<button id="add" style="margin-right:5px;float:right" class="btn btn-minier btn-info btn-bold col-xs-5">
-															<i class="bigger-120 orange"></i>
-															<font>添加</font>
-														</button>
-													</div>
-												</div>
-												<!-- 修改地址 -->
-											<div id="updateAddress" style="display:none;height:150px">
-												<c:forEach var="address" items="${requestScope.address}">
-												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role="form">
-													<div class="form-group">
-														<label class="col-xs-3 control-label no-padding-right"
-															for="userName" style="margin-top: 5px">姓名：</label>
-														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input type="text" name="receiverName" id="userName" value="${address.receiverName }"
-																class="b col-xs-12" />
-														</div>
-														<label class="col-xs-3 control-label no-padding-right"
-															for="userAddress" style="margin-top: 5px">地址：</label>
-	
-														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input type="text" name="adsContent" id="userAddress" value="${address.adsContent }"
-																class="b col-xs-12" />
-														</div>
-														<label class="col-xs-3 control-label no-padding-right"
-															for="userPhone" style="margin-top: 5px">电话：</label>
-														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input onkeyup="value=value.replace(/[^0-9]/g,'')" type="text" name="adsPhone" id="userPhone" value="${address.adsPhone }"
-																class="b col-xs-12" />
-														</div>
-													</div>
-													<button style="margin-left:13px" disabled id="updateButton" class="btn btn-white btn-info btn-bold col-xs-5">
-														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
-														<font>修改</font>
-													</button>
-												</form>
-													<button style="margin-left:25px" id="cancelUpdate" class="btn btn-white btn-info btn-bold col-xs-5">
-														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
-														<font>取消</font>
-													</button>
-												</c:forEach>
-											</div>
-   											</c:forEach>
-   											<!-- 添加地址 -->
-											<div id="addAddress" style="display:none">
-												<form id="fromAddress" action="${pageContext.request.contextPath }/user/addAddress" role="form">
-													<div class="form-group">
-														<label class="col-xs-3 control-label no-padding-right"
-															for="userName" style="margin-top: 5px">姓名：</label>
-														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input type="text" name="receiverName" id="userName" placeholder="收货人" value="${sessionScope.user.userName }"
-																class="a col-xs-12" />
-														</div>
-														<label class="col-xs-3 control-label no-padding-right"
-															for="userAddress" style="margin-top: 5px">地址：</label>
-	
-														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input type="text" name="adsContent" id="userAddress" placeholder="客户地址"
-																class="a col-xs-12" />
-														</div>
-														<label class="col-xs-3 control-label no-padding-right"
-															for="userPhone" style="margin-top: 5px">电话：</label>
-														<div class="col-xs-9" style="margin-bottom: 3px">
-															<input onkeyup="value=value.replace(/[^0-9]/g,'')" type="text" name="adsPhone" id="userPhone" placeholder="客户电话"
-																class="a col-xs-12" />
-														</div>
-													</div>
-													<button style="margin-left:13px" disabled id="savaOrUpdate" class="btn btn-white btn-info btn-bold col-xs-5">
-														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
-														<font>保存</font>
-													</button>
-												</form>
-													<button style="margin-left:25px" id="cancelAdd" class="btn btn-white btn-info btn-bold col-xs-5">
-														<i class="ace-icon fa fa-pencil bigger-120 orange"></i>
-														<font>取消</font>
-													</button>
-											<p style="margin-top: 5px"><font color="red">请检查地址正确后再确认订单！</font></p>
-											
-											</div>
-											
-										</div>
-
-										<div style="height:150px" id="dialog_sureBuy_confirm" class="hide">
-											<font color="red">提示</font>
-											<div class="space-6"></div>
-											<p class="bigger-110 bolder center grey">
-												<i class="ace-icon fa fa-hand-o-right blue bigger-120"></i>
-												确定提交?
-											</p>
-										</div>
+								<div class="btn-toolbar inline middle no-margin">
+									<div data-toggle="buttons" class="btn-group no-margin">
+										<label class="btn btn-sm btn-yellow active"> <span
+											class="bigger-110">0791-83839936</span> </label>
 									</div>
 								</div>
 							</div>
+							<!-- <h3 class="header blue lighter smaller">
+								<i class="ace-icon fa fa-list smaller-90"></i> 历史订单
+							</h3> -->
+							<div id="accordion" class="accordion-style2">
+								<div class="group">
+									<h3 class="accordion-header">下单时间：2015-10-17 12:12:11</h3>
+
+									<div id="timeline-1">
+										<div class="row">
+											<div class="col-xs-12 col-sm-10 col-sm-offset-1">
+												<!-- #section:pages/timeline -->
+												<div class="timeline-container">
+													<div class="timeline-label">
+														<!-- #section:pages/timeline.label -->
+														<span
+															class="label label-primary arrowed-in-right label-lg">
+															<b>订单编号：00000000</b> </span>
+
+														<!-- /section:pages/timeline.label -->
+													</div>
+
+													<div class="timeline-items">
+														<!-- #section:pages/timeline.item -->
+														<div class="timeline-item clearfix">
+															<!-- #section:pages/timeline.info -->
+															<div class="timeline-info">
+																<img alt="Susan't Avatar"
+																	src="http://ace.zcdreams.com/assets/avatars/avatar1.png" />
+																<span class="label label-info label-sm">13:15:53</span>
+															</div>
+
+															<!-- /section:pages/timeline.info -->
+															<div class="widget-box transparent">
+																<div class="widget-header widget-header-small">
+																	<h5 class="widget-title smaller">
+																		<span class="grey">订单提交成功</span>
+																	</h5>
+
+																	<span class="widget-toolbar no-border"> <i
+																		class="ace-icon fa fa-clock-o bigger-110"></i>
+																		13:15:53 </span> <span class="widget-toolbar">
+																		<!--  <a
+																		href="#" data-action="reload"> <i
+																			class="ace-icon fa fa-refresh"></i> </a>  --><a href="#"
+																		data-action="collapse"> <i
+																			class="ace-icon fa fa-chevron-up"></i> </a> </span>
+																</div>
+
+																<div class="widget-body">
+																	<div class="widget-main">
+																		<span class="red">等待商家确认！</span><br/>
+																		<div id="">咪咪    x2 12.00</div> 
+																		<div class="space-6"></div>
+
+																		<div class="widget-toolbox clearfix">
+																			<div class="pull-left">
+																				<i class="ace-icon fa fa-hand-o-right grey bigger-125"></i>
+																				<a id="orderdetail" href="javascript:vodi(0)" class="bigger-110">点击查看订单详情... </a>
+																			</div>
+
+																			<!-- #section:custom/extra.action-buttons -->
+																			<div class="pull-right action-buttons">
+																				<a href="javascript:void(0)"> <i
+																					class="ace-icon fa fa-times red bigger-125"></i>取消订单</a>
+																			</div>
+
+																			<!-- /section:custom/extra.action-buttons -->
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<!-- /section:pages/timeline.item -->
+														<div class="timeline-item clearfix">
+															<div class="timeline-info">
+																<i
+																	class="timeline-indicator ace-icon fa fa-cutlery btn btn-success no-hover"></i>
+															</div>
+
+															<div class="widget-box transparent">
+																<div class="widget-body">
+																	<div class="widget-main">
+																		商家已确认订单！ 正在为你准备商品!
+																		<!-- <div class="pull-right">
+																			<i class="ace-icon fa fa-clock-o bigger-110"></i>
+																			12:30
+																		</div> -->
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<div class="timeline-item clearfix">
+															<div class="timeline-info">
+																<i
+																	class="timeline-indicator ace-icon fa fa-star btn btn-warning no-hover green"></i>
+															</div>
+
+															<div class="widget-box transparent">
+																<div class="widget-header widget-header-small">
+																	<h5 class="widget-title smaller">配送中</h5>
+
+																	<!-- <span class="widget-toolbar no-border"> 
+																		<i class="ace-icon fa fa-clock-o bigger-110"></i>
+																	</span> -->
+																	<span class="widget-toolbar">
+																		<!-- <a href="#" data-action="reload">
+																			<i class="ace-icon fa fa-refresh"></i>
+																		</a> -->
+																		<a href="#" data-action="collapse"> 
+																			<i class="ace-icon fa fa-chevron-up"></i>
+																		</a>
+																	</span>
+																</div>
+
+																<div class="widget-body">
+																	<div class="widget-main">
+																		18070499250
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<div class="timeline-item clearfix">
+															<div class="timeline-info">
+																<i
+																	class="timeline-indicator ace-icon fa fa-check btn btn-success no-hover"></i>
+															</div>
+
+															<div class="widget-box transparent">
+																<div class="widget-body">
+																	<div class="widget-main green">订单已完成</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- /.timeline-items -->
+												</div>
+												<!-- /.timeline-container -->
+												<!-- /section:pages/timeline -->
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="group">
+									<h3 class="accordion-header">Section 2</h3>
+
+									<div>
+										<p>Sed non urna. Donec et ante. Phasellus eu ligula.
+											Vestibulum sit amet purus. Vivamus hendrerit, dolor at
+											aliquet laoreet, mauris turpis porttitor velit, faucibus
+											interdum tellus libero ac justo. Vivamus non quam. In
+											suscipit faucibus urna.</p>
+									</div>
+								</div>
+								<div class="group">
+									<h3 class="accordion-header">Section 2</h3>
+
+									<div>
+										<p>Sed non urna. Donec et ante. Phasellus eu ligula.
+											Vestibulum sit amet purus. Vivamus hendrerit, dolor at
+											aliquet laoreet, mauris turpis porttitor velit, faucibus
+											interdum tellus libero ac justo. Vivamus non quam. In
+											suscipit faucibus urna.</p>
+									</div>
+								</div>
+								<div class="group">
+									<h3 class="accordion-header">Section 2</h3>
+
+									<div>
+										<p>Sed non urna. Donec et ante. Phasellus eu ligula.
+											Vestibulum sit amet purus. Vivamus hendrerit, dolor at
+											aliquet laoreet, mauris turpis porttitor velit, faucibus
+											interdum tellus libero ac justo. Vivamus non quam. In
+											suscipit faucibus urna.</p>
+									</div>
+								</div>
+								<div class="group">
+									<h3 class="accordion-header">Section 2</h3>
+
+									<div>
+										<p>Sed non urna. Donec et ante. Phasellus eu ligula.
+											Vestibulum sit amet purus. Vivamus hendrerit, dolor at
+											aliquet laoreet, mauris turpis porttitor velit, faucibus
+											interdum tellus libero ac justo. Vivamus non quam. In
+											suscipit faucibus urna.</p>
+									</div>
+								</div>
+								<div class="group">
+									<h3 class="accordion-header">Section 2</h3>
+
+									<div>
+										<p>Sed non urna. Donec et ante. Phasellus eu ligula.
+											Vestibulum sit amet purus. Vivamus hendrerit, dolor at
+											aliquet laoreet, mauris turpis porttitor velit, faucibus
+											interdum tellus libero ac justo. Vivamus non quam. In
+											suscipit faucibus urna.</p>
+									</div>
+								</div>
+								<div class="group">
+									<h3 class="accordion-header">Section 3</h3>
+
+									<div>
+										<p>Nam enim risus, molestie et, porta ac, aliquam ac,
+											risus. Quisque lobortis. Phasellus pellentesque purus in
+											massa. Aenean in pede. Phasellus ac libero ac tellus
+											pellentesque semper. Sed ac felis. Sed commodo, magna quis
+											lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus
+											venenatis dui.</p>
+
+										<ul>
+											<li>List item one</li>
+											<li>List item two</li>
+											<li>List item three</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<!-- #accordion -->
 							<!-- PAGE CONTENT ENDS -->
 						</div>
 						<!-- /.col -->
@@ -366,24 +457,15 @@
 		<nav class="navbar navbar-default navbar-fixed-bottom"
 			role="navigation">
 			<ul class="nav navbar-nav">
-				<li class="green col-xs-4">
-					<a href="${pageContext.request.contextPath }/index.jsp">
-						<i class="ace-icon fa fa-home icon-animated-vertical"></i>
-						商品首页
-					</a>
-				</li>
-				<li class="green col-xs-4">
-					<a href="/person.jsp">
-						<i class="ace-icon fa fa-user icon-animated-vertical"></i>
-						个人中心
-					</a>
-				</li>
-				<li class="green col-xs-4">
-					<a id="sureBuy" href="javascript:void(0)">
-						<i class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i>
-						<span>确认购买</span>
-					</a>
-				</li>
+				<li class="green col-xs-4"><a
+					href="${pageContext.request.contextPath }/index.jsp"> <i
+						class="ace-icon fa fa-home icon-animated-vertical"></i> 商品首页 </a></li>
+				<li class="green col-xs-4"><a href="/person.jsp"> <i
+						class="ace-icon fa fa-user icon-animated-vertical"></i> 个人中心 </a></li>
+				<li class="green col-xs-4"><a id="sureBuy"
+					href="javascript:void(0)"> <i
+						class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i> <span>确认购买</span>
+				</a></li>
 			</ul>
 		</nav>
 
@@ -419,14 +501,37 @@
 	<script src="http://ace.zcdreams.com/assets/js/bootstrap.js"></script>
 
 	<!-- page specific plugin scripts -->
-
+	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/jquery.ui.touch-punch.js"></script>
 	<!-- ace scripts -->
 	<script src="http://ace.zcdreams.com/assets/js/ace/ace.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/ace.touch-drag.js"></script>
 	<script src="http://ace.zcdreams.com/assets/js/ace/ace.sidebar.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/ace/ace.sidebar-scroll-1.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/ace/ace.submenu-hover.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/ace.widget-box.js"></script>
 
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
-		
+		//jquery accordion
+		$("#accordion").accordion({
+			collapsible : true,
+			heightStyle : "content",
+			animate : 250,
+			header : ".accordion-header"
+		}).sortable(
+				{
+					axis : "y",
+					handle : ".accordion-header",
+					stop : function(event, ui) {
+						// IE doesn't register the blur when sorting
+						// so trigger focusout handlers to remove .ui-state-focus
+						ui.item.children(".accordion-header").triggerHandler(
+								"focusout");
+					}
+				});
 	</script>
 </body>
 </html>
