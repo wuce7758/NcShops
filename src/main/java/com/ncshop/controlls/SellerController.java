@@ -219,7 +219,7 @@ public class SellerController {
 		response.getWriter().write(json);
 	}
 	/**
-	 * 获取所有商家
+	 * 获取所有商家	json方式
 	 * @throws Exception
 	 */
 	@RequestMapping("/getAllSeller")
@@ -232,19 +232,19 @@ public class SellerController {
 	}
 	
 	/**
-	 * 获取商家信息转发
+	 * 获取所有商家	转发方式
 	 * @throws Exception
 	 */
 	@RequestMapping("/findAllSeller")
 	public void findAllSeller(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		// 调用service查找 数据库
 		List<TSeller> list=sellerService.getAllSeller();
-		request.setAttribute("goodDetail", list);
+		request.setAttribute("sellerList", list);
 		request.getRequestDispatcher("/admin/page/store.jsp").forward(request,
 				response);
 	}
 	/**
-	 * 获取所有订单信息
+	 * 获取所有订单信息 转发方式
 	 * @throws Exception
 	 */
 	@RequestMapping("/findAllOrder")
@@ -252,8 +252,9 @@ public class SellerController {
 		// 调用service查找 数据库
 		List<TOrder> list=sellerService.findAllOrder();
 		request.setAttribute("orderList", list);
-		request.getRequestDispatcher("/admin/page/order.jsp").forward(request,
-				response);
+		String json=toJson(new TOrder(),list,null);
+		response.getWriter().write(json);
+		request.getRequestDispatcher("/admin/page/order.jsp").forward(request,response);
 	}
 	
 	/**
