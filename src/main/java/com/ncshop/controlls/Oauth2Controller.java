@@ -1,19 +1,7 @@
 package com.ncshop.controlls;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.ncshop.dao.TUserDAO;
-import com.ncshop.domain.TUser;
-import com.ncshop.service.UserService;
-import com.ncshop.util.LogBuilder;
 
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
@@ -23,16 +11,25 @@ import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
-public class Oauth2Servlet extends HttpServlet {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.ncshop.domain.TUser;
+import com.ncshop.service.Ouath2Service;
+import com.ncshop.util.LogBuilder;
+
+@Controller
+@RequestMapping("ouath")
+public class Oauth2Controller {
 	protected WxMpInMemoryConfigStorage wxMpConfigStorage;
 	protected WxMpService wxMpService;
 	protected WxMpMessageRouter wxMpMessageRouter;
 	@Autowired
-	private UserService userService;
+	private Ouath2Service service;
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	@RequestMapping("/Oauth2Controller")
+	public void Oauth2Servlet(HttpServletRequest req, HttpServletResponse resp) {
 		WxMpUser wxMpUser = null;
 		String state = null;
 		try {
@@ -61,55 +58,33 @@ public class Oauth2Servlet extends HttpServlet {
 			// 根据不同的状态值跳转不同页面
 			state = req.getParameter("state");
 			TUser user = new TUser();
-			TUser findUser = userService.findUser(wxMpUser.getOpenId());
-
+			user.setOpenId(wxMpUser.getOpenId());
+			LogBuilder.writeToLog("kaoshi");
+			TUser findUser = service.findUser(wxMpUser.getOpenId());
+			LogBuilder.writeToLog("结束+00");
 			if (state.equals("1")) {
-				// 跳转到首页
-
-				// TUserDAO dao=new TUserDAO();
-				// //List list = dao.findByProperty("oppenId",
-				// wxMpUser.getOpenId());
-				// if(list.size()>1){
-				// user=(TUser) list.get(0);
-				// }else{
-				// user=new TUser();
-				// user.setOpenId(wxMpUser.getOpenId());
-				// dao.save(user);
-				// //user=(TUser) dao.findByProperty("openId",
-				// wxMpUser.getOpenId()).get(0);
-				// }
 				if (findUser == null) {
 					req.getSession().setAttribute("user", user);
 				} else {
 					req.getSession().setAttribute("user", findUser);
 				}
-				req.getRequestDispatcher("/index.jsp").forward(req, resp);
+				resp.sendRedirect("/index.jsp");
+				return;
 			}
 			if (state.equals("2")) {
 				if (findUser == null) {
 					req.getRequestDispatcher("/index.jsp").forward(req, resp);
 				} else {
 					// 跳转到订单页
-					req.getRequestDispatcher(
-							"/user/findOrdersByUser?userId" + user.getUserId()).forward(
-							req, resp);
+					LogBuilder.writeToLog(findUser.getUserId()+"");
+					resp.sendRedirect("/user/findOrdersByUser?userId=" + findUser.getUserId());
 				}
 				return;
 			}
-
-			resp.getWriter().write(wxMpUser.getOpenId());
+			return;
 		} catch (Exception e) {
 			LogBuilder.writeToLog(e.getMessage());
-			resp.getWriter().write(
-					e.getMessage() + "cause: " + e.getCause() + " "
-							+ e.getLocalizedMessage() + wxMpUser.getNickname()
-							+ state);
 		}
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		doGet(req, resp);
-	}
 }
