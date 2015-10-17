@@ -248,11 +248,9 @@ public class UserController {
 			TUser user = (TUser) request.getSession().getAttribute("user");
 			List<TAddress> address = null;
 			if (user != null) {
-				TUser tempuser = userService.findUser(user.getOpenId());
 
-				if (tempuser != null) {
-					address = userService.findAddress(tempuser.getUserId());
-					request.getSession().setAttribute("user", tempuser);
+				if (user.getUserId()!=null) {
+					address = userService.findAddress(user.getUserId());
 				}
 			}
 			request.setAttribute("address", address);
