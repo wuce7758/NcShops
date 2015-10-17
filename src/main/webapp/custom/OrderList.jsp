@@ -14,7 +14,7 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta charset="utf-8" />
-<title>德玛超市-订单确认</title>
+<title>德玛超市-我的订单</title>
 
 <meta name="description" content="" />
 <meta name="viewport"
@@ -225,223 +225,174 @@
 							<!-- <h3 class="header blue lighter smaller">
 								<i class="ace-icon fa fa-list smaller-90"></i> 历史订单
 							</h3> -->
-							<div id="accordion" class="accordion-style2">
-								<div class="group">
-									<h3 class="accordion-header">下单时间：2015-10-17 12:12:11</h3>
-
-									<div id="timeline-1">
-										<div class="row">
-											<div class="col-xs-12 col-sm-10 col-sm-offset-1">
-												<!-- #section:pages/timeline -->
-												<div class="timeline-container">
-													<div class="timeline-label">
-														<!-- #section:pages/timeline.label -->
-														<span
-															class="label label-primary arrowed-in-right label-lg">
-															<b>订单编号：00000000</b> </span>
-
-														<!-- /section:pages/timeline.label -->
-													</div>
-
-													<div class="timeline-items">
-														<!-- #section:pages/timeline.item -->
-														<div class="timeline-item clearfix">
-															<!-- #section:pages/timeline.info -->
-															<div class="timeline-info">
-																<img alt="Susan't Avatar"
-																	src="http://ace.zcdreams.com/assets/avatars/avatar1.png" />
-																<span class="label label-info label-sm">13:15:53</span>
-															</div>
-
-															<!-- /section:pages/timeline.info -->
-															<div class="widget-box transparent">
-																<div class="widget-header widget-header-small">
-																	<h5 class="widget-title smaller">
-																		<span class="grey">订单提交成功</span>
-																	</h5>
-
-																	<span class="widget-toolbar no-border"> <i
-																		class="ace-icon fa fa-clock-o bigger-110"></i>
-																		13:15:53 </span> <span class="widget-toolbar">
-																		<!--  <a
-																		href="#" data-action="reload"> <i
-																			class="ace-icon fa fa-refresh"></i> </a>  --><a href="#"
-																		data-action="collapse"> <i
-																			class="ace-icon fa fa-chevron-up"></i> </a> </span>
+							<c:forEach var="order" items="${request.orderList}">
+								<div id="accordion" class="accordion-style2">
+									<div class="group">
+										<h3 class="accordion-header">下单时间：${order.orderTime }</h3>
+	
+										<div id="timeline-1">
+											<div class="row">
+												<div class="col-xs-12 col-sm-10 col-sm-offset-1">
+													<!-- #section:pages/timeline -->
+													<div class="timeline-container">
+														<div class="timeline-label">
+															<!-- #section:pages/timeline.label -->
+															<span
+																class="label label-primary arrowed-in-right label-lg">
+																<b>订单编号：${order.orderNo }</b> </span>
+	
+															<!-- /section:pages/timeline.label -->
+														</div>
+	
+														<div class="timeline-items">
+															<!-- #section:pages/timeline.item -->
+															<div class="timeline-item clearfix">
+																<!-- #section:pages/timeline.info -->
+																<div class="timeline-info">
+																	<img alt="Susan't Avatar"
+																		src="http://ace.zcdreams.com/assets/avatars/avatar1.png" />
+																	<span class="label label-info label-sm">${order.orderTime }</span>
 																</div>
-
-																<div class="widget-body">
-																	<div class="widget-main">
-																		<span class="red">等待商家确认！</span><br/>
-																		<div id="">咪咪    x2 12.00</div> 
-																		<div class="space-6"></div>
-
-																		<div class="widget-toolbox clearfix">
-																			<div class="pull-left">
-																				<i class="ace-icon fa fa-hand-o-right grey bigger-125"></i>
-																				<a id="orderdetail" href="javascript:vodi(0)" class="bigger-110">点击查看订单详情... </a>
+	
+																<!-- /section:pages/timeline.info -->
+																<div class="widget-box transparent">
+																	<div class="widget-header widget-header-small">
+																		<h5 class="widget-title smaller">
+																			<span class="grey">订单提交成功</span>
+																		</h5>
+	
+																		<span class="widget-toolbar no-border"> <i
+																			class="ace-icon fa fa-clock-o bigger-110"></i>
+																			${order.orderTime } </span> <span class="widget-toolbar">
+																			<!--  <a
+																			href="#" data-action="reload"> <i
+																				class="ace-icon fa fa-refresh"></i> </a>  --><a href="#"
+																			data-action="collapse"> <i
+																				class="ace-icon fa fa-chevron-up"></i> </a> </span>
+																	</div>
+	
+																	<div class="widget-body">
+																		<div class="widget-main">
+																			<span class="red">等待商家确认！</span><br/>
+																			<ul class="list-unstyled spaced2">
+																				<!-- 循环遍历TOrderdetails里的数据 -->
+																				<table style="width:100%">
+																					<c:forEach var="orderdetail" items="${order.TOrderdetails }">
+																						<tr>
+																							<td style="width:70%">
+																								<i class="ace-icon fa fa-check green"></i>
+																								${orderdetail.TGoods.goodsName }
+																							</td>
+																							<td style="width:10%">
+																								x${orderdetail.buyMount }
+																							</td>
+																							<td style="width:20%;text-align:right">
+																									￥<font class="buyCost">${orderdetail.buyCost }</font>
+																							</td>
+																						</tr>
+																					</c:forEach>
+																				</table>
+																			</ul> 
+																			<div class="space-6"></div>
+	
+																			<div class="widget-toolbox clearfix">
+																				<div class="pull-left">
+																					<i class="ace-icon fa fa-hand-o-right grey bigger-125"></i>
+																					<a id="orderId" href="javascript:vodi(0)" class="bigger-110">查看订单详情... </a>
+																				</div>
+	
+																				<!-- #section:custom/extra.action-buttons -->
+																				<div class="pull-right action-buttons">
+																					<a href="javascript:void(0)"> <i
+																						class="ace-icon fa fa-times red bigger-125"></i>取消订单</a>
+																				</div>
+	
+																				<!-- /section:custom/extra.action-buttons -->
 																			</div>
-
-																			<!-- #section:custom/extra.action-buttons -->
-																			<div class="pull-right action-buttons">
-																				<a href="javascript:void(0)"> <i
-																					class="ace-icon fa fa-times red bigger-125"></i>取消订单</a>
-																			</div>
-
-																			<!-- /section:custom/extra.action-buttons -->
 																		</div>
 																	</div>
 																</div>
 															</div>
-														</div>
-
-														<!-- /section:pages/timeline.item -->
-														<div class="timeline-item clearfix">
-															<div class="timeline-info">
-																<i
-																	class="timeline-indicator ace-icon fa fa-cutlery btn btn-success no-hover"></i>
-															</div>
-
-															<div class="widget-box transparent">
-																<div class="widget-body">
-																	<div class="widget-main">
-																		商家已确认订单！ 正在为你准备商品!
-																		<!-- <div class="pull-right">
+	
+															<!-- /section:pages/timeline.item -->
+															<c:if test="${order.orderState=='1'||order.orderState=='2'||order.orderState=='3' }">
+																<div class="timeline-item clearfix">
+																	<div class="timeline-info">
+																		<i
+																			class="timeline-indicator ace-icon fa fa-cutlery btn btn-success no-hover"></i>
+																	</div>
+		
+																	<div class="widget-box transparent">
+																		<div class="widget-body">
+																			<div class="widget-main">
+																				商家已确认订单！ 正在为你准备商品!
+																				<!-- <div class="pull-right">
+																					<i class="ace-icon fa fa-clock-o bigger-110"></i>
+																					12:30
+																				</div> -->
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</c:if>
+															<c:if test="${order.orderState=='2'||order.orderState=='3' }">
+															<div class="timeline-item clearfix">
+																<div class="timeline-info">
+																	<i
+																		class="timeline-indicator ace-icon fa fa-star btn btn-warning no-hover green"></i>
+																</div>
+	
+																<div class="widget-box transparent">
+																	<div class="widget-header widget-header-small">
+																		<h5 class="widget-title smaller">配送中</h5>
+	
+																		<!-- <span class="widget-toolbar no-border"> 
 																			<i class="ace-icon fa fa-clock-o bigger-110"></i>
-																			12:30
-																		</div> -->
+																		</span> -->
+																		<span class="widget-toolbar">
+																			<!-- <a href="#" data-action="reload">
+																				<i class="ace-icon fa fa-refresh"></i>
+																			</a> -->
+																			<a href="#" data-action="collapse"> 
+																				<i class="ace-icon fa fa-chevron-up"></i>
+																			</a>
+																		</span>
+																	</div>
+	
+																	<div class="widget-body">
+																		<div class="widget-main">
+																			联系电话：12345678922
+																		</div>
 																	</div>
 																</div>
 															</div>
-														</div>
-
-														<div class="timeline-item clearfix">
-															<div class="timeline-info">
-																<i
-																	class="timeline-indicator ace-icon fa fa-star btn btn-warning no-hover green"></i>
-															</div>
-
-															<div class="widget-box transparent">
-																<div class="widget-header widget-header-small">
-																	<h5 class="widget-title smaller">配送中</h5>
-
-																	<!-- <span class="widget-toolbar no-border"> 
-																		<i class="ace-icon fa fa-clock-o bigger-110"></i>
-																	</span> -->
-																	<span class="widget-toolbar">
-																		<!-- <a href="#" data-action="reload">
-																			<i class="ace-icon fa fa-refresh"></i>
-																		</a> -->
-																		<a href="#" data-action="collapse"> 
-																			<i class="ace-icon fa fa-chevron-up"></i>
-																		</a>
-																	</span>
+															</c:if>
+															
+															<c:if test="${order.orderState=='3' }">
+															<div class="timeline-item clearfix">
+																<div class="timeline-info">
+																	<i
+																		class="timeline-indicator ace-icon fa fa-check btn btn-success no-hover"></i>
 																</div>
-
-																<div class="widget-body">
-																	<div class="widget-main">
-																		18070499250
+	
+																<div class="widget-box transparent">
+																	<div class="widget-body">
+																		<div class="widget-main green">订单已完成</div>
 																	</div>
 																</div>
 															</div>
+															</c:if>
 														</div>
-
-														<div class="timeline-item clearfix">
-															<div class="timeline-info">
-																<i
-																	class="timeline-indicator ace-icon fa fa-check btn btn-success no-hover"></i>
-															</div>
-
-															<div class="widget-box transparent">
-																<div class="widget-body">
-																	<div class="widget-main green">订单已完成</div>
-																</div>
-															</div>
-														</div>
+														<!-- /.timeline-items -->
 													</div>
-													<!-- /.timeline-items -->
+													<!-- /.timeline-container -->
+													<!-- /section:pages/timeline -->
 												</div>
-												<!-- /.timeline-container -->
-												<!-- /section:pages/timeline -->
 											</div>
 										</div>
 									</div>
 								</div>
-
-								<div class="group">
-									<h3 class="accordion-header">Section 2</h3>
-
-									<div>
-										<p>Sed non urna. Donec et ante. Phasellus eu ligula.
-											Vestibulum sit amet purus. Vivamus hendrerit, dolor at
-											aliquet laoreet, mauris turpis porttitor velit, faucibus
-											interdum tellus libero ac justo. Vivamus non quam. In
-											suscipit faucibus urna.</p>
-									</div>
-								</div>
-								<div class="group">
-									<h3 class="accordion-header">Section 2</h3>
-
-									<div>
-										<p>Sed non urna. Donec et ante. Phasellus eu ligula.
-											Vestibulum sit amet purus. Vivamus hendrerit, dolor at
-											aliquet laoreet, mauris turpis porttitor velit, faucibus
-											interdum tellus libero ac justo. Vivamus non quam. In
-											suscipit faucibus urna.</p>
-									</div>
-								</div>
-								<div class="group">
-									<h3 class="accordion-header">Section 2</h3>
-
-									<div>
-										<p>Sed non urna. Donec et ante. Phasellus eu ligula.
-											Vestibulum sit amet purus. Vivamus hendrerit, dolor at
-											aliquet laoreet, mauris turpis porttitor velit, faucibus
-											interdum tellus libero ac justo. Vivamus non quam. In
-											suscipit faucibus urna.</p>
-									</div>
-								</div>
-								<div class="group">
-									<h3 class="accordion-header">Section 2</h3>
-
-									<div>
-										<p>Sed non urna. Donec et ante. Phasellus eu ligula.
-											Vestibulum sit amet purus. Vivamus hendrerit, dolor at
-											aliquet laoreet, mauris turpis porttitor velit, faucibus
-											interdum tellus libero ac justo. Vivamus non quam. In
-											suscipit faucibus urna.</p>
-									</div>
-								</div>
-								<div class="group">
-									<h3 class="accordion-header">Section 2</h3>
-
-									<div>
-										<p>Sed non urna. Donec et ante. Phasellus eu ligula.
-											Vestibulum sit amet purus. Vivamus hendrerit, dolor at
-											aliquet laoreet, mauris turpis porttitor velit, faucibus
-											interdum tellus libero ac justo. Vivamus non quam. In
-											suscipit faucibus urna.</p>
-									</div>
-								</div>
-								<div class="group">
-									<h3 class="accordion-header">Section 3</h3>
-
-									<div>
-										<p>Nam enim risus, molestie et, porta ac, aliquam ac,
-											risus. Quisque lobortis. Phasellus pellentesque purus in
-											massa. Aenean in pede. Phasellus ac libero ac tellus
-											pellentesque semper. Sed ac felis. Sed commodo, magna quis
-											lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus
-											venenatis dui.</p>
-
-										<ul>
-											<li>List item one</li>
-											<li>List item two</li>
-											<li>List item three</li>
-										</ul>
-									</div>
-								</div>
-							</div>
+							</c:forEach>
 							<!-- #accordion -->
 							<!-- PAGE CONTENT ENDS -->
 						</div>
