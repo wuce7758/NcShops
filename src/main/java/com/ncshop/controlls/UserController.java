@@ -108,10 +108,7 @@ public class UserController {
 		request.setAttribute("goodDetail", sellerGoodsList);
 		request.getRequestDispatcher("/admin/page/goods.jsp").forward(request,
 				response);
-<<<<<<< HEAD
-		// return;
-=======
->>>>>>> 63a42e6dddfce7d949c9204a3ac110e53352197b
+		return;
 	}
 
 	/**
