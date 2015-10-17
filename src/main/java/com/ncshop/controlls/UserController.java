@@ -515,7 +515,7 @@ public class UserController {
 		try {
 			List<TOrder> orders = userService.findOrderByeUser(userId);
 			request.setAttribute("orderList", orders);
-			request.getRequestDispatcher("/custom/orderList.jsp").forward(request, response);
+			request.getRequestDispatcher("/custom/OrderList.jsp").forward(request, response);
 			return;
 		} catch (Exception e) {
 			LogBuilder.writeToLog(e.getMessage());
