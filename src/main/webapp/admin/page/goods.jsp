@@ -131,7 +131,7 @@
 											<td class="center"><label class="pos-rel"> <input
 													type="checkbox" class="ace" /> <span class="lbl"></span> </label>
 											</td>
-											<td>${trl.TGoods.goodsId}</td>
+											<td id="goodsId${trl.TGoods.goodsId}">${trl.TGoods.goodsId}</td>
 											<td class="hidden-480">${trl.TGoods.goodsName}</td>
 											<td class="hidden-480">${trl.TGoods.goodsPrice}</td>
 											<td class="hidden-480"><a class="goodSellerPopover"

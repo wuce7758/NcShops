@@ -168,4 +168,15 @@ public class SellerService {
 		// TODO Auto-generated method stub
 		sellerDao.merge(seller);
 	}
+
+	public void updownSeller(int sellerId, boolean isValid) {
+		// TODO Auto-generated method stub
+		TSeller seller=sellerDao.findById(sellerId);
+		if(seller.getIsValid()==true&&seller!=null){
+			seller.setIsValid(false);
+		}else{
+			seller.setIsValid(true);			
+		}
+		sellerDao.merge(seller);
+	}
 } 
