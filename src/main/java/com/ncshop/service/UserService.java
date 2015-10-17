@@ -185,7 +185,12 @@ public class UserService {
 	}
 
 	public TSeller findSellerByID(Integer sellerId) {
-		
 		return sellerDao.findById(sellerId);
+	}
+
+	public List<TOrder> findOrderByeUser(String userId) {
+		
+		Object [] objs={userId};
+		return orderDao.getHibernateTemplate().find("from TOrder where userId=? order by orderTime desc",objs);
 	}
 }

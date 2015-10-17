@@ -510,5 +510,18 @@ public class UserController {
 		wxMpService.setWxMpConfigStorage(wxMpConfigStorage);
 
 	}
+	
+	@RequestMapping("/findOrdersByUser")
+	public void findOrdersByUser(String userId,HttpServletRequest request,HttpServletResponse response){
+		
+		try {
+			List<TOrder> orders = userService.findOrderByeUser(userId);
+			request.setAttribute("orderList", orders);
+			request.getRequestDispatcher("/custom/orderList.jsp").forward(request, response);
+			return;
+		} catch (Exception e) {
+			LogBuilder.writeToLog(e.getMessage());
+		}
+	}
 
 }
