@@ -259,7 +259,7 @@
 	   										</c:if>
    											<c:forEach var="address" items="${address}">
 		   										<p><c:out value="接收人：${address.receiverName }"></c:out></p>
-		   										<p><c:out value="地址：${address.adsContent }"></c:out></p>
+		   										<p><c:out value="送货地址：${address.adsContent }"></c:out></p>
 		   										<p><c:out value="联系方式：${address.adsPhone }"></c:out></p>
 		   										<div style="height:25px;width:100%;text-align:right">
 													<div style="float:right;width:50%">
@@ -349,7 +349,7 @@
 											
 										</div>
 
-										<div id="dialog_sureBuy_confirm" class="hide">
+										<div style="height:150px" id="dialog_sureBuy_confirm" class="hide">
 											<font color="red">提示</font>
 											<div class="space-6"></div>
 											<p class="bigger-110 bolder center grey">
@@ -493,6 +493,8 @@
 		function changeStyle(){
 			if(flag.length<1){
 				$("#addAddress").css("display","inline");
+				//$("#sureBuy").attr("disabled",true);
+				$("#cancelAdd").attr("disabled",true);
 			}
 		}
 		$(document).ready(function(){
@@ -501,21 +503,25 @@
 				$("#updateAddress").css("display","");
 				$("#update").attr("disabled",true);
 				$("#add").attr("disabled",true);
+				$("#sureBuy").attr("disabled",true);
 			});
 			$("#add").click(function(){
 				$("#add").attr("disabled",true);
 				$("#update").attr("disabled",true);
+				$("#sureBuy").attr("disabled",true);
 				$("#addAddress").css("display","inline");
 			});
 			$("#cancelUpdate").click(function(){
 				$("#updateAddress").hide();
 				$("#update").attr("disabled",false);
 				$("#add").attr("disabled",false);
+				$("#sureBuy").attr("disabled",false);
 			});
 			$("#cancelAdd").click(function(){
 				$("#addAddress").hide();
 				$("#update").attr("disabled",false);
 				$("#add").attr("disabled",false);
+				$("#sureBuy").attr("disabled",false);
 			});
 			$(".a").keyup(function(){
 				var input=$(".a");
@@ -540,6 +546,9 @@
 				}
 			});
 			$('#sureBuy').click(function (e) {
+				if($("#cancelAdd").attr("disabled")){
+					return;
+				}
                 e.preventDefault();
                 $('#dialog_sureBuy_confirm').removeClass('hide').dialog({
                     resizable: false,

@@ -103,7 +103,7 @@ public class SellerService {
 		gs.setGoodsPic(goods.getGoodsPic());
 		gs.setGoodsPrice(goods.getGoodsPrice());
 		gs.setTGoodstype(goodsType);
-		goodsDao.save(gs);
+		goodsDao.merge(gs);
 	} 
  
  
