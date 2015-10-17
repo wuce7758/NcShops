@@ -248,11 +248,9 @@ public class UserController {
 			TUser user = (TUser) request.getSession().getAttribute("user");
 			List<TAddress> address = null;
 			if (user != null) {
-				TUser tempuser = userService.findUser(user.getOpenId());
 
-				if (tempuser != null) {
-					address = userService.findAddress(tempuser.getUserId());
-					request.getSession().setAttribute("user", tempuser);
+				if (user.getUserId()!=null) {
+					address = userService.findAddress(user.getUserId());
 				}
 			}
 			request.setAttribute("address", address);
@@ -509,6 +507,20 @@ public class UserController {
 		wxMpService = new WxMpServiceImpl();
 		wxMpService.setWxMpConfigStorage(wxMpConfigStorage);
 
+	}
+	
+	@RequestMapping("/findOrdersByUser")
+	public void findOrdersByUser(String userId,HttpServletRequest request,HttpServletResponse response){
+		
+		try {
+			List<TOrder> orders = userService.findOrderByeUser(userId);
+			request.setAttribute("orderList", orders);
+			request.getRequestDispatcher("/custom/OrderList.jsp").forward(request, response);
+			return;
+		} catch (Exception e) {
+			LogBuilder.writeToLog(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 }
