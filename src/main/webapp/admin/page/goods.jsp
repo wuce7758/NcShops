@@ -29,8 +29,6 @@
 	href="http://ace.zcdreams.com/assets/css/jquery-ui.css" />
 <link rel="stylesheet"
 	href="http://ace.zcdreams.com/assets/css/chosen.css" />
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/jquery.gritter.css" />
 <!-- text fonts -->
 <link rel="stylesheet"
 	href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
@@ -300,19 +298,11 @@
 	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.js"></script>
 	<script src="http://malsup.github.io/jquery.form.js"></script>
 	<script
-		src="http://ace.zcdreams.com/assets/js/jquery.ui.touch-punch.js"></script>
-
-	<script type="text/javascript"
-		src="http://ace.zcdreams.com/assets/js/jquery.gritter.js"></script>
-	<script
 		src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.bootstrap.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/bootstrap.min.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/TableTools/js/dataTables.tableTools.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/ColVis/js/dataTables.colVis.js"></script>
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
 		$(document)
