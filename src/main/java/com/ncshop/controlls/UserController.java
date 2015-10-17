@@ -1,5 +1,6 @@
 package com.ncshop.controlls;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -106,6 +108,7 @@ public class UserController {
 		request.setAttribute("goodDetail", sellerGoodsList);
 		request.getRequestDispatcher("/admin/page/goods.jsp").forward(request,
 				response);
+		return;
 	}
 
 	/**
@@ -230,6 +233,7 @@ public class UserController {
 
 				if (tempuser != null) {
 					address = userService.findAddress(tempuser.getUserId());
+					request.getSession().setAttribute("user", tempuser);
 				}
 			}
 			request.setAttribute("address", address);
@@ -250,9 +254,9 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/buy")
-	public String buy(HttpServletRequest request, HttpServletResponse response) {
+	public void buy(HttpServletRequest request, HttpServletResponse response) {
 
-		String msg = "      ";
+		String msg ="";
 		TOrderdetail tOrderdetail = null;
 		try {
 			Set<TOrderdetail> odersdetails = (Set<TOrderdetail>) request
@@ -262,10 +266,11 @@ public class UserController {
 
 			initMessageContext();
 			WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
+			// templateMessage.setToUser(user.getOpenId());
 			templateMessage.setToUser(user.getOpenId());
 			// 发送给下单人的消息
 			templateMessage
-					.setTemplateId("J80K1Uw6c_xDOy-D1btyuPNoi_nKgITtEV3tiwA_bzw");
+					.setTemplateId("IGEJWO5GBj7GOeIKIZJLVYwweZyPqTcfY0uhFu0NHog");
 			templateMessage.setUrl("www.baidu.com");
 			templateMessage.setTopColor("#ff0000");
 			// 计算总金额
@@ -275,32 +280,41 @@ public class UserController {
 				tOrderdetail = (TOrderdetail) iterator.next();
 				orderTotalCost += tOrderdetail.getBuyCost()
 						* tOrderdetail.getBuyMount();
-				msg += tOrderdetail.getTGoods().getGoodsName() + "x"
+				msg += "                 "+tOrderdetail.getTGoods().getGoodsName() + "  x"
 						+ tOrderdetail.getBuyMount() + "\n";
 			}
 
 			TOrder order = new TOrder();
 			order.setOrderState(0);
 			order.setOrderTotalCost(orderTotalCost);
-			order.setUserId(1);
-			order.setSellerId(userService.findSellergoodsByGoodsID(tOrderdetail
-					.getTGoods().getGoodsId()));
+			if (user == null) {
+				order.setUserId(1);
+			} else {
+				order.setUserId(user.getUserId());
+			}
+	TSellergoods sellergoods = userService.findSellergoodsByGoodsID(tOrderdetail.getTGoods().getGoodsId());
+			order.setSellerId(sellergoods.getSeller().getSellerId());
 			order.setOrderTime(new Date());
 			if (userService.order(order, odersdetails)) {
 				// 给用户发送消息
 				templateMessage.getDatas().add(
-						new WxMpTemplateData("orderProductName", "\n" + msg,
+						new WxMpTemplateData("orderId", order.getOrderId()+"",
 								"#173177"));
 				templateMessage.getDatas().add(
-						new WxMpTemplateData("orderMoneySum", orderTotalCost
-								+ "RMB", "#173177"));
+						new WxMpTemplateData("goodsInfo", "\n" + msg,
+								"#173177"));
+				templateMessage.getDatas().add(
+						new WxMpTemplateData("totalCost", orderTotalCost
+								+ " RMB", "#173177"));
+				templateMessage.getDatas().add(
+						new WxMpTemplateData("sellerPonhe", userService.findSellerByID(sellergoods.getSeller().getSellerId()).getSellerPhone(), "#173177"));
 				wxMpService.templateSend(templateMessage);
 
 				// 通知商家有新的订单
 
 				WxMpTemplateMessage toBoss = new WxMpTemplateMessage();
 				toBoss.setToUser("okbTSvpMmbJxwyVbK1_zlhrOXRbM");
-				toBoss.setTemplateId("7oq5rzoc4sJ9-mYUWIb36TBookvArpV-d8sg2MQtKrs");
+				toBoss.setTemplateId("Y1tnm_eiApm6kia7trtGGIywhQJiDpmOAxuOCgeiHaY");
 				toBoss.setUrl("www.baidu.com");
 				toBoss.setTopColor("#ff0000");
 				TAddress address = userService.findAddress(user.getUserId())
@@ -313,15 +327,22 @@ public class UserController {
 						new WxMpTemplateData("address",
 								address.getAdsContent(), "#173177"));
 				toBoss.getDatas().add(
+						new WxMpTemplateData("orderId",
+								order.getOrderId()+"", "#173177"));
+				toBoss.getDatas().add(
+						new WxMpTemplateData("userName",
+								address.getReceiverName(), "#173177"));
+				toBoss.getDatas().add(
 						new WxMpTemplateData("phone", address.getAdsPhone(),
 								"#ff0000"));
 				toBoss.getDatas().add(
-						new WxMpTemplateData("content", "\n" + msg, "#173177"));
+						new WxMpTemplateData("totalCost",orderTotalCost
+								+ " RMB", "#173177"));
+				System.out.println(toBoss.toJson());
+				toBoss.getDatas().add(
+						new WxMpTemplateData("orderInfo", "\n" + msg, "#173177"));
 				System.out.println(toBoss.toJson());
 				wxMpService.templateSend(toBoss);
-			}
-			if (request.getSession().getAttribute("user") != null) {
-				request.getSession().removeAttribute("user");
 			}
 			if (request.getSession().getAttribute("allCost") != null) {
 				request.getSession().removeAttribute("allCost");
@@ -329,14 +350,16 @@ public class UserController {
 			if (request.getSession().getAttribute("odersdetails") != null) {
 				request.getSession().removeAttribute("odersdetails");
 			}
-			request.getRequestDispatcher("/index.jsp").forward(request,
-					response);
-			return null;
+			response.getWriter().write("1");
 		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
 
+			try {
+				response.getWriter().write(e.getMessage());
+			} catch (Exception e1) {
+				e.printStackTrace();
+				e1.printStackTrace();
+			}
+		}
 	}
 
 	/**
@@ -352,21 +375,24 @@ public class UserController {
 		try {
 			TUser user = (TUser) request.getSession().getAttribute("user");
 			if (user != null) {
-				if (user.getUserId() != null) {
+				if (user.getUserId() != null) {// 老用户添加新的默认地址
 					address.setUserId(user.getUserId());
 					if (userService.updateAddress(user.getUserId(), address)) {
 						List<TAddress> findAddress = userService
 								.findAddress(user.getUserId());
 						request.setAttribute("address", findAddress);
 					}
-				} else {
+				} else {// 新用户
 					address.setIsDefault(true);
 					userService.bind(user, address);
+					List<TAddress> firstAdr = new ArrayList<TAddress>();
+					firstAdr.add(address);
+					request.setAttribute("address", firstAdr);
 				}
 			} else {
+				// 本地测试进入
 				address.setIsDefault(true);
 				userService.bind(new TUser(), address);
-
 				List<TAddress> addresses = new ArrayList<TAddress>();
 				addresses.add(address);
 				request.setAttribute("address", addresses);
