@@ -145,6 +145,7 @@ public class UserController {
 		try {
 
 			String page = request.getParameter("page");
+			System.out.println(page);
 			int pageCount;
 			List<TGoods> goodsList = null;
 			TGoodstype goodstype=new TGoodstype();

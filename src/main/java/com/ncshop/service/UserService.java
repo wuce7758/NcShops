@@ -63,7 +63,7 @@ public class UserService {
 		eqs[1]=eq2;
 		return sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(),
 				new String[] { "TGoods", "seller" },
-				eqs, start, max, false);
+				eqs, start, max, true);
 	}
 
 	public List<TGoods> findAllGoods(int start, int max) {
@@ -97,11 +97,17 @@ public class UserService {
 	 */
 	public List<TGoods> findgoods(TGoodstype goodstype,int sellerId, int start, int max) {
 		
+		TSeller seller=new TSeller();
+		seller.setSellerId(sellerId);
 		SimpleExpression eq1 = Restrictions.eq("TGoodstype", goodstype);
-		SimpleExpression[] eqs=new SimpleExpression[1];
+		SimpleExpression eq2 = Restrictions.eq("seller",seller);
+		SimpleExpression eq3 = Restrictions.eq("isSale", true);
+		SimpleExpression[] eqs=new SimpleExpression[2];
 		eqs[0]=eq1;
+		eqs[1]=eq2;
+		eqs[2]=eq3;
 		
-		return goodsDao.getEntitiestNotLazy(new TGoods(),
+		return sellergoodsDAO.getEntitiestNotLazy(new TGoods(),
 				new String[] { "TGoodstype" },
 				eqs, start, max, true);
 	}

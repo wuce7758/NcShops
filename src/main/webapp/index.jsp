@@ -109,7 +109,7 @@
 		</script>
 
 		<!-- #section:basics/sidebar 菜单-->
-		<div id="sidebar" class="sidebar                  responsive">
+		<div id="sidebar" class="sidebar responsive ">
 			<script type="text/javascript">
 				try {
 					ace.settings.check('sidebar', 'fixed');
@@ -119,22 +119,22 @@
 
 			<div class="sidebar-shortcuts" id="sidebar-shortcuts">
 				<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-					<button class="btn btn-success">
-						<i class="ace-icon fa fa-signal"></i>
+					<button onClick="loadGoodsType()" style="width:80px" class="btn btn-success">
+						<i class="ace-icon fa fa-signal">商品分类</i>
 					</button>
 
-					<button class="btn btn-info">
-						<i class="ace-icon fa fa-pencil"></i>
+					<button onClick="loadSeller()" id="seller" style="width:80px" class="btn btn-info">
+						<i class="ace-icon fa fa-pencil">商家店铺</i>
 					</button>
 
 					<!-- #section:basics/sidebar.layout.shortcuts -->
-					<button class="btn btn-warning">
+					<!-- <button class="btn btn-warning">
 						<i class="ace-icon fa fa-users"></i>
 					</button>
 
 					<button class="btn btn-danger">
 						<i class="ace-icon fa fa-cogs"></i>
-					</button>
+					</button> -->
 					<!-- /section:basics/sidebar.layout.shortcuts -->
 				</div>
 
@@ -154,13 +154,13 @@
 					</a>
 					<b class="arrow"></b>
 				</li> -->
-				<li class="">
+				<!-- <li class="">
 					<a href="index.html">
 						<i class="menu-icon fa fa-tachometer"></i>
 						<span class="menu-text">商品类别</span>
 					</a>
 					<b class="arrow"></b>
-				</li>
+				</li> -->
 			</ul>
 			<!-- /.nav-list -->
 
@@ -299,61 +299,106 @@
 	<script src="http://ace.zcdreams.com/assets/js/ace/ace.sidebar.js"></script>
 
 	<!-- inline scripts related to this page -->
-	<script type="text/javascript">
+	<script type="text/javascript">		
 		function loadGoodsType(){
 			$.ajax({
 						type : "get",
 						url : "${pageContext.request.contextPath}/seller/getAllGoodsType",
 						dataType : "json",
 						success : function(data) {
+							$("#goodsType").html("");
 							for ( var i = 0; i < data.TGoodstype.length; i++) {
 								var item = "";
-								item= "<li class=''>"+
-											"<a href='${pageContext.request.contextPath}/user/findGoodsByType?page=1&goodsTypeId="+data.TGoodstype[i].goodsTypeId+"'>"+
+								item= "<li class='lis'>"+
+											"<a href='javascript:loadGoodsData(1,"+data.TGoodstype[i].goodsTypeId+")'>"+
 												"<i class='menu-icon fa fa-tachometer'></i>"+
 												"<span class='menu-text'>"+data.TGoodstype[i].goodsTypeName+"</span>"+
 											"</a>"+
 											"<b class='arrow'></b>"+
 										"</li>";
-								/* if (i != data.TGoods.length) {
-									item += "<hr class='col-xs-12' style='margin-top:2px;margin-bottom:5px'>";
-								} */
 								$("#goodsType").append(item);
 							}
 						}
 					});
 		}
-		var pageNum = "1";
-		var flag = 0;
-		function loadData() {
-			if (flag != 0) {
-				return;
-			}
-			$
-					.ajax({
+		function loadSeller(){
+			$.ajax({
 						type : "get",
-						url : "user/findAllGoods",
-						data : {
-							page : pageNum
-						},
+						url : "${pageContext.request.contextPath}/seller/getAllSeller",
 						dataType : "json",
 						success : function(data) {
-							if (data.TGoods == null || data.TGoods.length < 1) {
-								flag = 1;
-								return;
-							}
-							if (data.TGoods.length < 10) {
-								flag = 1;
-							} else if (data.TGoods.length = 10) {
-								pageNum++;
-							}
-							for ( var i = 0; i < data.TGoods.length; i++) {
+							$("#goodsType").html("");
+							for ( var i = 0; i < data.TSeller.length; i++) {
 								var item = "";
-								var item = "<div class='form-group col-xs-12 goods'>"
-										+ "<div class='col-xs-6'>"
-										+ "<img src='${pageContext.request.contextPath}/images/"+data.TGoods[i].goodsPic+"' class='img-responsive img-rounded' alt='Responsive image' />"
-										+ "</div>"
-										+ "<div class='col-xs-6'>"
+								item= "<li class='lis'>"+
+											"<a href='javascript:loadGoodsData(1,"+data.TSeller[i].sellerId+")'>"+
+												"<i class='menu-icon fa fa-tachometer'></i>"+
+												"<span class='menu-text'>"+data.TSeller[i].sellerName+"</span>"+
+											"</a>"+
+											"<b class='arrow'></b>"+
+										"</li>";
+								$("#goodsType").append(item);
+							}
+						}
+					});
+		}
+		var preGoodsType="";
+		var flag2="byType";
+		var page2 = "1";
+		var flag1 = "index";
+		var page1 = "1";
+		function loadGoodsData(goodPage,goodsTypeId) {
+			$("#sidebar").removeClass("display");
+			if (flag2 != "byType") {
+				return;
+			}
+			if(preGoodsType!=goodsTypeId){
+				preGoodsType=goodsTypeId;
+				$("#goodsList").html("");
+			}
+			$.ajax({
+						type : "get",
+						url : "user/findgoodsByType",
+						data : {"page" : goodPage,"goodsTypeId":preGoodsType},
+						dataType : "json",
+						success : function(data){
+							check(data,flag2,page2);
+						}
+			});
+		}
+		function check(data,flag,page) {
+			debugger;
+			if (data.TGoods == null || data.TGoods.length < 1) {
+				if(flag=="index"){
+					flag1 = "end";
+				}
+				if(flag=="byType"){
+					flag2 = "end";
+				}
+				return;
+			}
+			if (data.TGoods.length < 10) {
+				if(flag=="index"){
+					flag1 = "end";
+				}
+				if(flag=="byType"){
+					flag2 = "end";
+				}
+			} else if (data.TGoods.length = 10) {
+				if(flag=="index"){
+					page1++;
+				}
+				if(flag=="byType"){
+					page2++;
+				}
+			}
+			for( var i = 0; i < data.TGoods.length; i++) {
+				var item = "";
+				var item = "<div class='form-group col-xs-12 goods'>"
+								+"<div class='col-xs-6'>"
+									+"<img src='${pageContext.request.contextPath}/images/"+data.TGoods[i].goodsPic+"' class='img-responsive img-rounded' alt='Responsive image' />"
+								+"</div>"
+							+"<div class='col-xs-6'>"
 										+ "<p>"
 										+ data.TGoods[i].goodsName
 										+ "</p>"
@@ -381,8 +426,22 @@
 								}
 								$("#goodsList").append(item);
 							}
-						}
-					});
+		}
+		
+		function loadData() {
+			debugger;
+			if (flag1 != "index") {
+				return;
+			}
+			$.ajax({
+				type : "get",
+				url : "user/findAllGoods",
+				data : {"page" : page1},
+				dataType : "json",
+				success : function(data){
+						check(data,flag1,page1);
+				}
+			});
 		}
 		var count=0;
 		function downclick(obj) {
@@ -419,15 +478,18 @@
 		}
 		$(function() {
 			loadData();
-			$(window).scroll(
-					function() {
-						if ($(document).height() - $(this).scrollTop()
-								- $(this).height() < 20) {
+			$(window).scroll(function() {
+					if ($(document).height() - $(this).scrollTop()- $(this).height() < 20) {
+						if(flag2!="end"){
+							loadGoodsData(page2,preGoodsType);
+						}
+						if(flag1!="end"){
 							loadData();
 						}
-					});
+					}
+			});
 		});
-		jQuery(function($) {
+		/* jQuery(function($) {
 			$('.spinner').ace_spinner({
 				value : 0,
 				min : 0,
@@ -439,7 +501,7 @@
 				btn_up_class : 'btn-success',
 				btn_down_class : 'btn-danger'
 			});
-		});
+		}); */
 		function goBuy(){
 			var goodsItem=$("input.spinner");
 			var jsonString="{\"array\":[";
