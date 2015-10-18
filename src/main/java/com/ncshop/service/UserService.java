@@ -63,7 +63,7 @@ public class UserService {
 		eqs[1]=eq2;
 		return sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(),
 				new String[] { "TGoods", "seller" },
-				eqs, start, max, false);
+				eqs, start, max, true);
 	}
 
 	public List<TGoods> findAllGoods(int start, int max) {
