@@ -228,7 +228,7 @@
 								<div id="accordion" class="accordion-style2">
 									<c:forEach var="order" items="${requestScope.orderList}">
 									<div class="group">
-										<h3 class="accordion-header">下单时间：${order.orderTime }</h3>
+										<h3 class="accordion-header">下单时间：<c:out value="${fn:replace(order.orderTime,'.0','') }"></c:out></h3>
 	
 										<div id="timeline-1">
 											<div class="row">
@@ -251,7 +251,7 @@
 																<div class="timeline-info">
 																	<img alt="Susan't Avatar"
 																		src="http://ace.zcdreams.com/assets/avatars/avatar1.png" />
-																	<span class="label label-info label-sm">${order.orderTime }</span>
+																	<span class="label label-info label-sm"><c:out value="${fn:replace(fn:substring(order.orderTime,0,10),'-','') }"></c:out></span>
 																</div>
 	
 																<!-- /section:pages/timeline.info -->
@@ -263,7 +263,7 @@
 	
 																		<span class="widget-toolbar no-border"> <i
 																			class="ace-icon fa fa-clock-o bigger-110"></i>
-																			${order.orderTime } </span> <span class="widget-toolbar">
+																			<c:out value="${fn:replace(order.orderTime,'.0','') }"></c:out> </span> <span class="widget-toolbar">
 																			<!--  <a
 																			href="#" data-action="reload"> <i
 																				class="ace-icon fa fa-refresh"></i> </a>  --><a href="#"
@@ -411,9 +411,9 @@
 			role="navigation">
 			<ul class="nav navbar-nav">
 				<li class="green col-xs-4"><a
-					href="${pageContext.request.contextPath }/index.jsp"> <i
+					href="${pageContext.request.contextPath }/index.jsp"> <i  style="margin-left: 9px"
 						class="ace-icon fa fa-home icon-animated-vertical"></i> 商品首页 </a></li>
-				<li class="green col-xs-4"><a href="/person.jsp"> <i
+				<li class="green col-xs-4"><a href="/person.jsp"> <i  style="margin-left: 9px"
 						class="ace-icon fa fa-user icon-animated-vertical"></i> 个人中心 </a></li>
 				<li class="green col-xs-4"><a id="sureBuy"
 					href="javascript:void(0)"> <i

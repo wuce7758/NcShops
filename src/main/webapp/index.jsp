@@ -227,12 +227,12 @@
 			<ul class="nav navbar-nav">
 				<li class="green col-xs-4">
 					<a href="${pageContext.request.contextPath }/index.jsp">
-						<i class="ace-icon fa fa-home icon-animated-vertical"></i>
+						<i style="margin-left: 9px" class="ace-icon fa fa-home icon-animated-vertical"></i>
 						商品首页
 					</a>
 				</li>
 				<li class="green col-xs-4">
-					<a href="${pageContext.request.contextPath }/custom/person.jsp">
+					<a style="margin-left: 9px" href="${pageContext.request.contextPath }/custom/person.jsp">
 						<i class="ace-icon fa fa-user icon-animated-vertical"></i>
 						个人中心
 					</a>

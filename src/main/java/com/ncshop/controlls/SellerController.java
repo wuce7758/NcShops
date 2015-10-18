@@ -23,8 +23,10 @@ import com.ncshop.domain.TGoods;
 import com.ncshop.domain.TGoodstype;
 import com.ncshop.domain.TOrder;
 import com.ncshop.domain.TSeller;
+import com.ncshop.domain.TSellergoods;
 import com.ncshop.domain.TUser;
 import com.ncshop.service.SellerService;
+import com.ncshop.service.UserService;
 import com.ncshop.util.TargetStrategy;
 
 @Controller
@@ -33,6 +35,8 @@ public class SellerController {
 
 	@Autowired
 	private SellerService sellerService;
+	@Autowired
+	private UserService userService;
 
 	/**
 	 * 用户登陆
@@ -41,17 +45,17 @@ public class SellerController {
 	 */
 	@RequestMapping("/sellerLogin")
 	public void sellerLogin(HttpServletRequest request,HttpServletResponse response,String sellerName,String sellerPhone) throws ServletException, IOException{
-		//if(sellerName=="admin123"&&sellerPhone=="123"){
+		if(sellerName.equals("admin123")&&sellerPhone.equals("123")){
 			//TSeller seller=sellerService.sellerLogin(sellerName,sellerPhone);
-			List<TGoods> list= sellerService.findAllGoods();
-			request.setAttribute("allGoods",list);
+			List<TSellergoods> list= userService.findGoodsdetail();
+			request.setAttribute("goodDetail",list);
 			//request.getSession().setAttribute("seller", seller);
 			request.getRequestDispatcher("/admin/page/goods.jsp").forward(request, response);
-		//}else{
-			//request.getSession().setAttribute("sellerName", "用户名错误！");
-			//request.getSession().setAttribute("sellerPassword", "用户名密码错误！");
-			//request.getRequestDispatcher("/login.jsp").forward(request, response);
-		//}
+		}else{
+			request.getSession().setAttribute("sellerName", "用户名错误！");
+			request.getSession().setAttribute("sellerPassword", "用户名密码错误！");
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
 	}
 	/**
 	 * 根据订单状态和微信标识查找某店铺订单
