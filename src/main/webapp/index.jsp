@@ -362,9 +362,10 @@
 			if(object!=null){
 				var nav= $(object).text();
 				$(".active").text(nav);
-				obj=object;
-			}else{
-				$("#goodsList").html("");
+				if(obj!=object){
+					$("#goodsList").html("");
+					obj=object;
+				}
 			}
 			$("#sidebar").removeClass("display");
 			if (flag != "2") {
@@ -390,9 +391,10 @@
 			if(object!=null){
 				var nav= $(object).attr("name");
 				$(".active").text(nav);
-				obj=object;
-			}else{
-				$("#goodsList").html("");
+				if(obj!=object){
+					$("#goodsList").html("");
+					obj=object;
+				}
 			}
 			$("#sidebar").removeClass("display");
 			if (flag != "3") {
