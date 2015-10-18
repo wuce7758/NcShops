@@ -411,9 +411,9 @@
 			role="navigation">
 			<ul class="nav navbar-nav">
 				<li class="green col-xs-4"><a
-					href="${pageContext.request.contextPath }/index.jsp"> <i
+					href="${pageContext.request.contextPath }/index.jsp"> <i  style="margin-left: 9px"
 						class="ace-icon fa fa-home icon-animated-vertical"></i> 商品首页 </a></li>
-				<li class="green col-xs-4"><a href="/person.jsp"> <i
+				<li class="green col-xs-4"><a href="/person.jsp"> <i  style="margin-left: 9px"
 						class="ace-icon fa fa-user icon-animated-vertical"></i> 个人中心 </a></li>
 				<li class="green col-xs-4"><a id="sureBuy"
 					href="javascript:void(0)"> <i
