@@ -225,7 +225,7 @@ public class SellerController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/getUserById")
-	public void getUserById(HttpServletRequest request,HttpServletResponse response,int userId) throws Exception {
+	public void getUserById(HttpServletResponse response,int userId) throws Exception {
 		// 调用service查找 数据库
 		List<TUser> list=sellerService.getUserById(userId);
 		String json=toJson(new TUser(),list,null);
@@ -238,7 +238,7 @@ public class SellerController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/getSellerById")
-	public void getSellerById(HttpServletRequest request,HttpServletResponse response,int sellerId) throws Exception {
+	public void getSellerById(HttpServletResponse response,int sellerId) throws Exception {
 		// 调用service查找 数据库
 		List<TSeller> list=sellerService.getSellerById(sellerId);
 		String json=toJson(new TSeller(),list,null);

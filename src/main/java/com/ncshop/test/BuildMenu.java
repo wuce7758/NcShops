@@ -23,11 +23,11 @@ public class BuildMenu {
 
 	public BuildMenu setConfig() {
 		wxMpConfigStorage = new WxMpInMemoryConfigStorage();
-		wxMpConfigStorage.setAppId("wxd8276cabf8323d91"); // 设置微信公众号的appid
-		wxMpConfigStorage.setSecret("64f28217f2ea488418026fac44506e4b"); // 设置微信公众号的app
+		wxMpConfigStorage.setAppId("wxec48cdf4c8092120"); // 设置微信公众号的appid
+		wxMpConfigStorage.setSecret("4d5204569f65800a6e6eb56323602075"); // 设置微信公众号的app
 																			// corpSecret
-		wxMpConfigStorage.setToken("ncshops"); // 设置微信公众号的token
-		wxMpConfigStorage.setAesKey("ncshops"); // 设置微信公众号的EncodingAESKey
+		wxMpConfigStorage.setToken("ncshop"); // 设置微信公众号的token
+		wxMpConfigStorage.setAesKey("8m7FKNw51XNOIdSvtItmnvBF23W4ROTD0u2u3Sjzd1s"); // 设置微信公众号的EncodingAESKey
 
 		wxMpService = new WxMpServiceImpl();
 		wxMpService.setWxMpConfigStorage(wxMpConfigStorage);

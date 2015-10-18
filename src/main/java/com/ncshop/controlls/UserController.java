@@ -1,6 +1,5 @@
 package com.ncshop.controlls;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,13 +18,12 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
+import me.chanjar.weixin.mp.bean.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.WxMpXmlOutTextMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import sun.rmi.runtime.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -55,6 +52,8 @@ public class UserController {
 	private WxMpInMemoryConfigStorage wxMpConfigStorage;
 	private WxMpService wxMpService;
 	private WxMpMessageRouter wxMpMessageRouter;
+	private ConfigDao configDao;
+	private ConfigInfo configInfo;
 
 	/**
 	 * 查找所有店铺信息
@@ -282,15 +281,7 @@ public class UserController {
 			double orderTotalCost = 0.0;
 			TUser user = (TUser) request.getSession().getAttribute("user");
 
-			initMessageContext();
-			WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
-			// templateMessage.setToUser(user.getOpenId());
-			templateMessage.setToUser(user.getOpenId());
-			// 发送给下单人的消息
-			templateMessage
-					.setTemplateId("IGEJWO5GBj7GOeIKIZJLVYwweZyPqTcfY0uhFu0NHog");
-			templateMessage.setUrl("www.baidu.com");
-			templateMessage.setTopColor("#ff0000");
+			
 			// 计算总金额
 
 			for (Iterator iterator = odersdetails.iterator(); iterator
@@ -316,59 +307,71 @@ public class UserController {
 					.findSellergoodsByGoodsID(tOrderdetail.getTGoods()
 							.getGoodsId());
 			order.setSellerId(sellergoods.getSeller().getSellerId());
-			order.setOrderTime(new Date());
 			if (userService.order(order, odersdetails)) {
-				// 给用户发送消息
-				templateMessage.getDatas().add(
-						new WxMpTemplateData("orderId", order.getOrderNo(),
-								"#173177"));
-				templateMessage.getDatas()
-						.add(new WxMpTemplateData("goodsInfo", "\n" + msg,
-								"#173177"));
-				templateMessage.getDatas().add(
-						new WxMpTemplateData("totalCost", orderTotalCost
-								+ " RMB", "#173177"));
-				templateMessage.getDatas().add(
-						new WxMpTemplateData("sellerPonhe", userService
-								.findSellerByID(
-										sellergoods.getSeller().getSellerId())
-								.getSellerPhone(), "#173177"));
-				wxMpService.templateSend(templateMessage);
-
-				// 通知商家有新的订单
-
-				WxMpTemplateMessage toBoss = new WxMpTemplateMessage();
-				toBoss.setToUser("okbTSvpMmbJxwyVbK1_zlhrOXRbM");
-				toBoss.setTemplateId("Y1tnm_eiApm6kia7trtGGIywhQJiDpmOAxuOCgeiHaY");
-				toBoss.setUrl("www.baidu.com");
-				toBoss.setTopColor("#ff0000");
-				TAddress address = userService.findAddress(user.getUserId())
-						.get(0);
-
-				// TAddress address =new TAddress();
-				// address.setAdsContent("sadas");
-				// address.setAdsPhone("2312412");
-				toBoss.getDatas().add(
-						new WxMpTemplateData("address",
-								address.getAdsContent(), "#173177"));
-				toBoss.getDatas().add(
-						new WxMpTemplateData("orderId", order.getOrderNo(),
-								"#173177"));
-				toBoss.getDatas().add(
-						new WxMpTemplateData("userName", address
-								.getReceiverName(), "#173177"));
-				toBoss.getDatas().add(
-						new WxMpTemplateData("phone", address.getAdsPhone(),
-								"#ff0000"));
-				toBoss.getDatas().add(
-						new WxMpTemplateData("totalCost", orderTotalCost
-								+ " RMB", "#173177"));
-				System.out.println(toBoss.toJson());
-				toBoss.getDatas()
-						.add(new WxMpTemplateData("orderInfo", "\n" + msg,
-								"#173177"));
-				System.out.println(toBoss.toJson());
-				wxMpService.templateSend(toBoss);
+//				// 给用户发送消息
+//				initMessageContext();
+//				WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
+//				// templateMessage.setToUser(user.getOpenId());
+//				templateMessage.setToUser(user.getOpenId());
+//				// 发送给下单人的消息
+//				templateMessage
+//						.setTemplateId("IGEJWO5GBj7GOeIKIZJLVYwweZyPqTcfY0uhFu0NHog");
+//				templateMessage.setUrl("www.baidu.com");
+//				templateMessage.setTopColor("#ff0000");
+//				templateMessage.getDatas().add(
+//						new WxMpTemplateData("orderId", order.getOrderNo(),
+//								"#173177"));
+//				templateMessage.getDatas()
+//						.add(new WxMpTemplateData("goodsInfo", "\n" + msg,
+//								"#173177"));
+//				templateMessage.getDatas().add(
+//						new WxMpTemplateData("totalCost", orderTotalCost
+//								+ " RMB", "#173177"));
+//				templateMessage.getDatas().add(
+//						new WxMpTemplateData("sellerPonhe", userService
+//								.findSellerByID(
+//										sellergoods.getSeller().getSellerId())
+//								.getSellerPhone(), "#173177"));
+//				wxMpService.templateSend(templateMessage);
+//
+//				// 通知商家有新的订单
+//
+//				WxMpTemplateMessage toBoss = new WxMpTemplateMessage();
+//				toBoss.setToUser("okbTSvpMmbJxwyVbK1_zlhrOXRbM");
+//				toBoss.setTemplateId("Y1tnm_eiApm6kia7trtGGIywhQJiDpmOAxuOCgeiHaY");
+//				toBoss.setUrl("www.baidu.com");
+//				toBoss.setTopColor("#ff0000");
+//				TAddress address = userService.findAddress(user.getUserId())
+//						.get(0);
+//
+//				// TAddress address =new TAddress();
+//				// address.setAdsContent("sadas");
+//				// address.setAdsPhone("2312412");
+//				toBoss.getDatas().add(
+//						new WxMpTemplateData("address",
+//								address.getAdsContent(), "#173177"));
+//				toBoss.getDatas().add(
+//						new WxMpTemplateData("orderId", order.getOrderNo(),
+//								"#173177"));
+//				toBoss.getDatas().add(
+//						new WxMpTemplateData("userName", address
+//								.getReceiverName(), "#173177"));
+//				toBoss.getDatas().add(
+//						new WxMpTemplateData("phone", address.getAdsPhone(),
+//								"#ff0000"));
+//				toBoss.getDatas().add(
+//						new WxMpTemplateData("totalCost", orderTotalCost
+//								+ " RMB", "#173177"));
+//				System.out.println(toBoss.toJson());
+//				toBoss.getDatas()
+//						.add(new WxMpTemplateData("orderInfo", "\n" + msg,
+//								"#173177"));
+//				System.out.println(toBoss.toJson());
+//				wxMpService.templateSend(toBoss);
+				
+				WxMpXmlOutTextMessage m = WxMpXmlOutMessage.TEXT()
+						.content(msg).fromUser(configInfo.getWeChatOriginalID())
+						.toUser(user.getOpenId()).build();
 			}
 			if (request.getSession().getAttribute("allCost") != null) {
 				request.getSession().removeAttribute("allCost");
@@ -498,8 +501,8 @@ public class UserController {
 	}
 
 	private void initMessageContext() {
-		ConfigDao configDao = new ConfigDao();
-		ConfigInfo configInfo = configDao.GetConfig();
+		configDao = new ConfigDao();
+		configInfo = configDao.GetConfig();
 		wxMpConfigStorage = new WxMpInMemoryConfigStorage();
 		wxMpConfigStorage.setAppId(configInfo.getWeChatAppID()); // 设置微信公众号的appid
 		wxMpConfigStorage.setSecret(configInfo.getWeChatAppSecret()); // 设置微信公众号的app

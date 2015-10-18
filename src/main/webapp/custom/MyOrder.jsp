@@ -26,7 +26,8 @@
 <link rel="stylesheet" href="../plugins/fonts/font-awesome.css" />
 
 <!-- page specific plugin styles -->
-
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/jquery-ui.css" />
 <!-- text fonts -->
 <link rel="stylesheet"
 	href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />

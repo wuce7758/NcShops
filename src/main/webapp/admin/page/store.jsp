@@ -83,7 +83,8 @@
 					<ul class="breadcrumb">
 						<li><i class="ace-icon fa fa-home home-icon"></i><a href="#">商城管理系统</a>
 						</li>
-						<li><a href="#">商品管理</a></li>
+						<li><a href="#">商品管理</a>
+						</li>
 					</ul>
 					<jsp:include page="../WebPart/SearchBox.jsp"></jsp:include>
 				</div>
@@ -103,26 +104,36 @@
 								<thead>
 									<tr>
 										<th class="center"><label class="pos-rel"> <input
-												type="checkbox" class="ace" /> <span class="lbl"></span> </label>
+												type="checkbox" class="ace" /> <span class="lbl"></span> </label></th>
+										<th><small>ID</small>
 										</th>
-										<th><small>ID</small></th>
-										<th><small>商店名称</small></th>
-										<th><small>商户姓名</small></th>
-										<th><small>商店地址</small></th>
-										<th><small>配送费用（元）</small></th>
-										<th><small>最低消费（元）</small></th>
-										<th><small>加盟时间</small></th>
-										<th><small>加盟期限（个月）</small></th>
-										<th><small>商家简介</small></th>
-										<th><small>商家状态</small></th>
+										<th><small>名称</small>
+										</th>
+										<th><small>姓名</small>
+										</th>
+										<th><small>电话</small>
+										</th>
+										<th><small>商店地址</small>
+										</th>
+										<!-- <th><small>配送费用（元）</small>
+										</th>
+										<th><small>最低消费（元）</small>
+										</th> -->
+										<th><small>加盟时间</small>
+										</th>
+										<!-- <th><small>加盟期限（个月）</small>
+										</th> -->
+										<th><small>商家简介</small>
+										</th>
+										<th><small>商家状态</small>
+										</th>
 										<th>
 											<p class="text-center">
 												<a class="blue buttongoods" href="javascript:void(0)"
 													id="buttonadd" oper="add"> <i
 													class="fa fa-plus-square-o bigger-130"><small>添加商家</small>
 												</i> </a>
-											</p>
-										</th>
+											</p></th>
 									</tr>
 								</thead>
 
@@ -134,21 +145,23 @@
 													type="checkbox" class="ace" /> <span class="lbl"></span> </label>
 											</td>
 											<td>${trl.sellerId}</td>
-											<td class="hidden-480">${trl.shopName}</td>
-											<td class="hidden-480">${trl.sellerName}</td>
-											<td class="hidden-480"><a class="goodSellerPopover"
+											<td>${trl.shopName}</td>
+											<td>${trl.sellerName}</td>
+											<td>${trl.sellerPhone}</td>
+											<td><a name="sellerAddPopover"
 												href="javascript:void(0);" data-container="body"
 												data-placement="bottom"
-												data-content="${trl.shopName}&nbsp;
-																  ${trl.sellerPhone}&nbsp;
-																  ${trl.sellerAddress}">
-													${trl.sellerAddress} </a>
-											</td>
-											<td class="hidden-480">${trl.deliverMoney}</td>
-											<td> ${trl.minBuy}</td>
+												data-content="${trl.sellerAddress}">
+													</a></td>
+											<%-- <td class="hidden-480">${trl.deliverMoney}</td>
+											<td>${trl.minBuy}</td> --%>
 											<td class="hidden-480">${trl.joinTime}</td>
-											<td class="hidden-480">${trl.joinDeadline}</td>
-											<td class="hidden-480">${trl.sellerMsg}</td>
+											<%-- <td class="hidden-480">${trl.joinDeadline}</td> --%>
+											<td class="hidden-480"><a name="sellerMsgPopover"
+												href="javascript:void(0);" data-container="body"
+												data-placement="bottom"
+												data-content="${trl.sellerMsg}">
+													</a></td>
 											<td id="goodsIsSale${trl.sellerId}"><span
 												class="label label-sm " name="goodsIsSale${trl.isValid}">${trl.isValid}</span>
 											</td>
@@ -161,11 +174,11 @@
 														name="${trl.sellerId}" oper="modify"> <i
 														class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
 														class="red buttongoods" href="javascript:void(0)"
-														name="${trl.sellerId}" oper="delete"
-														> <i
-														id="goodsIsSaleAction${trl.sellerId}"
+														name="${trl.sellerId}" oper="delete">
+														<i id="goodsIsSaleAction${trl.sellerId}"
 														class="fa fa-toggle-off bigger-130"
-														name="goodsIsSaleAction${trl.isValid}" state="${trl.isValid}"></i> </a>
+														name="goodsIsSaleAction${trl.isValid}"
+														state="${trl.isValid}"></i> </a>
 												</div>
 												<div class="hidden-md hidden-lg">
 													<div class="inline pos-rel">
@@ -180,23 +193,26 @@
 																name="${trl.sellerId}" onclick="GetDetail(this)"
 																class="tooltip-info" data-rel="tooltip" title="View">
 																	<span class="blue"> <i
-																		class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a></li>
+																		class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a>
+															</li>
 
 															<li><a href="javascript:void(0)"
 																name="${trl.sellerId}" onclick="Modify(this)"
 																class="tooltip-success" data-rel="tooltip" title="Edit">
 																	<span class="green"> <i
 																		class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																</span> </a></li>
+																</span> </a>
+															</li>
 
-															<li><a
-																href="ClassDelete?classId=${trl.sellerId}"
+															<li><a href="ClassDelete?classId=${trl.sellerId}"
 																class="tooltip-error" data-rel="tooltip" title="Delete">
 																	<span class="red"> <i
-																		class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a></li>
+																		class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a>
+															</li>
 														</ul>
 													</div>
-												</div></td>
+												</div>
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -206,67 +222,84 @@
 
 						<div id="dialog-message" class="hide">
 							<form id="formgoodsinfo">
-								<input disabled type="hidden" name="sellerId" value="0" id="sellerId" />
+								<input disabled type="hidden" name="sellerId" value="0"
+									id="sellerId" />
 								<div class="col-sm-12">
 									<!-- 商店名称 -->
 									<div class="form-group col-sm-12">
-										<label for="form-field-0" class="col-sm-3 control-label no-padding-right">店名:</label>
+										<label for="form-field-0"
+											class="col-sm-3 control-label no-padding-right">店名:</label>
 										<div class="col-sm-9">
-											<input type="text" id="form-field-0" name="shopName" placeholder="商店名称" class="col-xs-12 col-sm-12" />
+											<input type="text" id="form-field-0" name="shopName"
+												placeholder="商店名称" class="col-xs-12 col-sm-12" />
 										</div>
 									</div>
 									<!-- 商家姓名 -->
 									<div class="form-group col-sm-12">
-										<label for="form-field-1" class="col-sm-3 control-label no-padding-right">姓名:</label>
+										<label for="form-field-1"
+											class="col-sm-3 control-label no-padding-right">姓名:</label>
 										<div class="col-sm-9">
-											<input type="text" id="form-field-1" name="sellerName" placeholder="商家姓名" class="col-xs-12 col-sm-12" />
+											<input type="text" id="form-field-1" name="sellerName"
+												placeholder="商家姓名" class="col-xs-12 col-sm-12" />
 										</div>
 									</div>
 									<!-- 商家电话 -->
 									<div class="form-group col-sm-12">
-										<label for="form-field-2" class="col-sm-3 control-label no-padding-right">电话:</label>
+										<label for="form-field-2"
+											class="col-sm-3 control-label no-padding-right">电话:</label>
 										<div class="col-sm-9">
-											<input onkeyup="value=value.replace(/[^0-9]/g,'')" type="text" id="form-field-2" name="sellerPhone" placeholder="商家联系方式" class="col-xs-12 col-sm-12" />
+											<input onkeyup="value=value.replace(/[^0-9]/g,'')"
+												type="text" id="form-field-2" name="sellerPhone"
+												placeholder="商家联系方式" class="col-xs-12 col-sm-12" />
 										</div>
 									</div>
 									<!-- 配送费用 -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-3" class="col-sm-3 control-label no-padding-right">运费:</label>
+									<!-- <div class="form-group col-sm-12">
+										<label for="form-field-3"
+											class="col-sm-3 control-label no-padding-right">运费:</label>
 										<div class="col-sm-9">
-											<input onkeyup="value=value.replace(/[^0-9|.]/g,'')" type="text" id="form-field-3" name="deliverMoney"
+											<input onkeyup="value=value.replace(/[^0-9|.]/g,'')"
+												type="text" id="form-field-3" name="deliverMoney"
 												placeholder="配送费用" class="col-xs-12 col-sm-12" />
 										</div>
-									</div>
+									</div> -->
 									<!-- 最低费用 -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-4" class="col-sm-3 control-label no-padding-right">消费：</label>
+									<!-- <div class="form-group col-sm-12">
+										<label for="form-field-4"
+											class="col-sm-3 control-label no-padding-right">消费：</label>
 										<div class="col-sm-9">
-											<input onkeyup="value=value.replace(/[^0-9|.]/g,'')" type="text" id="form-field-4" name="minBuy"
+											<input onkeyup="value=value.replace(/[^0-9|.]/g,'')"
+												type="text" id="form-field-4" name="minBuy"
 												placeholder="最低消费" class="col-xs-12 col-sm-12" />
 										</div>
-									</div>
+									</div> -->
 									<!-- 最低费用 -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-5" class="col-sm-3 control-label no-padding-right">期限:</label>
+									<!-- <div class="form-group col-sm-12">
+										<label for="form-field-5"
+											class="col-sm-3 control-label no-padding-right">期限:</label>
 										<div class="col-sm-9">
-											<input onkeyup="value=value.replace(/[^0-9]/g,'')" type="text" id="form-field-5" name="joinDeadline"
+											<input onkeyup="value=value.replace(/[^0-9]/g,'')"
+												type="text" id="form-field-5" name="joinDeadline"
 												placeholder="加盟期限" class="col-xs-12 col-sm-12" />
 										</div>
-									</div>
+									</div> -->
 									<!--  -->
 									<div class="form-group col-sm-12">
-										<label for="form-field-6" class="col-sm-3 control-label no-padding-right">地址:</label>
+										<label for="form-field-6"
+											class="col-sm-3 control-label no-padding-right">地址:</label>
 										<div class="col-sm-9">
-											<input type="text" name="sellerAddress" id="form-field-6" placeholder="商家地址" class="col-xs-12 col-sm-12" />
+											<input type="text" name="sellerAddress" id="form-field-6"
+												placeholder="商家地址" class="col-xs-12 col-sm-12" />
 										</div>
 									</div>
 									<!-- 商家简介 -->
 									<div class="form-group col-sm-12">
-										<label for="form-field-7" class="col-sm-3 control-label no-padding-right">简介:</label>
+										<label for="form-field-7"
+											class="col-sm-3 control-label no-padding-right">简介:</label>
 										<div class="col-sm-9">
 											<textarea id="form-field-7"
-												class="autosize-transition form-control" name="sellerMsg" placeholder="商家说明"
-												maxlength="100"></textarea>
+												class="autosize-transition form-control" name="sellerMsg"
+												placeholder="商家说明" maxlength="100"></textarea>
 										</div>
 									</div>
 								</div>
@@ -293,6 +326,7 @@
 		<jsp:include page="../WebPart/CopyRight.jsp"></jsp:include>
 	</div>
 	<jsp:include page="../WebPart/Script.jsp"></jsp:include>
+	<jsp:include page="../WebPart/Script.jsp"></jsp:include>
 	<!-- page specific plugin scripts -->
 	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.js"></script>
 	<script src="http://malsup.github.io/jquery.form.js"></script>
@@ -312,52 +346,65 @@
 		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/ColVis/js/dataTables.colVis.js"></script>
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
-		$(document).ready(
-			function() {
-				//获取商品类型
-				$.ajax({
-					type : "post",
-					url : "${pageContext.request.contextPath }/seller/getAllGoodsType",
-					dataType : "json",
-					async : false,
-					/*这句可用可不用，没有影响*/
-					contentType : "application/json; charset=utf-8",
-					success : function(data) {
-								var goodstypes = JSON.stringify(data.TGoodstype);
-								var obj = JSON.parse(goodstypes);
-								for ( var i = 0; i < obj.length; i++) {
-									$("#goodsType").append("<option value='"+obj[i].goodsTypeId+"'>"
-														+ obj[i].goodsTypeName
-														+ "</option>");
-							}
-					},
-					error : function(XMLHttpRequest,textStatus, errorThrown) {
-								alert(errorThrown);
-							}
-					});
-				//获取店铺信息类型
-				$.ajax({
-					type : "post",
-					url : "${pageContext.request.contextPath }/seller/getAllSeller",
-					dataType : "json",
-					async : false,
-					/*这句可用可不用，没有影响*/
-					contentType : "application/json; charset=utf-8",
-					success : function(data) {
-						var goodstypes = JSON.stringify(data.TSeller);
-								var obj = JSON.parse(goodstypes);
-								for ( var i = 0; i < obj.length; i++) {
-									$("#goodsShop").append("<option value='"+obj[i].sellerId+"'>"
-															+ obj[i].shopName
-															+ "</option>");
-									}
-							},
-					error : function(XMLHttpRequest,textStatus, errorThrown) {
-								alert(errorThrown);
-							}
-					});
-					//图片上传 及数据保存 
-					$("#goodssave").click(function() {
+		$(document)
+				.ready(
+						function() {
+							//获取商品类型
+							$
+									.ajax({
+										type : "post",
+										url : "${pageContext.request.contextPath }/seller/getAllGoodsType",
+										dataType : "json",
+										async : false,
+										/*这句可用可不用，没有影响*/
+										contentType : "application/json; charset=utf-8",
+										success : function(data) {
+											var goodstypes = JSON
+													.stringify(data.TGoodstype);
+											var obj = JSON.parse(goodstypes);
+											for ( var i = 0; i < obj.length; i++) {
+												$("#goodsType")
+														.append(
+																"<option value='"+obj[i].goodsTypeId+"'>"
+																		+ obj[i].goodsTypeName
+																		+ "</option>");
+											}
+										},
+										error : function(XMLHttpRequest,
+												textStatus, errorThrown) {
+											alert(errorThrown);
+										}
+									});
+							//获取店铺信息类型
+							$
+									.ajax({
+										type : "post",
+										url : "${pageContext.request.contextPath }/seller/getAllSeller",
+										dataType : "json",
+										async : false,
+										/*这句可用可不用，没有影响*/
+										contentType : "application/json; charset=utf-8",
+										success : function(data) {
+											var goodstypes = JSON
+													.stringify(data.TSeller);
+											var obj = JSON.parse(goodstypes);
+											for ( var i = 0; i < obj.length; i++) {
+												$("#goodsShop")
+														.append(
+																"<option value='"+obj[i].sellerId+"'>"
+																		+ obj[i].shopName
+																		+ "</option>");
+											}
+										},
+										error : function(XMLHttpRequest,
+												textStatus, errorThrown) {
+											alert(errorThrown);
+										}
+									});
+							//图片上传 及数据保存 
+							$("#goodssave")
+									.click(
+											function() {
 												var ext = '.jpg.jpeg.gif.bmp.png.';
 												var f = $("#file").val();
 												if (f == "") { //先判断是否已选择了文件 
@@ -385,7 +432,8 @@
 
 														if (data == "1") {
 															var dialog = $("#dialog-message");
-															dialog.dialog("close");
+															dialog
+																	.dialog("close");
 														} else {
 															$("#error")
 																	.attr(
@@ -401,23 +449,27 @@
 												$('#formgoodsinfo').ajaxSubmit(
 														options);
 											});
-					//显示商家详细信息
-					$(".goodSellerPopover").popover();
-					//鼠标经过显示图片
-					$(".goodPicPopover").popover(
-						{
-							html : true,
-							/* title : function() {
-											return "图片";
-							}, */
-							content : function() {
-											return "<img width='100px' height='100px' src='${pageContext.request.contextPath }/images/"
-													+ $(this).attr('pic')+ "'/>";
-										}
-											})/* .on("mouseenter", function () {
-																}) */;
+							//显示商家详细信息
+							$("[name='sellerAddPopover']").popover();
+							$("[name='sellerMsgPopover']").popover();
+							//鼠标经过显示图片
+							$(".goodPicPopover")
+									.popover(
+											{
+												html : true,
+												/* title : function() {
+																return "图片";
+												}, */
+												content : function() {
+													return "<img width='100px' height='100px' src='${pageContext.request.contextPath }/images/"
+															+ $(this).attr(
+																	'pic')
+															+ "'/>";
+												}
+											});
 							myEach();
-							myEachPopover("a", "goodsMsgPopover", 0, 10);
+							myEachPopover("a", "sellerMsgPopover", 0, 6);
+							myEachPopover("a", "sellerAddPopover", 0, 6);
 
 							//图片上传框
 							$('#id-input-file-3').ace_file_input({
@@ -491,7 +543,7 @@
 				} catch (e) {
 				}
 				$(this).addClass("fa-toggle-on");
-				$(this).text("解除合作");
+				$(this).text("解约");
 			});
 			$("i[name='goodsIsSaleActionfalse']").each(function() {
 				try {
@@ -499,7 +551,7 @@
 				} catch (e) {
 				}
 				$(this).addClass("fa-toggle-off");
-				$(this).text("开始合作");
+				$(this).text("合作");
 			});
 		}
 		jQuery(function($) {
@@ -507,11 +559,13 @@
 					.click(
 							function() {
 								var oper = $(this).attr('oper');
-								var name=$(this).attr("name");
+								var name = $(this).attr("name");
 								$("#oper").val(oper);
 								if (oper == "delete") {
 									var goodsId = $(this).attr('name');
-									var isSale = $("#goodsIsSaleAction"+goodsId).attr('state');
+									var isSale = $(
+											"#goodsIsSaleAction" + goodsId)
+											.attr('state');
 									$
 											.ajax({
 												cache : false,
@@ -547,7 +601,7 @@
 																	.attr(
 																			"state",
 																			"false");
-																			
+
 														} else {
 															$(
 																	"td[id='goodsIsSale"
@@ -575,16 +629,18 @@
 													}
 												},
 												error : function(data) {
-												alert("error");
+													alert("error");
 												}
 											});
 								} else {
-									var dialog = $("#dialog-message").removeClass('hide').dialog(
+									var dialog = $("#dialog-message")
+											.removeClass('hide')
+											.dialog(
 													{
 														modal : true,
 														title : (oper == 'detaill') ? "查看详细"
 																: (oper == 'modify') ? "修改商家信息"
-																		: (oper == 'add') ? "添加商品"
+																		: (oper == 'add') ? "添加商店"
 																				: "确认删除商品",
 														title_html : true,
 													/* buttons: [{
@@ -618,32 +674,35 @@
 														}
 													}] */
 													});
-									if(oper=="modify"){
-										$("#sellerId").attr("disabled",false).val(name);
-									}				
+									if (oper == "modify") {
+										$("#sellerId").attr("disabled", false)
+												.val(name);
+									}
 								}
 							});
 			//initiate dataTables plugin
 			var oTable1 = $('#dynamic-table')
 			//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
-			.dataTable({
-				bAutoWidth : false,
-				"aoColumns" : [ {
-					"bSortable" : false
-				}, null, null, null, null, null, null, null, null,null,null, {
-					"bSortable" : false
-				} ],
-				"aaSorting" : [],
-				//,
-				//"sScrollY": "200px",
-				"bPaginate" : true,
-			//"sScrollX": "100%",
-			//"sScrollXInner": "120%",
-			//"bScrollCollapse": true,
-			//Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
-			//you may want to wrap the table inside a "div.dataTables_borderWrap" element
-			//"iDisplayLength": 50
-			});
+			.dataTable(
+					{
+						bAutoWidth : false,
+						"aoColumns" : [ {
+							"bSortable" : false
+						}, null, null, null, null, null, null, 
+								null, null, {
+									"bSortable" : false
+								} ],
+						"aaSorting" : [],
+						//,
+						//"sScrollY": "200px",
+						"bPaginate" : true,
+					//"sScrollX": "100%",
+					//"sScrollXInner": "120%",
+					//"bScrollCollapse": true,
+					//Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+					//you may want to wrap the table inside a "div.dataTables_borderWrap" element
+					//"iDisplayLength": 50
+					});
 			//oTable1.fnAdjustColumnSizing();
 			//TableTools settings
 			TableTools.classes.container = "btn-group btn-overlap";
@@ -848,6 +907,54 @@
 				return 'left';
 			}
 		});
+		//chosen plugin inside a modal will have a zero width because the select element is originally hidden
+				//and its width cannot be determined.
+				//so we set the width after modal is show
+				/* $('#modal-form').on('shown.bs.modal', function () {
+					if(!ace.vars['touch']) {
+						$(this).find('.chosen-container').each(function(){
+							$(this).find('a:first-child').css('width' , '210px');
+							$(this).find('.chosen-drop').css('width' , '210px');
+							$(this).find('.chosen-search input').css('width' , '200px');
+						});
+					}
+				}); */
+				/**
+				//or you can activate the chosen plugin after modal is shown
+				//this way select element becomes visible with dimensions and chosen works as expected
+				$('#modal-form').on('shown', function () {
+					$(this).find('.modal-chosen').chosen();
+				})
+				*/
+		/* if(!ace.vars['touch']) {
+					$('.chosen-select').chosen({allow_single_deselect:true}); 
+					//resize the chosen on window resize
+			
+					$(window)
+					.off('resize.chosen')
+					.on('resize.chosen', function() {
+						$('.chosen-select').each(function() {
+							 var $this = $(this);
+							 $this.next().css({'width': $this.parent().width()});
+						})
+					}).trigger('resize.chosen');
+					//resize chosen on sidebar collapse/expand
+					$(document).on('settings.ace.chosen', function(e, event_name, event_val) {
+						if(event_name != 'sidebar_collapsed') return;
+						$('.chosen-select').each(function() {
+							 var $this = $(this);
+							 $this.next().css({'width': $this.parent().width()});
+						})
+					});
+			
+			
+					$('#chosen-multiple-style .btn').on('click', function(e){
+						var target = $(this).find('input[type=radio]');
+						var which = parseInt(target.val());
+						if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
+						 else $('#form-field-select-4').removeClass('tag-input-style');
+					});
+				} */
 	</script>
 </body>
 
