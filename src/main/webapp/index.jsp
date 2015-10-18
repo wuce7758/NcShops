@@ -320,9 +320,9 @@
 							for ( var i = 0; i < data.TGoodstype.length; i++) {
 								var item = "";
 								item= "<li class='lis'>"+
-											"<a href='javascript:loadGoodsByType(1,"+data.TGoodstype[i].goodsTypeId+")'>"+
+											"<a href='#'>"+
 												"<i class='menu-icon fa fa-tachometer'></i>"+
-												"<span class='menu-text'>"+data.TGoodstype[i].goodsTypeName+"</span>"+
+												"<span onClick='javascript:loadGoodsByType(this,"+data.TGoodstype[i].goodsTypeId+")' class='menu-text'>"+data.TGoodstype[i].goodsTypeName+"</span>"+
 											"</a>"+
 											"<b class='arrow'></b>"+
 										"</li>";
@@ -346,9 +346,9 @@
 							for ( var i = 0; i < data.TSeller.length; i++) {
 								var item = "";
 								item= "<li class='lis'>"+
-											"<a href='javascript:loadGoodsBySeller(1,"+data.TSeller[i].sellerId+")'>"+
+											"<a href='#'>"+
 												"<i class='menu-icon fa fa-tachometer'></i>"+
-												"<span class='menu-text'>"+data.TSeller[i].sellerName+"</span>"+
+												"<span onClick='javascript:loadGoodsBySeller(this,"+data.TSeller[i].sellerId+")' class='seller"+data.TSeller[i].sellerId+"menu-text'>"+data.TSeller[i].sellerName+"</span>"+
 											"</a>"+
 											"<b class='arrow'></b>"+
 										"</li>";
@@ -357,8 +357,10 @@
 						}
 					});
 		}
-		function loadGoodsByType(goodsTypeId) {
+		function loadGoodsByType(obj,goodsTypeId) {
 			debugger;
+			var nav= $(obj).text();
+			$(".active").text(nav);
 			$("#sidebar").removeClass("display");
 			if (flag != "2") {
 				return;
@@ -378,8 +380,10 @@
 						}
 			});
 		}
-		function loadGoodsBySeller(goodsSellerId) {
+		function loadGoodsBySeller(obj,goodsSellerId) {
 			debugger;
+			var nav= $(obj).text();
+			$(".active").text(nav);
 			$("#sidebar").removeClass("display");
 			if (flag != "3") {
 				return;
@@ -400,6 +404,7 @@
 			});
 		}
 		function check(data) {
+			debugger;
 			if (data.TGoods == null || data.TGoods.length < 1) {
 				flag = "0";
 				return;
@@ -446,6 +451,7 @@
 		}
 		
 		function loadData() {
+			debugger;
 			if (flag != "1") {
 				return;
 			}
