@@ -300,17 +300,27 @@
 
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">		
+		var preGoodsType="";
+		var preSellerId="";
+		var flag = "1";
+		var page = 1;
 		function loadGoodsType(){
+			debugger;
+			preGoodsType="";
+			preSellerId="";
+			flag ="2";
+			page = 1;
 			$.ajax({
 						type : "get",
 						url : "${pageContext.request.contextPath}/seller/getAllGoodsType",
 						dataType : "json",
+						async : false,
 						success : function(data) {
 							$("#goodsType").html("");
 							for ( var i = 0; i < data.TGoodstype.length; i++) {
 								var item = "";
 								item= "<li class='lis'>"+
-											"<a href='javascript:loadGoodsData(1,"+data.TGoodstype[i].goodsTypeId+")'>"+
+											"<a href='javascript:loadGoodsByType(1,"+data.TGoodstype[i].goodsTypeId+")'>"+
 												"<i class='menu-icon fa fa-tachometer'></i>"+
 												"<span class='menu-text'>"+data.TGoodstype[i].goodsTypeName+"</span>"+
 											"</a>"+
@@ -322,16 +332,21 @@
 					});
 		}
 		function loadSeller(){
+			preGoodsType="";
+			preSellerId="";
+			page = 1;
+			flag = "3";
 			$.ajax({
 						type : "get",
 						url : "${pageContext.request.contextPath}/seller/getAllSeller",
 						dataType : "json",
+						async : false,
 						success : function(data) {
 							$("#goodsType").html("");
 							for ( var i = 0; i < data.TSeller.length; i++) {
 								var item = "";
 								item= "<li class='lis'>"+
-											"<a href='javascript:loadGoodsData(1,"+data.TSeller[i].sellerId+")'>"+
+											"<a href='javascript:loadGoodsBySeller(1,"+data.TSeller[i].sellerId+")'>"+
 												"<i class='menu-icon fa fa-tachometer'></i>"+
 												"<span class='menu-text'>"+data.TSeller[i].sellerName+"</span>"+
 											"</a>"+
@@ -342,19 +357,10 @@
 						}
 					});
 		}
-		var preGoodsType="";
-		var flag2="byType";
-		var page2 = "1";
-		var flag1 = "index";
-		var page1 = "1";
-		function loadGoodsData(goodPage,goodsTypeId) {
-			flag1="index";
-			flag2="byType";
-			page1="1";
-			page2="1";
-			preGoodsType="";
+		function loadGoodsByType(goodsTypeId) {
+			debugger;
 			$("#sidebar").removeClass("display");
-			if (flag2 != "byType") {
+			if (flag != "2") {
 				return;
 			}
 			if(preGoodsType!=goodsTypeId){
@@ -364,37 +370,44 @@
 			$.ajax({
 						type : "get",
 						url : "user/findgoodsByType",
-						data : {"page" : goodPage,"goodsTypeId":preGoodsType},
+						data : {"page" : page,"goodsTypeId":preGoodsType},
 						dataType : "json",
+						async : false,
 						success : function(data){
-							check(data,flag2,page2);
+							check(data);
 						}
 			});
 		}
-		function check(data,flag,page) {
+		function loadGoodsBySeller(goodsSellerId) {
+			debugger;
+			$("#sidebar").removeClass("display");
+			if (flag != "3") {
+				return;
+			}
+			if(preSellerId!=goodsSellerId){
+				preSellerId=goodsSellerId;
+				$("#goodsList").html("");
+			}
+			$.ajax({
+				type : "get",
+				url : "user/findgoodsByType",
+				data : {"page" : page,"goodsTypeId":goodsSellerId},
+				dataType : "json",
+				async : false,
+				success : function(data){
+							check(data);
+				}
+			});
+		}
+		function check(data) {
 			if (data.TGoods == null || data.TGoods.length < 1) {
-				if(flag=="index"){
-					flag1 = "end";
-				}
-				if(flag=="byType"){
-					flag2 = "end";
-				}
+				flag = "0";
 				return;
 			}
 			if (data.TGoods.length < 10) {
-				if(flag=="index"){
-					flag1 = "end";
-				}
-				if(flag=="byType"){
-					flag2 = "end";
-				}
+				flag = "0";
 			} else if (data.TGoods.length = 10) {
-				if(flag=="index"){
-					page1++;
-				}
-				if(flag=="byType"){
-					page2++;
-				}
+				page=page+1;
 			}
 			for( var i = 0; i < data.TGoods.length; i++) {
 				var item = "";
@@ -433,16 +446,17 @@
 		}
 		
 		function loadData() {
-			if (flag1 != "index") {
+			if (flag != "1") {
 				return;
 			}
 			$.ajax({
 				type : "get",
 				url : "user/findAllGoods",
-				data : {"page" : page1},
+				data : {"page" : page},
 				dataType : "json",
+				async : false,
 				success : function(data){
-						check(data,flag1,page1);
+						check(data);
 				}
 			});
 		}
@@ -483,10 +497,13 @@
 			loadData();
 			$(window).scroll(function() {
 					if ($(document).height() - $(this).scrollTop()- $(this).height() < 20) {
-						if(flag2!="end"){
-							loadGoodsData(page2,preGoodsType);
+						if(flag=="3"){
+							loadGoodsBySeller(preSellerId);
 						}
-						if(flag1!="end"){
+						if(flag=="2"){
+							loadGoodsByType(preGoodsType);
+						}
+						if(flag=="1"){
 							loadData();
 						}
 					}

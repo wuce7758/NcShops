@@ -1,14 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
+	response.setHeader("Access-Control-Allow-Origin", "*");
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta charset="utf-8" />
@@ -21,7 +21,8 @@
 <!-- bootstrap & fontawesome -->
 <link rel="stylesheet"
 	href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
-<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/chosen.css" />
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/chosen.css" />
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/plugins/fonts/font-awesome.css" />
@@ -85,8 +86,7 @@
 					<ul class="breadcrumb">
 						<li><i class="ace-icon fa fa-home home-icon"></i><a href="#">商城管理系统</a>
 						</li>
-						<li><a href="#">订单管理</a>
-						</li>
+						<li><a href="#">订单管理</a></li>
 					</ul>
 					<jsp:include page="../WebPart/SearchBox.jsp"></jsp:include>
 				</div>
@@ -106,26 +106,20 @@
 								<thead>
 									<tr>
 										<th class="center"><label class="pos-rel"> <input
-												type="checkbox" class="ace" /> <span class="lbl"></span> </label></th>
-										<th><small>订单号</small>
+												type="checkbox" class="ace" /> <span class="lbl"></span> </label>
 										</th>
-										<th><small>客户ID</small>
-										</th>
-										<th><small>商户ID</small>
-										</th>
-										<th><small>下单时间</small>
-										</th>
-										<th><small>应付</small>
-										</th>
-										<th><small>状态</small>
-										</th>
+										<th><small>订单号</small></th>
+										<th><small>客户ID</small></th>
+										<th><small>商户ID</small></th>
+										<th><i class="fa fa-clock-o bigger-130"><small>下单时间</small></i></th>
+										<th><small>应付</small></th>
+										<th><small>状态</small></th>
 										<th>
-											<p class="text-center">
 												<a class="blue buttongoods" href="javascript:void(0)"
 													id="buttonadd" oper="add"> <i
-													class="fa fa-plus-square-o bigger-130"><small>批量打印</small>
+													class="fa fa-print red bigger-130"><b class="red">点击批量打印已勾选的订单</b>
 												</i> </a>
-											</p></th>
+										</th>
 									</tr>
 								</thead>
 
@@ -141,11 +135,13 @@
 											<td class="hidden-480"><a class="orderUserPopover"
 												href="javascript:void(0);" data-container="body"
 												data-placement="bottom" name="${trl.userId}">
-													${trl.userId} </a></td>
+													${trl.userId} </a>
+											</td>
 											<td class="hidden-480"><a class="orderSellerPopover"
 												href="javascript:void(0);" data-container="body"
 												data-placement="bottom" name="${trl.sellerId }">
-													${trl.sellerId }</a></td>
+													${trl.sellerId }</a>
+											</td>
 											<td class="hidden-480">${trl.orderTime}</td>
 											<td class="hidden-480">${trl.orderTotalCost}</td>
 											<td id="orderState${trl.orderId}"><span class=""
@@ -166,42 +162,67 @@
 													<div class="col-sm-6">
 														<select
 															class="chosen-select form-control col-xs-12 col-sm-12 orderState"
-															name="${trl.orderId}" oper="${trl.orderState}" id="orderState${trl.orderId}"
-															data-placeholder="选择状态">
+															name="${trl.orderId}" oper="${trl.orderState}"
+															id="orderState${trl.orderId}" data-placeholder="选择状态">
 															<c:if test="${trl.orderState==0}">
-															<option name="${trl.orderId}oso${trl.orderState}0" value="0"></option>
-															<option name="${trl.orderId}oso${trl.orderState}1" value="1" >确认</option>
-															<option name="${trl.orderId}oso${trl.orderState}2" value="2">配送</option>
-															<option name="${trl.orderId}oso${trl.orderState}3" value="3">成功</option>
-															<option name="${trl.orderId}oso${trl.orderState}4"value="4">取消</option>
+																<option name="${trl.orderId}oso${trl.orderState}0"
+																	value="0"></option>
+																<option name="${trl.orderId}oso${trl.orderState}1"
+																	value="1">确认</option>
+																<option name="${trl.orderId}oso${trl.orderState}2"
+																	value="2">配送</option>
+																<option name="${trl.orderId}oso${trl.orderState}3"
+																	value="3">成功</option>
+																<option name="${trl.orderId}oso${trl.orderState}4"
+																	value="4">取消</option>
 															</c:if>
 															<c:if test="${trl.orderState==1}">
-															<option name="${trl.orderId}oso${trl.orderState}0" value="0"></option>
-															<option name="${trl.orderId}oso${trl.orderState}1" value="1" selected="selected">确认</option>
-															<option name="${trl.orderId}oso${trl.orderState}2" value="2">配送</option>
-															<option name="${trl.orderId}oso${trl.orderState}3" value="3">成功</option>
-															<option name="${trl.orderId}oso${trl.orderState}4"value="4">取消</option>
+																<option name="${trl.orderId}oso${trl.orderState}0"
+																	value="0"></option>
+																<option name="${trl.orderId}oso${trl.orderState}1"
+																	value="1" selected="selected">确认</option>
+																<option name="${trl.orderId}oso${trl.orderState}2"
+																	value="2">配送</option>
+																<option name="${trl.orderId}oso${trl.orderState}3"
+																	value="3">成功</option>
+																<option name="${trl.orderId}oso${trl.orderState}4"
+																	value="4">取消</option>
 															</c:if>
 															<c:if test="${trl.orderState==2}">
-															<option name="${trl.orderId}oso${trl.orderState}0" value="0"></option>
-															<option name="${trl.orderId}oso${trl.orderState}1" value="1" >确认</option>
-															<option name="${trl.orderId}oso${trl.orderState}2" value="2" selected="selected">配送</option>
-															<option name="${trl.orderId}oso${trl.orderState}3" value="3">成功</option>
-															<option name="${trl.orderId}oso${trl.orderState}4"value="4">取消</option>
+																<option name="${trl.orderId}oso${trl.orderState}0"
+																	value="0"></option>
+																<option name="${trl.orderId}oso${trl.orderState}1"
+																	value="1">确认</option>
+																<option name="${trl.orderId}oso${trl.orderState}2"
+																	value="2" selected="selected">配送</option>
+																<option name="${trl.orderId}oso${trl.orderState}3"
+																	value="3">成功</option>
+																<option name="${trl.orderId}oso${trl.orderState}4"
+																	value="4">取消</option>
 															</c:if>
 															<c:if test="${trl.orderState==3}">
-															<option name="${trl.orderId}oso${trl.orderState}0" value="0"></option>
-															<option name="${trl.orderId}oso${trl.orderState}1" value="1">确认</option>
-															<option name="${trl.orderId}oso${trl.orderState}2" value="2">配送</option>
-															<option name="${trl.orderId}oso${trl.orderState}3" value="3" selected="selected">成功</option>
-															<option name="${trl.orderId}oso${trl.orderState}4"value="4">取消</option>
+																<option name="${trl.orderId}oso${trl.orderState}0"
+																	value="0"></option>
+																<option name="${trl.orderId}oso${trl.orderState}1"
+																	value="1">确认</option>
+																<option name="${trl.orderId}oso${trl.orderState}2"
+																	value="2">配送</option>
+																<option name="${trl.orderId}oso${trl.orderState}3"
+																	value="3" selected="selected">成功</option>
+																<option name="${trl.orderId}oso${trl.orderState}4"
+																	value="4">取消</option>
 															</c:if>
 															<c:if test="${trl.orderState==4}">
-															<option name="${trl.orderId}oso${trl.orderState}0" value="0"></option>
-															<option name="${trl.orderId}oso${trl.orderState}1" value="1" >确认</option>
-															<option name="${trl.orderId}oso${trl.orderState}2" value="2" >配送</option>
-															<option name="${trl.orderId}oso${trl.orderState}3" value="3" selected="selected">成功</option>
-															<option name="${trl.orderId}oso${trl.orderState}4"value="4">取消</option>
+																<option name="${trl.orderId}oso${trl.orderState}0"
+																	value="0"></option>
+																<option name="${trl.orderId}oso${trl.orderState}1"
+																	value="1">确认</option>
+																<option name="${trl.orderId}oso${trl.orderState}2"
+																	value="2">配送</option>
+																<option name="${trl.orderId}oso${trl.orderState}3"
+																	value="3" selected="selected">成功</option>
+																<option name="${trl.orderId}oso${trl.orderState}4"
+																	value="4">取消</option>
 															</c:if>
 														</select>
 													</div>
@@ -219,26 +240,22 @@
 																name="${trl.orderId}" onclick="GetDetail(this)"
 																class="tooltip-info" data-rel="tooltip" title="View">
 																	<span class="blue"> <i
-																		class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a>
-															</li>
+																		class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a></li>
 
 															<li><a href="javascript:void(0)"
 																name="${trl.orderId}" onclick="Modify(this)"
 																class="tooltip-success" data-rel="tooltip" title="Edit">
 																	<span class="green"> <i
 																		class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																</span> </a>
-															</li>
+																</span> </a></li>
 
 															<li><a href="ClassDelete?classId=${trl.orderId}"
 																class="tooltip-error" data-rel="tooltip" title="Delete">
 																	<span class="red"> <i
-																		class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a>
-															</li>
+																		class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a></li>
 														</ul>
 													</div>
-												</div>
-											</td>
+												</div></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -377,30 +394,44 @@
 		$(document)
 				.ready(
 						function() {
-							
-							$(".orderState").change(function(){
-								var orderId = $(this).attr("name");
-								var orderState = $(this).val();
-								$.ajax({
-									type : "post",
-									url : "${pageContext.request.contextPath }/seller/changeOrderState",
-									dataType : "json",
-									data : {"orderId" : orderId,"orderState":orderState},
-									async : false,
-									success : function(data){
-										if(data == "1"){
-											$("td[id='orderState"+ orderId + "'] span").attr("name","orderState"+orderState);
-											myEach();
-										}
-										else{
-											
-										}
-									},
-									error : function(){
-										alert("修改失败");
-									}
-								});
-							});
+
+							$(".orderState")
+									.change(
+											function() {
+												var orderId = $(this).attr(
+														"name");
+												var orderState = $(this).val();
+												$
+														.ajax({
+															type : "post",
+															url : "${pageContext.request.contextPath }/seller/changeOrderState",
+															dataType : "json",
+															data : {
+																"orderId" : orderId,
+																"orderState" : orderState
+															},
+															async : false,
+															success : function(
+																	data) {
+																if (data == "1") {
+																	$(
+																			"td[id='orderState"
+																					+ orderId
+																					+ "'] span")
+																			.attr(
+																					"name",
+																					"orderState"
+																							+ orderState);
+																	myEach();
+																} else {
+
+																}
+															},
+															error : function() {
+																alert("修改失败");
+															}
+														});
+											});
 							//显示商家详细信息
 							$(".orderSellerPopover")
 									.popover(
@@ -411,28 +442,25 @@
 												},
 												content : function() {
 													var sellerinfo;
-													$
-															.ajax({
+													var sellerid = $(this).attr('name');
+													$.ajax({
 																type : "post",
 																url : "${pageContext.request.contextPath }/seller/getSellerById",
 																dataType : "json",
 																data : {
-																	"sellerId" : $(
-																			this)
-																			.attr(
-																					'name')
+																	"sellerId" : sellerid
 																},
-																async : false,
+																async : true,
 																success : function(
 																		data) {
-																	/* var goodstypes = JSON.stringify(data.TSeller);
-																	var obj = JSON.parse(goodstypes);
-																		for ( var i = 0; i < obj.length; i++) {
-																			$("#goodsShop").append("<option value='"+obj[i].sellerId+"'>"
-																							+ obj[i].shopName
-																							+ "</option>");
-																		} */
-																	sellerinfo = data;
+																	var orderseller = JSON.stringify(data.TSeller);
+																	var obj = JSON.parse(orderseller);
+																	
+																	sellerinfo = "<p>商店名："+obj[0].shopName+"</p><br>"+
+																				 "<p>老板:"+obj[0].sellerName+"</P><br>"+
+																				 "<p>地址:"+obj[0].sellerAddress+"</P><br>"+
+																				 "<p>电话:"+obj[0].sellerPhone+"</P><br>";
+																	$("#seller"+sellerid).html(sellerinfo);
 																},
 																error : function(
 																		XMLHttpRequest,
@@ -441,7 +469,7 @@
 																	sellerinfo = errorThrown;
 																}
 															});
-													return sellerinfo;
+													return "<div id='seller"+$(this).attr('name')+"'>查询中......</div>";
 												}
 											});
 							//显示订单用户信息
@@ -454,28 +482,29 @@
 												},
 												content : function() {
 													var userinfo;
-													$
-															.ajax({
+													var userid = $(this).attr('name');
+													$.ajax({
 																type : "post",
 																url : "${pageContext.request.contextPath }/seller/getUserById",
 																dataType : "json",
 																data : {
-																	"userId" : $(
-																			this)
-																			.attr(
-																					'name')
+																	"userId" : userid
 																},
-																async : false,
+																async : true,
 																success : function(
 																		data) {
-																	/* var goodstypes = JSON.stringify(data.TSeller);
-																	var obj = JSON.parse(goodstypes);
-																		for ( var i = 0; i < obj.length; i++) {
-																			$("#goodsShop").append("<option value='"+obj[i].sellerId+"'>"
-																							+ obj[i].shopName
-																							+ "</option>");
-																		} */
-																	userinfo = data;
+																	var orderuser = JSON.stringify(data.TUser);
+																	var obj = JSON.parse(orderuser);
+																	var address=obj[0].TAddresses;
+																	for(var i=0;i<address.length;i++){
+																		if(address[0].isDefault){
+																			userinfo = "<p>姓名："+address[i].receiverName+"</p><br>"+
+																				 "<p>电话:"+address[i].adsPhone+"</P><br>"+
+																				 "<p>地址:"+address[i].adsContent+"</P><br>";
+																			break;
+																		}
+																	}
+																	$("#user"+userid).html(userinfo);
 																},
 																error : function(
 																		XMLHttpRequest,
@@ -484,27 +513,31 @@
 																	userinfo = errorThrown;
 																}
 															});
-													return userinfo;
+													return "<div id='user"+$(this).attr('name')+"'>查询中......</div>";
 												}
 											});
 							myEach();
 							myEachPopover("a", "goodsMsgPopover", 0, 10);
-			
+
 						});
 
 		function myEach() {
-			$(".orderState").each(function(){
-				var state = $(this).attr("oper");
-				var orderId = $(this).attr("name");
-				$("option[name='"+orderId+"oso"+state+state+"']").attr("selected","true");
-				//alert($(this).find("option[value="+state+"]").val());
-				
-			});
+			$(".orderState").each(
+					function() {
+						var state = $(this).attr("oper");
+						var orderId = $(this).attr("name");
+						$(
+								"option[name='" + orderId + "oso" + state
+										+ state + "']")
+								.attr("selected", "true");
+						//alert($(this).find("option[value="+state+"]").val());
+
+					});
 			$("span[name='orderState0']").each(function() {
 				$(this).attr("class", "");
 				$(this).attr("class", "label label-sm");
 				$(this).text("刚提交");
-				
+
 			});
 			$("span[name='orderState1']").each(function() {
 				$(this).attr("class", "");
@@ -544,7 +577,7 @@
 			});
 		}
 		jQuery(function($) {
-			
+
 			//initiate dataTables plugin
 			var oTable1 = $('#dynamic-table')
 			//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
@@ -771,54 +804,60 @@
 			}
 		});
 		//chosen plugin inside a modal will have a zero width because the select element is originally hidden
-				//and its width cannot be determined.
-				//so we set the width after modal is show
-				$('#modal-form').on('shown.bs.modal', function () {
-					if(!ace.vars['touch']) {
-						$(this).find('.chosen-container').each(function(){
-							$(this).find('a:first-child').css('width' , '210px');
-							$(this).find('.chosen-drop').css('width' , '210px');
-							$(this).find('.chosen-search input').css('width' , '200px');
-						});
-					}
+		//and its width cannot be determined.
+		//so we set the width after modal is show
+		$('#modal-form').on('shown.bs.modal', function() {
+			if (!ace.vars['touch']) {
+				$(this).find('.chosen-container').each(function() {
+					$(this).find('a:first-child').css('width', '210px');
+					$(this).find('.chosen-drop').css('width', '210px');
+					$(this).find('.chosen-search input').css('width', '200px');
 				});
-				/**
-				//or you can activate the chosen plugin after modal is shown
-				//this way select element becomes visible with dimensions and chosen works as expected
-				$('#modal-form').on('shown', function () {
-					$(this).find('.modal-chosen').chosen();
+			}
+		});
+		/**
+		//or you can activate the chosen plugin after modal is shown
+		//this way select element becomes visible with dimensions and chosen works as expected
+		$('#modal-form').on('shown', function () {
+			$(this).find('.modal-chosen').chosen();
+		})
+		 */
+		if (!ace.vars['touch']) {
+			$('.chosen-select').chosen({
+				allow_single_deselect : true
+			});
+			//resize the chosen on window resize
+
+			$(window).off('resize.chosen').on('resize.chosen', function() {
+				$('.chosen-select').each(function() {
+					var $this = $(this);
+					$this.next().css({
+						'width' : $this.parent().width()
+					});
 				})
-				*/
-		if(!ace.vars['touch']) {
-					$('.chosen-select').chosen({allow_single_deselect:true}); 
-					//resize the chosen on window resize
-			
-					$(window)
-					.off('resize.chosen')
-					.on('resize.chosen', function() {
+			}).trigger('resize.chosen');
+			//resize chosen on sidebar collapse/expand
+			$(document).on('settings.ace.chosen',
+					function(e, event_name, event_val) {
+						if (event_name != 'sidebar_collapsed')
+							return;
 						$('.chosen-select').each(function() {
-							 var $this = $(this);
-							 $this.next().css({'width': $this.parent().width()});
-						})
-					}).trigger('resize.chosen');
-					//resize chosen on sidebar collapse/expand
-					$(document).on('settings.ace.chosen', function(e, event_name, event_val) {
-						if(event_name != 'sidebar_collapsed') return;
-						$('.chosen-select').each(function() {
-							 var $this = $(this);
-							 $this.next().css({'width': $this.parent().width()});
+							var $this = $(this);
+							$this.next().css({
+								'width' : $this.parent().width()
+							});
 						})
 					});
-			
-			
-					$('#chosen-multiple-style .btn').on('click', function(e){
-						var target = $(this).find('input[type=radio]');
-						var which = parseInt(target.val());
-						if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
-						 else $('#form-field-select-4').removeClass('tag-input-style');
-					});
-				}
-		
+
+			$('#chosen-multiple-style .btn').on('click', function(e) {
+				var target = $(this).find('input[type=radio]');
+				var which = parseInt(target.val());
+				if (which == 2)
+					$('#form-field-select-4').addClass('tag-input-style');
+				else
+					$('#form-field-select-4').removeClass('tag-input-style');
+			});
+		}
 	</script>
 </body>
 
