@@ -71,7 +71,7 @@
 
 		<div class="navbar-container" id="navbar-container">
 			<!-- #section:basics/sidebar.mobile.toggle -->
-			<button type="button" class="navbar-toggle menu-toggler pull-left"
+			<button onClick="loadGoodsType()" type="button" class="navbar-toggle menu-toggler pull-left"
 				id="menu-toggler" data-target="#sidebar">
 				<span class="sr-only">Toggle sidebar</span> <span class="icon-bar"></span>
 
@@ -146,13 +146,21 @@
 			</div>
 			<!-- /.sidebar-shortcuts -->
 
-			<ul class="nav nav-list">
-				<li class=""><a href="index.html"> <i
-						class="menu-icon fa fa-tachometer"></i> <span class="menu-text">
-							Dashboard </span> </a> <b class="arrow"></b></li>
-				<li class=""><a href="index.html"> <i
-						class="menu-icon fa fa-tachometer"></i> <span class="menu-text">动态显示物品类别</span>
-				</a> <b class="arrow"></b></li>
+			<ul class="nav nav-list" id="goodsType">
+				<!-- <li class="">
+					<a href="index.html">
+						<i class="menu-icon fa fa-tachometer"></i>
+						<span class="menu-text">商家分类</span>
+					</a>
+					<b class="arrow"></b>
+				</li> -->
+				<li class="">
+					<a href="index.html">
+						<i class="menu-icon fa fa-tachometer"></i>
+						<span class="menu-text">商品类别</span>
+					</a>
+					<b class="arrow"></b>
+				</li>
 			</ul>
 			<!-- /.nav-list -->
 
@@ -292,6 +300,29 @@
 
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
+		function loadGoodsType(){
+			$.ajax({
+						type : "get",
+						url : "${pageContext.request.contextPath}/seller/getAllGoodsType",
+						dataType : "json",
+						success : function(data) {
+							for ( var i = 0; i < data.TGoodstype.length; i++) {
+								var item = "";
+								item= "<li class=''>"+
+											"<a href='${pageContext.request.contextPath}/user/findGoodsByType?page=1&goodsTypeId="+data.TGoodstype[i].goodsTypeId+"'>"+
+												"<i class='menu-icon fa fa-tachometer'></i>"+
+												"<span class='menu-text'>"+data.TGoodstype[i].goodsTypeName+"</span>"+
+											"</a>"+
+											"<b class='arrow'></b>"+
+										"</li>";
+								/* if (i != data.TGoods.length) {
+									item += "<hr class='col-xs-12' style='margin-top:2px;margin-bottom:5px'>";
+								} */
+								$("#goodsType").append(item);
+							}
+						}
+					});
+		}
 		var pageNum = "1";
 		var flag = 0;
 		function loadData() {
