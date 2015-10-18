@@ -71,7 +71,7 @@
 
 		<div class="navbar-container" id="navbar-container">
 			<!-- #section:basics/sidebar.mobile.toggle -->
-			<button onClick="loadGoodsType()" type="button" class="navbar-toggle menu-toggler pull-left"
+			<button type="button" class="navbar-toggle menu-toggler pull-left"
 				id="menu-toggler" data-target="#sidebar">
 				<span class="sr-only">Toggle sidebar</span> <span class="icon-bar"></span>
 
