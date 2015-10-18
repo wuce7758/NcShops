@@ -82,14 +82,24 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/findSellergoods")
-	public void findSellergoods(String sellerId, HttpServletResponse response) {
+	public void findSellergoods(String sellerId, HttpServletResponse response,
+			HttpServletRequest request) {
 		try {
-			TSeller seller = new TSeller();
-			seller.setSellerId(Integer.parseInt(sellerId));
+			String page = request.getParameter("page");
+			int pageCount;
+			List<TSellergoods> sellerGoodsList = null;
+			if (page != null) {
+				pageCount = Integer.parseInt(page);
+				// 调用service查找 数据库
+				sellerGoodsList = userService.findSellergoods(
+						Integer.parseInt(sellerId), (pageCount - 1) * 10, 10);
+			}
 			// 调用service查找 数据库
-			List<TSellergoods> sellerGoodsList = userService
-					.findSellergoods(seller);
-			String json = toJson(new TSellergoods(), sellerGoodsList, null);
+			List<TGoods> goods = new ArrayList<TGoods>();
+			for (TSellergoods tSellergoods : sellerGoodsList) {
+				goods.add(tSellergoods.getTGoods());
+			}
+			String json = toJson(new TGoods(), goods, null);
 			// 设置response的传输格式为json
 			response.setContentType("application/json");
 			response.getWriter().write(json);
@@ -124,51 +134,26 @@ public class UserController {
 	}
 
 	/**
-	 * 查看商家单个商品
-	 * 
-	 * @param sellergoods
-	 * @param response
-	 * @throws Exception
-	 */
-	@RequestMapping("/findSellergood")
-	public void findSellergoods(TSellergoods sellergoods,
-			HttpServletResponse response) {
-
-		try {
-			// 调用service查找 数据库
-			List<TSellergoods> sellerGoodsList = userService
-					.findSellergood(sellergoods);
-			String json = toJson(new TSellergoods(), sellerGoodsList, null);
-			// 设置response的传输格式为json
-			response.setContentType("application/json");
-			response.getWriter().write(json);
-		} catch (Exception e) {
-			LogBuilder.writeToLog(e.getMessage());
-		}
-
-	}
-
-	/**
 	 * 按商品类型获取商品数据
 	 * 
 	 * @param goodstype
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/findgoods")
-	public void findSellergoods(TGoodstype goodstype,
-			HttpServletResponse response, HttpServletRequest request)
-			throws Exception {
+	@RequestMapping("/findgoodsByType")
+	public void findgoodsByType(String goodsTypeId,HttpServletResponse response, HttpServletRequest request)throws Exception {
 		try {
 
 			String page = request.getParameter("page");
 			int pageCount;
 			List<TGoods> goodsList = null;
+			TGoodstype goodstype=new TGoodstype();
+			goodstype.setGoodsTypeId(Integer.parseInt(goodsTypeId));
 			// 分页查找
 			if (page != null) {
 				pageCount = Integer.parseInt(page);
 				// 调用service查找 数据库
-				goodsList = userService.findgoods(goodstype,
+				goodsList = userService.findgoods(goodstype, 101,
 						(pageCount - 1) * 10, 10);
 			}
 			String json = toJson(new TGoods(), goodsList, null);
@@ -176,6 +161,7 @@ public class UserController {
 			response.setContentType("application/json");
 			response.getWriter().write(json);
 		} catch (Exception e) {
+			e.printStackTrace();
 			LogBuilder.writeToLog(e.getMessage());
 		}
 
@@ -194,13 +180,21 @@ public class UserController {
 			String page = request.getParameter("page");
 			System.out.println(page);
 			int pageCount;
-			List<TGoods> goodsList = null;
+			List<TSellergoods> goodsList = null;
 			// 分页查找
 			if (page != null) {
 				pageCount = Integer.parseInt(page);
-				goodsList = userService.findAllGoods((pageCount - 1) * 10, 10);
+				goodsList = userService.findSellergoods(101,
+						(pageCount - 1) * 10, 10);
 			}
-			String json = toJson(new TGoods(), goodsList, null);
+
+			List<TGoods> goods = new ArrayList<TGoods>();
+			if (goodsList != null) {
+				for (TSellergoods tSellergoods : goodsList) {
+					goods.add(tSellergoods.getTGoods());
+				}
+			}
+			String json = toJson(new TGoods(), goods, null);
 			// 设置response的传输格式为json
 			response.setContentType("application/json");
 			response.getWriter().write(json);
@@ -247,10 +241,10 @@ public class UserController {
 			TUser user = (TUser) request.getSession().getAttribute("user");
 			List<TAddress> address = null;
 			if (user != null) {
-				if (user.getUserId()!=null) {
+				if (user.getUserId() != null) {
 					address = userService.findAddress(user.getUserId());
-					TUser tempUser=userService.findUser(user.getOpenId());
-					
+					TUser tempUser = userService.findUser(user.getOpenId());
+
 				}
 			}
 			request.setAttribute("address", address);
@@ -281,7 +275,6 @@ public class UserController {
 			double orderTotalCost = 0.0;
 			TUser user = (TUser) request.getSession().getAttribute("user");
 
-			
 			// 计算总金额
 
 			for (Iterator iterator = odersdetails.iterator(); iterator
@@ -308,69 +301,69 @@ public class UserController {
 							.getGoodsId());
 			order.setSellerId(sellergoods.getSeller().getSellerId());
 			if (userService.order(order, odersdetails)) {
-//				// 给用户发送消息
-//				initMessageContext();
-//				WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
-//				// templateMessage.setToUser(user.getOpenId());
-//				templateMessage.setToUser(user.getOpenId());
-//				// 发送给下单人的消息
-//				templateMessage
-//						.setTemplateId("IGEJWO5GBj7GOeIKIZJLVYwweZyPqTcfY0uhFu0NHog");
-//				templateMessage.setUrl("www.baidu.com");
-//				templateMessage.setTopColor("#ff0000");
-//				templateMessage.getDatas().add(
-//						new WxMpTemplateData("orderId", order.getOrderNo(),
-//								"#173177"));
-//				templateMessage.getDatas()
-//						.add(new WxMpTemplateData("goodsInfo", "\n" + msg,
-//								"#173177"));
-//				templateMessage.getDatas().add(
-//						new WxMpTemplateData("totalCost", orderTotalCost
-//								+ " RMB", "#173177"));
-//				templateMessage.getDatas().add(
-//						new WxMpTemplateData("sellerPonhe", userService
-//								.findSellerByID(
-//										sellergoods.getSeller().getSellerId())
-//								.getSellerPhone(), "#173177"));
-//				wxMpService.templateSend(templateMessage);
-//
-//				// 通知商家有新的订单
-//
-//				WxMpTemplateMessage toBoss = new WxMpTemplateMessage();
-//				toBoss.setToUser("okbTSvpMmbJxwyVbK1_zlhrOXRbM");
-//				toBoss.setTemplateId("Y1tnm_eiApm6kia7trtGGIywhQJiDpmOAxuOCgeiHaY");
-//				toBoss.setUrl("www.baidu.com");
-//				toBoss.setTopColor("#ff0000");
-//				TAddress address = userService.findAddress(user.getUserId())
-//						.get(0);
-//
-//				// TAddress address =new TAddress();
-//				// address.setAdsContent("sadas");
-//				// address.setAdsPhone("2312412");
-//				toBoss.getDatas().add(
-//						new WxMpTemplateData("address",
-//								address.getAdsContent(), "#173177"));
-//				toBoss.getDatas().add(
-//						new WxMpTemplateData("orderId", order.getOrderNo(),
-//								"#173177"));
-//				toBoss.getDatas().add(
-//						new WxMpTemplateData("userName", address
-//								.getReceiverName(), "#173177"));
-//				toBoss.getDatas().add(
-//						new WxMpTemplateData("phone", address.getAdsPhone(),
-//								"#ff0000"));
-//				toBoss.getDatas().add(
-//						new WxMpTemplateData("totalCost", orderTotalCost
-//								+ " RMB", "#173177"));
-//				System.out.println(toBoss.toJson());
-//				toBoss.getDatas()
-//						.add(new WxMpTemplateData("orderInfo", "\n" + msg,
-//								"#173177"));
-//				System.out.println(toBoss.toJson());
-//				wxMpService.templateSend(toBoss);
-				
-				WxMpXmlOutTextMessage m = WxMpXmlOutMessage.TEXT()
-						.content(msg).fromUser(configInfo.getWeChatOriginalID())
+				// 给用户发送消息
+				initMessageContext();
+				WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
+				// templateMessage.setToUser(user.getOpenId());
+				templateMessage.setToUser(user.getOpenId());
+				// 发送给下单人的消息
+				templateMessage
+						.setTemplateId("IGEJWO5GBj7GOeIKIZJLVYwweZyPqTcfY0uhFu0NHog");
+				templateMessage.setUrl("www.baidu.com");
+				templateMessage.setTopColor("#ff0000");
+				templateMessage.getDatas().add(
+						new WxMpTemplateData("orderId", order.getOrderNo(),
+								"#173177"));
+				templateMessage.getDatas()
+						.add(new WxMpTemplateData("goodsInfo", "\n" + msg,
+								"#173177"));
+				templateMessage.getDatas().add(
+						new WxMpTemplateData("totalCost", orderTotalCost
+								+ " RMB", "#173177"));
+				templateMessage.getDatas().add(
+						new WxMpTemplateData("sellerPonhe", userService
+								.findSellerByID(
+										sellergoods.getSeller().getSellerId())
+								.getSellerPhone(), "#173177"));
+				wxMpService.templateSend(templateMessage);
+
+				// 通知商家有新的订单
+
+				WxMpTemplateMessage toBoss = new WxMpTemplateMessage();
+				toBoss.setToUser("okbTSvpMmbJxwyVbK1_zlhrOXRbM");
+				toBoss.setTemplateId("Y1tnm_eiApm6kia7trtGGIywhQJiDpmOAxuOCgeiHaY");
+				toBoss.setUrl("www.baidu.com");
+				toBoss.setTopColor("#ff0000");
+				TAddress address = userService.findAddress(user.getUserId())
+						.get(0);
+
+				// TAddress address =new TAddress();
+				// address.setAdsContent("sadas");
+				// address.setAdsPhone("2312412");
+				toBoss.getDatas().add(
+						new WxMpTemplateData("address",
+								address.getAdsContent(), "#173177"));
+				toBoss.getDatas().add(
+						new WxMpTemplateData("orderId", order.getOrderNo(),
+								"#173177"));
+				toBoss.getDatas().add(
+						new WxMpTemplateData("userName", address
+								.getReceiverName(), "#173177"));
+				toBoss.getDatas().add(
+						new WxMpTemplateData("phone", address.getAdsPhone(),
+								"#ff0000"));
+				toBoss.getDatas().add(
+						new WxMpTemplateData("totalCost", orderTotalCost
+								+ " RMB", "#173177"));
+				System.out.println(toBoss.toJson());
+				toBoss.getDatas()
+						.add(new WxMpTemplateData("orderInfo", "\n" + msg,
+								"#173177"));
+				System.out.println(toBoss.toJson());
+				wxMpService.templateSend(toBoss);
+
+				WxMpXmlOutTextMessage m = WxMpXmlOutMessage.TEXT().content(msg)
+						.fromUser(configInfo.getWeChatOriginalID())
 						.toUser(user.getOpenId()).build();
 			}
 			if (request.getSession().getAttribute("allCost") != null) {
@@ -512,14 +505,16 @@ public class UserController {
 		wxMpService.setWxMpConfigStorage(wxMpConfigStorage);
 
 	}
-	
+
 	@RequestMapping("/findOrdersByUser")
-	public void findOrdersByUser(String userId,HttpServletRequest request,HttpServletResponse response){
-		
+	public void findOrdersByUser(String userId, HttpServletRequest request,
+			HttpServletResponse response) {
+
 		try {
 			List<TOrder> orders = userService.findOrderByeUser(userId);
 			request.setAttribute("orderList", orders);
-			request.getRequestDispatcher("/custom/OrderList.jsp").forward(request, response);
+			request.getRequestDispatcher("/custom/OrderList.jsp").forward(
+					request, response);
 			return;
 		} catch (Exception e) {
 			LogBuilder.writeToLog(e.getMessage());
