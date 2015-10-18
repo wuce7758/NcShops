@@ -108,7 +108,7 @@ public class TUser implements java.io.Serializable {
 		this.userState = userState;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="userId")
 	public Set<TAddress> getTAddresses() {
 		return this.TAddresses;
@@ -118,7 +118,7 @@ public class TUser implements java.io.Serializable {
 		this.TAddresses = TAddresses;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="userId")
 	public Set<TOrder> getTOrders() {
 		return this.TOrders;
@@ -128,7 +128,7 @@ public class TUser implements java.io.Serializable {
 		this.TOrders = TOrders;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="userId")
 	public Set<TComment> getTComments() {
 		return this.TComments;
