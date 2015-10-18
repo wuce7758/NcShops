@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ncshop.domain.TUser;
 import com.ncshop.service.Ouath2Service;
+import com.ncshop.util.ConfigDao;
+import com.ncshop.util.ConfigInfo;
 import com.ncshop.util.LogBuilder;
 
 @Controller
@@ -25,6 +27,9 @@ public class Oauth2Controller {
 	protected WxMpInMemoryConfigStorage wxMpConfigStorage;
 	protected WxMpService wxMpService;
 	protected WxMpMessageRouter wxMpMessageRouter;
+	private ConfigDao configDao;
+	private ConfigInfo configInfo;
+
 	@Autowired
 	private Ouath2Service service;
 
@@ -33,13 +38,7 @@ public class Oauth2Controller {
 		WxMpUser wxMpUser = null;
 		String state = null;
 		try {
-			wxMpConfigStorage = new WxMpInMemoryConfigStorage();
-			wxMpConfigStorage.setAppId("wxd8276cabf8323d91"); // 设置微信公众号的appid
-			wxMpConfigStorage.setSecret("64f28217f2ea488418026fac44506e4b"); // 设置微信公众号的app
-																				// corpSecret
-			wxMpConfigStorage.setToken("ncshops"); // 设置微信公众号的token
-			wxMpConfigStorage.setAesKey("ncshops"); // 设置微信公众号的EncodingAESKey
-
+			initMessageContext();
 			wxMpService = new WxMpServiceImpl();
 			wxMpService.setWxMpConfigStorage(wxMpConfigStorage);
 
@@ -85,6 +84,18 @@ public class Oauth2Controller {
 		} catch (Exception e) {
 			LogBuilder.writeToLog(e.getMessage());
 		}
+	}
+	private void initMessageContext() {
+		configDao = new ConfigDao();
+		configInfo = configDao.GetConfig();
+		wxMpConfigStorage = new WxMpInMemoryConfigStorage();
+		wxMpConfigStorage.setAppId(configInfo.getWeChatAppID()); // 设置微信公众号的appid
+		wxMpConfigStorage.setSecret(configInfo.getWeChatAppSecret()); // 设置微信公众号的app
+		wxMpConfigStorage.setToken(configInfo.getWeChatToken()); // 设置微信公众号的token
+		wxMpConfigStorage.setAesKey(configInfo.getWeChatAESKey()); // 设置微信公众号的EncodingAESKey
+		wxMpService = new WxMpServiceImpl();
+		wxMpService.setWxMpConfigStorage(wxMpConfigStorage);
+
 	}
 
 }
