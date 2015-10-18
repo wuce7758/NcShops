@@ -348,11 +348,6 @@
 		var flag1 = "index";
 		var page1 = "1";
 		function loadGoodsData(goodPage,goodsTypeId) {
-			flag1="index";
-			flag2="byType";
-			page1="1";
-			page2="1";
-			preGoodsType="";
 			$("#sidebar").removeClass("display");
 			if (flag2 != "byType") {
 				return;
@@ -372,6 +367,7 @@
 			});
 		}
 		function check(data,flag,page) {
+			debugger;
 			if (data.TGoods == null || data.TGoods.length < 1) {
 				if(flag=="index"){
 					flag1 = "end";
@@ -433,6 +429,7 @@
 		}
 		
 		function loadData() {
+			debugger;
 			if (flag1 != "index") {
 				return;
 			}
