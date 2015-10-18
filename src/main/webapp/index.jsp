@@ -304,6 +304,7 @@
 		var preSellerId="";
 		var flag = "1";
 		var page = 1;
+		var obj= null;
 		function loadGoodsType(){
 			debugger;
 			preGoodsType="";
@@ -345,10 +346,10 @@
 							$("#goodsType").html("");
 							for ( var i = 0; i < data.TSeller.length; i++) {
 								var item = "";
-								item= "<li class='lis'>"+
+								item= "<li onClick='javascript:loadGoodsBySeller(this,"+data.TSeller[i].sellerId+")' name='"+data.TSeller[i].sellerName+"' class='lis'>"+
 											"<a href='#'>"+
 												"<i class='menu-icon fa fa-tachometer'></i>"+
-												"<span onClick='javascript:loadGoodsBySeller(this,"+data.TSeller[i].sellerId+")' class='seller"+data.TSeller[i].sellerId+"menu-text'>"+data.TSeller[i].sellerName+"</span>"+
+												"<span class='menu-text'>"+data.TSeller[i].sellerName+"</span>"+
 											"</a>"+
 											"<b class='arrow'></b>"+
 										"</li>";
@@ -357,10 +358,13 @@
 						}
 					});
 		}
-		function loadGoodsByType(obj,goodsTypeId) {
+		function loadGoodsByType(object,goodsTypeId) {
 			debugger;
-			var nav= $(obj).text();
-			$(".active").text(nav);
+			if(object!=null){
+				var nav= $(object).text();
+				$(".active").text(nav);
+				obj=object;
+			}
 			$("#sidebar").removeClass("display");
 			if (flag != "2") {
 				return;
@@ -380,10 +384,13 @@
 						}
 			});
 		}
-		function loadGoodsBySeller(obj,goodsSellerId) {
+		function loadGoodsBySeller(object,goodsSellerId) {
 			debugger;
-			var nav= $(obj).text();
-			$(".active").text(nav);
+			if(object!=null){
+				var nav= $(object).attr("name");
+				$(".active").text(nav);
+				obj=object;
+			}
 			$("#sidebar").removeClass("display");
 			if (flag != "3") {
 				return;
@@ -394,8 +401,8 @@
 			}
 			$.ajax({
 				type : "get",
-				url : "user/findgoodsByType",
-				data : {"page" : page,"goodsTypeId":goodsSellerId},
+				url : "user/findSellergoods",
+				data : {"page" : page,"sellerId":goodsSellerId},
 				dataType : "json",
 				async : false,
 				success : function(data){
@@ -404,7 +411,6 @@
 			});
 		}
 		function check(data) {
-			debugger;
 			if (data.TGoods == null || data.TGoods.length < 1) {
 				flag = "0";
 				return;
@@ -451,7 +457,6 @@
 		}
 		
 		function loadData() {
-			debugger;
 			if (flag != "1") {
 				return;
 			}
@@ -504,10 +509,10 @@
 			$(window).scroll(function() {
 					if ($(document).height() - $(this).scrollTop()- $(this).height() < 20) {
 						if(flag=="3"){
-							loadGoodsBySeller(preSellerId);
+							loadGoodsBySeller(null,preSellerId);
 						}
 						if(flag=="2"){
-							loadGoodsByType(preGoodsType);
+							loadGoodsByType(null,preGoodsType);
 						}
 						if(flag=="1"){
 							loadData();
