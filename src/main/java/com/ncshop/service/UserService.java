@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,10 +52,18 @@ public class UserService {
 		return sellerDao.findAll();
 	}
 
-	public List<TSellergoods> findSellergoods(TSeller seller) {
+	public List<TSellergoods> findSellergoods(int sellerId, int start, int max) {
+		
+		TSeller seller=new TSeller();
+		seller.setSellerId(sellerId);
+		SimpleExpression eq1 = Restrictions.eq("seller", seller);
+		SimpleExpression eq2 = Restrictions.eq("isSale", true);
+		SimpleExpression[] eqs=new SimpleExpression[2];
+		eqs[0]=eq1;
+		eqs[1]=eq2;
 		return sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(),
-				new String[] { "TGoods", "TSeller" },
-				Restrictions.eq("TSeller", seller), 0, 0, false);
+				new String[] { "TGoods", "seller" },
+				eqs, start, max, false);
 	}
 
 	public List<TGoods> findAllGoods(int start, int max) {
@@ -78,16 +87,23 @@ public class UserService {
 		}
 	}
 
-	public List<TGoods> findgoods(TGoodstype goodstype, int start, int max) {
+	/**
+	 * 
+	 * @param goodstype
+	 * @param sellerId
+	 * @param start
+	 * @param max
+	 * @return
+	 */
+	public List<TGoods> findgoods(TGoodstype goodstype,int sellerId, int start, int max) {
+		
+		SimpleExpression eq1 = Restrictions.eq("TGoodstype", goodstype);
+		SimpleExpression[] eqs=new SimpleExpression[1];
+		eqs[0]=eq1;
+		
 		return goodsDao.getEntitiestNotLazy(new TGoods(),
 				new String[] { "TGoodstype" },
-				Restrictions.eq("TGoodstype", goodstype), start, max, true);
-	}
-
-	public List<TSellergoods> findSellergood(TSellergoods sellergoods) {
-		return sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(),
-				new String[] { "TGoods", "TSeller" },
-				Restrictions.eq("TSellergoods", sellergoods), 0, 0, false);
+				eqs, start, max, true);
 	}
 
 	public boolean bind(TUser user, TAddress address) {
@@ -119,16 +135,21 @@ public class UserService {
 	}
 
 	public List<TSellergoods> findGoodsdetail() {
+		
+		SimpleExpression[] eqs=new SimpleExpression[1];
 		List<TSellergoods> list = sellergoodsDAO.getEntitiestNotLazy(
 				new TSellergoods(), new String[] { "TGoods", "seller" }, null,
 				0, 0, false);
 
 		for (TSellergoods tSellergoods : list) {
 			TGoods goods = tSellergoods.getTGoods();
+			
+			SimpleExpression eq1 = Restrictions.eq("goodsId",  goods.getGoodsId());
+			eqs[0]=eq1;
 			TGoods tempgGoods = goodsDao
 					.getEntitiestNotLazy(new TGoods(),
 							new String[] { "TGoodstype" },
-							Restrictions.eq("goodsId", goods.getGoodsId()), 0,
+							eqs, 0,
 							0, false).get(0);
 			tSellergoods.setTGoods(tempgGoods);
 			TGoodstype findById = goodstypeDAO.findById(goods.getGoodsId());

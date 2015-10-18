@@ -29,7 +29,7 @@ public class BaseDao extends BaseHibernateDAO {
 	 * @return
 	 */
 	public <T> List<T> getEntitiestNotLazy(T t, String[] fields,
-			SimpleExpression eq, int start, int max, boolean flag) {
+			SimpleExpression[] eq, int start, int max, boolean flag) {
 		Session session = getHibernateTemplate().getSessionFactory()
 				.openSession();
 		try {
@@ -48,7 +48,9 @@ public class BaseDao extends BaseHibernateDAO {
 
 			if (eq != null) {
 
-				criteria.add(eq);
+				for (SimpleExpression simpleExpression : eq) {
+					criteria.add(simpleExpression);
+				}
 			}
 			List<T> list = criteria.list();
 			return list;
