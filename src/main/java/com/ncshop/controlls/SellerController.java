@@ -283,6 +283,7 @@ public class SellerController {
 	public void findAllOrder(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		// 调用service查找 数据库
 		List<TOrder> list=sellerService.findAllOrder();
+		System.out.print(toJson(new TOrder(), list, null));
 		request.setAttribute("orderList", list);
 		request.getRequestDispatcher("/admin/page/order.jsp").forward(request,response);
 	}

@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	response.setHeader("Access-Control-Allow-Origin", "*");
 	String path = request.getContextPath();
@@ -86,7 +87,8 @@
 					<ul class="breadcrumb">
 						<li><i class="ace-icon fa fa-home home-icon"></i><a href="#">商城管理系统</a>
 						</li>
-						<li><a href="#">订单管理</a></li>
+						<li><a href="#">订单管理</a>
+						</li>
 					</ul>
 					<jsp:include page="../WebPart/SearchBox.jsp"></jsp:include>
 				</div>
@@ -106,20 +108,24 @@
 								<thead>
 									<tr>
 										<th class="center"><label class="pos-rel"> <input
-												type="checkbox" class="ace" /> <span class="lbl"></span> </label>
+												type="checkbox" class="ace" /> <span class="lbl"></span> </label></th>
+										<th><small>订单号</small>
 										</th>
-										<th><small>订单号</small></th>
-										<th><small>客户ID</small></th>
-										<th><small>商户ID</small></th>
-										<th><i class="fa fa-clock-o bigger-130"><small>下单时间</small></i></th>
-										<th><small>应付</small></th>
-										<th><small>状态</small></th>
-										<th>
-												<a class="blue buttongoods" href="javascript:void(0)"
-													id="buttonadd" oper="add"> <i
-													class="fa fa-print red bigger-130"><b class="red">点击批量打印已勾选的订单</b>
-												</i> </a>
+										<th><small>客户ID</small>
 										</th>
+										<th><small>商户ID</small>
+										</th>
+										<th><i class="fa fa-clock-o bigger-130"><small>下单时间</small>
+										</i>
+										</th>
+										<th><small>应付</small>
+										</th>
+										<th><small>状态</small>
+										</th>
+										<th><a class="blue buttongoods" href="javascript:void(0)"
+											id="buttonadd" oper="add"> <i
+												class="fa fa-print red bigger-130"><b class="red">点击批量打印已勾选的订单</b>
+											</i> </a></th>
 									</tr>
 								</thead>
 
@@ -129,19 +135,36 @@
 										<tr>
 											<td class="center"><label class="pos-rel"> <input
 													type="checkbox" class="ace" /> <span class="lbl"></span> </label>
+											<p class="hide">
+												<c:out value="{'table':["></c:out>
+													<c:forEach items="${trl.TOrderdetails}" var="detail" varStatus="status">
+															<c:out value="{'goodsName':'${detail.TGoods.goodsName}',"></c:out>
+															<c:out value="'goodsPrice':'${detail.TGoods.goodsPrice}',"></c:out>
+															<c:out value="'goodsCount':'${detail.buyMount}',"></c:out>
+															<c:choose>
+																<c:when test="${status.isLast() }">
+																	<c:out value="'buyCost':'${detail.buyCost}'}"></c:out>
+																</c:when>
+																<c:otherwise>
+																	<c:out value="'buyCost':'${detail.buyCost}'},"></c:out>
+																</c:otherwise>
+															</c:choose>
+															
+															
+													</c:forEach>
+												<c:out value="]}"></c:out>
+											</p>
 											</td>
 											<td>${trl.orderNo}</td>
 
 											<td class="hidden-480"><a class="orderUserPopover"
 												href="javascript:void(0);" data-container="body"
 												data-placement="bottom" name="${trl.userId}">
-													${trl.userId} </a>
-											</td>
+													${trl.userId} </a></td>
 											<td class="hidden-480"><a class="orderSellerPopover"
 												href="javascript:void(0);" data-container="body"
 												data-placement="bottom" name="${trl.sellerId }">
-													${trl.sellerId }</a>
-											</td>
+													${trl.sellerId }</a></td>
 											<td class="hidden-480">${trl.orderTime}</td>
 											<td class="hidden-480">${trl.orderTotalCost}</td>
 											<td id="orderState${trl.orderId}"><span class=""
@@ -149,7 +172,7 @@
 											</td>
 											<td>
 												<div class="hidden-sm hidden-xs action-buttons">
-													<a class="blue buttongoods" href="javascript:void(0)"
+													<a class="blue orderdetaill" href="javascript:void(0)"
 														name="${trl.orderId}" oper="detaill"> <i
 														class="fa fa-search-plus bigger-130"><small></small> </i>
 													</a>
@@ -240,127 +263,83 @@
 																name="${trl.orderId}" onclick="GetDetail(this)"
 																class="tooltip-info" data-rel="tooltip" title="View">
 																	<span class="blue"> <i
-																		class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a></li>
+																		class="ace-icon fa fa-search-plus bigger-120"></i> </span> </a>
+															</li>
 
 															<li><a href="javascript:void(0)"
 																name="${trl.orderId}" onclick="Modify(this)"
 																class="tooltip-success" data-rel="tooltip" title="Edit">
 																	<span class="green"> <i
 																		class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																</span> </a></li>
+																</span> </a>
+															</li>
 
 															<li><a href="ClassDelete?classId=${trl.orderId}"
 																class="tooltip-error" data-rel="tooltip" title="Delete">
 																	<span class="red"> <i
-																		class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a></li>
+																		class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a>
+															</li>
 														</ul>
 													</div>
-												</div></td>
+												</div>
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
 							<!-- PAGE CONTENT ENDS -->
 						</div>
-
+						<div id="sureprint" class="hide">
+						
+						</div>
 						<div id="dialog-message" class="hide">
-							<form id="formgoodsinfo">
-								<input disabled type="hidden" name="sellerId" value="0"
-									id="sellerId" />
-								<div class="col-sm-12">
-									<!-- 商店名称 -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-0"
-											class="col-sm-3 control-label no-padding-right">店名:</label>
-										<div class="col-sm-9">
-											<input type="text" id="form-field-0" name="shopName"
-												placeholder="商店名称" class="col-xs-12 col-sm-12" />
+							<input disabled type="hidden" name="sellerId" value="0"
+								id="sellerId" />
+							<div class="col-sm-12">
+								<div class="col-xs-12 col-sm-12 pricing-box" style="height:100%">
+									<div class="widget-box widget-color-blue" style="height:100%">
+										<div class="widget-header">
+											<h5 class="widget-title bigger lighter">优选商城订单详情</h5>
 										</div>
-									</div>
-									<!-- 商家姓名 -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-1"
-											class="col-sm-3 control-label no-padding-right">姓名:</label>
-										<div class="col-sm-9">
-											<input type="text" id="form-field-1" name="sellerName"
-												placeholder="商家姓名" class="col-xs-12 col-sm-12" />
-										</div>
-									</div>
-									<!-- 商家电话 -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-2"
-											class="col-sm-3 control-label no-padding-right">电话:</label>
-										<div class="col-sm-9">
-											<input onkeyup="value=value.replace(/[^0-9]/g,'')"
-												type="text" id="form-field-2" name="sellerPhone"
-												placeholder="商家联系方式" class="col-xs-12 col-sm-12" />
-										</div>
-									</div>
-									<!-- 配送费用 -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-3"
-											class="col-sm-3 control-label no-padding-right">运费:</label>
-										<div class="col-sm-9">
-											<input onkeyup="value=value.replace(/[^0-9|.]/g,'')"
-												type="text" id="form-field-3" name="deliverMoney"
-												placeholder="配送费用" class="col-xs-12 col-sm-12" />
-										</div>
-									</div>
-									<!-- 最低费用 -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-4"
-											class="col-sm-3 control-label no-padding-right">消费：</label>
-										<div class="col-sm-9">
-											<input onkeyup="value=value.replace(/[^0-9|.]/g,'')"
-												type="text" id="form-field-4" name="minBuy"
-												placeholder="最低消费" class="col-xs-12 col-sm-12" />
-										</div>
-									</div>
-									<!-- 最低费用 -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-5"
-											class="col-sm-3 control-label no-padding-right">期限:</label>
-										<div class="col-sm-9">
-											<input onkeyup="value=value.replace(/[^0-9]/g,'')"
-												type="text" id="form-field-5" name="joinDeadline"
-												placeholder="加盟期限" class="col-xs-12 col-sm-12" />
-										</div>
-									</div>
-									<!--  -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-6"
-											class="col-sm-3 control-label no-padding-right">地址:</label>
-										<div class="col-sm-9">
-											<input type="text" name="sellerAddress" id="form-field-6"
-												placeholder="商家地址" class="col-xs-12 col-sm-12" />
-										</div>
-									</div>
-									<!-- 商家简介 -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-7"
-											class="col-sm-3 control-label no-padding-right">简介:</label>
-										<div class="col-sm-9">
-											<textarea id="form-field-7"
-												class="autosize-transition form-control" name="sellerMsg"
-												placeholder="商家说明" maxlength="100"></textarea>
+
+										<div class="widget-body">
+											<div class="widget-main">
+												<ul class="list-unstyled spaced2">
+													<!-- 循环遍历域里的数据 -->
+													<table style="width:100%">
+														<c:forEach var="orderdetail" items="${odersdetails }">
+															<tr>
+																<td style="width:70%"><i
+																	class="ace-icon fa fa-check green"></i>
+																	${orderdetail.TGoods.goodsName }</td>
+																<td style="width:10%">x${orderdetail.buyMount }</td>
+																<td style="width:20%;text-align:right">￥<font
+																	class="buyCost">${orderdetail.buyCost }</font></td>
+															</tr>
+														</c:forEach>
+													</table>
+												</ul>
+
+												<hr />
+												<div id="orderPrice" class="price">
+													<strong>${sessionScope.allCost }</strong><small>元</small>
+												</div>
+												<p>
+													<c:out value="接收人：${address.receiverName }"></c:out>
+												</p>
+												<p>
+													<c:out value="送货地址：${address.adsContent }"></c:out>
+												</p>
+												<p>
+													<c:out value="联系方式：${address.adsPhone }"></c:out>
+												</p>
+
+											</div>
+
 										</div>
 									</div>
 								</div>
-
-								<div class="hr hr-12 hr-double"></div>
-
-								<div style="width:100%;text-align: center" id="error"></div>
-								<div>
-									<button style="margin-left:10px" class="btn btn-info col-sm-5"
-										id="goodssave" type="button">
-										<i class="ace-icon fa fa-check bigger-110"></i>保存
-									</button>
-									<button style="margin-left:25px"
-										class="btn btn-success col-sm-5" id="goodssave" type="reset">
-										<i class="ace-icon fa fa-check bigger-110"></i>重置
-									</button>
-								</div>
-							</form>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -391,191 +370,186 @@
 		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/ColVis/js/dataTables.colVis.js"></script>
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
-		$(document)
-				.ready(
-						function() {
-
-							$(".orderState")
-									.change(
-											function() {
-												var orderId = $(this).attr(
-														"name");
-												var orderState = $(this).val();
-												$
-														.ajax({
-															type : "post",
-															url : "${pageContext.request.contextPath }/seller/changeOrderState",
-															dataType : "json",
-															data : {
-																"orderId" : orderId,
-																"orderState" : orderState
-															},
-															async : false,
-															success : function(
-																	data) {
-																if (data == "1") {
-																	$(
-																			"td[id='orderState"
-																					+ orderId
-																					+ "'] span")
-																			.attr(
-																					"name",
-																					"orderState"
-																							+ orderState);
-																	myEach();
-																} else {
-
-																}
-															},
-															error : function() {
-																alert("修改失败");
-															}
-														});
-											});
-							//显示商家详细信息
-							$(".orderSellerPopover")
-									.popover(
-											{
-												html : true,
-												title : function() {
-													return "商家信息详情";
-												},
-												content : function() {
-													var sellerinfo;
-													var sellerid = $(this).attr('name');
-													$.ajax({
-																type : "post",
-																url : "${pageContext.request.contextPath }/seller/getSellerById",
-																dataType : "json",
-																data : {
-																	"sellerId" : sellerid
-																},
-																async : true,
-																success : function(
-																		data) {
-																	var orderseller = JSON.stringify(data.TSeller);
-																	var obj = JSON.parse(orderseller);
-																	
-																	sellerinfo = "<p>商店名："+obj[0].shopName+"</p><br>"+
-																				 "<p>老板:"+obj[0].sellerName+"</P><br>"+
-																				 "<p>地址:"+obj[0].sellerAddress+"</P><br>"+
-																				 "<p>电话:"+obj[0].sellerPhone+"</P><br>";
-																	$("#seller"+sellerid).html(sellerinfo);
-																},
-																error : function(
-																		XMLHttpRequest,
-																		textStatus,
-																		errorThrown) {
-																	sellerinfo = errorThrown;
-																}
-															});
-													return "<div id='seller"+$(this).attr('name')+"'>查询中......</div>";
-												}
-											});
-							//显示订单用户信息
-							$(".orderUserPopover")
-									.popover(
-											{
-												html : true,
-												title : function() {
-													return "订单客户详情";
-												},
-												content : function() {
-													var userinfo;
-													var userid = $(this).attr('name');
-													$.ajax({
-																type : "post",
-																url : "${pageContext.request.contextPath }/seller/getUserById",
-																dataType : "json",
-																data : {
-																	"userId" : userid
-																},
-																async : true,
-																success : function(
-																		data) {
-																	var orderuser = JSON.stringify(data.TUser);
-																	var obj = JSON.parse(orderuser);
-																	var address=obj[0].TAddresses;
-																	for(var i=0;i<address.length;i++){
-																		if(address[0].isDefault){
-																			userinfo = "<p>姓名："+address[i].receiverName+"</p><br>"+
-																				 "<p>电话:"+address[i].adsPhone+"</P><br>"+
-																				 "<p>地址:"+address[i].adsContent+"</P><br>";
-																			break;
-																		}
-																	}
-																	$("#user"+userid).html(userinfo);
-																},
-																error : function(
-																		XMLHttpRequest,
-																		textStatus,
-																		errorThrown) {
-																	userinfo = errorThrown;
-																}
-															});
-													return "<div id='user"+$(this).attr('name')+"'>查询中......</div>";
-												}
-											});
+	$(document).ready(function(){
+		$(".orderdetaill").click(function(){
+			var dialog = $("#dialog-message").removeClass('hide').dialog({
+				modal : true,
+				title : "",
+				title_html : true,
+				buttons: [{
+					text: "关闭窗口",
+					"class": "btn btn-minier",
+					click: function() {
+						$(this).dialog("close");
+					}
+				}, {
+					text: "确定并打印",
+					"class": "btn btn-primary btn-minier",
+					click: function() {
+						var goods_type = "";
+							$.ajax({
+								type: "post",
+								url: "../../seller/getAllGoodsType",
+								enctype: 'multipart/form-data',
+								data:$('#dialog-message').serialize(),//$("#dialog-message").serialize(),
+								async: false,
+								success: function(data) {
+									var goods_types = JSON.stringify(data.TGoodstype);
+									var obj = JSON.parse(goods_types);
+									for (var i = 0; i < obj.length; i++) {
+										goods_type += obj[i].goodsTypeId + ":" + obj[i].goodsTypeName;
+										if (i < obj.length - 1) {
+											goods_type += ";";
+										}
+									}
+								}
+							});
+						}
+					}]
+				});
+			});
+			$(".orderState").change(function(){
+				var orderId = $(this).attr("name");
+				var orderState = $(this).val();
+				$.ajax({
+					type : "post",
+					url : "${pageContext.request.contextPath }/seller/changeOrderState",
+					dataType : "json",
+					data : {
+						"orderId" : orderId,
+						"orderState" : orderState
+						},
+					async : false,
+					success : function(data){
+						if (data == "1") {
+							$("td[id='orderState"+ orderId+"'] span").attr("name","orderState"+ orderState);
 							myEach();
-							myEachPopover("a", "goodsMsgPopover", 0, 10);
-
-						});
-
-		function myEach() {
-			$(".orderState").each(
-					function() {
-						var state = $(this).attr("oper");
-						var orderId = $(this).attr("name");
-						$(
-								"option[name='" + orderId + "oso" + state
-										+ state + "']")
-								.attr("selected", "true");
-						//alert($(this).find("option[value="+state+"]").val());
-
+						} else {
+						
+						}
+					},
+					error : function() {
+						alert("修改失败");
+						}
 					});
-			$("span[name='orderState0']").each(function() {
-				$(this).attr("class", "");
-				$(this).attr("class", "label label-sm");
-				$(this).text("刚提交");
+				});
+			});
+			//显示商家详细信息
+			$(".orderSellerPopover").popover({
+				html : true,
+				title : function() {
+					return "商家信息详情";
+				},
+				content : function() {
+					var sellerinfo;
+					var sellerid = $(this).attr('name');
+					$.ajax({
+						type : "post",
+						url : "${pageContext.request.contextPath }/seller/getSellerById",
+						dataType : "json",
+						data : {"sellerId" : sellerid},
+						async : true,
+						success : function(data) {
+							var orderseller = JSON.stringify(data.TSeller);
+							var obj = JSON.parse(orderseller);
 
-			});
-			$("span[name='orderState1']").each(function() {
-				$(this).attr("class", "");
-				$(this).attr("class", "label label-sm label-info");
-				$(this).text("已确认");
-			});
-			$("span[name='orderState2']").each(function() {
-				$(this).attr("class", "");
-				$(this).attr("class", "label label-sm label-warning");
-				$(this).text("配送...");
-			});
-			$("span[name='orderState3']").each(function() {
-				$(this).attr("class", "");
-				$(this).attr("class", "label label-sm label-success");
-				$(this).text("成功");
-			});
-			$("span[name='orderState4']").each(function() {
-				$(this).attr("class", "");
-				$(this).attr("class", "label label-sm label-danger");
-				$(this).text("已取消");
-			});
-			$("i[name='goodsIsSaleActiontrue']").each(function() {
-				try {
-					$(this).removeClass("fa-toggle-off");
-				} catch (e) {
+							sellerinfo = "<p>商店名："+ obj[0].shopName+ "</p><br>"+ 
+										 "<p>老板:"+ obj[0].sellerName+ "</P><br>"
+									   + "<p>地址:"+ obj[0].sellerAddress+ "</P><br>"
+									   + "<p>电话:"+ obj[0].sellerPhone+ "</P><br>";
+							$("#seller"+ sellerid).html(sellerinfo);
+						},error : function(XMLHttpRequest,textStatus,errorThrown) {
+							sellerinfo = errorThrown;
+						}
+					});
+					return "<div id='seller"+ $(this).attr('name')+ "'>查询中......</div>";
 				}
-				$(this).addClass("fa-toggle-on");
-				$(this).text("解除合作");
 			});
-			$("i[name='goodsIsSaleActionfalse']").each(function() {
-				try {
-					$(this).removeClass("fa-toggle-on");
-				} catch (e) {
+			//显示订单用户信息
+			$(".orderUserPopover").popover({
+				html : true,
+				title : function() {
+					return "订单客户详情";
+				},
+				content : function() {
+					var userinfo;
+					var userid = $(this).attr('name');
+					$.ajax({
+						type : "post",
+						url : "${pageContext.request.contextPath }/seller/getUserById",
+						dataType : "json",
+						data : {"userId" : userid},
+						async : true,
+						success : function(data) {
+							var orderuser = JSON.stringify(data.TUser);
+							var obj = JSON.parse(orderuser);
+							var address = obj[0].TAddresses;
+							for ( var i = 0; i < address.length; i++) {
+								if (address[0].isDefault) {
+									userinfo = "<p>姓名："+ address[i].receiverName+ "</p><br>"
+											+ "<p>电话:"+ address[i].adsPhone+ "</P><br>"
+											+ "<p>地址:"+ address[i].adsContent+ "</P><br>";
+									break;
+								}
+							}
+							$("#user"+ userid).html(userinfo);
+						},error : function(XMLHttpRequest,textStatus,errorThrown) {
+							userinfo = errorThrown;
+						}
+					});
+					return "<div id='user"+ $(this).attr('name')+ "'>查询中......</div>";
 				}
-				$(this).addClass("fa-toggle-off");
-				$(this).text("开始合作");
 			});
-		}
+			myEach();
+			function myEach() {
+				$(".orderState").each(function() {
+					var state = $(this).attr("oper");
+					var orderId = $(this).attr("name");
+					$("option[name='" + orderId + "oso" + state+ state + "']").attr("selected", "true");
+						//alert($(this).find("option[value="+state+"]").val());
+				});
+				$("span[name='orderState0']").each(function() {
+					$(this).attr("class", "");
+					$(this).attr("class", "label label-sm");
+					$(this).text("刚提交");
+				});
+				$("span[name='orderState1']").each(function() {
+					$(this).attr("class", "");
+					$(this).attr("class", "label label-sm label-info");
+					$(this).text("已确认");
+				});
+				$("span[name='orderState2']").each(function() {
+					$(this).attr("class", "");
+					$(this).attr("class", "label label-sm label-warning");
+					$(this).text("配送...");
+				});
+				$("span[name='orderState3']").each(function() {
+					$(this).attr("class", "");
+					$(this).attr("class", "label label-sm label-success");
+					$(this).text("成功");
+				});
+				$("span[name='orderState4']").each(function() {
+					$(this).attr("class", "");
+					$(this).attr("class", "label label-sm label-danger");
+					$(this).text("已取消");
+				});
+				$("i[name='goodsIsSaleActiontrue']").each(function() {
+					try {
+						$(this).removeClass("fa-toggle-off");
+					} catch (e) {
+					}
+					$(this).addClass("fa-toggle-on");
+					$(this).text("解除合作");
+				});
+				$("i[name='goodsIsSaleActionfalse']").each(function() {
+					try {
+						$(this).removeClass("fa-toggle-on");
+					} catch (e) {
+					}
+					$(this).addClass("fa-toggle-off");
+					$(this).text("开始合作");
+				});
+			}
 		jQuery(function($) {
 
 			//initiate dataTables plugin
