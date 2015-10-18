@@ -153,7 +153,7 @@ public class UserController {
 			if (page != null) {
 				pageCount = Integer.parseInt(page);
 				// 调用service查找 数据库
-				goodsList = userService.findgoods(goodstype, 1,
+				goodsList = userService.findgoods(goodstype, 101,
 						(pageCount - 1) * 10, 10);
 			}
 			String json = toJson(new TGoods(), goodsList, null);
