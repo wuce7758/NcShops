@@ -306,7 +306,6 @@
 		var page = 1;
 		var obj= null;
 		function loadGoodsType(){
-			debugger;
 			preGoodsType="";
 			preSellerId="";
 			flag ="2";
@@ -364,6 +363,8 @@
 				var nav= $(object).text();
 				$(".active").text(nav);
 				obj=object;
+			}else{
+				$("#goodsList").html("");
 			}
 			$("#sidebar").removeClass("display");
 			if (flag != "2") {
@@ -390,6 +391,8 @@
 				var nav= $(object).attr("name");
 				$(".active").text(nav);
 				obj=object;
+			}else{
+				$("#goodsList").html("");
 			}
 			$("#sidebar").removeClass("display");
 			if (flag != "3") {
