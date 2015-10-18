@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,9 +27,9 @@ public class TOrder implements java.io.Serializable {
 	// Fields
 
 	private Integer orderId;
-	private Integer userId;
+	private TUser user;
 	private String orderNo;
-	private Integer sellerId;
+	private TSeller seller;
 	private Date orderTime=new Date();
 	private Double orderTotalCost=0.0;
 	private String orderMsg;
@@ -47,13 +48,14 @@ public class TOrder implements java.io.Serializable {
 		this.orderId = orderId;
 	}
 
-	@Column(name = "userId", length = 11)
-	public Integer getUserId() {
-		return userId;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "userId")
+	public TUser getUser() {
+		return user;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUser(TUser user) {
+		this.user= user;
 	}
 
 	@Column(name = "orderNo", length = 8)
@@ -64,14 +66,14 @@ public class TOrder implements java.io.Serializable {
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
 	}
-	
-	@Column(name = "sellerId", length = 11)
-	public Integer getSellerId() {
-		return sellerId;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "sellerId")
+	public TSeller getSeller() {
+		return seller;
 	}
 
-	public void setSellerId(Integer sellerId) {
-		this.sellerId = sellerId;
+	public void setSeller(TSeller seller) {
+		this.seller = seller;
 	}
 	//@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "orderTime")

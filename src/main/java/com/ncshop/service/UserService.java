@@ -95,20 +95,18 @@ public class UserService {
 	 * @param max
 	 * @return
 	 */
-	public List<TGoods> findgoods(TGoodstype goodstype,int sellerId, int start, int max) {
+	public List<TSellergoods> findgoods(TGoodstype goodstype,int sellerId, int start, int max) {
 		
 		TSeller seller=new TSeller();
 		seller.setSellerId(sellerId);
-		SimpleExpression eq1 = Restrictions.eq("TGoodstype", goodstype);
-		SimpleExpression eq2 = Restrictions.eq("seller",seller);
-		SimpleExpression eq3 = Restrictions.eq("isSale", true);
+		SimpleExpression eq1 = Restrictions.eq("seller",seller);
+		SimpleExpression eq2 = Restrictions.eq("isSale", true);
 		SimpleExpression[] eqs=new SimpleExpression[2];
 		eqs[0]=eq1;
 		eqs[1]=eq2;
-		eqs[2]=eq3;
 		
-		return sellergoodsDAO.getEntitiestNotLazy(new TGoods(),
-				new String[] { "TGoodstype" },
+		return sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(),
+				new String[] { "TGoods" },
 				eqs, start, max, true);
 	}
 
@@ -231,5 +229,16 @@ public class UserService {
 		
 		Object [] objs={Integer.parseInt(userId)};
 		return orderDao.getHibernateTemplate().find("from TOrder where userId=? order by orderTime desc",objs);
+	}
+
+	public List<TOrder> findOrderByeOrderNo(String orderNo) {
+		Object [] objs={orderNo};
+		return orderDao.getHibernateTemplate().find("from TOrder where orderNo=?",objs);
+	}
+
+	public List<TOrderdetail> findOrderdetail(Integer orderId) {
+		
+		Object objs []={orderId};
+		return orderdetailDAO.getHibernateTemplate().find("from TOrderdetail where orderId=?",objs);
 	}
 }

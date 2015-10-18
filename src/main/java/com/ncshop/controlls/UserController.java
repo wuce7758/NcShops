@@ -71,7 +71,8 @@ public class UserController {
 			response.setContentType("application/json");
 			response.getWriter().write(json);
 		} catch (Exception e) {
-			LogBuilder.writeToLog(e.getMessage());
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
 		}
 	}
 
@@ -104,7 +105,8 @@ public class UserController {
 			response.setContentType("application/json");
 			response.getWriter().write(json);
 		} catch (Exception e) {
-			LogBuilder.writeToLog(e.getMessage());
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
 		}
 
 	}
@@ -128,7 +130,8 @@ public class UserController {
 					request, response);
 			return;
 		} catch (Exception e) {
-			LogBuilder.writeToLog(e.getMessage());
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
 		}
 
 	}
@@ -141,14 +144,16 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/findgoodsByType")
-	public void findgoodsByType(String goodsTypeId,HttpServletResponse response, HttpServletRequest request)throws Exception {
+	public void findgoodsByType(String goodsTypeId,
+			HttpServletResponse response, HttpServletRequest request)
+			throws Exception {
 		try {
 
 			String page = request.getParameter("page");
 			System.out.println(page);
 			int pageCount;
-			List<TGoods> goodsList = null;
-			TGoodstype goodstype=new TGoodstype();
+			List<TSellergoods> goodsList = null;
+			TGoodstype goodstype = new TGoodstype();
 			goodstype.setGoodsTypeId(Integer.parseInt(goodsTypeId));
 			// 分页查找
 			if (page != null) {
@@ -157,13 +162,21 @@ public class UserController {
 				goodsList = userService.findgoods(goodstype, 101,
 						(pageCount - 1) * 10, 10);
 			}
-			String json = toJson(new TGoods(), goodsList, null);
+			List<TGoods> goods = new ArrayList<TGoods>();
+			for (TSellergoods tSellergoods : goodsList) {
+				if (tSellergoods.getTGoods().getTGoodstype().getGoodsTypeId() == (Integer
+						.parseInt(goodsTypeId))) {
+					goods.add(tSellergoods.getTGoods());
+				}
+			}
+			String json = toJson(new TGoods(), goods, null);
 			// 设置response的传输格式为json
 			response.setContentType("application/json");
 			response.getWriter().write(json);
 		} catch (Exception e) {
 			e.printStackTrace();
-			LogBuilder.writeToLog(e.getMessage());
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
 		}
 
 	}
@@ -200,7 +213,8 @@ public class UserController {
 			response.setContentType("application/json");
 			response.getWriter().write(json);
 		} catch (Exception e) {
-			LogBuilder.writeToLog(e.getMessage());
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
 		}
 	}
 
@@ -254,7 +268,8 @@ public class UserController {
 			return null;
 
 		} catch (Exception e) {
-			LogBuilder.writeToLog(e.getMessage());
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
 		}
 		return null;
 	}
@@ -293,14 +308,16 @@ public class UserController {
 			order.setOrderState(0);
 			order.setOrderTotalCost(orderTotalCost);
 			if (user == null) {
-				order.setUserId(1);
+				order.setUser(new TUser());
 			} else {
-				order.setUserId(user.getUserId());
+				order.setUser(user);
 			}
 			TSellergoods sellergoods = userService
 					.findSellergoodsByGoodsID(tOrderdetail.getTGoods()
 							.getGoodsId());
-			order.setSellerId(sellergoods.getSeller().getSellerId());
+			TSeller seller = new TSeller();
+			seller.setSellerId(sellergoods.getSeller().getSellerId());
+			order.setSeller(seller);
 			if (userService.order(order, odersdetails)) {
 				// 给用户发送消息
 				initMessageContext();
@@ -310,7 +327,9 @@ public class UserController {
 				// 发送给下单人的消息
 				templateMessage
 						.setTemplateId("IGEJWO5GBj7GOeIKIZJLVYwweZyPqTcfY0uhFu0NHog");
-				templateMessage.setUrl("www.baidu.com");
+				templateMessage
+						.setUrl("ncshop.zcdreams/user/findOrderByOrderNo?orderNo"
+								+ order.getOrderNo());
 				templateMessage.setTopColor("#ff0000");
 				templateMessage.getDatas().add(
 						new WxMpTemplateData("orderId", order.getOrderNo(),
@@ -333,7 +352,8 @@ public class UserController {
 				WxMpTemplateMessage toBoss = new WxMpTemplateMessage();
 				toBoss.setToUser("okbTSvpMmbJxwyVbK1_zlhrOXRbM");
 				toBoss.setTemplateId("Y1tnm_eiApm6kia7trtGGIywhQJiDpmOAxuOCgeiHaY");
-				toBoss.setUrl("www.baidu.com");
+				toBoss.setUrl("ncshop.zcdreams/user/findOrderByOrderNo?orderNo"
+						+ order.getOrderNo());
 				toBoss.setTopColor("#ff0000");
 				TAddress address = userService.findAddress(user.getUserId())
 						.get(0);
@@ -379,7 +399,8 @@ public class UserController {
 			try {
 				response.getWriter().write(e.getMessage());
 			} catch (Exception e1) {
-				LogBuilder.writeToLog(e.getMessage());
+				LogBuilder.writeToLog(UserController.class.getName()
+						+ e.getMessage());
 				e1.printStackTrace();
 			}
 		}
@@ -423,7 +444,8 @@ public class UserController {
 			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
 					request, response);
 		} catch (Exception e) {
-			LogBuilder.writeToLog(e.getMessage());
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
 		}
 	}
 
@@ -454,7 +476,8 @@ public class UserController {
 				wxMpService.templateSend(message);
 			}
 		} catch (Exception e) {
-			LogBuilder.writeToLog(e.getMessage());
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
 		}
 
 	}
@@ -475,6 +498,12 @@ public class UserController {
 			Map<String, List<T>> map = new HashMap<String, List<T>>();
 			map.put(t.getClass().getName().replace("com.ncshop.domain.", ""),
 					list);
+			try {
+				finalize();
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if (fieldNames != null) {
 				TargetStrategy ts = null;
 				ts = new TargetStrategy(t.getClass());
@@ -488,7 +517,8 @@ public class UserController {
 			System.out.println(json);
 			return json;
 		} catch (Exception e) {
-			LogBuilder.writeToLog(e.getMessage());
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
 			return null;
 		}
 
@@ -518,9 +548,118 @@ public class UserController {
 					request, response);
 			return;
 		} catch (Exception e) {
-			LogBuilder.writeToLog(e.getMessage());
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
 			e.printStackTrace();
 		}
 	}
 
+	@RequestMapping("/findOrderByOrderNo")
+	public void findOrdersByOrderNo(String orderNo, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		try {
+			List<TOrder> orders = userService.findOrderByeOrderNo(orderNo);
+			request.setAttribute("orderList", orders);
+			Set<TAddress> addresses = new HashSet<TAddress>();
+			TUser user = null;
+			for (TOrder tOrder : orders) {
+				List<TAddress> tAddresses = userService.findAddress(tOrder
+						.getUser().getUserId());
+				for (TAddress tAddress : tAddresses) {
+					if (tAddress.getIsDefault()) {
+						addresses.add(tAddress);
+						user = tOrder.getUser();
+						user.setTAddresses(addresses);
+						tOrder.setUser(user);
+						break;
+					}
+				}
+			}
+			request.getRequestDispatcher("/custom/OrderList.jsp").forward(
+					request, response);
+			return;
+		} catch (Exception e) {
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	@RequestMapping("clearCart")
+	public void clearCart(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		try {
+			if (request.getSession().getAttribute("odersdetails") != null) {
+				request.getSession().removeAttribute("odersdetails");
+			}
+			response.sendRedirect("/index.jsp");
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
+		}
+		return;
+	}
+
+	@RequestMapping("/gotoCart")
+	public void gotoCart(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		try {
+			if (request.getSession().getAttribute("odersdetails") == null) {
+				response.sendRedirect("/index.jsp");
+			} else {
+				request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
+						request, response);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
+		}
+
+	}
+
+	@RequestMapping("/ajax/findOrderByOrderNo")
+	public void findOrderByOrderNoByAjax(String orderNo,
+			HttpServletResponse response) {
+		try {
+			TOrder tOrder = userService.findOrderByeOrderNo(orderNo).get(0);
+			Set<TAddress> addresses = new HashSet<TAddress>();
+			Set<TOrderdetail> orderdetails = new HashSet<TOrderdetail>();
+			TUser user = null;
+			List<TAddress> tAddresses = userService.findAddress(tOrder
+					.getUser().getUserId());
+			for (TAddress tAddress : tAddresses) {
+				if (tAddress.getIsDefault()) {
+					addresses.add(tAddress);
+					user = tOrder.getUser();
+					user.setTAddresses(addresses);
+					tOrder.setUser(user);
+					break;
+				}
+
+				List<TOrderdetail> list = userService.findOrderdetail(tOrder
+						.getOrderId());
+				for (TOrderdetail tOrderdetail : list) {
+					orderdetails.add(tOrderdetail);
+				}
+				tOrder.setTOrderdetails(orderdetails);
+
+			}
+			List<TOrder> orders = new ArrayList<TOrder>();
+			orders.add(tOrder);
+			String json = toJson(new TOrder(), orders, null);
+			// 设置response的传输格式为json
+			response.setContentType("application/json");
+			response.getWriter().write(json);
+			return;
+		} catch (Exception e) {
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
+			e.printStackTrace();
+		}
+	}
 }

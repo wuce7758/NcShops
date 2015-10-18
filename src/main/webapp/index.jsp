@@ -240,16 +240,16 @@
 					</a>
 				</li>
 				<li class="green col-xs-4">
-					<a style="margin-left: 9px" href="${pageContext.request.contextPath }/custom/person.jsp">
+					<a style="margin-left: 9px" href="${pageContext.request.contextPath }/user/gotoCart">
 						<i class="ace-icon fa fa-user icon-animated-vertical"></i>
-						个人中心
+						购物车
 					</a>
 				</li>
 				<li class="green col-xs-4">
 					<a href="javascript:void(0)">
 						<i class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i>
 						<span onClick="goBuy()">
-							确认购买
+							加入购物车
 							<span id="countSpan" style="display:none;position: absolute;" class="badge badge-red">
 								<font id="count" color="red"></font>
 							</span>

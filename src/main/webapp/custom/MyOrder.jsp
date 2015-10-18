@@ -374,9 +374,9 @@
 					</a>
 				</li>
 				<li class="green col-xs-4">
-					<a href="/user/findOrdersByUser">
+					<a href="/user/clearCart">
 						<i style="margin-left: 9px" class="ace-icon fa fa-user icon-animated-vertical"></i>
-						个人中心
+						清空购物车
 					</a>
 				</li>
 				<li class="green col-xs-4">
