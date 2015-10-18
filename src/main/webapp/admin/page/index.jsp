@@ -1,8 +1,12 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%> <%
-String path = request.getContextPath(); String basePath =
-request.getScheme() + "://" + request.getServerName() + ":" +
-request.getServerPort() + path + "/"; %>
-
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%
+	response.setHeader("Access-Control-Allow-Origin", "*");
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -14,13 +18,15 @@ request.getServerPort() + path + "/"; %>
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 <!-- bootstrap & fontawesome -->
-<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
 <link rel="stylesheet" href="../../plugins/fonts/font-awesome.css" />
 
 <!-- page specific plugin styles -->
 
 <!-- text fonts -->
-<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
 
 <!-- ace styles -->
 <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css"
@@ -70,8 +76,7 @@ request.getServerPort() + path + "/"; %>
 					<ul class="breadcrumb">
 						<li><i class="ace-icon fa fa-home home-icon"></i><a href="#">商城管理后台</a>
 						</li>
-						<li><a href="#">控制台</a>
-						</li>
+						<li><a href="#">控制台</a></li>
 					</ul>
 					<jsp:include page="../WebPart/SearchBox.jsp"></jsp:include>
 				</div>
