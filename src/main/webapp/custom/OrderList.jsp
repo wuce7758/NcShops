@@ -273,7 +273,9 @@
 	
 																	<div class="widget-body">
 																		<div class="widget-main">
-																			<span class="red">等待商家确认！</span><br/>
+																			<c:if test="${order.orderState=='0' }">
+																				<span class="red">等待商家确认！</span><br/>
+																			</c:if>
 																			<ul class="list-unstyled spaced2">
 																				<!-- 循环遍历TOrderdetails里的数据 -->
 																				<table style="width:100%">

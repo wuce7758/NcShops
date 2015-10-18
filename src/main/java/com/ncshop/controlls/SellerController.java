@@ -23,6 +23,7 @@ import com.ncshop.domain.TGoods;
 import com.ncshop.domain.TGoodstype;
 import com.ncshop.domain.TOrder;
 import com.ncshop.domain.TSeller;
+import com.ncshop.domain.TUser;
 import com.ncshop.service.SellerService;
 import com.ncshop.util.TargetStrategy;
 
@@ -218,6 +219,33 @@ public class SellerController {
 		response.setContentType("application/json");
 		response.getWriter().write(json);
 	}
+	
+	/**
+	 * 通过用户Id查找用户信息
+	 * @throws Exception
+	 */
+	@RequestMapping("/getUserById")
+	public void getUserById(HttpServletResponse response,int userId) throws Exception {
+		// 调用service查找 数据库
+		List<TUser> list=sellerService.getUserById(userId);
+		String json=toJson(new TUser(),list,null);
+		response.setContentType("application/json");
+		response.getWriter().write(json);
+	}
+	
+	/**
+	 * 通过商家Id查找商家
+	 * @throws Exception
+	 */
+	@RequestMapping("/getSellerById")
+	public void getSellerById(HttpServletResponse response,int sellerId) throws Exception {
+		// 调用service查找 数据库
+		List<TSeller> list=sellerService.getSellerById(sellerId);
+		String json=toJson(new TSeller(),list,null);
+		response.setContentType("application/json");
+		response.getWriter().write(json);
+	}
+	
 	/**
 	 * 获取所有商家	json方式
 	 * @throws Exception
@@ -252,8 +280,6 @@ public class SellerController {
 		// 调用service查找 数据库
 		List<TOrder> list=sellerService.findAllOrder();
 		request.setAttribute("orderList", list);
-		String json=toJson(new TOrder(),list,null);
-		response.getWriter().write(json);
 		request.getRequestDispatcher("/admin/page/order.jsp").forward(request,response);
 	}
 	
@@ -279,7 +305,6 @@ public class SellerController {
 			gson = new Gson();
 		}
 		String json = gson.toJson(map);
-		System.out.println(json);
 		return json;
 	}
 }

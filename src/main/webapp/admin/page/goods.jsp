@@ -29,6 +29,8 @@
 	href="http://ace.zcdreams.com/assets/css/jquery-ui.css" />
 <link rel="stylesheet"
 	href="http://ace.zcdreams.com/assets/css/chosen.css" />
+<link rel="stylesheet"
+	href="http://ace.zcdreams.com/assets/css/jquery.gritter.css" />
 <!-- text fonts -->
 <link rel="stylesheet"
 	href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
@@ -298,11 +300,19 @@
 	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.js"></script>
 	<script src="http://malsup.github.io/jquery.form.js"></script>
 	<script
+		src="http://ace.zcdreams.com/assets/js/jquery.ui.touch-punch.js"></script>
+
+	<script type="text/javascript"
+		src="http://ace.zcdreams.com/assets/js/jquery.gritter.js"></script>
+	<script
 		src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.bootstrap.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/bootstrap.min.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/TableTools/js/dataTables.tableTools.js"></script>
+	<script
+		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/ColVis/js/dataTables.colVis.js"></script>
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
 		$(document)
@@ -875,6 +885,54 @@
 				return 'left';
 			}
 		});
+		//chosen plugin inside a modal will have a zero width because the select element is originally hidden
+				//and its width cannot be determined.
+				//so we set the width after modal is show
+				/* $('#modal-form').on('shown.bs.modal', function () {
+					if(!ace.vars['touch']) {
+						$(this).find('.chosen-container').each(function(){
+							$(this).find('a:first-child').css('width' , '210px');
+							$(this).find('.chosen-drop').css('width' , '210px');
+							$(this).find('.chosen-search input').css('width' , '200px');
+						});
+					}
+				}); */
+				/**
+				//or you can activate the chosen plugin after modal is shown
+				//this way select element becomes visible with dimensions and chosen works as expected
+				$('#modal-form').on('shown', function () {
+					$(this).find('.modal-chosen').chosen();
+				})
+				*/
+		/* if(!ace.vars['touch']) {
+					$('.chosen-select').chosen({allow_single_deselect:true}); 
+					//resize the chosen on window resize
+			
+					$(window)
+					.off('resize.chosen')
+					.on('resize.chosen', function() {
+						$('.chosen-select').each(function() {
+							 var $this = $(this);
+							 $this.next().css({'width': $this.parent().width()});
+						})
+					}).trigger('resize.chosen');
+					//resize chosen on sidebar collapse/expand
+					$(document).on('settings.ace.chosen', function(e, event_name, event_val) {
+						if(event_name != 'sidebar_collapsed') return;
+						$('.chosen-select').each(function() {
+							 var $this = $(this);
+							 $this.next().css({'width': $this.parent().width()});
+						})
+					});
+			
+			
+					$('#chosen-multiple-style .btn').on('click', function(e){
+						var target = $(this).find('input[type=radio]');
+						var which = parseInt(target.val());
+						if(which == 2) $('#form-field-select-4').addClass('tag-input-style');
+						 else $('#form-field-select-4').removeClass('tag-input-style');
+					});
+				} */
 	</script>
 </body>
 

@@ -1,6 +1,7 @@
 package com.ncshop.service; 
  
  
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Service; 
@@ -190,6 +191,28 @@ public class SellerService {
 			return list;
 		}else{
 			return null;			
+		}
+	}
+
+	public List<TUser> getUserById(int userId) {
+		// TODO Auto-generated method stub
+		List<TUser> list=new ArrayList<TUser>();
+		list.add(userDao.findById(userId));
+		if(list.size()>0){
+			return list;			
+		}else{
+			return null;
+		}
+	}
+
+	public List<TSeller> getSellerById(int sellerId) {
+		// TODO Auto-generated method stub
+		List<TSeller> list=new ArrayList<TSeller>();
+		list.add(sellerDao.findById(sellerId));
+		if(list.size()>0){
+			return list;			
+		}else{
+			return null;
 		}
 	}
 } 
