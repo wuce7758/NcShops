@@ -320,10 +320,10 @@
 							$("#goodsType").html("");
 							for ( var i = 0; i < data.TGoodstype.length; i++) {
 								var item = "";
-								item= "<li class='lis'>"+
+								item= "<li onClick='javascript:loadGoodsByType(this,"+data.TGoodstype[i].goodsTypeId+")' class='lis'>"+
 											"<a href='#'>"+
 												"<i class='menu-icon fa fa-tachometer'></i>"+
-												"<span onClick='javascript:loadGoodsByType(this,"+data.TGoodstype[i].goodsTypeId+")' class='menu-text'>"+data.TGoodstype[i].goodsTypeName+"</span>"+
+												"<span class='menu-text'>"+data.TGoodstype[i].goodsTypeName+"</span>"+
 											"</a>"+
 											"<b class='arrow'></b>"+
 										"</li>";
