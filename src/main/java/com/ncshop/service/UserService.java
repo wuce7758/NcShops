@@ -98,8 +98,8 @@ public class UserService {
 	public List<TGoods> findgoods(TGoodstype goodstype,int sellerId, int start, int max) {
 		
 		SimpleExpression eq1 = Restrictions.eq("TGoodstype", goodstype);
-		SimpleExpression[] eqs=new SimpleExpression[2];
-		eqs[1]=eq1;
+		SimpleExpression[] eqs=new SimpleExpression[1];
+		eqs[0]=eq1;
 		
 		return goodsDao.getEntitiestNotLazy(new TGoods(),
 				new String[] { "TGoodstype" },

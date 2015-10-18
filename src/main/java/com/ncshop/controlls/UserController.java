@@ -161,6 +161,7 @@ public class UserController {
 			response.setContentType("application/json");
 			response.getWriter().write(json);
 		} catch (Exception e) {
+			e.printStackTrace();
 			LogBuilder.writeToLog(e.getMessage());
 		}
 
