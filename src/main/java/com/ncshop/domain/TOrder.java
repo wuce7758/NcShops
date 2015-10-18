@@ -73,7 +73,7 @@ public class TOrder implements java.io.Serializable {
 	public void setSellerId(Integer sellerId) {
 		this.sellerId = sellerId;
 	}
-	@Temporal(TemporalType.TIMESTAMP)
+	//@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "orderTime")
 	public Date getOrderTime() {
 		return this.orderTime;
