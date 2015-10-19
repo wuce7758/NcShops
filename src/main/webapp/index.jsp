@@ -71,7 +71,7 @@
 
 		<div class="navbar-container" id="navbar-container">
 			<!-- #section:basics/sidebar.mobile.toggle -->
-			<button onClick="loadGoodsType()" type="button" class="navbar-toggle menu-toggler pull-left"
+			<button type="button" class="navbar-toggle menu-toggler pull-left"
 				id="menu-toggler" data-target="#sidebar">
 				<span class="sr-only">Toggle sidebar</span> <span class="icon-bar"></span>
 
@@ -304,8 +304,8 @@
 		var preSellerId="";
 		var flag = "1";
 		var page = 1;
+		var obj= null;
 		function loadGoodsType(){
-			debugger;
 			preGoodsType="";
 			preSellerId="";
 			flag ="2";
@@ -319,8 +319,8 @@
 							$("#goodsType").html("");
 							for ( var i = 0; i < data.TGoodstype.length; i++) {
 								var item = "";
-								item= "<li class='lis'>"+
-											"<a href='javascript:loadGoodsByType(1,"+data.TGoodstype[i].goodsTypeId+")'>"+
+								item= "<li onClick='javascript:loadGoodsByType(this,"+data.TGoodstype[i].goodsTypeId+")' class='lis'>"+
+											"<a href='#'>"+
 												"<i class='menu-icon fa fa-tachometer'></i>"+
 												"<span class='menu-text'>"+data.TGoodstype[i].goodsTypeName+"</span>"+
 											"</a>"+
@@ -345,8 +345,8 @@
 							$("#goodsType").html("");
 							for ( var i = 0; i < data.TSeller.length; i++) {
 								var item = "";
-								item= "<li class='lis'>"+
-											"<a href='javascript:loadGoodsBySeller(1,"+data.TSeller[i].sellerId+")'>"+
+								item= "<li onClick='javascript:loadGoodsBySeller(this,"+data.TSeller[i].sellerId+")' name='"+data.TSeller[i].sellerName+"' class='lis'>"+
+											"<a href='#'>"+
 												"<i class='menu-icon fa fa-tachometer'></i>"+
 												"<span class='menu-text'>"+data.TSeller[i].sellerName+"</span>"+
 											"</a>"+
@@ -357,8 +357,16 @@
 						}
 					});
 		}
-		function loadGoodsByType(goodsTypeId) {
+		function loadGoodsByType(object,goodsTypeId) {
 			debugger;
+			if(object!=null){
+				var nav= $(object).text();
+				$(".active").text(nav);
+				if(obj!=object){
+					$("#goodsList").html("");
+					obj=object;
+				}
+			}
 			$("#sidebar").removeClass("display");
 			if (flag != "2") {
 				return;
@@ -378,8 +386,16 @@
 						}
 			});
 		}
-		function loadGoodsBySeller(goodsSellerId) {
+		function loadGoodsBySeller(object,goodsSellerId) {
 			debugger;
+			if(object!=null){
+				var nav= $(object).attr("name");
+				$(".active").text(nav);
+				if(obj!=object){
+					$("#goodsList").html("");
+					obj=object;
+				}
+			}
 			$("#sidebar").removeClass("display");
 			if (flag != "3") {
 				return;
@@ -390,8 +406,8 @@
 			}
 			$.ajax({
 				type : "get",
-				url : "user/findgoodsByType",
-				data : {"page" : page,"goodsTypeId":goodsSellerId},
+				url : "user/findSellergoods",
+				data : {"page" : page,"sellerId":goodsSellerId},
 				dataType : "json",
 				async : false,
 				success : function(data){
@@ -498,10 +514,10 @@
 			$(window).scroll(function() {
 					if ($(document).height() - $(this).scrollTop()- $(this).height() < 20) {
 						if(flag=="3"){
-							loadGoodsBySeller(preSellerId);
+							loadGoodsBySeller(null,preSellerId);
 						}
 						if(flag=="2"){
-							loadGoodsByType(preGoodsType);
+							loadGoodsByType(null,preGoodsType);
 						}
 						if(flag=="1"){
 							loadData();
