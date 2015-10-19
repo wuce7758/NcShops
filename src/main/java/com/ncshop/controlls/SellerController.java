@@ -27,6 +27,7 @@ import com.ncshop.domain.TSellergoods;
 import com.ncshop.domain.TUser;
 import com.ncshop.service.SellerService;
 import com.ncshop.service.UserService;
+import com.ncshop.util.CompressPicUtil;
 import com.ncshop.util.TargetStrategy;
 
 @Controller
@@ -40,27 +41,35 @@ public class SellerController {
 
 	/**
 	 * 用户登陆
-	 * @throws IOException 
-	 * @throws ServletException 
+	 * 
+	 * @throws IOException
+	 * @throws ServletException
 	 */
 	@RequestMapping("/sellerLogin")
-	public void sellerLogin(HttpServletRequest request,HttpServletResponse response,String sellerName,String sellerPhone) throws ServletException, IOException{
-		if(sellerName.equals("admin123")&&sellerPhone.equals("123")){
-			//TSeller seller=sellerService.sellerLogin(sellerName,sellerPhone);
-			List<TSellergoods> list= userService.findGoodsdetail();
-			request.setAttribute("goodDetail",list);
-			//request.getSession().setAttribute("seller", seller);
-			request.getRequestDispatcher("/admin/page/goods.jsp").forward(request, response);
-		}else{
+	public void sellerLogin(HttpServletRequest request,
+			HttpServletResponse response, String sellerName, String sellerPhone)
+			throws ServletException, IOException {
+		if (sellerName.equals("admin123") && sellerPhone.equals("123")) {
+			// TSeller seller=sellerService.sellerLogin(sellerName,sellerPhone);
+			List<TSellergoods> list = userService.findGoodsdetail();
+			request.setAttribute("goodDetail", list);
+			// request.getSession().setAttribute("seller", seller);
+			request.getRequestDispatcher("/admin/page/goods.jsp").forward(
+					request, response);
+		} else {
 			request.getSession().setAttribute("sellerName", "用户名错误！");
 			request.getSession().setAttribute("sellerPassword", "用户名密码错误！");
-			request.getRequestDispatcher("/login.jsp").forward(request, response);
+			request.getRequestDispatcher("/login.jsp").forward(request,
+					response);
 		}
 	}
+
 	/**
 	 * 根据订单状态和微信标识查找某店铺订单
+	 * 
 	 * @param sellerId
-	 * @param orderState 订单状态
+	 * @param orderState
+	 *            订单状态
 	 * @throws Exception
 	 */
 	@RequestMapping("/findSellerOrders")
@@ -72,17 +81,19 @@ public class SellerController {
 		// 调用service查找 数据库
 		List<TOrder> orderList = sellerService.findSellerOrder(sellerId,
 				orderState);
-		String json=toJson(new TOrder(),orderList,null);
+		String json = toJson(new TOrder(), orderList, null);
 		response.setContentType("html/text;charset=utf-8");
 		response.getWriter().write(json);
 	}
+
 	/**
 	 * 添加商家
-
+	 * 
 	 * @throws Exception
 	 */
 	@RequestMapping("/addSeller")
-	public void addSeller(HttpServletResponse response, TSeller seller) throws Exception {
+	public void addSeller(HttpServletResponse response, TSeller seller)
+			throws Exception {
 		// 调用service查找 数据库
 		seller.setIsValid(true);
 		sellerService.addSeller(seller);
@@ -92,109 +103,137 @@ public class SellerController {
 
 	/**
 	 * 操作店铺商品
-	 * @param sellerId 卖家唯一标识
-	 * @param goods 新商品
+	 * 
+	 * @param sellerId
+	 *            卖家唯一标识
+	 * @param goods
+	 *            新商品
 	 * @throws Exception
 	 */
 	@RequestMapping("/addGoods")
-	public void addGoods(HttpServletRequest request,HttpServletResponse response,
-			String sellerId,String goodsTypeId,MultipartFile pic,String oper,TGoods goods) throws Exception {
+	public void addGoods(HttpServletRequest request,
+			HttpServletResponse response, String sellerId, String goodsTypeId,
+			MultipartFile pic, String oper, TGoods goods) throws Exception {
 		response.setContentType("text/html;charset=utf-8");
-		if(sellerId+""==""||goodsTypeId+""==""){
+		if (sellerId + "" == "" || goodsTypeId + "" == "") {
 			return;
 		}
-		//定义物理路径
-		String basePath=request.getRealPath("/")+"images\\";
+		// 定义物理路径
+		String basePath = request.getRealPath("/") + "images\\";
+		String tempPath = request.getRealPath("/") + "temp\\";
 		System.out.println(basePath);
-		File f=new File(basePath);
-		if(!f.exists()) {
+		File f = new File(tempPath);
+		File f2 = new File(basePath);
+		if (!f.exists()) {
 			f.mkdirs();
 		}
-		if(pic!=null){
-			//旧文件名
-			String fileName=pic.getOriginalFilename();
-			//新文件名
-			String newFileName=new Date().getTime()+fileName.substring(fileName.lastIndexOf("."));
-			File file=new File(basePath+newFileName);
-			//将文件保存到硬盘
+		if (!f2.exists()) {
+			f2.mkdirs();
+		}
+		if (pic != null) {
+			// 旧文件名
+			String fileName = pic.getOriginalFilename();
+			// 新文件名
+			String newFileName = new Date().getTime()
+					+ fileName.substring(fileName.lastIndexOf("."));
+			File file = new File(tempPath + newFileName);
+			// 将文件保存到硬盘
 			pic.transferTo(file);
-			//重新设置图片名
+			
+			CompressPicUtil mypic = new CompressPicUtil();  
+			mypic.compressPic(tempPath, basePath, newFileName, newFileName, 120, 120, true);  
+			if(file.delete()){
+				System.out.println("delete success");
+			}
+			// 重新设置图片名
 			goods.setGoodsPic(newFileName);
-			//调用service查找 数据库
-		}else{
-			//设置默认图片
+			// 调用service查找 数据库
+		} else {
+			// 设置默认图片
 			goods.setGoodsPic("default.jpg");
 		}
+		
+		
 		// 调用service查找 数据库
-		if(oper.equals("add")){
-			if(sellerId==""||goodsTypeId + "" == ""){
+		if (oper.equals("add")) {
+			if (sellerId == "" || goodsTypeId + "" == "") {
 				return;
 			}
-			sellerService.addGoods(Integer.parseInt(sellerId), Integer.parseInt(goodsTypeId), goods);
+			sellerService.addGoods(Integer.parseInt(sellerId),
+					Integer.parseInt(goodsTypeId), goods);
 			response.getWriter().write("1");
-		}else if(oper.equals("edit")){
-			if(sellerId + "" == "" || goodsTypeId + "" == ""){
+		} else if (oper.equals("edit")) {
+			if (sellerId + "" == "" || goodsTypeId + "" == "") {
 				return;
 			}
 			sellerService.updateGoods(Integer.parseInt(goodsTypeId), goods);
 			response.getWriter().write("1");
-		}else if(oper.equals("delete")){
+		} else if (oper.equals("delete")) {
 			sellerService.deleteGoods(goods);
 			response.getWriter().write("1");
-		}else{
+		} else {
 			response.getWriter().write("表单填写不完整！");
 		}
 	}
-	
+
 	/**
 	 * 商品下架、上架状态
-	 * @param sellerId 卖家唯一标识
-	 * @param goods 新商品
+	 * 
+	 * @param sellerId
+	 *            卖家唯一标识
+	 * @param goods
+	 *            新商品
 	 * @throws Exception
 	 */
 	@RequestMapping("/updownGoods")
-	public void updownGoods(HttpServletResponse response,int goodsId,boolean isSale) throws Exception {
-		if (goodsId + "" == ""&&isSale+""!="") {
+	public void updownGoods(HttpServletResponse response, int goodsId,
+			boolean isSale) throws Exception {
+		if (goodsId + "" == "" && isSale + "" != "") {
 			return;
 		}
 		// 调用service查找 数据库
-		sellerService.downGoods(goodsId,isSale);
+		sellerService.downGoods(goodsId, isSale);
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write("1");
 	}
-	
+
 	/**
 	 * 改变商家状态
+	 * 
 	 * @throws Exception
 	 */
 	@RequestMapping("/updownSeller")
-	public void updownSeller(HttpServletResponse response,int sellerId,boolean isValid) throws Exception {
-		if (sellerId + "" == ""&&isValid+""!="") {
+	public void updownSeller(HttpServletResponse response, int sellerId,
+			boolean isValid) throws Exception {
+		if (sellerId + "" == "" && isValid + "" != "") {
 			return;
 		}
 		// 调用service查找 数据库
-		sellerService.updownSeller(sellerId,isValid);
+		sellerService.updownSeller(sellerId, isValid);
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write("1");
 	}
-	
+
 	/**
 	 * 改变订单状态
+	 * 
 	 * @throws Exception
 	 */
 	@RequestMapping("/changeOrderState")
-	public void changeOrderState(HttpServletResponse response,int orderId,int orderState) throws Exception {
-		if (orderId + "" == ""&&orderState+""!="") {
+	public void changeOrderState(HttpServletResponse response, int orderId,
+			int orderState) throws Exception {
+		if (orderId + "" == "" && orderState + "" != "") {
 			return;
 		}
 		// 调用service操作数据库
-		sellerService.changeOrderState(orderId,orderState);
+		sellerService.changeOrderState(orderId, orderState);
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write("1");
 	}
 
 	/**
 	 * 添加商品类型
+	 * 
 	 * @param goodsType商品类型对象
 	 * @throws Exception
 	 */
@@ -210,85 +249,98 @@ public class SellerController {
 		response.setContentType("html/text;charset=utf-8");
 		response.getWriter().write("添加商品类型成功!");
 	}
-	
+
 	/**
 	 * 获取所有商品类型
+	 * 
 	 * @throws Exception
 	 */
 	@RequestMapping("/getAllGoodsType")
 	public void getAllGoodsType(HttpServletResponse response) throws Exception {
 		// 调用service查找 数据库
-		List<TGoodstype> list=sellerService.getAllGoodsType();
-		String json=toJson(new TGoodstype(),list,null);
+		List<TGoodstype> list = sellerService.getAllGoodsType();
+		String json = toJson(new TGoodstype(), list, null);
 		response.setContentType("application/json");
 		response.getWriter().write(json);
 	}
-	
+
 	/**
 	 * 通过用户Id查找用户信息
+	 * 
 	 * @throws Exception
 	 */
 	@RequestMapping("/getUserById")
-	public void getUserById(HttpServletResponse response,int userId) throws Exception {
+	public void getUserById(HttpServletResponse response, int userId)
+			throws Exception {
 		// 调用service查找 数据库
-		List<TUser> list=sellerService.getUserById(userId);
-		String json=toJson(new TUser(),list,null);
+		List<TUser> list = sellerService.getUserById(userId);
+		String json = toJson(new TUser(), list, null);
 		response.setContentType("application/json");
 		response.getWriter().write(json);
 	}
-	
+
 	/**
 	 * 通过商家Id查找商家
+	 * 
 	 * @throws Exception
 	 */
 	@RequestMapping("/getSellerById")
-	public void getSellerById(HttpServletResponse response,int sellerId) throws Exception {
+	public void getSellerById(HttpServletResponse response, int sellerId)
+			throws Exception {
 		// 调用service查找 数据库
-		List<TSeller> list=sellerService.getSellerById(sellerId);
-		String json=toJson(new TSeller(),list,null);
+		List<TSeller> list = sellerService.getSellerById(sellerId);
+		String json = toJson(new TSeller(), list, null);
 		response.setContentType("application/json");
 		response.getWriter().write(json);
 	}
-	
+
 	/**
-	 * 获取所有商家	json方式
+	 * 获取所有商家 json方式
+	 * 
 	 * @throws Exception
 	 */
 	@RequestMapping("/getAllSeller")
 	public void getAllSeller(HttpServletResponse response) throws Exception {
 		// 调用service查找 数据库
-		List<TSeller> list=sellerService.getAllSeller();
-		String json=toJson(new TSeller(),list,null);
+		List<TSeller> list = sellerService.getAllSeller();
+		String json = toJson(new TSeller(), list, null);
 		response.setContentType("application/json");
 		response.getWriter().write(json);
 	}
-	
+
 	/**
-	 * 获取所有商家	转发方式
+	 * 获取所有商家 转发方式
+	 * 
 	 * @throws Exception
 	 */
 	@RequestMapping("/findAllSeller")
-	public void findAllSeller(HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public void findAllSeller(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		// 调用service查找 数据库
-		List<TSeller> list=sellerService.getAllSeller();
+		List<TSeller> list = sellerService.getAllSeller();
 		request.setAttribute("sellerList", list);
 		request.getRequestDispatcher("/admin/page/store.jsp").forward(request,
 				response);
 	}
+
 	/**
 	 * 获取所有订单信息 转发方式
+	 * 
 	 * @throws Exception
 	 */
 	@RequestMapping("/findAllOrder")
-	public void findAllOrder(HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public void findAllOrder(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		// 调用service查找 数据库
-		List<TOrder> list=sellerService.findAllOrder();
+		List<TOrder> list = sellerService.findAllOrder();
 		request.setAttribute("orderList", list);
-		request.getRequestDispatcher("/admin/page/order.jsp").forward(request,response);
+		request.getRequestDispatcher("/admin/page/order.jsp").forward(request,
+				response);
 	}
-	
+
 	/**
 	 * 将集合转换成json
+	 * 
 	 * @param t
 	 * @param list
 	 * @param fieldNames
