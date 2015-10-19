@@ -328,7 +328,7 @@ public class UserController {
 				templateMessage
 						.setTemplateId("IGEJWO5GBj7GOeIKIZJLVYwweZyPqTcfY0uhFu0NHog");
 				templateMessage
-						.setUrl("ncshop.zcdreams/user/findOrderByOrderNo?orderNo"
+						.setUrl("ncshop.zcdreams.com/user/findOrderByOrderNo?orderNo="
 								+ order.getOrderNo());
 				templateMessage.setTopColor("#ff0000");
 				templateMessage.getDatas().add(
@@ -352,7 +352,7 @@ public class UserController {
 				WxMpTemplateMessage toBoss = new WxMpTemplateMessage();
 				toBoss.setToUser("okbTSvpMmbJxwyVbK1_zlhrOXRbM");
 				toBoss.setTemplateId("Y1tnm_eiApm6kia7trtGGIywhQJiDpmOAxuOCgeiHaY");
-				toBoss.setUrl("ncshop.zcdreams/user/findOrderByOrderNo?orderNo"
+				toBoss.setUrl("ncshop.zcdreams.com/user/findOrderByOrderNo?orderNo="
 						+ order.getOrderNo());
 				toBoss.setTopColor("#ff0000");
 				TAddress address = userService.findAddress(user.getUserId())
@@ -591,6 +591,9 @@ public class UserController {
 			if (request.getSession().getAttribute("odersdetails") != null) {
 				request.getSession().removeAttribute("odersdetails");
 			}
+			if(request.getSession().getAttribute("allCost")!=null){
+				request.getSession().removeAttribute("allCost");
+			}
 			response.sendRedirect("/index.jsp");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -613,6 +616,7 @@ public class UserController {
 
 				}
 			}
+			request.setAttribute("address", address);
 			if (request.getSession().getAttribute("odersdetails") == null) {
 				response.sendRedirect("/index.jsp");
 			} else {
