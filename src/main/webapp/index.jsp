@@ -71,7 +71,7 @@
 
 		<div class="navbar-container" id="navbar-container">
 			<!-- #section:basics/sidebar.mobile.toggle -->
-			<button type="button" class="navbar-toggle menu-toggler pull-left"
+			<button onClick="refresh()" type="button" class="navbar-toggle menu-toggler pull-left"
 				id="menu-toggler" data-target="#sidebar">
 				<span class="sr-only">Toggle sidebar</span> <span class="icon-bar"></span>
 
@@ -119,11 +119,11 @@
 
 			<div class="sidebar-shortcuts" id="sidebar-shortcuts">
 				<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-					<button onClick="loadGoodsType()" style="width:80px" class="btn btn-success">
+					<button id="types" onClick="loadGoodsType()" style="width:80px" class="btn btn-success">
 						<i class="ace-icon fa fa-signal">商品分类</i>
 					</button>
 
-					<button onClick="loadSeller()" id="seller" style="width:80px" class="btn btn-info">
+					<button id="sellers" onClick="loadSeller()" id="seller" style="width:80px" class="btn btn-info">
 						<i class="ace-icon fa fa-pencil">商家店铺</i>
 					</button>
 
@@ -193,9 +193,9 @@
 					</script>
 
 					<ul class="breadcrumb">
-						<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">小二百货店</a>
+						<li><i class="ace-icon fa fa-home home-icon"></i> <a id="shopname" href="#">小二百货店</a>
 						</li>
-						<li class="active">所有商品</li>
+						<li class="active">超市商品</li>
 					</ul>
 					<!-- /.breadcrumb -->
 
@@ -305,16 +305,28 @@
 		var flag = "1";
 		var page = 1;
 		var obj= null;
+		var reflash="0";
+		var sellerId=1;
+		function refresh(){
+			/* if(reflash=="2"){
+				loadGoodsType();
+			}
+			if(reflash=="3"){
+				loadSeller();
+			} */
+			$("#goodsType").html("");
+		}
 		function loadGoodsType(){
 			preGoodsType="";
 			preSellerId="";
 			flag ="2";
 			page = 1;
+			reflash="2";
 			$.ajax({
 						type : "get",
 						url : "${pageContext.request.contextPath}/seller/getAllGoodsType",
 						dataType : "json",
-						async : false,
+						async : true,
 						success : function(data) {
 							$("#goodsType").html("");
 							for ( var i = 0; i < data.TGoodstype.length; i++) {
@@ -332,15 +344,18 @@
 					});
 		}
 		function loadSeller(){
+			$("#countSpan").css("display","none");
+			$("#count").text("0");
 			preGoodsType="";
 			preSellerId="";
 			page = 1;
 			flag = "3";
+			reflash="3";
 			$.ajax({
 						type : "get",
 						url : "${pageContext.request.contextPath}/seller/getAllSeller",
 						dataType : "json",
-						async : false,
+						async : true,
 						success : function(data) {
 							$("#goodsType").html("");
 							for ( var i = 0; i < data.TSeller.length; i++) {
@@ -358,7 +373,6 @@
 					});
 		}
 		function loadGoodsByType(object,goodsTypeId) {
-			debugger;
 			if(object!=null){
 				var nav= $(object).text();
 				$(".active").text(nav);
@@ -380,17 +394,19 @@
 						url : "user/findgoodsByType",
 						data : {"page" : page,"goodsTypeId":preGoodsType},
 						dataType : "json",
-						async : false,
+						async : true,
 						success : function(data){
 							check(data);
 						}
 			});
+			$("#goodsType").html("");
 		}
 		function loadGoodsBySeller(object,goodsSellerId) {
-			debugger;
+			sellerId=goodsSellerId;
 			if(object!=null){
 				var nav= $(object).attr("name");
-				$(".active").text(nav);
+				$(".active").text("");
+				$("#shopname").text(nav);
 				if(obj!=object){
 					$("#goodsList").html("");
 					obj=object;
@@ -409,11 +425,12 @@
 				url : "user/findSellergoods",
 				data : {"page" : page,"sellerId":goodsSellerId},
 				dataType : "json",
-				async : false,
+				async : true,
 				success : function(data){
 							check(data);
 				}
 			});
+			$("#goodsType").html("");
 		}
 		function check(data) {
 			if (data.TGoods == null || data.TGoods.length < 1) {
@@ -427,7 +444,7 @@
 			}
 			for( var i = 0; i < data.TGoods.length; i++) {
 				var item = "";
-				var item = "<div class='form-group col-xs-12 goods'>"
+				var item = "<div class='goodsId form-group col-xs-12 goods'>"
 								+"<div class='col-xs-6'>"
 									+"<img src='${pageContext.request.contextPath}/images/"+data.TGoods[i].goodsPic+"' class='img-responsive img-rounded' alt='Responsive image' />"
 								+"</div>"
@@ -440,12 +457,12 @@
 										+ "￥/一份</p>"
 										+ "<div class='ace-spinner middle touch-spinner' style='width: 125px;'>"
 										+ "<div class='input-group'><div class='spinbox-buttons input-group-btn'>"
-										+ "<button onClick='downclick(this)' type='button' class='btn spinbox-down btn-sm btn-danger'>"
+										+ "<button name='"+data.TGoods[i].goodsId+"' onClick='downclick(this)' type='button' class='btn spinbox-down btn-sm btn-danger'>"
 										+ "<i class='icon-only  ace-icon ace-icon fa fa-minus bigger-110'></i>"
 										+ "</button></div>"
-										+ "<input type='text' value='0' class='spinner form-control text-center' id='"+data.TGoods[i].goodsId+" '/>"
+										+ "<input type='text' value='0' class='spinner form-control text-center' id='"+data.TGoods[i].goodsId+"'/>"
 										+ "<div class='spinbox-buttons input-group-btn'>"
-										+ "<button onClick='upclick(this)' type='button' class='btn spinbox-up btn-sm btn-success'>"
+										+ "<button name='"+data.TGoods[i].goodsId+"' onClick='upclick(this)' type='button' class='btn spinbox-up btn-sm btn-success'>"
 										+ "<i class='icon-only  ace-icon ace-icon fa fa-plus bigger-110'></i>"
 										+ "</button>"
 										+ "</div>"
@@ -470,38 +487,62 @@
 				url : "user/findAllGoods",
 				data : {"page" : page},
 				dataType : "json",
-				async : false,
+				async : true,
 				success : function(data){
 						check(data);
 				}
 			});
 		}
 		var count=0;
+		var map={};
 		function downclick(obj) {
 			var input = $(obj).parent().siblings("input");
 			var value = input.val();
-			if (input.val() < 1) {
+			var key=$(obj).attr("name");
+			if (value < 1) {
 				input.val("0");
-			} else {
-				input.val(input.val() - 1);
+				return;
+			}else {
+				input.val(value - 1);
+				map[key]=map[key]-1;
 				if(parseInt(count)>0){
-				count=count-1;
-				if(count==0){
-					$("#countSpan").css("display","none");
-				}else{
-					$("#countSpan").css("display","inline");
+					count=count-1;
+					if(count==0){
+						$("#countSpan").css("display","none");
+					}else{
+						$("#countSpan").css("display","inline");
+					}
+					$("#count").text(count);
 				}
-				$("#count").text(count);
 			}
-			}
+			/* $.ajax({
+				type : "get",
+				url : "user/getSellerId",
+				data : {"goodsId" : goodsId},
+				dataType : "text",
+				async : false,
+				success : function(data){
+					if(sellerId!=data){
+						sellerId=data;
+					}
+					var div=$("div[name='goodsId']");
+				}
+			}); */
 		}
 		function upclick(obj) {
 			var input = $(obj).parent().siblings("input");
+			var key=$(obj).attr("name");
 			var value = input.val();
-			if (input.val() >= 100) {
+			if (value >= 100) {
 				input.val("100");
+				map[key]=value;
 			} else {
 				input.val(parseInt(value) + 1);
+				if(map.hasOwnProperty(key)){
+					map[key]=parseInt(map[key]) + 1;
+				}else{
+					map[key]=parseInt(value) + 1;
+				}
 				count=parseInt(count)+1;
 				if(parseInt(count)>0){
 					$("#countSpan").css("display","inline");
@@ -539,15 +580,22 @@
 			});
 		}); */
 		function goBuy(){
-			var goodsItem=$("input.spinner");
+			//var goodsItem=$("input.spinner");
 			var jsonString="{\"array\":[";
-			for(var i=0;i<goodsItem.length;i++){
+			for(var i in map){
+				var goodsId=i;
+				var goodsMount=map[i];
+				if(parseInt(goodsMount)>0){
+					jsonString+="{\"goodsId\":\""+goodsId.trim()+"\",\"buyMount\":\""+goodsMount+"\"},";
+				}
+			}
+			/* for(var i=0;i<map.size;i++){
 				var goodsId=goodsItem[i].id;
 				var goodsMount=goodsItem[i].value;
 				if(parseInt(goodsMount)>0){
 					jsonString+="{\"goodsId\":\""+goodsId.trim()+"\",\"buyMount\":\""+goodsMount+"\"},";
 				}
-			}
+			} */
 			jsonString+="]}";
 			var lastIndex = jsonString.lastIndexOf(',');
 			if (lastIndex > -1) {
