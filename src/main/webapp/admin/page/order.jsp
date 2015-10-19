@@ -291,42 +291,29 @@
 											<h5 class="widget-title bigger lighter">优选商城订单详情</h5>
 										</div>
 
-										<div class="widget-body">
-											<div class="widget-main">
-												<ul class="list-unstyled spaced2">
-													<!-- 循环遍历域里的数据 -->
-													<table style="width:100%">
-														<c:forEach var="orderdetail" items="${odersdetails }">
-															<tr>
-																<td style="width:70%"><i
-																	class="ace-icon fa fa-check green"></i>
-																	${orderdetail.TGoods.goodsName }</td>
-																<td style="width:10%">x${orderdetail.buyMount }</td>
-																<td style="width:20%;text-align:right">￥<font
-																	class="buyCost">${orderdetail.buyCost }</font>
-																</td>
-															</tr>
-														</c:forEach>
-													</table>
-												</ul>
-
-												<hr />
-												<div id="orderPrice" class="price">
-													<strong>${sessionScope.allCost }</strong><small>元</small>
+										<form id="orderprint">
+											<div class="widget-body">
+												<div class="widget-main">
+													<ul class="list-unstyled spaced2">
+														<table style="width:100%">
+															<thead>
+																<th style="width:40%">商品名</th>
+																<th style="width:20%">数量</th>
+																<th style="width:20%">单价</th>
+																<th style="width:20%;" class="text-right">金额</th>
+															</thead>
+															<tbody id="orderdetails">
+																
+															</tbody>
+														</table>
+													</ul>
+													<hr />
+													<div id="orderuserdetail">
+														加载中...
+													</div>
 												</div>
-												<p>
-													<c:out value="接收人：${address.receiverName }"></c:out>
-												</p>
-												<p>
-													<c:out value="送货地址：${address.adsContent }"></c:out>
-												</p>
-												<p>
-													<c:out value="联系方式：${address.adsPhone }"></c:out>
-												</p>
-
 											</div>
-
-										</div>
+										</form>
 									</div>
 								</div>
 							</div>
@@ -337,7 +324,6 @@
 		</div>
 		<jsp:include page="../WebPart/CopyRight.jsp"></jsp:include>
 	</div>
-	<jsp:include page="../WebPart/Script.jsp"></jsp:include>
 	<jsp:include page="../WebPart/Script.jsp"></jsp:include>
 	<!-- page specific plugin scripts -->
 	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.js"></script>
@@ -361,14 +347,76 @@
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
 $(document).ready(function() {
+	var orderId;
 	$(".orderdetaill").click(function() {
-		debugger;
-		var orderId = $(this).attr("name");
-		var orderdetails = $("#orderdetail" + orderId).text().replace(/\s/gi,'');
+		var orderuserId;
+		orderId = $(this).attr("name");
+		$("#orderdetails").html("");
+		$.ajax({
+			type: "post",
+			url: "${pageContext.request.contextPath }/user/findOrderById",
+			dataType:"json",
+			data: {"orderId":orderId},
+			async: true,
+			success: function(data) {
+				var orderdetails = JSON.stringify(data.TOrder);
+				console.log(orderdetails);
+				var orderdetailsobj = JSON.parse(orderdetails);
+				var obj = orderdetailsobj[0].TOrderdetails;
+				for (var i = 0; i < obj.length; i++) {
+					$("#orderdetails").append("<tr><td style='width:40%'><i class='ace-icon fa fa-check green'></i>"+
+												   obj[i].TGoods.goodsName+"</td>"+
+												   "<td style='width:20%'>"+ obj[i].buyMount+"</td>"+
+												   "<td style='width:20%'>"+ obj[i].TGoods.goodsPrice+"</td>"+
+												   "<td style='width:20%;text-align:right'>"+
+												   "   <i class='ace-icon fa fa-rmb red'></i>"+obj[i].buyCost+
+												   "</td>"+
+											  "</tr>");
+					orderuserId = orderdetailsobj[0].userId;
+					$.ajax({
+						type: "post",
+						url: "${pageContext.request.contextPath }/seller/getUserById",
+						dataType: "json",
+						data: {
+							"userId": orderuserId
+						},
+						async: true,
+						success: function(data) {
+							var orderuser = JSON.stringify(data.TUser);
+							var obj = JSON.parse(orderuser);
+							$("#orderuserdetail").html("<div id='orderPrice' class='price'>"+
+														"<strong>加载中...</strong>"+
+													"</div>");
+							var address = obj[0].TAddresses;
+							for (var j = 0; j < address.length; j++) {
+								if (address[j].isDefault) {
+									$("#orderuserdetail").html("<div id='orderPrice' class='price'>"+
+														"<strong>应付"+orderdetailsobj[0].orderTotalCost+"</strong><small>元</small>"+
+													"</div>"+
+													"<p name='username'>姓名："+address[j].receiverName+"</p>"+
+													"<p name='userphone'>电话："+address[j].adsPhone+"</p>"+
+													"<p>地址："+address[j].adsContent+"</p>");
+									break;
+								}
+							}
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							$("#orderuserdetail").html("");
+							$("#orderuserdetail").html(errorThrown);
+						}
+					});
+					
+					console.log(obj[i].TGoods.goodsName + obj[i].TGoods.goodsPrice + obj[i].buyMount + obj[i].buyCost);
+				}
+			},error: function(XMLHttpRequest, textStatus, errorThrown) {
+				alert(errorThrown);
+			}
+		});
+		/* var orderdetails = $("#orderdetail" + orderId).text().replace(/\s/gi,'');
 		console.log(JSON.stringify(orderdetails));
 		var orderdetailsobj = JSON.parse(JSON.stringify(orderdetails));
 		alert(orderdetailsobj.table);
-		alert(orderdetailsobj.table.length);
+		alert(orderdetailsobj.table.length); */
 		var dialog = $("#dialog-message").removeClass('hide').dialog({
 			modal: true,
 			title: "订单详情",
@@ -378,29 +426,21 @@ $(document).ready(function() {
 				"class": "btn btn-minier",
 				click: function() {
 					$(this).dialog("close");
+					$("#orderdetails").html("");
+					$("#orderuserdetail").html("<div id='orderPrice' class='price'>"+
+														"<strong>加载中...</strong>"+
+													"</div>");
 				}
 			}, {
 				text: "确定并打印",
+				"type":"submit",
+				"target":"blank",
 				"class": "btn btn-primary btn-minier",
 				click: function() {
-					var goods_type = "";
-					$.ajax({
-						type: "post",
-						url: "../../seller/getAllGoodsType",
-						enctype: 'multipart/form-data',
-						data: $('#dialog-message').serialize(), //$("#dialog-message").serialize(),
-						async: false,
-						success: function(data) {
-							var goods_types = JSON.stringify(data.TGoodstype);
-							var obj = JSON.parse(goods_types);
-							for (var i = 0; i < obj.length; i++) {
-								goods_type += obj[i].goodsTypeId + ":" + obj[i].goodsTypeName;
-								if (i < obj.length - 1) {
-									goods_type += ";";
-								}
-							}
-						}
-					});
+					$("#orderprint").html();
+					alert(orderId);
+					window.open("http://localhost:8080/ncshops/admin/page/OrderPrint.jsp?orderId="+orderId);
+					//$("#orderprint").submit();
 				}
 			}]
 		});
@@ -410,16 +450,16 @@ $(document).ready(function() {
 		var orderState = $(this).val();
 		$.ajax({
 			type: "post",
-			url: "${pageContext.request.contextPath }/seller / changeOrderState ",
+			url: "${pageContext.request.contextPath }/seller/changeOrderState ",
 			dataType: "json",
 			data: {
-				"orderId ": orderId,
-				"orderState ": orderState
+				"orderId": orderId,
+				"orderState": orderState
 			},
-			async: false,
+			async: true,
 			success: function(data) {
 				if (data == "1") {
-					$("td[id = 'orderState" + orderId + "'] span ").attr("name", "orderState" + orderState);
+					$("td[id = 'orderState" + orderId + "'] span").attr("name", "orderState" + orderState);
 					myEach();
 				} else {
 
@@ -487,7 +527,7 @@ $(".orderUserPopover").popover({
 				var obj = JSON.parse(orderuser);
 				var address = obj[0].TAddresses;
 				for (var i = 0; i < address.length; i++) {
-					if (address[i].isDefault) {
+					while(address[i].isDefault) {
 						userinfo = "<p>姓名：" + address[i].receiverName + "</p><br>" + "<p>电话:" + address[i].adsPhone + "</P><br>" + "<p>地址:" + address[i].adsContent + "</P><br>";
 						break;
 					}

@@ -315,8 +315,8 @@ public class UserController {
 			TSellergoods sellergoods = userService
 					.findSellergoodsByGoodsID(tOrderdetail.getTGoods()
 							.getGoodsId());
-//			TSeller seller = new TSeller();
-//			seller.setSellerId();
+			// TSeller seller = new TSeller();
+			// seller.setSellerId();
 			order.setSellerId(sellergoods.getSeller().getSellerId());
 			if (userService.order(order, odersdetails)) {
 				// 给用户发送消息
@@ -328,7 +328,7 @@ public class UserController {
 				templateMessage
 						.setTemplateId("IGEJWO5GBj7GOeIKIZJLVYwweZyPqTcfY0uhFu0NHog");
 				templateMessage
-						.setUrl("ncshop.zcdreams/user/findOrderByOrderNo?orderNo"
+						.setUrl("ncshop.zcdreams.com/user/findOrderByOrderNo?orderNo="
 								+ order.getOrderNo());
 				templateMessage.setTopColor("#ff0000");
 				templateMessage.getDatas().add(
@@ -352,7 +352,7 @@ public class UserController {
 				WxMpTemplateMessage toBoss = new WxMpTemplateMessage();
 				toBoss.setToUser("okbTSvpMmbJxwyVbK1_zlhrOXRbM");
 				toBoss.setTemplateId("Y1tnm_eiApm6kia7trtGGIywhQJiDpmOAxuOCgeiHaY");
-				toBoss.setUrl("ncshop.zcdreams/user/findOrderByOrderNo?orderNo"
+				toBoss.setUrl("ncshop.zcdreams.com/user/findOrderByOrderNo?orderNo="
 						+ order.getOrderNo());
 				toBoss.setTopColor("#ff0000");
 				TAddress address = userService.findAddress(user.getUserId())
@@ -591,6 +591,9 @@ public class UserController {
 			if (request.getSession().getAttribute("odersdetails") != null) {
 				request.getSession().removeAttribute("odersdetails");
 			}
+			if (request.getSession().getAttribute("allCost") != null) {
+				request.getSession().removeAttribute("allCost");
+			}
 			response.sendRedirect("/index.jsp");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -605,7 +608,7 @@ public class UserController {
 			HttpServletResponse response) {
 
 		try {
-			TUser user=(TUser) request.getSession().getAttribute("user");
+			TUser user = (TUser) request.getSession().getAttribute("user");
 			List<TAddress> address = null;
 			if (user != null) {
 				if (user.getUserId() != null) {
@@ -613,6 +616,7 @@ public class UserController {
 
 				}
 			}
+			request.setAttribute("address", address);
 			if (request.getSession().getAttribute("odersdetails") == null) {
 				response.sendRedirect("/index.jsp");
 			} else {
@@ -627,87 +631,88 @@ public class UserController {
 
 	}
 
-//	@RequestMapping("/ajax/findOrderByOrderNo")
-//	public void findOrderByOrderNoByAjax(String orderNo,
-//			HttpServletResponse response) {
-//		try {
-//			TOrder tOrder = userService.findOrderByeOrderNo(orderNo).get(0);
-//			Set<TAddress> addresses = new HashSet<TAddress>();
-//			Set<TOrderdetail> orderdetails = new HashSet<TOrderdetail>();
-//			TUser user = null;
-//			List<TAddress> tAddresses = userService.findAddress(tOrder
-//					.getUser().getUserId());
-//			for (TAddress tAddress : tAddresses) {
-//				if (tAddress.getIsDefault()) {
-//					addresses.add(tAddress);
-//					user = tOrder.getUser();
-//					user.setTAddresses(addresses);
-//					tOrder.setUser(user);
-//					break;
-//				}
-//
-//				List<TOrderdetail> list = userService.findOrderdetail(tOrder
-//						.getOrderId());
-//				for (TOrderdetail tOrderdetail : list) {
-//					orderdetails.add(tOrderdetail);
-//				}
-//				tOrder.setTOrderdetails(orderdetails);
-//
-//			}
-//			List<TOrder> orders = new ArrayList<TOrder>();
-//			orders.add(tOrder);
-//			String json = toJson(new TOrder(), orders, null);
-//			// 设置response的传输格式为json
-//			response.setContentType("application/json");
-//			response.getWriter().write(json);
-//			return;
-//		} catch (Exception e) {
-//			LogBuilder.writeToLog(UserController.class.getName()
-//					+ e.getMessage());
-//			e.printStackTrace();
-//		}
-//	}
-//	
-//	@RequestMapping("/findOrderById")
-//	public void findOrderById(String orderId,HttpServletResponse response,HttpServletRequest request){
-//		try {
-//			TOrder tOrder = userService.findOrderById(orderId);
-//			Set<TAddress> addresses = new HashSet<TAddress>();
-//			Set<TOrderdetail> orderdetails = new HashSet<TOrderdetail>();
-//			TUser user = null;
-//			List<TAddress> tAddresses = userService.findAddress(tOrder
-//					.getUser().getUserId());
-//			for (TAddress tAddress : tAddresses) {
-//				if (tAddress.getIsDefault()) {
-//					addresses.add(tAddress);
-//					user = tOrder.getUser();
-//					user.setTAddresses(addresses);
-//					user.setTComments(null);
-//					user.setTOrders(null);
-//					tOrder.setUser(user);
-//					break;
-//				}
-//
-//				List<TOrderdetail> list = userService.findOrderdetail(tOrder
-//						.getOrderId());
-//				for (TOrderdetail tOrderdetail : list) {
-//					orderdetails.add(tOrderdetail);
-//					tOrderdetail.setTComments(null);
-//				}
-//				tOrder.setTOrderdetails(orderdetails);
-//
-//			}
-//			List<TOrder> orders = new ArrayList<TOrder>();
-//			orders.add(tOrder);
-//			String json = toJson(new TOrder(), orders, null);
-//			// 设置response的传输格式为json
-//			response.setContentType("application/json");
-//			response.getWriter().write(json);
-//			return;
-//		} catch (Exception e) {
-//			LogBuilder.writeToLog(UserController.class.getName()
-//					+ e.getMessage());
-//			e.printStackTrace();
-//		}
-//	}
+	@RequestMapping("/getSellerId")
+	public void getSellerId(String goodsId, HttpServletResponse response) {
+		try {
+			TSellergoods sellergoods = userService
+					.findSellergoodsByGoodsID(Integer.parseInt(goodsId));
+			Integer sellerId = sellergoods.getSeller().getSellerId();
+			response.getWriter().write(sellerId + "");
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogBuilder.writeToLog(this.getClass().getName() + ":"
+					+ e.getMessage());
+		}
+
+	}
+
+	// @RequestMapping("/ajax/findOrderByOrderNo")
+	// public void findOrderByOrderNoByAjax(String orderNo,
+	// HttpServletResponse response) {
+	// try {
+	// TOrder tOrder = userService.findOrderByeOrderNo(orderNo).get(0);
+	// Set<TAddress> addresses = new HashSet<TAddress>();
+	// Set<TOrderdetail> orderdetails = new HashSet<TOrderdetail>();
+	// TUser user = null;
+	// List<TAddress> tAddresses = userService.findAddress(tOrder
+	// .getUser().getUserId());
+	// for (TAddress tAddress : tAddresses) {
+	// if (tAddress.getIsDefault()) {
+	// addresses.add(tAddress);
+	// user = tOrder.getUser();
+	// user.setTAddresses(addresses);
+	// tOrder.setUser(user);
+	// break;
+	// }
+	//
+	// List<TOrderdetail> list = userService.findOrderdetail(tOrder
+	// .getOrderId());
+	// for (TOrderdetail tOrderdetail : list) {
+	// orderdetails.add(tOrderdetail);
+	// }
+	// tOrder.setTOrderdetails(orderdetails);
+	//
+	// }
+	// List<TOrder> orders = new ArrayList<TOrder>();
+	// orders.add(tOrder);
+	// String json = toJson(new TOrder(), orders, null);
+	// // 设置response的传输格式为json
+	// response.setContentType("application/json");
+	// response.getWriter().write(json);
+	// return;
+	// } catch (Exception e) {
+	// LogBuilder.writeToLog(UserController.class.getName()
+	// + e.getMessage());
+	// e.printStackTrace();
+	// }
+	// }
+	//
+	@RequestMapping("/findOrderById")
+	public void findOrderById(String orderId, HttpServletResponse response,
+			HttpServletRequest request) {
+		try {
+			TOrder tOrder = userService.findOrderById(orderId);
+			Set<TAddress> addresses = new HashSet<TAddress>();
+			Set<TOrderdetail> orderdetails = new HashSet<TOrderdetail>();
+			List<TOrderdetail> list = userService.findOrderdetail(tOrder
+					.getOrderId());
+			for (TOrderdetail tOrderdetail : list) {
+				orderdetails.add(tOrderdetail);
+				tOrderdetail.setTComments(null);
+			}
+			tOrder.setTOrderdetails(orderdetails);
+
+			List<TOrder> orders = new ArrayList<TOrder>();
+			orders.add(tOrder);
+			String json = toJson(new TOrder(), orders, null);
+			// 设置response的传输格式为json
+			response.setContentType("application/json");
+			response.getWriter().write(json);
+			return;
+		} catch (Exception e) {
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
+			e.printStackTrace();
+		}
+	}
 }
