@@ -216,8 +216,13 @@ public class UserService {
 	}
 
 	public TSellergoods findSellergoodsByGoodsID(Integer goodsId) {
+		TGoods goods=new TGoods();
+		goods.setGoodsId(goodsId);
+		SimpleExpression eq = Restrictions.eq("TGoods", goods);
+		SimpleExpression [] eqs=new SimpleExpression[1];
+		eqs[0]=eq;
 		Object [] objs={goodsId};
-		TSellergoods sellergoods = (TSellergoods) sellergoodsDAO.getHibernateTemplate().find("from TSellergoods where GoodsId=?",objs).get(0);
+		TSellergoods sellergoods = (TSellergoods) sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(), new String []{"seller"}, eqs, 0, 0, false).get(0);
 		return sellergoods;
 	}
 
