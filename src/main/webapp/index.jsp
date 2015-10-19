@@ -64,7 +64,7 @@
 	<div id="navbar" class="navbar navbar-default">
 		<script type="text/javascript">
 			try {
-				ace.settings.check('navbar', 'fixed');
+				ace.settings.check('navbar', 'absolute');
 			} catch (e) {
 			}
 		</script>
@@ -346,6 +346,7 @@
 		function loadSeller(){
 			$("#countSpan").css("display","none");
 			$("#count").text("0");
+			map={};
 			preGoodsType="";
 			preSellerId="";
 			page = 1;
@@ -403,6 +404,7 @@
 		}
 		function loadGoodsBySeller(object,goodsSellerId) {
 			sellerId=goodsSellerId;
+			count=0;
 			if(object!=null){
 				var nav= $(object).attr("name");
 				$(".active").text("");
