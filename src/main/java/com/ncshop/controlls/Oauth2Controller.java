@@ -35,31 +35,28 @@ public class Oauth2Controller {
 
 	@RequestMapping("/Oauth2Controller")
 	public void Oauth2Servlet(HttpServletRequest req, HttpServletResponse resp) {
-		WxMpUser wxMpUser = null;
 		String state = null;
 		try {
 			initMessageContext();
-			wxMpService = new WxMpServiceImpl();
-			wxMpService.setWxMpConfigStorage(wxMpConfigStorage);
-
-			wxMpService.oauth2buildAuthorizationUrl(
-					WxConsts.OAUTH2_SCOPE_USER_INFO, null);
+			LogBuilder.writeToLog("获取token"+req.getParameter("code"));
 			WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService
 					.oauth2getAccessToken(req.getParameter("code"));
-
-			wxMpOAuth2AccessToken = wxMpService
-					.oauth2refreshAccessToken(wxMpOAuth2AccessToken
-							.getRefreshToken());
-			wxMpUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken,
-					null);
-			boolean valid = wxMpService
-					.oauth2validateAccessToken(wxMpOAuth2AccessToken);
+			
+			String openId = wxMpOAuth2AccessToken.getOpenId();
+//			LogBuilder.writeToLog("获取信息"+wxMpUser.getOpenId());
+//			LogBuilder.writeToLog("刷新");
+//			wxMpOAuth2AccessToken = wxMpService
+//					.oauth2refreshAccessToken(wxMpOAuth2AccessToken
+//							.getRefreshToken());
+//			LogBuilder.writeToLog("验证");
+//			boolean valid = wxMpService
+//					.oauth2validateAccessToken(wxMpOAuth2AccessToken);
 			// 根据不同的状态值跳转不同页面
 			state = req.getParameter("state");
 			TUser user = new TUser();
-			user.setOpenId(wxMpUser.getOpenId());
+			user.setOpenId(openId);
 			LogBuilder.writeToLog("kaoshi");
-			TUser findUser = service.findUser(wxMpUser.getOpenId());
+			TUser findUser = service.findUser(openId);
 			LogBuilder.writeToLog("结束+00");
 			if (state.equals("1")) {
 				if (findUser == null) {
@@ -82,7 +79,7 @@ public class Oauth2Controller {
 			}
 			return;
 		} catch (Exception e) {
-			LogBuilder.writeToLog(e.getMessage());
+			LogBuilder.writeToLog("eee"+e.getMessage());
 		}
 	}
 	private void initMessageContext() {

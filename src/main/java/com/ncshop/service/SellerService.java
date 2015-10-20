@@ -199,7 +199,7 @@ public class SellerService {
 	public List<TOrder> findAllOrder() {
 		// TODO Auto-generated method stub
 		List<TOrder> list=orderDao.findAll();
-		if(list.size()>1){
+		if(list.size()>0){
 			return list;
 		}else{
 			return null;			

@@ -297,8 +297,7 @@ public class UserController {
 			for (Iterator iterator = odersdetails.iterator(); iterator
 					.hasNext();) {
 				tOrderdetail = (TOrderdetail) iterator.next();
-				orderTotalCost += tOrderdetail.getBuyCost()
-						* tOrderdetail.getBuyMount();
+				orderTotalCost += tOrderdetail.getBuyCost();
 				msg += "                 "
 						+ tOrderdetail.getTGoods().getGoodsName() + "  x"
 						+ tOrderdetail.getBuyMount() + "\n";
@@ -321,62 +320,69 @@ public class UserController {
 			order.setSellerId(sellergoods.getSeller().getSellerId());
 			if (userService.order(order, odersdetails)) {
 				// 给用户发送消息
+				TAddress address = userService.findAddress(user.getUserId())
+						.get(0);
 				initMessageContext();
 				WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
 				// templateMessage.setToUser(user.getOpenId());
 				templateMessage.setToUser(user.getOpenId());
 				// 发送给下单人的消息
 				templateMessage
-						.setTemplateId("IGEJWO5GBj7GOeIKIZJLVYwweZyPqTcfY0uhFu0NHog");
+						.setTemplateId("EXTbx95V3C88AlDMwfsCZQvrgAtMyox5x4aeqLir2mM");
 				templateMessage
 						.setUrl("ncshop.zcdreams.com/user/findOrderByOrderNo?orderNo="
 								+ order.getOrderNo());
 				templateMessage.setTopColor("#ff0000");
 				templateMessage.getDatas().add(
-						new WxMpTemplateData("orderId", order.getOrderNo(),
+						new WxMpTemplateData("first", "你有一个新订单",
+								"#173177"));
+				templateMessage.getDatas().add(
+						new WxMpTemplateData("keyword1",order.getOrderNo() ,
 								"#173177"));
 				templateMessage.getDatas()
-						.add(new WxMpTemplateData("goodsInfo", "\n" + msg,
-								"#173177"));
+						.add(new WxMpTemplateData("keyword2", order.getOrderTime().toLocaleString()));
 				templateMessage.getDatas().add(
-						new WxMpTemplateData("totalCost", orderTotalCost
-								+ " RMB", "#173177"));
+						new WxMpTemplateData("keyword3", address.getReceiverName(), "#173177"));
 				templateMessage.getDatas().add(
-						new WxMpTemplateData("sellerPonhe", userService
-								.findSellerByID(
-										sellergoods.getSeller().getSellerId())
-								.getSellerPhone(), "#173177"));
+						new WxMpTemplateData("keyword4", address.getAdsPhone(), "#173177"));
+				templateMessage.getDatas().add(
+						new WxMpTemplateData("keyword5", address.getAdsContent(), "#173177"));
+				templateMessage.getDatas().add(
+						new WxMpTemplateData("remark", "点击查看订单详情，如有疑问请联系商家，"+"18770015729", "#173177"));
 				wxMpService.templateSend(templateMessage);
 
 				// 通知商家有新的订单
 
 				WxMpTemplateMessage toBoss = new WxMpTemplateMessage();
-				toBoss.setToUser("okbTSvpMmbJxwyVbK1_zlhrOXRbM");
-				toBoss.setTemplateId("Y1tnm_eiApm6kia7trtGGIywhQJiDpmOAxuOCgeiHaY");
+				toBoss.setToUser("o6giMtx2laitNbxP_U1AgdMTGiYE");
+				toBoss.setTemplateId("ldm338MGrwekepeyQmP4_lS8nMI2T_TNTypEbTuRrCQ");
 				toBoss.setUrl("ncshop.zcdreams.com/user/findOrderByOrderNo?orderNo="
 						+ order.getOrderNo());
 				toBoss.setTopColor("#ff0000");
-				TAddress address = userService.findAddress(user.getUserId())
-						.get(0);
 
 				// TAddress address =new TAddress();
 				// address.setAdsContent("sadas");
 				// address.setAdsPhone("2312412");
 				toBoss.getDatas().add(
-						new WxMpTemplateData("address",
-								address.getAdsContent(), "#173177"));
+						new WxMpTemplateData("first",
+								"新订单通知", "#173177"));
 				toBoss.getDatas().add(
-						new WxMpTemplateData("orderId", order.getOrderNo(),
+						new WxMpTemplateData("keyword1",
+								order.getOrderNo(), "#173177"));
+				toBoss.getDatas().add(
+						new WxMpTemplateData("keyword2", order.getOrderTime().toLocaleString(),
 								"#173177"));
 				toBoss.getDatas().add(
-						new WxMpTemplateData("userName", address
+						new WxMpTemplateData("keyword3", address
 								.getReceiverName(), "#173177"));
 				toBoss.getDatas().add(
-						new WxMpTemplateData("phone", address.getAdsPhone(),
+						new WxMpTemplateData("keyword4", address.getAdsPhone(),
 								"#ff0000"));
 				toBoss.getDatas().add(
-						new WxMpTemplateData("totalCost", orderTotalCost
-								+ " RMB", "#173177"));
+						new WxMpTemplateData("keyword5", address.getAdsContent(),
+								"#ff0000"));
+				toBoss.getDatas().add(
+						new WxMpTemplateData("remark", "点击查看订单详情，请尽快配送", "#173177"));
 				System.out.println(toBoss.toJson());
 				toBoss.getDatas()
 						.add(new WxMpTemplateData("orderInfo", "\n" + msg,
@@ -525,7 +531,7 @@ public class UserController {
 
 	}
 
-	private void initMessageContext() {
+	public void initMessageContext() {
 		configDao = new ConfigDao();
 		configInfo = configDao.GetConfig();
 		wxMpConfigStorage = new WxMpInMemoryConfigStorage();

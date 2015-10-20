@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.ncshop.controlls.UserController;
 import com.ncshop.dao.TAddressDAO;
 import com.ncshop.dao.TGoodsDAO;
 import com.ncshop.dao.TUserDAO;
@@ -50,10 +51,8 @@ public class Test{
 		List findAll = tGoodsDAO.findAll();
 		System.out.println("");
 	}
-	@org.junit.Test
-	public void TestLog(){
-		
-	
-		
+
+	public static void main(String[] args) {
+		new UserController().initMessageContext();
 	}
 }

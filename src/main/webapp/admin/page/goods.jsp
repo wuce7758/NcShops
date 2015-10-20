@@ -259,9 +259,9 @@
 										</div>
 									</div>
 									<div id="addTypeDiv" class="hide form-group col-sm-12">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-s">名称:</label>
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-s">新类别:</label>
 										<div class="col-sm-6">
-											<input disabled type="text" id="form-field-s" placeholder="商品名称"  class="col-xs-12 col-sm-12"/>
+											<input disabled type="text" id="form-field-s" placeholder="商品类型"  class="col-xs-12 col-sm-12"/>
 										</div>
 										<div id="saveType" class="btn btn-light">
 											<i class="ace-icon fa fa-plus bigger-110"></i>
@@ -320,7 +320,6 @@
 		src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.bootstrap.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/bootstrap.min.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/TableTools/js/dataTables.tableTools.js"></script>
 	<script
