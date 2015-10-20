@@ -12,7 +12,7 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta charset="utf-8" />
-<title>德玛超市-首页</title>
+<title>优选食客-首页</title>
 
 <meta name="description" content="" />
 <meta name="viewport"
@@ -82,7 +82,7 @@
 			<div class="navbar-header pull-left">
 				<!-- #section:basics/navbar.layout.brand -->
 				<a href="#" class="navbar-brand"> <small> <i
-						class="fa fa-leaf"></i> 欢迎光顾德玛商店 </small> </a>
+						class="fa fa-leaf"></i> 欢迎来到优选食客 </small> </a>
 
 				<!-- /section:basics/navbar.layout.brand -->
 
@@ -193,9 +193,9 @@
 					</script>
 
 					<ul class="breadcrumb">
-						<li><i class="ace-icon fa fa-home home-icon"></i> <a id="shopname" href="#">小二百货店</a>
+						<li><i class="ace-icon fa fa-home home-icon"></i> <a id="shopname" href="#">优选超市</a>
 						</li>
-						<li class="active">超市商品</li>
+						<li class="active">全部商品</li>
 					</ul>
 					<!-- /.breadcrumb -->
 
@@ -361,10 +361,10 @@
 							$("#goodsType").html("");
 							for ( var i = 0; i < data.TSeller.length; i++) {
 								var item = "";
-								item= "<li onClick='javascript:loadGoodsBySeller(this,"+data.TSeller[i].sellerId+")' name='"+data.TSeller[i].sellerName+"' class='lis'>"+
+								item= "<li onClick='javascript:loadGoodsBySeller(this,"+data.TSeller[i].sellerId+")' name='"+data.TSeller[i].shopName+"' class='lis'>"+
 											"<a href='#'>"+
 												"<i class='menu-icon fa fa-tachometer'></i>"+
-												"<span class='menu-text'>"+data.TSeller[i].sellerName+"</span>"+
+												"<span class='menu-text'>"+data.TSeller[i].shopName+"</span>"+
 											"</a>"+
 											"<b class='arrow'></b>"+
 										"</li>";

@@ -68,7 +68,8 @@ public class SellerService {
 	public void addGoods(int sellerId,int goodsTypeId,TGoods goods) {
 		// TODO Auto-generated method stub 
 		TSeller seller=sellerDao.findById(sellerId);
-		TGoodstype goodsType=goodstypeDao.findById(goodsTypeId);
+		TGoodstype goodsType= new TGoodstype();
+		goodsType.setGoodsTypeId(goodsTypeId);
 		TSellergoods sellergoods=new TSellergoods();
 		goods.setTGoodstype(goodsType);
 		sellergoods.setTGoods(goods);
@@ -78,9 +79,18 @@ public class SellerService {
 	} 
  
  
-	public void addGoodsType(TGoodstype goodsType) {
+	@SuppressWarnings("unchecked")
+	public String addGoodsType(String goodsTypeName) {
 		// TODO Auto-generated method stub 
-		goodtypeDao.save(goodsType);
+		TGoodstype type=new TGoodstype();
+		type.setGoodsTypeName(goodsTypeName);
+		List<TGoodstype> list=goodtypeDao.getHibernateTemplate().find("from TGoodstype where goodsTypeName='"+goodsTypeName+"'");
+		if(list.size()>0){
+			return "0";
+		}else{
+			goodtypeDao.save(type);
+			return "1";
+		}
 	} 
  
  
@@ -157,7 +167,9 @@ public class SellerService {
 	@SuppressWarnings("unchecked")
 	public List<TGoodstype> getAllGoodsType() {
 		// TODO Auto-generated method stub
-		return goodstypeDao.findAll();
+		List<TGoodstype> list=null;
+		list=goodstypeDao.findAll();
+		return list;
 	}
 
 

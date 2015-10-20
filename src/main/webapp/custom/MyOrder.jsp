@@ -14,7 +14,7 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta charset="utf-8" />
-<title>德玛超市-订单确认</title>
+<title>优选食客-订单确认</title>
 
 <meta name="description" content="" />
 <meta name="viewport"
@@ -82,7 +82,7 @@
 			<div class="navbar-header pull-left">
 				<!-- #section:basics/navbar.layout.brand -->
 				<a href="#" class="navbar-brand"> <small> <i
-						class="fa fa-leaf"></i> 欢迎光顾德玛超市 </small> </a>
+						class="fa fa-leaf"></i> 欢迎光顾优选食客 </small> </a>
 
 				<!-- /section:basics/navbar.layout.brand -->
 
@@ -187,7 +187,7 @@
 					</script>
 
 					<ul class="breadcrumb">
-						<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">小二百货店</a>
+						<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">优选食客</a>
 						</li>
 						<li class="active">确认订单</li>
 					</ul>

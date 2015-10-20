@@ -46,14 +46,6 @@
 	<!-- /.sidebar-shortcuts -->
 
 	<ul class="nav nav-list">
-		<li id="tachometer" class="">
-			<a href="${pageContext.request.contextPath }/admin/page/index.jsp" class="">
-				<i class="menu-icon fa fa-tachometer"></i>
-				<span class="menu-text">控制台</span>
-				<b class="arrow"></b>
-			</a>
-			<b cite="arrow"></b>
-		</li>
 		<li id="authority" name="menu1" class="">
 			<a href="${pageContext.request.contextPath }/user/findGoodsdetail" class="">
 				<i class="menu-icon fa fa-unlock-alt"></i>

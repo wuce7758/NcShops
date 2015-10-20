@@ -145,22 +145,26 @@ public class UserService {
 				new TSellergoods(), new String[] { "TGoods", "seller" }, null,
 				0, 0, false);
 
-		for (TSellergoods tSellergoods : list) {
-			TGoods goods = tSellergoods.getTGoods();
-			
-			SimpleExpression eq1 = Restrictions.eq("goodsId",  goods.getGoodsId());
-			eqs[0]=eq1;
-			TGoods tempgGoods = goodsDao
-					.getEntitiestNotLazy(new TGoods(),
-							new String[] { "TGoodstype" },
-							eqs, 0,
-							0, false).get(0);
-			tSellergoods.setTGoods(tempgGoods);
-			TGoodstype findById = goodstypeDAO.findById(goods.getGoodsId());
-			goods.setTGoodstype(findById);
-			tSellergoods.setTGoods(goods);
+		if(list!=null){
+			for (TSellergoods tSellergoods : list) {
+				TGoods goods = tSellergoods.getTGoods();
+				
+				SimpleExpression eq1 = Restrictions.eq("goodsId",  goods.getGoodsId());
+				eqs[0]=eq1;
+				TGoods tempgGoods = goodsDao
+						.getEntitiestNotLazy(new TGoods(),
+								new String[] { "TGoodstype" },
+								eqs, 0,
+								0, false).get(0);
+				Object [] objs ={tempgGoods.getGoodsId()};
+				TGoodstype findById = (TGoodstype) goodstypeDAO.getHibernateTemplate().find("from TGoodstype where goodsTypeId="+tempgGoods.getTGoodstype().getGoodsTypeId()).get(0);
+				goods.setTGoodstype(findById);
+				tSellergoods.setTGoods(goods);
+			}
+			return list;
+		}else{
+			return null;
 		}
-		return list;
 	}
 
 	public boolean updateAddress(Integer userId, TAddress address) {

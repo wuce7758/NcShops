@@ -209,8 +209,7 @@
 						</div>
 
 						<div id="dialog-message" class="hide">
-							<form id="formgoodsinfo" method="post"
-								enctype="multipart/form-data">
+							<form id="formgoodsinfo" method="post" enctype="multipart/form-data">
 								<input type="hidden" name="oper" value="" id="oper" />
 								<div class="col-sm-12">
 									<div class="form-group col-sm-12">
@@ -247,7 +246,7 @@
 									<div class="form-group col-sm-12">
 										<label for="goodsType"
 											class="col-sm-3 control-label no-padding-right">分类</label>
-										<div class="col-sm-9">
+										<div class="col-sm-6">
 											<select
 												class="chosen-select form-control col-xs-12 col-sm-12"
 												name="goodsTypeId" id="goodsType"
@@ -255,6 +254,19 @@
 												<option value=""></option>
 											</select>
 										</div>
+										<div id="addType" class="btn btn-light">
+											<i id="icons" class="ace-icon fa fa-plus bigger-110"></i>
+										</div>
+									</div>
+									<div id="addTypeDiv" class="hide form-group col-sm-12">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-s">名称:</label>
+										<div class="col-sm-6">
+											<input disabled type="text" id="form-field-s" placeholder="商品名称"  class="col-xs-12 col-sm-12"/>
+										</div>
+										<div id="saveType" class="btn btn-light">
+											<i class="ace-icon fa fa-plus bigger-110"></i>
+										</div>
+
 									</div>
 									<div class="form-group col-sm-12">
 										<label class="col-sm-3 control-label no-padding-right"
@@ -279,12 +291,10 @@
 
 								<div style="width:100%;text-align: center" id="error"></div>
 								<div>
-									<button style="margin-left:10px" class="btn btn-info col-sm-5"
-										id="goodssave" type="button">
+									<button id="goodssave" style="margin-left:10px" class="btn btn-info col-sm-5" type="button">
 										<i class="ace-icon fa fa-check bigger-110"></i>保存
 									</button>
-									<button style="margin-left:25px"
-										class="btn btn-success col-sm-5" id="goodssave" type="reset">
+									<button id="goodsReset" style="margin-left:25px" class="btn btn-success col-sm-5" type="reset">
 										<i class="ace-icon fa fa-check bigger-110"></i>重置
 									</button>
 								</div>
@@ -296,10 +306,11 @@
 		</div>
 		<jsp:include page="../WebPart/CopyRight.jsp"></jsp:include>
 	</div>
+
 	<jsp:include page="../WebPart/Script.jsp"></jsp:include>
 	<!-- page specific plugin scripts -->
 	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.js"></script>
-	<script src="http://malsup.github.io/jquery.form.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/jquery.form.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/jquery.ui.touch-punch.js"></script>
 
@@ -316,74 +327,103 @@
 		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/ColVis/js/dataTables.colVis.js"></script>
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
-		$(document)
-				.ready(
-						function() {
-							//获取商品类型
-							$
-									.ajax({
-										type : "post",
-										url : "${pageContext.request.contextPath }/seller/getAllGoodsType",
-										dataType : "json",
-										async : false,
-										/*这句可用可不用，没有影响*/
-										contentType : "application/json; charset=utf-8",
-										success : function(data) {
-											var goodstypes = JSON
-													.stringify(data.TGoodstype);
-											var obj = JSON.parse(goodstypes);
-											for ( var i = 0; i < obj.length; i++) {
-												$("#goodsType")
-														.append(
-																"<option value='"+obj[i].goodsTypeId+"'>"
-																		+ obj[i].goodsTypeName
-																		+ "</option>");
-											}
-										},
-										error : function(XMLHttpRequest,
-												textStatus, errorThrown) {
-											alert(errorThrown);
-										}
-									});
-							//获取店铺信息类型
-							$
-									.ajax({
-										type : "post",
-										url : "${pageContext.request.contextPath }/seller/getAllSeller",
-										dataType : "json",
-										async : false,
-										/*这句可用可不用，没有影响*/
-										contentType : "application/json; charset=utf-8",
-										success : function(data) {
-											var goodstypes = JSON
-													.stringify(data.TSeller);
-											var obj = JSON.parse(goodstypes);
-											for ( var i = 0; i < obj.length; i++) {
-												$("#goodsShop")
-														.append(
-																"<option value='"+obj[i].sellerId+"'>"
-																		+ obj[i].shopName
-																		+ "</option>");
-											}
-										},
-										error : function(XMLHttpRequest,
-												textStatus, errorThrown) {
-											alert(errorThrown);
-										}
-									});
+		function load_seller_type(){
+			//获取商品类型
+			$.ajax({
+				type : "post",
+				url : "${pageContext.request.contextPath }/seller/getAllGoodsType",
+				dataType : "json",
+				async : false,
+				/*这句可用可不用，没有影响*/
+				contentType : "application/json; charset=utf-8",
+				success : function(data) {
+								$("#goodsType").html("");
+								var goodstypes = JSON.stringify(data.TGoodstype);
+								var obj = JSON.parse(goodstypes);
+								for ( var i = 0; i < obj.length; i++) {
+									$("#goodsType").append("<option value='"+obj[i].goodsTypeId+"'>"+ obj[i].goodsTypeName+ "</option>");
+								}
+						},
+				error : function(XMLHttpRequest,textStatus, errorThrown) {
+									alert(errorThrown);
+						}
+				});
+			//获取店铺信息类型
+			$.ajax({
+				type : "post",
+				url : "${pageContext.request.contextPath }/seller/getAllSeller",
+				dataType : "json",
+				async : false,
+				/*这句可用可不用，没有影响*/
+				contentType : "application/json; charset=utf-8",
+				success : function(data) {
+							$("#goodsShop").html("");
+							var goodstypes = JSON.stringify(data.TSeller);
+							var obj = JSON.parse(goodstypes);
+							for ( var i = 0; i < obj.length; i++) {
+								$("#goodsShop").append("<option value='"+obj[i].sellerId+"'>"+ obj[i].shopName+ "</option>");
+							}
+							},
+				error : function(XMLHttpRequest,textStatus, errorThrown) {
+							alert(errorThrown);
+						}
+			});
+		}
+		function addType(){
+			var typename=$("#form-field-s").val();
+			if(typename==""){
+				return;
+			}
+			$.ajax({
+				type : "get",
+				url : "${pageContext.request.contextPath }/seller/addGoodsType",
+				dataType : "json",
+				async : false,
+				data:{goodsTypeName: typename},
+				/*这句可用可不用，没有影响*/
+				contentType : "application/json; charset=utf-8",
+				success : function(data) {
+							if(data==1){
+							}else{
+								alert("此类型已添加，请勿再次添加！");
+							}
+				},
+				error : function(XMLHttpRequest,textStatus, errorThrown) {
+									alert(errorThrown);
+				}
+			});
+			$("#icons").removeClass("fa-close").addClass("fa-plus");
+			$("#form-field-s").attr("disabled",true);
+			$("#addTypeDiv").addClass("hide");
+			load_seller_type();
+			$("#goodssave").attr("disabled",false);
+		}
+		$(document).ready(function() {
+							$("#addType").click(function(){
+								if($("#form-field-s").attr("disabled")){
+									$("#goodssave").attr("disabled",true);
+									$("#addTypeDiv").removeClass("hide");
+									$("#form-field-s").attr("disabled",false);
+									$(this).children("i").removeClass("fa-plus").addClass("fa-close");
+								}else{
+									$(this).children("i").removeClass("fa-close").addClass("fa-plus");
+									$("#addTypeDiv").addClass("hide");
+									$("#form-field-s").attr("disabled",true);
+									$("#goodssave").attr("disabled",false);
+								}
+							});
+							$("#saveType").click(function(){
+								addType();								
+							});
 							//图片上传 及数据保存 
 							$("#goodssave")
 									.click(
 											function() {
-												var ext = '.jpg.jpeg.gif.bmp.png.';
+												var ext = ".jpg.jpeg.gif.bmp.png.";
 												var f = $("#file").val();
 												if (f == "") { //先判断是否已选择了文件 
-													$("#error")
-															.attr("class",
-																	"error_div")
-															.html(
-																	"<img src='../images/error_img2.gif' style='width:15px;height:15px;'/>"
-																			+ "请添加商圈logo！");
+													$("#error").attr("class","error_div")
+															.html("<img src='../images/error_img2.gif' style='width:15px;height:15px;'/>"+ "请添加商圈logo！");
 													return false;
 												}
 												/* f = f.substr(f.lastIndexOf('.') + 1).toLowerCase();
@@ -391,52 +431,24 @@
 													$("#error").attr("class", "error_div").html("<img src='../images/error_img2.gif' style='width:15px;height:15px;'/>" + "图片格式不正确！");
 													return false;
 												} */
-
 												var options = {
 													url : "${pageContext.request.contextPath }/seller/addGoods",
-													dataType : 'json',
+													dataType : "json",
 													contentType : "application/json; charset=utf-8",
 													success : function(data) {
-														// 'data' is an object representing the the evaluated json data 
-														// 如果图片上传成功则保存表单注册数据 
-
 														if (data == "1") {
-
-															//var fileName = data.fileName;
-															//alert(fileName);
-															/* $.ajax({
-																type : "post",
-																url : "${pageContext.request.contextPath }/user/findAllGoods",
-																dataType : "json",
-																这句可用可不用，没有影响
-																contentType : "application/json; charset=utf-8",
-																success : function(data) {
-																	alert(data);
-																	if (typeof(data)=="object") {
-																		$("#error").html("<font color='green'>操作成功!</font>");
-																	} else {
-																		$("#error").html("<font color='red'>操作失败失败!原因是："+data+"</font>");
-																	}
-																},
-																error : function(XMLHttpRequest,textStatus,errorThrown) {
-																				errorThrown) {
-																			alert(errorThrown);
-																		}
-															}); */
+															//$("#dialog-message").dialog("close");
+															$("#error").html("<font color='green'>提示：添加成功！</font>");
+															$("#goodsReset").trigger("click");
+															$("#goodsSave").attr("disabled",true);
 														} else {
-															$("#error")
-																	.attr(
-																			"class",
-																			"error_div")
-																	.html(
-																			"<img src='${ctx}/images/error_img2.gif' style='width:15px;height:15px;'/>"
-																					+ data.message);
+															$("#error").attr("class","error_div")
+																	.html("<img src='${ctx}/images/error_img2.gif' style='width:15px;height:15px;'/>"+ data.message);
 														}
 													}
-												}
+												};
 												// 提交表单 
-												$('#formgoodsinfo').ajaxSubmit(
-														options);
+												$("#formgoodsinfo").ajaxSubmit(options);
 											});
 							//显示商家详细信息
 							$(".goodSellerPopover").popover();
@@ -546,6 +558,7 @@
 			$(".buttongoods")
 					.click(
 							function() {
+								load_seller_type();
 								var oper = $(this).attr('oper');
 								$("#oper").val(oper);
 								if (oper == "delete") {
@@ -689,7 +702,7 @@
 				"body" : "DTTT_Print",
 				"info" : "tableTools-alert gritter-item-wrapper gritter-info gritter-center white",
 				"message" : "tableTools-print-navbar"
-			}
+			};
 			//initiate TableTools extension
 			var tableTools_obj = new $.fn.dataTable.TableTools(
 					oTable1,
@@ -700,14 +713,14 @@
 						"fnRowSelected" : function(row) {
 							//check checkbox when row is selected
 							try {
-								$(row).find('input[type=checkbox]').get(0).checked = true
+								$(row).find('input[type=checkbox]').get(0).checked = true;
 							} catch (e) {
 							}
 						},
 						"fnRowDeselected" : function(row) {
 							//uncheck checkbox
 							try {
-								$(row).find('input[type=checkbox]').get(0).checked = false
+								$(row).find('input[type=checkbox]').get(0).checked = false;
 							} catch (e) {
 							}
 						},
@@ -719,8 +732,7 @@
 									"sButtonClass" : "btn btn-white btn-primary btn-bold",
 									"sButtonText" : "<i class='fa fa-copy bigger-110 pink'></i>",
 									"fnComplete" : function() {
-										this
-												.fnInfo(
+										this.fnInfo(
 														'<h3 class="no-margin-top smaller">Table copied</h3>\<p>Copied '
 																+ (oTable1
 																		.fnSettings()
@@ -788,7 +800,7 @@
 			});
 			//style it
 			$(colvis.button()).addClass('btn-group').find('button').addClass(
-					'btn btn-white btn-info btn-bold')
+					'btn btn-white btn-info btn-bold');
 			//and append it to our table tools btn-group, also add tooltip
 			$(colvis.button()).prependTo('.tableTools-container .btn-group')
 					.attr('title', '选择要导出的数据列').tooltip({
@@ -875,7 +887,7 @@
 			//tooltip placement on right or left
 			function tooltip_placement(context, source) {
 				var $source = $(source);
-				var $parent = $source.closest('table')
+				var $parent = $source.closest('table');
 				var off1 = $parent.offset();
 				var w1 = $parent.width();
 				var off2 = $source.offset();

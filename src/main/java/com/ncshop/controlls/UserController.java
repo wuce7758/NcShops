@@ -132,6 +132,7 @@ public class UserController {
 		} catch (Exception e) {
 			LogBuilder.writeToLog(UserController.class.getName()
 					+ e.getMessage());
+			e.printStackTrace();
 		}
 
 	}

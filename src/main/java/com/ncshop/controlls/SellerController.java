@@ -49,11 +49,11 @@ public class SellerController {
 	public void sellerLogin(HttpServletRequest request,
 			HttpServletResponse response, String sellerName, String sellerPhone)
 			throws ServletException, IOException {
-		if (sellerName.equals("admin123") && sellerPhone.equals("123")) {
-			// TSeller seller=sellerService.sellerLogin(sellerName,sellerPhone);
+		if (sellerName.equals("admin") && sellerPhone.equals("zyhyxsk321@")) {
+			TSeller seller=sellerService.sellerLogin(sellerName,sellerPhone);
 			List<TSellergoods> list = userService.findGoodsdetail();
 			request.setAttribute("goodDetail", list);
-			// request.getSession().setAttribute("seller", seller);
+			request.getSession().setAttribute("seller", seller);
 			request.getRequestDispatcher("/admin/page/goods.jsp").forward(
 					request, response);
 		} else {
@@ -238,16 +238,15 @@ public class SellerController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/addGoodsType")
-	public void addGoodsType(HttpServletResponse response, TGoodstype goodsType)
-			throws Exception {
-		String goodsTypeName = goodsType.getGoodsTypeName();
+	public void addGoodsType(HttpServletRequest request,HttpServletResponse response)throws Exception {
+		String goodsTypeName=request.getParameter("goodsTypeName");
 		if (goodsTypeName == null || goodsTypeName == "") {
 			return;
 		}
 		// 调用service查找 数据库
-		sellerService.addGoodsType(goodsType);
+		String result=sellerService.addGoodsType(goodsTypeName);
 		response.setContentType("html/text;charset=utf-8");
-		response.getWriter().write("添加商品类型成功!");
+		response.getWriter().write(result);
 	}
 
 	/**
