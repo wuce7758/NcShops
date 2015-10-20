@@ -330,6 +330,7 @@
 	<jsp:include page="../WebPart/Script.jsp"></jsp:include>
 	<!-- page specific plugin scripts -->
 	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.js"></script>
+	
 	<script src="http://malsup.github.io/jquery.form.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/jquery.ui.touch-punch.js"></script>

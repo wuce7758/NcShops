@@ -76,7 +76,8 @@
 					<ul class="breadcrumb">
 						<li><i class="ace-icon fa fa-home home-icon"></i><a href="#">商城管理后台</a>
 						</li>
-						<li><a href="#">控制台</a></li>
+						<li><a href="#">控制台</a>
+						</li>
 					</ul>
 					<jsp:include page="../WebPart/SearchBox.jsp"></jsp:include>
 				</div>
@@ -85,7 +86,23 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
-							<b class="arrow"></b>
+							<div class="btn-group">
+								<button data-toggle="dropdown"
+									class="btn btn-primary btn-white dropdown-toggle">
+									Action <i class="ace-icon fa fa-angle-down icon-on-right"></i>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a href="#">Action</a>
+									</li>
+									<li><a href="#">Action</a>
+									</li>
+									<li><a href="#">Action</a>
+									</li>
+									<li class="divider"></li>
+									<li><a href="#">Action</a>
+									</li>
+								</ul>
+							</div>
 							<!-- PAGE CONTENT ENDS -->
 						</div>
 					</div>

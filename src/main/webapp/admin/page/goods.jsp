@@ -309,7 +309,6 @@
 		src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.bootstrap.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/bootstrap.min.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/TableTools/js/dataTables.tableTools.js"></script>
 	<script

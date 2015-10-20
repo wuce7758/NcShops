@@ -21,20 +21,13 @@
 
 <!-- bootstrap & fontawesome -->
 <link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/chosen.css" />
-
+	href="http://ace.zcdreams.com/assets/css/bootstrap.min.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/plugins/fonts/font-awesome.css" />
 
 <!-- page specific plugin styles -->
 <link rel="stylesheet"
 	href="http://ace.zcdreams.com/assets/css/jquery-ui.css" />
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/chosen.css" />
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/jquery.gritter.css" />
 <!-- text fonts -->
 <link rel="stylesheet"
 	href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
@@ -153,12 +146,12 @@
 											<td class="hidden-480"><a class="orderUserPopover"
 												href="javascript:void(0);" data-container="body"
 												data-placement="bottom" name="${trl.userId}">
-													${trl.userId} </a>
+													点击查看</a>
 											</td>
 											<td class="hidden-480"><a class="orderSellerPopover"
 												href="javascript:void(0);" data-container="body"
 												data-placement="bottom" name="${trl.sellerId }">
-													${trl.sellerId }</a>
+													点击查看</a>
 											</td>
 											<td class="hidden-480">${trl.orderTime}</td>
 											<td class="hidden-480">${trl.orderTotalCost}</td>
@@ -167,82 +160,26 @@
 											</td>
 											<td>
 												<div class="hidden-sm hidden-xs action-buttons">
-													<a class="blue orderdetaill" href="javascript:void(0)"
-														name="${trl.orderId}" oper="detaill"> <i
-														class="fa fa-search-plus bigger-130"><small></small> </i>
-													</a>
-													<%-- <a class="red buttongoods" href="javascript:void(0)"
-														name="${trl.orderId}" oper="delete"> 
-														<i id="goodsIsSaleAction${trl.orderId}"
-														class="fa fa-toggle-off bigger-130"
-														name="goodsIsSaleAction${trl.orderId}" state="${trl.orderId}"></i> 
-													</a> --%>
+													<div class="col-sm-5">
+														<a class="blue orderdetaill" href="javascript:void(0)" name="${trl.orderId}">
+															<i class="fa fa-search-plus bigger-130"><small>查看订单详情</small></i>
+														</a>
+													</div>
 													<div class="col-sm-6">
-														<select
-															class="chosen-select form-control col-xs-12 col-sm-12 orderState"
-															name="${trl.orderId}" oper="${trl.orderState}"
-															id="orderState${trl.orderId}" data-placeholder="选择状态">
-															<c:if test="${trl.orderState==0}">
-																<option name="${trl.orderId}oso${trl.orderState}0"
-																	value="0"></option>
-																<option name="${trl.orderId}oso${trl.orderState}1"
-																	value="1">确认</option>
-																<option name="${trl.orderId}oso${trl.orderState}2"
-																	value="2">配送</option>
-																<option name="${trl.orderId}oso${trl.orderState}3"
-																	value="3">成功</option>
-																<option name="${trl.orderId}oso${trl.orderState}4"
-																	value="4">取消</option>
-															</c:if>
-															<c:if test="${trl.orderState==1}">
-																<option name="${trl.orderId}oso${trl.orderState}0"
-																	value="0"></option>
-																<option name="${trl.orderId}oso${trl.orderState}1"
-																	value="1" selected="selected">确认</option>
-																<option name="${trl.orderId}oso${trl.orderState}2"
-																	value="2">配送</option>
-																<option name="${trl.orderId}oso${trl.orderState}3"
-																	value="3">成功</option>
-																<option name="${trl.orderId}oso${trl.orderState}4"
-																	value="4">取消</option>
-															</c:if>
-															<c:if test="${trl.orderState==2}">
-																<option name="${trl.orderId}oso${trl.orderState}0"
-																	value="0"></option>
-																<option name="${trl.orderId}oso${trl.orderState}1"
-																	value="1">确认</option>
-																<option name="${trl.orderId}oso${trl.orderState}2"
-																	value="2" selected="selected">配送</option>
-																<option name="${trl.orderId}oso${trl.orderState}3"
-																	value="3">成功</option>
-																<option name="${trl.orderId}oso${trl.orderState}4"
-																	value="4">取消</option>
-															</c:if>
-															<c:if test="${trl.orderState==3}">
-																<option name="${trl.orderId}oso${trl.orderState}0"
-																	value="0"></option>
-																<option name="${trl.orderId}oso${trl.orderState}1"
-																	value="1">确认</option>
-																<option name="${trl.orderId}oso${trl.orderState}2"
-																	value="2">配送</option>
-																<option name="${trl.orderId}oso${trl.orderState}3"
-																	value="3" selected="selected">成功</option>
-																<option name="${trl.orderId}oso${trl.orderState}4"
-																	value="4">取消</option>
-															</c:if>
-															<c:if test="${trl.orderState==4}">
-																<option name="${trl.orderId}oso${trl.orderState}0"
-																	value="0"></option>
-																<option name="${trl.orderId}oso${trl.orderState}1"
-																	value="1">确认</option>
-																<option name="${trl.orderId}oso${trl.orderState}2"
-																	value="2">配送</option>
-																<option name="${trl.orderId}oso${trl.orderState}3"
-																	value="3" selected="selected">成功</option>
-																<option name="${trl.orderId}oso${trl.orderState}4"
-																	value="4">取消</option>
-															</c:if>
-														</select>
+														<div class="btn-group">
+															<a href="javascript:void(0)" data-toggle="dropdown" class=" dropdown-toggle">
+																修改订单状态
+																<i class="ace-icon fa fa-angle-down icon-on-right"></i>
+															</a>
+															<ul class="dropdown-menu">
+																<li> <a href="javascript:void(0)" class="ordercs" id="${trl.orderId}ocs0">刚提交</a></li>
+																<li> <a href="javascript:void(0)" class="ordercs" id="${trl.orderId}ocs1">确定</a></li>
+																<li> <a href="javascript:void(0)" class="ordercs" id="${trl.orderId}ocs2">配送</a></li>
+																<li> <a href="javascript:void(0)" class="ordercs" id="${trl.orderId}ocs3">成功</a></li>
+																<li class="divider"></li>
+																<li> <a href="javascript:void(0)" class="ordercs" id="${trl.orderId}ocs4">取消</a></li>
+															</ul>
+														</div><!-- /.btn-group -->
 													</div>
 												</div>
 												<div class="hidden-md hidden-lg">
@@ -273,14 +210,21 @@
 																		class="ace-icon fa fa-trash-o bigger-120"></i> </span> </a></li>
 														</ul>
 													</div>
-												</div></td>
+												</div>
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
 							<!-- PAGE CONTENT ENDS -->
 						</div>
-						<div id="sureprint" class="hide"></div>
+						<div id="sureprint" class="hide">
+                            <div class="alert alert-info bigger-110">确定更改订单状态吗?请谨慎操作！</div>
+                            <div class="space-6"></div>
+                            <p class="bigger-110 bolder center grey">
+                                <i class="ace-icon fa fa-hand-o-right blue bigger-120"></i>  确定修改?
+                            </p>
+                        </div>
 						<div id="dialog-message" class="hide">
 							<input disabled type="hidden" name="sellerId" value="0"
 								id="sellerId" />
@@ -326,20 +270,15 @@
 	</div>
 	<jsp:include page="../WebPart/Script.jsp"></jsp:include>
 	<!-- page specific plugin scripts -->
+	
 	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.js"></script>
 	<script src="http://malsup.github.io/jquery.form.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/chosen.jquery.js"></script>
-
 	<script
 		src="http://ace.zcdreams.com/assets/js/jquery.ui.touch-punch.js"></script>
-
-	<script type="text/javascript"
-		src="http://ace.zcdreams.com/assets/js/jquery.gritter.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.bootstrap.js"></script>
-	<script src="http://ace.zcdreams.com/assets/js/bootstrap.min.js"></script>
 	<script
 		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/TableTools/js/dataTables.tableTools.js"></script>
 	<script
@@ -347,10 +286,9 @@
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
 $(document).ready(function() {
-	var orderId;
 	$(".orderdetaill").click(function() {
 		var orderuserId;
-		orderId = $(this).attr("name");
+		var orderId = $(this).attr("name");
 		$("#orderdetails").html("");
 		$.ajax({
 			type: "post",
@@ -445,30 +383,53 @@ $(document).ready(function() {
 			}]
 		});
 	});
-	$(".orderState").change(function() {
-		var orderId = $(this).attr("name");
-		var orderState = $(this).val();
-		$.ajax({
-			type: "post",
-			url: "${pageContext.request.contextPath }/seller/changeOrderState ",
-			dataType: "json",
-			data: {
-				"orderId": orderId,
-				"orderState": orderState
-			},
-			async: true,
-			success: function(data) {
-				if (data == "1") {
-					$("td[id = 'orderState" + orderId + "'] span").attr("name", "orderState" + orderState);
-					myEach();
-				} else {
-
+	//修改订单状态
+	$(".ordercs").click(function() {
+		var orderId = $(this).attr("id").split("ocs")[0];
+		var orderState = $(this).attr("id").split("ocs")[1];
+		console.log(orderId + orderState);
+		var dialog = $("#sureprint").removeClass('hide').dialog({
+			resizable: false,
+            width: '320',
+			modal : true,
+			title : "确认窗口",
+			title_html : true,
+			buttons: [{
+				text: "关闭窗口",
+				"class": "btn btn-minier",
+				click: function() {
+					$(this).dialog("close");
 				}
-			},
-			error: function() {
-				alert("修改失败 ");
-			}
-		});
+			}, {
+				text: "确定",
+				"class": "btn btn-danger btn-minier",
+				click: function() {
+					var goods_type = "";
+					$.ajax({
+						type: "post",
+						url: "${pageContext.request.contextPath }/seller/changeOrderState ",
+						dataType: "json",
+						data: {
+							"orderId": orderId,
+							"orderState": orderState
+						},
+						async: true,
+						success: function(data) {
+							if (data == "1") {
+								$("td[id = 'orderState" + orderId + "'] span").attr("name", "orderState" + orderState);
+								myEach();
+							} else {
+
+							}
+						},
+						error: function() {
+							alert("修改失败 ");
+						}
+					});
+					$(this).dialog("close");
+				}
+			}]
+		});	
 	});
 });
 //显示商家详细信息
@@ -492,17 +453,17 @@ $(".orderSellerPopover ").popover({
 				var orderseller = JSON.stringify(data.TSeller);
 				var obj = JSON.parse(orderseller);
 
-				sellerinfo = " <p> 商店名：" + obj[0].shopName + "</p><br>" +
-								"<p>老板:" + obj[0].sellerName + "</P><br>" + 
-								"<p> 地址: " + obj[0].sellerAddress + "</P><br>" + 
-								"<p>电话:" + obj[0].sellerPhone + "</P><br>";
-				$("#seller " + sellerid).html(sellerinfo);
+				sellerinfo = "<p>商店名：" + obj[0].shopName + "</p><br>" +
+							 "<p>老板:" + obj[0].sellerName + "</P><br>" + 
+							 "<p>地址: " + obj[0].sellerAddress + "</P><br>" + 
+							 "<p>电话:" + obj[0].sellerPhone + "</P><br>";
+				$("#seller" + sellerid).html(sellerinfo);
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				sellerinfo = errorThrown;
 			}
 		});
-		return " < div id = 'seller" + $(this).attr('name') + "'> 查询中...... </div>";
+		return " <div id='seller" + $(this).attr('name') + "'> 查询中...... </div>";
 	}
 });
 //显示订单用户信息
@@ -812,7 +773,7 @@ jQuery(function($) {
 //chosen plugin inside a modal will have a zero width because the select element is originally hidden
 //and its width cannot be determined.
 //so we set the width after modal is show
-$('#modal-form').on('shown.bs.modal', function() {
+/* $('#modal-form').on('shown.bs.modal', function() {
 	if (!ace.vars['touch']) {
 		$(this).find('.chosen-container').each(function() {
 			$(this).find('a:first-child').css('width', '210px');
@@ -820,7 +781,7 @@ $('#modal-form').on('shown.bs.modal', function() {
 			$(this).find('.chosen-search input').css('width', '200px');
 		});
 	}
-});
+}); */
 /**
 //or you can activate the chosen plugin after modal is shown
 //this way select element becomes visible with dimensions and chosen works as expected
@@ -828,7 +789,7 @@ $('#modal-form').on('shown', function () {
 	$(this).find('.modal-chosen').chosen();
 })
  */
-if (!ace.vars['touch']) {
+/* if (!ace.vars['touch']) {
 	$('.chosen-select').chosen({
 		allow_single_deselect: true
 	});
@@ -863,7 +824,7 @@ if (!ace.vars['touch']) {
 		else
 			$('#form-field-select-4').removeClass('tag-input-style');
 	});
-} 
+}  */
 	</script>
 </body>
 

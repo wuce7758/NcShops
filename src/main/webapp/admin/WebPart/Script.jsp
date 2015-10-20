@@ -24,15 +24,13 @@
 <![endif]-->
 <script type="text/javascript">
 	if ('ontouchstart' in document.documentElement)
-		document
-				.write("<script src='http://ace.zcdreams.com/assets/js/jquery.mobile.custom.js'>"
-						+ "<"+"/script>");
+		document.write("<script src='http://ace.zcdreams.com/assets/js/jquery.mobile.custom.js'>"+ "<"+"/script>");
 </script>
-<script src="http://ace.zcdreams.com/assets/js/bootstrap.js"></script>
+<script src="http://ace.zcdreams.com/assets/js/jquery.js"></script>
+<script src="http://ace.zcdreams.com/assets/js/bootstrap.min.js"></script>
 
 <!-- ace scripts -->
 <script src="http://ace.zcdreams.com/assets/js/ace/elements.scroller.js"></script>
-<script src="http://ace.zcdreams.com/assets/js/chosen.jquery.js"></script>
 <script
 	src="http://ace.zcdreams.com/assets/js/ace/elements.colorpicker.js"></script>
 <script
@@ -60,11 +58,9 @@
 <script
 	src="http://ace.zcdreams.com/assets/js/ace/ace.searchbox-autocomplete.js"></script>
 <script>
-	function myEachPopover(tag, Name, Start, End) {
-
-		$(tag+"[name='" + Name + "']").each(function() {
-			var info = $(this).attr("data-content").substring(Start, End);
-			$(this).html(info);
+	function myEachPopover(tag, Name, Start, End) { 
+		$(tag+"[name='" + Name +"']").each(function() {
+			var info=$(this).attr("data-content").substring(Start, End); $(this).html(info);
 		});
-	}
+	 }
 </script>
