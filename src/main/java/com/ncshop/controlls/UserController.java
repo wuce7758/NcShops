@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.WxMpTemplateData;
@@ -29,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ncshop.domain.OrderItemArr;
 import com.ncshop.domain.TAddress;
+import com.ncshop.domain.TAds;
 import com.ncshop.domain.TGoods;
 import com.ncshop.domain.TGoodstype;
 import com.ncshop.domain.TOrder;
@@ -51,7 +51,6 @@ public class UserController {
 	private UserService userService;
 	private WxMpInMemoryConfigStorage wxMpConfigStorage;
 	private WxMpService wxMpService;
-	private WxMpMessageRouter wxMpMessageRouter;
 	private ConfigDao configDao;
 	private ConfigInfo configInfo;
 
@@ -75,9 +74,44 @@ public class UserController {
 					+ e.getMessage());
 		}
 	}
+	
+	/**
+	 * 查找广告信息 JSON
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/getAds")
+	public void getAds(HttpServletResponse response) throws Exception {
+		// 调用service查找 数据库
+		try {
+			List<TAds> adsList = userService.getAds();
+			String json = toJson(new TAds(), adsList, null);
+			// 设置response的传输格式为json
+			response.setContentType("application/json");
+			response.getWriter().write(json);
+		} catch (Exception e) {
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
+		}
+	}
+	
+	/**
+	 * 获取所有商品类型 JSON
+	 * 
+	 * @throws Exception
+	 */
+	@RequestMapping("/getAllGoodsType")
+	public void getAllGoodsType(HttpServletResponse response) throws Exception {
+		// 调用service查找 数据库
+		List<TGoodstype> list = userService.getAllGoodsType();
+		String json = toJson(new TGoodstype(), list, null);
+		response.setContentType("application/json");
+		response.getWriter().write(json);
+	}
 
 	/**
-	 * 查找店铺所有的商品
+	 * 查找店铺所有的商品 返回JSON
 	 * 
 	 * @return
 	 * @throws Exception
@@ -100,6 +134,11 @@ public class UserController {
 			for (TSellergoods tSellergoods : sellerGoodsList) {
 				goods.add(tSellergoods.getTGoods());
 			}
+			TGoodstype type;
+			for (TGoods tGoods : goods) {
+				type=userService.findGoodsType(tGoods.getTGoodstype().getGoodsTypeId());
+				tGoods.setTGoodstype(type);
+			}
 			String json = toJson(new TGoods(), goods, null);
 			// 设置response的传输格式为json
 			response.setContentType("application/json");
@@ -110,9 +149,63 @@ public class UserController {
 		}
 
 	}
+	/**
+	 * 查找某店铺所有的商品
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/findGoodsBySeller")
+	public void findGoodsBySeller(HttpServletRequest request,Integer sellerId,Integer page,
+			HttpServletResponse response) {
+
+		try {
+			// 调用service查找 数据库
+			List<TSellergoods> sellerGoodsList = userService.findSellergoods(
+					sellerId, (page - 1) * 10, 10);;
+			request.setAttribute("goodDetail", sellerGoodsList);
+			request.getRequestDispatcher("/index.jsp").forward(
+					request, response);
+		} catch (Exception e) {
+			LogBuilder.writeToLog(UserController.class.getName()+ e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+	
+	/**
+	 * 查找某店铺所有的商品
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/findGoodsByTypeId")
+	public void findGoodsByTypeId(HttpServletRequest request,Integer goodsTypeId,Integer page,
+			HttpServletResponse response) {
+
+		try {
+			// 调用service查找 数据库
+			List<TSellergoods> sellerGoodsList = userService.findSellergoods(
+					101, (page - 1) * 10, 10);
+			for (int i=0;i<sellerGoodsList.size();i++) {
+				
+				if(!(sellerGoodsList.get(i).getTGoods().getTGoodstype().getGoodsTypeId()==goodsTypeId)){
+					sellerGoodsList.remove(i);
+				}
+				
+			}
+			request.setAttribute("goodDetail", sellerGoodsList);
+			request.getRequestDispatcher("/index.jsp").forward(
+					request, response);
+		} catch (Exception e) {
+			LogBuilder.writeToLog(UserController.class.getName()+ e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
 
 	/**
-	 * 查找店铺所有的商品
+	 * 查找所有的商品
 	 * 
 	 * @return
 	 * @throws Exception
@@ -124,7 +217,6 @@ public class UserController {
 		try {
 			// 调用service查找 数据库
 			List<TSellergoods> sellerGoodsList = userService.findGoodsdetail();
-			String json = toJson(new TSellergoods(), sellerGoodsList, null);
 			request.setAttribute("goodDetail", sellerGoodsList);
 			request.getRequestDispatcher("/admin/page/goods.jsp").forward(
 					request, response);
@@ -168,7 +260,13 @@ public class UserController {
 				if (tSellergoods.getTGoods().getTGoodstype().getGoodsTypeId() == (Integer
 						.parseInt(goodsTypeId))) {
 					goods.add(tSellergoods.getTGoods());
+					
 				}
+			}
+			TGoodstype type;
+			for (TGoods tGoods : goods) {
+				type=userService.findGoodsType(tGoods.getTGoodstype().getGoodsTypeId());
+				tGoods.setTGoodstype(type);
 			}
 			String json = toJson(new TGoods(), goods, null);
 			// 设置response的传输格式为json
@@ -176,8 +274,7 @@ public class UserController {
 			response.getWriter().write(json);
 		} catch (Exception e) {
 			e.printStackTrace();
-			LogBuilder.writeToLog(UserController.class.getName()
-					+ e.getMessage());
+			LogBuilder.writeToLog(UserController.class.getName()+ e.getMessage());
 		}
 
 	}
@@ -505,12 +602,6 @@ public class UserController {
 			Map<String, List<T>> map = new HashMap<String, List<T>>();
 			map.put(t.getClass().getName().replace("com.ncshop.domain.", ""),
 					list);
-			try {
-				finalize();
-			} catch (Throwable e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			if (fieldNames != null) {
 				TargetStrategy ts = null;
 				ts = new TargetStrategy(t.getClass());
@@ -526,6 +617,7 @@ public class UserController {
 		} catch (Exception e) {
 			LogBuilder.writeToLog(UserController.class.getName()
 					+ e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 
@@ -625,7 +717,7 @@ public class UserController {
 			}
 			request.setAttribute("address", address);
 			if (request.getSession().getAttribute("odersdetails") == null) {
-				response.sendRedirect("/index.jsp");
+				response.sendRedirect("../main.jsp");
 			} else {
 				request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
 						request, response);

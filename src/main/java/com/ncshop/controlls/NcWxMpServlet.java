@@ -51,8 +51,10 @@ public class NcWxMpServlet extends HttpServlet {
 					Map<String, Object> context, WxMpService wxMpService,
 					WxSessionManager sessionManager) throws WxErrorException {
 				WxMpXmlOutTextMessage m = WxMpXmlOutMessage.TEXT()
-						.content("测试加密消息").fromUser(wxMessage.getToUserName())
-						.toUser(wxMessage.getFromUserName()).build();
+						.content("测试加密消息")
+						.fromUser(wxMessage.getToUserName())
+						.toUser(wxMessage.getFromUserName())
+						.build();
 				return m;
 			}
 		};
@@ -64,9 +66,7 @@ public class NcWxMpServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void service(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException{
-		
+	protected void service(HttpServletRequest request,HttpServletResponse response) throws ServletException{
 		try {
 			response.setContentType("text/html;charset=utf-8");
 			response.setStatus(HttpServletResponse.SC_OK);
@@ -94,8 +94,7 @@ public class NcWxMpServlet extends HttpServlet {
 
 			if ("raw".equals(encryptType)) {
 				// 明文传输的消息
-				WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request
-						.getInputStream());
+				WxMpXmlMessage inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
 				WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
 				response.getWriter().write(outMessage.toXml());
 				return;

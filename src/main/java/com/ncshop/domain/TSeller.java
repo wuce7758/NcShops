@@ -26,6 +26,7 @@ public class TSeller implements java.io.Serializable {
 
 	private Integer sellerId;
 	private String shopName;
+	private String shopPic="defaultPic.jpg";
 	private String sellerName;
 	private String sellerAddress;
 	private String sellerPhone;
@@ -56,6 +57,15 @@ public class TSeller implements java.io.Serializable {
 
 	public void setShopName(String shopName) {
 		this.shopName = shopName;
+	}
+	
+	@Column(name = "shopPic", length = 50)
+	public String getShopPic() {
+		return shopPic;
+	}
+
+	public void setShopPic(String shopPic) {
+		this.shopPic = shopPic;
 	}
 
 	@Column(name = "sellerName", length = 20)

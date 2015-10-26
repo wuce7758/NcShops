@@ -427,11 +427,11 @@ body {
 	
 	<!-- inline scripts related to this page -->
 	<script>
-	function getQueryString(name) { 
+		function getQueryString(name) { 
 				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
 				var r = window.location.search.substr(1).match(reg); 
 				if (r != null) return unescape(r[2]); return null; 
-			} 
+		} 
 		$(document).ready(function() {
 			
 			$("#headname").html("优选商城订单");

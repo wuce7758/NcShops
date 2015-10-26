@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ncshop.dao.TAddressDAO;
+import com.ncshop.dao.TAdsDAO;
 import com.ncshop.dao.TGoodsDAO;
 import com.ncshop.dao.TGoodstypeDAO;
 import com.ncshop.dao.TOrderDAO;
@@ -19,6 +20,7 @@ import com.ncshop.dao.TSellerDAO;
 import com.ncshop.dao.TSellergoodsDAO;
 import com.ncshop.dao.TUserDAO;
 import com.ncshop.domain.TAddress;
+import com.ncshop.domain.TAds;
 import com.ncshop.domain.TGoods;
 import com.ncshop.domain.TGoodstype;
 import com.ncshop.domain.TOrder;
@@ -32,6 +34,8 @@ import com.ncshop.util.LogBuilder;
 public class UserService {
 	@Autowired
 	private TUserDAO userDao;
+	@Autowired
+	private TAdsDAO adsDao;
 	@Autowired
 	private TSellerDAO sellerDao;
 	@Autowired
@@ -62,7 +66,7 @@ public class UserService {
 		eqs[0]=eq1;
 		eqs[1]=eq2;
 		return sellergoodsDAO.getEntitiestNotLazy(new TSellergoods(),
-				new String[] { "TGoods", "seller" },
+				new String[] { "TGoods", "seller","TGoods.TGoodstype" },
 				eqs, start, max, true);
 	}
 
@@ -249,5 +253,26 @@ public class UserService {
 		
 		Object objs []={orderId};
 		return orderdetailDAO.getHibernateTemplate().find("from TOrderdetail where orderId=?",objs);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TGoodstype> getAllGoodsType() {
+		// TODO Auto-generated method stub
+		List<TGoodstype> list=null;
+		list=goodstypeDAO.findAll();
+		return list;
+	}
+
+	
+	public TGoodstype findGoodsType(Integer id) {
+		return goodstypeDAO.findById(id);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TAds> getAds() {
+		// TODO Auto-generated method stub
+		List<TAds> list=null;
+		list=adsDao.getHibernateTemplate().find("from TAds where isValid=true order by adsTime desc");
+		return list;
 	}
 }

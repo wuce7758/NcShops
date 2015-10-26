@@ -432,7 +432,6 @@
 		function changeStyle(){
 			if(flag.length<1){
 				$("#addAddress").css("display","inline");
-				//$("#sureBuy").attr("disabled",true);
 				$("#cancelAdd").attr("disabled",true);
 			}
 		}
@@ -467,6 +466,10 @@
 				for(var i=0;i<input.length;i++){
 					var item=input[i];
 					if(item.value!=""&&i==input.length-1){
+						var value=$("#userPhone").val();
+						if(value.length<11){
+							return;
+						}
 						$("#savaOrUpdate").attr("disabled",false);
 					}else{
 						$("#savaOrUpdate").attr("disabled",true);

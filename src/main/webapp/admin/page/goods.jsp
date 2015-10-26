@@ -26,27 +26,22 @@
 	href="${pageContext.request.contextPath }/plugins/fonts/font-awesome.css" />
 
 <!-- page specific plugin styles -->
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/jquery-ui.css" />
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/chosen.css" />
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/jquery.gritter.css" />
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/chosen.css" />
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/jquery.gritter.css" />
 <!-- text fonts -->
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
 
 <!-- ace styles -->
-<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css"
-	class="ace-main-stylesheet" id="main-ace-style" />
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
 
 <!--[if lte IE 9]>
-			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" class="ace-main-stylesheet" />
-		<![endif]-->
+	<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" class="ace-main-stylesheet" />
+<![endif]-->
 
 <!--[if lte IE 9]>
-		  <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-ie.css" />
-		<![endif]-->
+	<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-ie.css" />
+<![endif]-->
 
 <!-- inline styles related to this page -->
 
@@ -56,9 +51,9 @@
 <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 
 <!--[if lte IE 8]>
-		<script src="http://ace.zcdreams.com/assets/js/html5shiv.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/respond.js"></script>
-		<![endif]-->
+	<script src="http://ace.zcdreams.com/assets/js/html5shiv.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/respond.js"></script>
+<![endif]-->
 </head>
 
 <body class="no-skin">
@@ -67,8 +62,7 @@
 		<script type="text/javascript">
 			try {
 				ace.settings.check('main-container', 'fixed');
-			} catch (e) {
-			}
+			} catch (e) {}
 		</script>
 		<jsp:include page="../WebPart/Menu.jsp"></jsp:include>
 		<!-- /section:basics/sidebar -->
@@ -78,8 +72,7 @@
 					<script type="text/javascript">
 						try {
 							ace.settings.check('breadcrumbs', 'fixed');
-						} catch (e) {
-						}
+						} catch (e) {}
 					</script>
 					<ul class="breadcrumb">
 						<li><i class="ace-icon fa fa-home home-icon"></i><a href="#">商城管理系统</a>
@@ -139,9 +132,9 @@
 												href="javascript:void(0);" data-container="body"
 												data-placement="bottom"
 												data-content="${trl.seller.sellerName}&nbsp;
-																  ${trl.seller.sellerPhone}&nbsp;
-																  ${trl.seller.sellerAddress}">
-													${trl.seller.shopName} </a>
+															  ${trl.seller.sellerPhone}&nbsp;
+															  ${trl.seller.sellerAddress}">
+															  ${trl.seller.shopName}</a>
 											</td>
 											<td class="hidden-480">${trl.TGoods.TGoodstype.goodsTypeName}</td>
 											<td><a class="goodPicPopover" href="javascript:void(0);"
@@ -218,7 +211,7 @@
 
 										<div class="col-sm-9">
 											<input type="text" id="form-field-1" name="goodsName"
-												placeholder="商品名称" class="col-xs-12 col-sm-12" />
+												placeholder="商品名称" class="a col-xs-12 col-sm-12" />
 										</div>
 									</div>
 									<div class="form-group col-sm-12">
@@ -228,7 +221,7 @@
 										<div class="col-sm-9">
 											<input onkeyup="value=value.replace(/[^0-9|.]/g,'')"
 												type="text" id="form-field-1" name="goodsPrice"
-												placeholder="商品价格" class="col-xs-12 col-sm-12" />
+												placeholder="商品价格" class="a col-xs-12 col-sm-12" />
 										</div>
 									</div>
 									<div class="form-group col-sm-12">
@@ -236,7 +229,7 @@
 											class="col-sm-3 control-label no-padding-right">商店</label>
 										<div class="col-sm-9">
 											<select
-												class="chosen-select form-control col-xs-12 col-sm-12"
+												class="a chosen-select form-control col-xs-12 col-sm-12"
 												name="sellerId" id="goodsShop"
 												data-placeholder="Choose a State...">
 												<option value=""></option>
@@ -246,33 +239,20 @@
 									<div class="form-group col-sm-12">
 										<label for="goodsType"
 											class="col-sm-3 control-label no-padding-right">分类</label>
-										<div class="col-sm-6">
+										<div class="col-sm-9">
 											<select
-												class="chosen-select form-control col-xs-12 col-sm-12"
+												class="a chosen-select form-control col-xs-12 col-sm-12"
 												name="goodsTypeId" id="goodsType"
 												data-placeholder="Choose a State...">
 												<option value=""></option>
 											</select>
 										</div>
-										<div id="addType" class="btn btn-light">
-											<i id="icons" class="ace-icon fa fa-plus bigger-110"></i>
-										</div>
-									</div>
-									<div id="addTypeDiv" class="hide form-group col-sm-12">
-										<label class="col-sm-3 control-label no-padding-right" for="form-field-s">名称:</label>
-										<div class="col-sm-6">
-											<input disabled type="text" id="form-field-s" placeholder="商品名称"  class="col-xs-12 col-sm-12"/>
-										</div>
-										<div id="saveType" class="btn btn-light">
-											<i class="ace-icon fa fa-plus bigger-110"></i>
-										</div>
-
 									</div>
 									<div class="form-group col-sm-12">
 										<label class="col-sm-3 control-label no-padding-right"
 											for="id-input-field-2">照片</label>
 										<div class="col-sm-9">
-											<input type="file" name="pic" id="id-input-file-3" />
+											<input class="a" type="file" name="pic" id="id-input-file-3" />
 										</div>
 									</div>
 									<div class="form-group col-sm-12">
@@ -281,7 +261,7 @@
 
 										<div class="col-sm-9">
 											<textarea id="form-field-11"
-												class="autosize-transition form-control" name="goodsMsg"
+												class="a autosize-transition form-control" name="goodsMsg"
 												maxlength="100"></textarea>
 										</div>
 									</div>
@@ -291,7 +271,7 @@
 
 								<div style="width:100%;text-align: center" id="error"></div>
 								<div>
-									<button id="goodssave" style="margin-left:10px" class="btn btn-info col-sm-5" type="button">
+									<button disabled="disabled" id="goodssave" style="margin-left:10px" class="btn btn-info col-sm-5" type="button">
 										<i class="ace-icon fa fa-check bigger-110"></i>保存
 									</button>
 									<button id="goodsReset" style="margin-left:25px" class="btn btn-success col-sm-5" type="reset">
@@ -311,26 +291,20 @@
 	<!-- page specific plugin scripts -->
 	<script src="http://ace.zcdreams.com/assets/js/jquery-ui.js"></script>
 	<script src="http://ace.zcdreams.com/assets/js/jquery.form.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/jquery.ui.touch-punch.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/jquery.ui.touch-punch.js"></script>
 
-	<script type="text/javascript"
-		src="http://ace.zcdreams.com/assets/js/jquery.gritter.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.bootstrap.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/TableTools/js/dataTables.tableTools.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/dataTables/extensions/ColVis/js/dataTables.colVis.js"></script>
+	<script type="text/javascript" src="http://ace.zcdreams.com/assets/js/jquery.gritter.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/dataTables/jquery.dataTables.bootstrap.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/dataTables/extensions/TableTools/js/dataTables.tableTools.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/dataTables/extensions/ColVis/js/dataTables.colVis.js"></script>
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
 		function load_seller_type(){
 			//获取商品类型
 			$.ajax({
 				type : "post",
-				url : "${pageContext.request.contextPath }/seller/getAllGoodsType",
+				url : "${pageContext.request.contextPath }/getAllGoodsType",
 				dataType : "json",
 				async : false,
 				/*这句可用可不用，没有影响*/
@@ -350,7 +324,7 @@
 			//获取店铺信息类型
 			$.ajax({
 				type : "post",
-				url : "${pageContext.request.contextPath }/seller/getAllSeller",
+				url : "${pageContext.request.contextPath }/getAllSeller",
 				dataType : "json",
 				async : false,
 				/*这句可用可不用，没有影响*/
@@ -367,35 +341,6 @@
 							alert(errorThrown);
 						}
 			});
-		}
-		function addType(){
-			var typename=$("#form-field-s").val();
-			if(typename==""){
-				return;
-			}
-			$.ajax({
-				type : "get",
-				url : "${pageContext.request.contextPath }/seller/addGoodsType",
-				dataType : "json",
-				async : false,
-				data:{goodsTypeName: typename},
-				/*这句可用可不用，没有影响*/
-				contentType : "application/json; charset=utf-8",
-				success : function(data) {
-							if(data==1){
-							}else{
-								alert("此类型已添加，请勿再次添加！");
-							}
-				},
-				error : function(XMLHttpRequest,textStatus, errorThrown) {
-									alert(errorThrown);
-				}
-			});
-			$("#icons").removeClass("fa-close").addClass("fa-plus");
-			$("#form-field-s").attr("disabled",true);
-			$("#addTypeDiv").addClass("hide");
-			load_seller_type();
-			$("#goodssave").attr("disabled",false);
 		}
 		$(document).ready(function() {
 							$("#addType").click(function(){
@@ -414,10 +359,22 @@
 							$("#saveType").click(function(){
 								addType();								
 							});
+							$("#goodsRest").click(function(){
+								$("#goodssave").attr("disabled",true);
+							});
+							$(".a").keyup(function(){
+								var input=$(".a");
+								for(var i=0;i<input.length;i++){
+									var item=input[i];
+									if(item.value!=""&&i==input.length-1){
+										$("#goodssave").attr("disabled",false);
+									}else{
+										$("#goodssave").attr("disabled",true);
+									}
+								}
+							});
 							//图片上传 及数据保存 
-							$("#goodssave")
-									.click(
-											function() {
+							$("#goodssave").click(function() {
 												var ext = ".jpg.jpeg.gif.bmp.png.";
 												var f = $("#file").val();
 												if (f == "") { //先判断是否已选择了文件 
@@ -425,11 +382,6 @@
 															.html("<img src='../images/error_img2.gif' style='width:15px;height:15px;'/>"+ "请添加商圈logo！");
 													return false;
 												}
-												/* f = f.substr(f.lastIndexOf('.') + 1).toLowerCase();
-												if (ext.indexOf('.' + f + '.') == -1) {
-													$("#error").attr("class", "error_div").html("<img src='../images/error_img2.gif' style='width:15px;height:15px;'/>" + "图片格式不正确！");
-													return false;
-												} */
 												var options = {
 													url : "${pageContext.request.contextPath }/seller/addGoods",
 													dataType : "json",
@@ -452,8 +404,7 @@
 							//显示商家详细信息
 							$(".goodSellerPopover").popover();
 							//鼠标经过显示图片
-							$(".goodPicPopover")
-									.popover(
+							$(".goodPicPopover").popover(
 											{
 												html : true,
 												/* title : function() {
@@ -471,13 +422,13 @@
 							myEachPopover("a", "goodsMsgPopover", 0, 10);
 
 							//图片上传框
-							$('#id-input-file-3').ace_file_input({
-								style : 'well',
-								btn_choose : '选择图片...',
+							$("#id-input-file-3").ace_file_input({
+								style : "well",
+								btn_choose : "选择图片...",
 								btn_change : null,
-								no_icon : 'ace-icon fa fa-cloud-upload',
+								no_icon : "ace-icon fa fa-cloud-upload",
 								droppable : true,
-								thumbnail : 'small' //large | fit
+								thumbnail : "small" //large | fit
 								//,icon_remove:null//set null, to hide remove/reset button
 								/**,before_change:function(files, dropped) {
 									//Check an example below
@@ -496,9 +447,9 @@
 									//3 = 'THUMBNAIL_FAILED'
 									//alert(error_code);
 								}
-							}).on('change', function() {
-								console.log($(this).data('ace_input_files'));
-								console.log($(this).data('ace_input_method'));
+							}).on("change", function() {
+								console.log($(this).data("ace_input_files"));
+								console.log($(this).data("ace_input_method"));
 
 							});
 							var whitelist_ext, whitelist_mime;
@@ -510,12 +461,12 @@
 									"bmp" ];
 							whitelist_mime = [ "image/jpg", "image/jpeg",
 									"image/png", "image/gif", "image/bmp" ];
-							var file_input = $('#id-input-file-3');
-							file_input.ace_file_input('update_settings', {
-								'btn_choose' : btn_choose,
-								'no_icon' : no_icon,
-								'allowExt' : whitelist_ext,
-								'allowMime' : whitelist_mime
+							var file_input = $("#id-input-file-3");
+							file_input.ace_file_input("update_settings", {
+								"btn_choose" : btn_choose,
+								"no_icon" : no_icon,
+								"allowExt" : whitelist_ext,
+								"allowMime" : whitelist_mime
 							});
 						});
 
@@ -706,22 +657,21 @@
 			var tableTools_obj = new $.fn.dataTable.TableTools(
 					oTable1,
 					{
-						"sSwfPath" : "http://ace.zcdreams.com/assets/js/dataTables/extensions/TableTools/swf/copy_csv_xls_pdf.swf", //in Ace demo ../assets will be replaced by correct assets path
+						//in Ace demo ../assets will be replaced by correct assets path
+						"sSwfPath" : "http://ace.zcdreams.com/assets/js/dataTables/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
 						"sRowSelector" : "td:not(:last-child)",
 						"sRowSelect" : "multi",
 						"fnRowSelected" : function(row) {
 							//check checkbox when row is selected
 							try {
-								$(row).find('input[type=checkbox]').get(0).checked = true;
-							} catch (e) {
-							}
+								$(row).find("input[type=checkbox]").get(0).checked = true;
+							} catch (e) {}
 						},
 						"fnRowDeselected" : function(row) {
 							//uncheck checkbox
 							try {
-								$(row).find('input[type=checkbox]').get(0).checked = false;
-							} catch (e) {
-							}
+								$(row).find("input[type=checkbox]").get(0).checked = false;
+							} catch (e) {}
 						},
 						"sSelectedClass" : "success",
 						"aButtons" : [

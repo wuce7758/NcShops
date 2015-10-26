@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Service; 
-import org.springframework.transaction.annotation.Transactional; 
- 
- 
+
+import com.ncshop.dao.TAdsDAO;
 import com.ncshop.dao.TGoodsDAO;
 import com.ncshop.dao.TGoodstypeDAO; 
 import com.ncshop.dao.TOrderDAO; 
 import com.ncshop.dao.TSellerDAO; 
 import com.ncshop.dao.TSellergoodsDAO; 
 import com.ncshop.dao.TUserDAO; 
+import com.ncshop.domain.TAds;
 import com.ncshop.domain.TGoods; 
 import com.ncshop.domain.TGoodstype; 
 import com.ncshop.domain.TOrder; 
@@ -28,6 +28,8 @@ public class SellerService {
 	private TUserDAO userDao;
 	@Autowired 
 	private TSellerDAO sellerDao;
+	@Autowired
+	private TAdsDAO adsDao;
 	@Autowired 
 	private TSellergoodsDAO sellergoodsDao;
 	@Autowired 
@@ -65,33 +67,10 @@ public class SellerService {
 	}
  
  
-	public void addGoods(int sellerId,int goodsTypeId,TGoods goods) {
-		// TODO Auto-generated method stub 
-		TSeller seller=sellerDao.findById(sellerId);
-		TGoodstype goodsType= new TGoodstype();
-		goodsType.setGoodsTypeId(goodsTypeId);
-		TSellergoods sellergoods=new TSellergoods();
-		goods.setTGoodstype(goodsType);
-		sellergoods.setTGoods(goods);
-		sellergoods.setSeller(seller);
-		goodsDao.save(goods);
-		sellergoodsDao.save(sellergoods);
-	} 
  
  
-	@SuppressWarnings("unchecked")
-	public String addGoodsType(String goodsTypeName) {
-		// TODO Auto-generated method stub 
-		TGoodstype type=new TGoodstype();
-		type.setGoodsTypeName(goodsTypeName);
-		List<TGoodstype> list=goodtypeDao.getHibernateTemplate().find("from TGoodstype where goodsTypeName='"+goodsTypeName+"'");
-		if(list.size()>0){
-			return "0";
-		}else{
-			goodtypeDao.save(type);
-			return "1";
-		}
-	} 
+ 
+ 
  
  
 	public void limitUser(int userId) {
@@ -104,18 +83,7 @@ public class SellerService {
 		} 
 		 
 	} 
-	//修改商品信息 
-	public void updateGoods(int goodsTypeId, TGoods goods) {
-		// TODO Auto-generated method stub 
-		TGoodstype goodsType=goodstypeDao.findById(goodsTypeId);
-		TGoods gs=goodsDao.findById(goods.getGoodsId());
-		gs.setGoodsMsg(goods.getGoodsMsg());
-		gs.setGoodsName(goods.getGoodsName());
-		gs.setGoodsPic(goods.getGoodsPic());
-		gs.setGoodsPrice(goods.getGoodsPrice());
-		gs.setTGoodstype(goodsType);
-		goodsDao.merge(gs);
-	} 
+ 
  
  
 	public TOrder changeOrderState(int orderId, int orderState) {
@@ -142,7 +110,165 @@ public class SellerService {
 	}
 
 
-	public void downGoods(int goodsId,boolean isSale) {
+
+
+
+
+
+
+	@SuppressWarnings("unchecked")
+	public List<TGoodstype> getAllGoodsType() {
+		// TODO Auto-generated method stub
+		List<TGoodstype> list=null;
+		list=goodstypeDao.findAll();
+		return list;
+	}
+
+
+	@SuppressWarnings("unchecked")
+	public List<TSeller> getAllSellerByState() {
+		// TODO Auto-generated method stub
+		List<TSeller> list=null;
+		list=sellerDao.getHibernateTemplate().find("from TSeller t where  t.isValid=?",true);
+		if(list.size()>0){
+			return list;
+		}
+		return null;
+	}
+	@SuppressWarnings("unchecked")
+	public List<TSeller> getAllSeller() {
+		// TODO Auto-generated method stub
+		List<TSeller> list=null;
+		list=sellerDao.getHibernateTemplate().find("from TSeller");
+		if(list.size()>0){
+			return list;
+		}
+		return null;
+	}
+
+
+	public void addSeller(TSeller seller) {
+		try {
+			sellerDao.getHibernateTemplate().save(seller);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	//添加商品类型
+	public String addGoodsType(TGoodstype goodsType) {
+		try {
+			goodstypeDao.getHibernateTemplate().save(goodsType);
+			return "1";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "0";
+	}
+	//添加商品
+	public void addGoods(int sellerId,int goodsTypeId,TGoods goods) {
+		// TODO Auto-generated method stub 
+		TSeller seller=sellerDao.findById(sellerId);
+		TGoodstype goodsType= new TGoodstype();
+		goodsType.setGoodsTypeId(goodsTypeId);
+		TSellergoods sellergoods=new TSellergoods();
+		goods.setTGoodstype(goodsType);
+		sellergoods.setTGoods(goods);
+		sellergoods.setSeller(seller);
+		goodsDao.save(goods);
+		sellergoodsDao.save(sellergoods);
+	}
+	//添加广告
+	public void addAds(TAds ads) {
+		try {
+			sellerDao.getHibernateTemplate().save(ads);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteSeller(TSeller seller) {
+		try {
+			sellerDao.getHibernateTemplate().delete(seller);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteGoods(TGoods goods) {
+		// TODO Auto-generated method stub
+		goodsDao.delete(goods);
+	}
+	//修改卖家
+	public void updateSeller(TSeller seller) {
+		try {
+			sellerDao.getHibernateTemplate().saveOrUpdate(seller);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	//修改广告
+	public void updateAds(TAds ads) {
+		try {
+			adsDao.getHibernateTemplate().saveOrUpdate(ads);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//修改商品类型
+	public void updateGoodsType(TGoodstype goodsType) {
+		try {
+			goodstypeDao.getHibernateTemplate().saveOrUpdate(goodsType);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+		
+	//修改商品信息 
+	public void updateGoods(int goodsTypeId, TGoods goods) {
+		// TODO Auto-generated method stub 
+		TGoodstype goodsType=goodstypeDao.findById(goodsTypeId);
+		TGoods gs=goodsDao.findById(goods.getGoodsId());
+		gs.setGoodsMsg(goods.getGoodsMsg());
+		gs.setGoodsName(goods.getGoodsName());
+		gs.setGoodsPic(goods.getGoodsPic());
+		gs.setGoodsPrice(goods.getGoodsPrice());
+		gs.setTGoodstype(goodsType);
+		goodsDao.merge(gs);
+	}
+	//上下架卖家
+	public void updownSeller(int sellerId, boolean isValid) {
+		TSeller seller=sellerDao.findById(sellerId);
+		if(seller.getIsValid()==true&&seller!=null){
+			seller.setIsValid(false);
+		}else{
+			seller.setIsValid(true);			
+		}
+		sellerDao.getHibernateTemplate().update(seller);
+	}
+	//上下架广告
+	public void updownAds(int adsId, boolean isValid) {
+		TAds ads=adsDao.findById(adsId);
+		if(ads.getIsValid()==true&&ads!=null){
+			ads.setIsValid(false);
+		}else{
+			ads.setIsValid(true);			
+		}
+		sellerDao.getHibernateTemplate().update(ads);
+	}
+	
+	public void updownGoodsType(int goodsTypeId, boolean isValid) {
+		TGoodstype goodsType=goodstypeDao.getHibernateTemplate().get(TGoodstype.class, goodsTypeId);
+		if(goodsType.getIsValid()==true&&goodsType!=null){
+			goodsType.setIsValid(false);
+		}else{
+			goodsType.setIsValid(true);			
+		}
+		goodstypeDao.getHibernateTemplate().update(goodsType);
+	}
+	
+	//上下架商品
+	public void updownGoods(int goodsId,boolean isSale) {
 		// TODO Auto-generated method stub
 		List<TSellergoods> sellergoodsList=sellergoodsDao.getHibernateTemplate().find("from TSellergoods where goodsId="+goodsId);
 		TSellergoods sellergoods=null;
@@ -156,48 +282,8 @@ public class SellerService {
 		}
 		sellergoodsDao.getHibernateTemplate().update(sellergoods);
 	}
-
-
-	public void deleteGoods(TGoods goods) {
-		// TODO Auto-generated method stub
-		goodsDao.delete(goods);
-	}
-
-
-	@SuppressWarnings("unchecked")
-	public List<TGoodstype> getAllGoodsType() {
-		// TODO Auto-generated method stub
-		List<TGoodstype> list=null;
-		list=goodstypeDao.findAll();
-		return list;
-	}
-
-
-	@SuppressWarnings("unchecked")
-	public List<TSeller> getAllSeller() {
-		// TODO Auto-generated method stub
-		return sellerDao.findAll();
-	}
-
-
-	public void addSeller(TSeller seller) {
-		// TODO Auto-generated method stub
-		sellerDao.getHibernateTemplate().saveOrUpdate(seller);
-	}
-
-	public void updownSeller(int sellerId, boolean isValid) {
-		// TODO Auto-generated method stub
-		TSeller seller=sellerDao.findById(sellerId);
-		if(seller.getIsValid()==true&&seller!=null){
-			seller.setIsValid(false);
-		}else{
-			seller.setIsValid(true);			
-		}
-		sellerDao.getHibernateTemplate().update(seller);
-	}
-
+	
 	public List<TOrder> findAllOrder() {
-		// TODO Auto-generated method stub
 		List<TOrder> list=orderDao.findAll();
 		if(list.size()>0){
 			return list;
@@ -226,5 +312,21 @@ public class SellerService {
 		}else{
 			return null;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TAds> getAllAds() {
+		// TODO Auto-generated method stub
+		List<TAds> list=null;
+		list=adsDao.getHibernateTemplate().find("from TAds order by adsTime desc");
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TGoodstype> findAllGoodsType() {
+		// TODO Auto-generated method stub
+		List<TGoodstype> list=null;
+		list=adsDao.getHibernateTemplate().find("from TGoodstype");
+		return list;
 	}
 } 

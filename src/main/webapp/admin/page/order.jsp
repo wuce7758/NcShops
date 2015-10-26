@@ -376,8 +376,7 @@ $(document).ready(function() {
 				"class": "btn btn-primary btn-minier",
 				click: function() {
 					$("#orderprint").html();
-					alert(orderId);
-					window.open("http://localhost:8080/ncshops/admin/page/OrderPrint.jsp?orderId="+orderId);
+					window.open("${pageContext.request.contextPath}/admin/page/OrderPrint.jsp?orderId="+orderId);
 					//$("#orderprint").submit();
 				}
 			}]
