@@ -155,7 +155,7 @@
 														name="${trl.TGoods.goodsId}" oper="detaill"> <i
 														　class="fa fa-search-plus bigger-130"><small></small>
 													</i> </a> <a class="green buttongoods" href="javascript:void(0)"
-														name="${trl.TGoods.goodsId}" oper="modify"> <i
+														name="${trl.TGoods.goodsId}" goodsMsg="${trl.TGoods.goodsMsg}" goodsPrice="${trl.TGoods.goodsPrice}"  goodsName="${trl.TGoods.goodsName}" oper="modify"> <i
 														class="fa fa-pencil bigger-130"><small></small> </i> </a> <a
 														class="red buttongoods" href="javascript:void(0)"
 														name="${trl.TGoods.goodsId}" oper="delete"
@@ -204,6 +204,7 @@
 						<div id="dialog-message" class="hide">
 							<form id="formgoodsinfo" method="post" enctype="multipart/form-data">
 								<input type="hidden" name="oper" value="" id="oper" />
+								<input disabled type="hidden" name="goodsId" value="" id="updateGoodsId" />
 								<div class="col-sm-12">
 									<div class="form-group col-sm-12">
 										<label class="col-sm-3 control-label no-padding-right"
@@ -220,7 +221,7 @@
 
 										<div class="col-sm-9">
 											<input onkeyup="value=value.replace(/[^0-9|.]/g,'')"
-												type="text" id="form-field-1" name="goodsPrice"
+												type="text" id="form-field-2" name="goodsPrice"
 												placeholder="商品价格" class="a col-xs-12 col-sm-12" />
 										</div>
 									</div>
@@ -257,7 +258,7 @@
 									</div>
 									<div class="form-group col-sm-12">
 										<label class="col-sm-3 control-label no-padding-right"
-											for="form-field-1">简介</label>
+											for="form-field-11">简介</label>
 
 										<div class="col-sm-9">
 											<textarea id="form-field-11"
@@ -343,7 +344,7 @@
 			});
 		}
 		$(document).ready(function() {
-							$("#addType").click(function(){
+							/* $("#addType").click(function(){
 								if($("#form-field-s").attr("disabled")){
 									$("#goodssave").attr("disabled",true);
 									$("#addTypeDiv").removeClass("hide");
@@ -358,7 +359,7 @@
 							});
 							$("#saveType").click(function(){
 								addType();								
-							});
+							}); */
 							$("#goodsRest").click(function(){
 								$("#goodssave").attr("disabled",true);
 							});
@@ -389,7 +390,7 @@
 													success : function(data) {
 														if (data == "1") {
 															//$("#dialog-message").dialog("close");
-															$("#error").html("<font color='green'>提示：添加成功！</font>");
+															$("#error").html("<font color='green'>提示：操作成功！</font>");
 															$("#goodsReset").trigger("click");
 															$("#goodsSave").attr("disabled",true);
 														} else {
@@ -511,11 +512,19 @@
 								load_seller_type();
 								var oper = $(this).attr('oper');
 								$("#oper").val(oper);
+								if(oper=="modify"){
+									$("#form-field-1").val($(this).attr("goodsName"));
+									$("#form-field-2").val($(this).attr("goodsPrice"));
+									$("#form-field-11").val($(this).attr("goodsMsg"));
+									$("#updateGoodsId").attr("disabled",false);
+									$("#updateGoodsId").val($(this).attr('name'));
+								}else{
+									$("#updateGoodsId").attr("disabled",true);
+								}
 								if (oper == "delete") {
 									var goodsId = $(this).attr('name');
 									var isSale = $("#goodsIsSaleAction"+goodsId).attr('state');
-									$
-											.ajax({
+									$.ajax({
 												cache : false,
 												type : "POST",
 												url : "${pageContext.request.contextPath }/seller/updownGoods",

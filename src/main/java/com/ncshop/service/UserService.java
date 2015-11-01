@@ -249,7 +249,6 @@ public class UserService {
 	}
 
 	public List<TOrder> findOrderByeUser(String userId) {
-		
 		Object [] objs={Integer.parseInt(userId)};
 		return orderDao.getHibernateTemplate().find("from TOrder where userId=? order by orderTime desc",objs);
 	}
@@ -262,7 +261,11 @@ public class UserService {
 	public List<TOrderdetail> findOrderdetail(Integer orderId) {
 		
 		Object objs []={orderId};
-		return orderdetailDAO.getHibernateTemplate().find("from TOrderdetail where orderId=?",objs);
+		SimpleExpression eq = Restrictions.eq("orderId", orderId);
+		SimpleExpression [] eqs=new SimpleExpression[1];
+		eqs[0]=eq;
+		
+		return orderdetailDAO.getEntitiestNotLazy(new TOrderdetail(), new String []{"TGoods","TGoods.TGoodstype"}, eqs, 0, 0, false);
 	}
 
 	@SuppressWarnings("unchecked")

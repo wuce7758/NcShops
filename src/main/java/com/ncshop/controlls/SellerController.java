@@ -206,7 +206,7 @@ public class SellerController {
 			sellerService.addGoods(Integer.parseInt(sellerId),
 					Integer.parseInt(goodsTypeId), goods);
 			response.getWriter().write("1");
-		} else if (oper.equals("edit")) {
+		} else if (oper.equals("modify")) {
 			if (sellerId + "" == "" || goodsTypeId + "" == "") {
 				return;
 			}
@@ -262,7 +262,7 @@ public class SellerController {
 
 			CompressPicUtil mypic = new CompressPicUtil();
 			mypic.compressPic(tempPath, basePath, newFileName, newFileName,
-					120, 120, true);
+					600, 600, true);
 			if (file.delete()) {
 				System.out.println("delete success");
 			}
@@ -466,6 +466,11 @@ public class SellerController {
 			throws Exception {
 		// 调用service查找 数据库
 		List<TUser> list = sellerService.getUserById(userId);
+		
+		for (TUser tUser : list) {
+			tUser.setTOrders(null);
+			tUser.setTComments(null);
+		}
 		String json = toJson(new TUser(), list, null);
 		response.setContentType("application/json");
 		response.getWriter().write(json);

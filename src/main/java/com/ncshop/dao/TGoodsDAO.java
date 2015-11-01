@@ -62,8 +62,7 @@ public class TGoodsDAO extends BaseDao {
 	public TGoods findById(java.lang.Integer id) {
 		log.debug("getting TAddress instance with id: " + id);
 		try {
-			TGoods instance = (TGoods) getHibernateTemplate().get(
-					"com.ncshop.domain.TGoods", id);
+			TGoods instance = (TGoods) getHibernateTemplate().find("from TGoods where goodsId=?",id).get(0);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -76,7 +75,6 @@ public class TGoodsDAO extends BaseDao {
 	public List findAll() {
 		log.debug("finding all TGoods instances");
 		try {
-			String queryString = "from TGoods";
 			return getHibernateTemplate().find("from TGoods");
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);

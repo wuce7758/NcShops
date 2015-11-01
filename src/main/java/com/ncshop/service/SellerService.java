@@ -2,10 +2,14 @@ package com.ncshop.service;
  
  
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Service; 
 
+import com.ncshop.dao.TAddressDAO;
 import com.ncshop.dao.TAdsDAO;
 import com.ncshop.dao.TGoodsDAO;
 import com.ncshop.dao.TGoodstypeDAO; 
@@ -13,6 +17,7 @@ import com.ncshop.dao.TOrderDAO;
 import com.ncshop.dao.TSellerDAO; 
 import com.ncshop.dao.TSellergoodsDAO; 
 import com.ncshop.dao.TUserDAO; 
+import com.ncshop.domain.TAddress;
 import com.ncshop.domain.TAds;
 import com.ncshop.domain.TGoods; 
 import com.ncshop.domain.TGoodstype; 
@@ -40,6 +45,8 @@ public class SellerService {
 	private TGoodsDAO goodsDao;
 	@Autowired 
 	private TOrderDAO orderDao;
+	@Autowired 
+	private TAddressDAO addressDao;
  
  
 	@SuppressWarnings("unchecked")
@@ -295,7 +302,13 @@ public class SellerService {
 	public List<TUser> getUserById(int userId) {
 		// TODO Auto-generated method stub
 		List<TUser> list=new ArrayList<TUser>();
-		list.add(userDao.findById(userId));
+		TUser findById = userDao.findById(userId);
+		Object[] objs={userId,true}; 
+		List<TAddress> find = addressDao.getHibernateTemplate().find("from TAddress where userId=? and isDefault=?",objs);
+		Set<TAddress> set=new HashSet<TAddress>();
+		set.add(find.get(0));
+		findById.setTAddresses(set);
+		list.add(findById);
 		if(list.size()>0){
 			return list;			
 		}else{

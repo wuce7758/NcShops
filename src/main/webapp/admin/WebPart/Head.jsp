@@ -37,7 +37,7 @@
 		</div>
 
 		<!-- #section:basics/navbar.dropdown -->
-		<div class="navbar-buttons navbar-header pull-right" role="navigation">
+		<!-- <div class="navbar-buttons navbar-header pull-right" role="navigation">
 			<ul class="nav ace-nav">
 				<li class="grey"><a data-toggle="dropdown"
 					class="dropdown-toggle" href="#"> <i
@@ -199,8 +199,8 @@
 								messages <i class="ace-icon fa fa-arrow-right"></i> </a></li>
 					</ul></li>
 
-				<!-- #section:basics/navbar.user_menu -->
-				<!-- <li><span id="timeShow"></span><i class="ace-icon fa fa-time"></i></li> -->
+				#section:basics/navbar.user_menu
+				<li><span id="timeShow"></span><i class="ace-icon fa fa-time"></i></li>
 				<li class="light-blue"><a data-toggle="dropdown" href="#"
 					class="dropdown-toggle"> <img class="nav-user-photo"
 						src="http://ace.zcdreams.com/assets/avatars/user.jpg"
@@ -209,12 +209,12 @@
 
 					<ul
 						class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-						<!-- <li><a href="#"> <i class="ace-icon fa fa-cog"></i>
+						<li><a href="#"> <i class="ace-icon fa fa-cog"></i>
 								Settings </a></li>
 
 						<li><a href="profile.html"> <i
 								class="ace-icon fa fa-user"></i> Profile </a></li>
- -->
+
 						<li class="divider"></li>
 
 						<li><a href="index.jsp"> <i class="ace-icon fa fa-power-off"></i>
@@ -223,9 +223,9 @@
 					</ul>
 				</li>
 
-				<!-- /section:basics/navbar.user_menu -->
+				/section:basics/navbar.user_menu
 			</ul>
-		</div>
+		</div> -->
 
 		<!-- /section:basics/navbar.dropdown -->
 	</div>

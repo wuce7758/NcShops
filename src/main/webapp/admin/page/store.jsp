@@ -146,7 +146,7 @@
 											</td>
 											<td class="hidden-480">${trl.joinTime}</td>
 											<td class="hidden-480">
-												<a name="sellerMsgPopover" href="javascript:void(0);" data-container="body" data-placement="bottom"data-content="${trl.sellerMsg}"></a>
+												<a name="sellerMsgPopover" href="javascript:void(0);" data-container="body" data-placement="bottom" data-content="${trl.sellerMsg}"></a>
 											</td>
 											<td id="goodsIsSale${trl.sellerId}">
 												<span class="label label-sm " name="goodsIsSale${trl.isValid}">
@@ -160,12 +160,12 @@
 															<small></small>
 														</i>
 													</a> --%>
-													<a class="green buttonSeller" href="javascript:void(0)"name="${trl.sellerId}" oper="modify">
+													<a class="green buttonSeller" href="javascript:void(0)" sellerPhone="${trl.sellerPhone}" sellerMsg="${trl.sellerMsg}" sellerAddress="${trl.sellerAddress}" shopName="${trl.shopName}" sellerName="${trl.sellerName}" name="${trl.sellerId}" oper="modify">
 														<i class="fa fa-pencil bigger-130">
 															<small></small>
 														</i>
 													</a>
-													<a class="red buttonSeller" href="javascript:void(0)"name="${trl.sellerId}" oper="delete">
+													<a class="red buttonSeller" href="javascript:void(0)" name="${trl.sellerId}" oper="delete">
 														<i id="goodsIsSaleAction${trl.sellerId}" class="fa fa-toggle-off bigger-130" name="goodsIsSaleAction${trl.isValid}" state="${trl.isValid}"></i>
 													</a>
 												</div>
@@ -457,6 +457,11 @@
 										var name = $(this).attr("name");
 										if(oper == "modify"){
 											$("#sellerId").val(name);
+											$("#form-field-0").val($(this).attr("shopName"));
+											$("#form-field-1").val($(this).attr("sellerName"));
+											$("#form-field-2").val($(this).attr("sellerPhone"));
+											$("#form-field-6").val($(this).attr("sellerAddress"));
+											$("#form-field-7").val($(this).attr("sellerMsg"));
 										}
 										if(oper == "add"){
 											$("#sellerId").attr("disabled",true);

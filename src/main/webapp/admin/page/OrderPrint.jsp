@@ -229,7 +229,7 @@ body {
 																<div class="widget-body">
 																	<div class="widget-main">
 																		<ul class="list-unstyled spaced2">
-																			<table style="width:100%">
+																			<table style="width:80%;font-size: 16px;font-family: '微软雅黑'">
 																				<thead>
 																					<th style="width:40%">商品名</th>
 																					<th style="width:20%">数量</th>
@@ -242,7 +242,7 @@ body {
 																			</table>
 																		</ul>
 																		<hr />
-																		<div id="orderuserdetail">加载中...</div>
+																		<div id="orderuserdetail" style="font-family: '微软雅黑';font-size:20">加载中...</div>
 																	</div>
 																</div>
 															</div></td>

@@ -58,11 +58,7 @@ public class TGoodstypeDAO extends BaseDao {
 	public TGoodstype findById(java.lang.Integer id) {
 		log.debug("getting TGoodstype instance with id: " + id);
 		try {
-			TGoodstype type=new TGoodstype();
-			type.setGoodsTypeId(id);
-			List findByExample = getHibernateTemplate().findByExample(type);
-			return (TGoodstype) findByExample.get(0)
-					;
+			return getHibernateTemplate().get(TGoodstype.class,id);
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			LogBuilder.writeToLog(re.getMessage());
