@@ -1,12 +1,18 @@
 package com.ncshop.service;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -202,7 +208,11 @@ public class UserService {
 	public List<TAddress> findAddress(Integer userId) {
 		
 		Object []objs={userId,true};
-		return addressDAO.getHibernateTemplate().find("from TAddress where userId=? and isDefault=?",objs);
+		List<TAddress> find = addressDAO.getHibernateTemplate().find("from TAddress where userId=? and isDefault=?",objs);
+		if(find.size()<1){
+			return null;
+		}
+		return find;
 	}
 
 	public TUser findUser(String openId) {
@@ -259,13 +269,18 @@ public class UserService {
 	public List<TGoodstype> getAllGoodsType() {
 		// TODO Auto-generated method stub
 		List<TGoodstype> list=null;
-		list=goodstypeDAO.findAll();
+		list=goodstypeDAO.getHibernateTemplate().find("from TGoodstype where isValid=true");
 		return list;
 	}
 
 	
 	public TGoodstype findGoodsType(Integer id) {
-		return goodstypeDAO.findById(id);
+		List<TGoodstype> list=null;
+		list=goodstypeDAO.getHibernateTemplate().find("from TGoodstype where goodsTypeId=?",id);
+		if(list.size()>0){
+			return list.get(0);
+		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -275,4 +290,32 @@ public class UserService {
 		list=adsDao.getHibernateTemplate().find("from TAds where isValid=true order by adsTime desc");
 		return list;
 	}
+	@SuppressWarnings("unchecked")
+	public List<TSellergoods> findSellergoodsByType(int typeId,int sellerId, int start, int max) {
+		
+		String hql="from TSellergoods t where t.TGoods.TGoodstype.goodsTypeId="+typeId+" and t.seller.sellerId="+sellerId+" and t.isSale=true";
+		final String excute=hql;
+		final int s=start;
+		final int e=max;
+		List<TSellergoods> list=(List<TSellergoods>)sellergoodsDAO.getHibernateTemplate().executeFind(new HibernateCallback() {  
+			                  public Object doInHibernate(Session arg0) throws HibernateException, SQLException {  				  
+			                     Query query = arg0.createQuery(excute);  				  
+			                     query.setFirstResult(s);  				  
+			                     query.setMaxResults(e);  				  
+			                     return query.list();  				  
+			                  }
+			              });
+		SimpleExpression eq1;
+		SimpleExpression [] eqs=new SimpleExpression[1];
+		for (TSellergoods tSellergoods : list) {
+			
+			eq1 = Restrictions.eq("goodsId", tSellergoods.getTGoods().getGoodsId());
+			eqs[0]=eq1;
+			List<TGoods> list2 = goodsDao.getEntitiestNotLazy(new TGoods(),
+					new String[] { "TGoodstype" }, eqs, start, max, false);
+			tSellergoods.setTGoods(list2.get(0));
+		}
+		return list;
+	}
+
 }

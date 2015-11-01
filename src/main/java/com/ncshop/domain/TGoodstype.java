@@ -26,8 +26,8 @@ public class TGoodstype implements java.io.Serializable {
 	private Integer goodsTypeId;
 	private String goodsTypeName;
 	private String goodsTypeImg;
-	private Date goodsTypeTime;
-	private boolean isValid;
+	private Date goodsTypeTime=new Date();
+	private boolean isValid=true;
 
 	// Property accessors
 	@Id

@@ -35,9 +35,10 @@
 <!-- ace styles -->
 <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css"
 	class="ace-main-stylesheet" id="main-ace-style" />
-<style type="text/css">
-		.nav li a{padding:10px 3px}
-</style>
+		<style type="text/css">
+		.nav li a{padding:10px 0px}
+		body{font-family:"微软雅黑"}
+	</style>
 <!--[if lte IE 9]>
 			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" class="ace-main-stylesheet" />
 		<![endif]-->
@@ -368,13 +369,13 @@
 			role="navigation">
 			<ul class="nav navbar-nav">
 				<li class="green col-xs-4">
-					<a href="${pageContext.request.contextPath }/index.jsp">
+					<a href="${pageContext.request.contextPath }/main.jsp">
 						<i style="margin-left: 9px" class="ace-icon fa fa-home icon-animated-vertical"></i>
 						商品首页
 					</a>
 				</li>
-				<li class="green col-xs-4">
-					<a href="/user/clearCart">
+				<li style="padding-left:5px" class="green col-xs-4">
+					<a href="${pageContext.request.contextPath }/user/clearCart">
 						<i style="margin-left: 9px" class="ace-icon fa fa-user icon-animated-vertical"></i>
 						清空购物车
 					</a>
@@ -430,7 +431,7 @@
 	<script type="text/javascript">
 		var flag="${requestScope.address}";
 		function changeStyle(){
-			if(flag.length<1){
+			if(flag.length<1||flag==null){
 				$("#addAddress").css("display","inline");
 				$("#cancelAdd").attr("disabled",true);
 			}
@@ -517,7 +518,7 @@
                                         if (data == "1") {
                                         	//console.log("ok");
                                             //$("#menuState").html('按钮提交成功！');
-                                            window.location.href="${pageContext.request.contextPath}/index.jsp";
+                                            window.location.href="${pageContext.request.contextPath}/main.jsp";
                                         }
                                         else {
                                         	$("#buttonBuy").removeClass('hide');

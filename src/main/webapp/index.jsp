@@ -32,6 +32,7 @@
 <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
 	<style type="text/css">
 		.nav li a{padding:10px 3px}
+		body{font-family:"微软雅黑"}
 	</style>
 
 <!--[if lte IE 9]>
@@ -65,16 +66,6 @@
 		</script>
 
 		<div class="navbar-container" id="navbar-container">
-			<button onClick="refresh()" type="button" class="navbar-toggle menu-toggler pull-left"
-				id="menu-toggler" data-target="#sidebar">
-				<span class="sr-only">Toggle sidebar</span>
-				<span class="icon-bar"></span>
-
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-
-
 			<div class="navbar-header pull-left">
 				<!-- #section:basics/navbar.layout.brand -->
 				<a href="#" class="navbar-brand"> <small> <i
@@ -142,7 +133,7 @@
 										<img src='${pageContext.request.contextPath}/images/${TSellergoods.TGoods.goodsPic}' class='img-responsive img-rounded' alt='Responsive image' />
 									</div>
 									<div class='col-xs-6'>
-										<p>${TSellergoods.TGoods.TGoodstype.goodsTypeName }</p>
+										<p>${TSellergoods.TGoods.goodsName }</p>
 										<p>${TSellergoods.TGoods.goodsPrice }￥/一份</p>
 										<div class='ace-spinner middle touch-spinner' style='width: 125px;'>
 											<div class='input-group'>
@@ -166,8 +157,8 @@
 								<hr class='col-xs-11' style='margin-top:2px;margin-bottom:5px'>
 							</c:if>
 						</c:forEach>	
-						<div id="goodsList" class="col-xs-12">
-						</div>
+					</div>
+					<div id="goodsList" class="row">
 					</div>
 				</div>
 
@@ -175,9 +166,10 @@
 		</div>
 
 
-		<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+		<nav class="navbar navbar-default navbar-fixed-bottom"
+			role="navigation">
 			<ul class="nav navbar-nav">
-				<li class="green col-xs-4">
+				<li style="padding-left: 10px" class="green col-xs-4">
 					<a href="${pageContext.request.contextPath }/main.jsp">
 						<i style="margin-left: 9px" class="ace-icon fa fa-home icon-animated-vertical"></i>
 						商品首页
@@ -189,7 +181,7 @@
 						购物车
 					</a>
 				</li>
-				<li style="padding-left:2px" class="green col-xs-4">
+				<li style="padding-left: 2px" class="green col-xs-4">
 					<a href="javascript:void(0)">
 						<i class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i>
 						<span onClick="goBuy()">
@@ -239,15 +231,16 @@
 	<script type="text/javascript">		
 		var page=2;
 		var flag="ok";
+		var b=false;
 		$(function() {
 			goodsTypeId=getQueryString("goodsTypeId");
 			sellerId=getQueryString("sellerId");
 			$(window).scroll(function() {
 					if ($(document).height() - $(this).scrollTop()- $(this).height() < 20) {
-						if(goodsTypeId==null){
+						if(goodsTypeId!=null&&!b){
 							loadGoodsByType();
 						}
-						if(sellerId!==null){
+						if(sellerId!=null&&!b){
 							loadGoodsBySeller();
 						}
 					}
@@ -262,12 +255,13 @@
 		}
 		var goodsTypeId;
 		function loadGoodsByType() {
+			b=true;
 			if(flag=="end"){
 				return;
 			}
 			$.ajax({
 						type : "get",
-						url : "user/findgoodsByType",
+						url : "${pageContext.request.contextPath}/user/findgoodsByType",
 						data : {"page" : page,"goodsTypeId":goodsTypeId},
 						dataType : "json",
 						async : true,
@@ -278,12 +272,13 @@
 		}
 		var sellerId=101;
 		function loadGoodsBySeller() {
+			b=true;
 			if(flag=="end"){
 				return;
 			}
 			$.ajax({
 				type : "get",
-				url : "user/findSellergoods",
+				url : "${pageContext.request.contextPath}/user/findSellergoods",
 				data : {"page" : page,"sellerId":sellerId},
 				dataType : "json",
 				async : true,
@@ -302,7 +297,7 @@
 				var item = "";
 				var item = "<div class='goodsId form-group col-xs-12 goods'>"
 								+"<div class='col-xs-6'>"
-									+"<img src='${pageContext.request.contextPath}/images/"+data.TGoods[i].goodsPic+"' class='img-responsive img-rounded' alt='Responsive image' />"
+									+"<img width='115px' height='82px' src='${pageContext.request.contextPath}/images/"+data.TGoods[i].goodsPic+"' class='img-rounded' alt='Responsive image' />"
 								+"</div>"
 							+"<div class='col-xs-6'>"
 										+ "<p>"
@@ -393,7 +388,7 @@
       		}else if(lastIndex==-1){
       			return;
       		}
-      		window.location.href="user/addOrders?jsonString="+jsonString;
+      		window.location.href="${pageContext.request.contextPath }/user/addOrders?jsonString="+jsonString;
 		}
 	</script>
 </body>
