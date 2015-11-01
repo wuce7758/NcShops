@@ -20,10 +20,8 @@ public class Ouath2Service {
 			Object []objs={openId};
 			List<TUser> list = dao.getHibernateTemplate().find("from TUser where openId=?",objs);
 			if (list.size() < 1) {
-				LogBuilder.writeToLog("新用户"+list.size());
 				return null;
 			} else {
-				LogBuilder.writeToLog(list.get(0).getOpenId());
 				return list.get(0);
 			}
 		} catch (Exception e) {

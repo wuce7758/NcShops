@@ -142,4 +142,13 @@ public class TOrder implements java.io.Serializable {
 		this.TOrderdetails = TOrderdetails;
 	}
 
+	@Override
+	public String toString() {
+		return "TOrder [orderId=" + orderId + ", userId=" + userId
+				+ ", orderNo=" + orderNo + ", sellerId=" + sellerId
+				+ ", orderTime=" + orderTime + ", orderTotalCost="
+				+ orderTotalCost + ", orderMsg=" + orderMsg + ", orderState="
+				+ orderState + ", TOrderdetails=" + TOrderdetails + "]";
+	}
+
 }

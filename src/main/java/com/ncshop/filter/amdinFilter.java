@@ -10,6 +10,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import com.ncshop.domain.TSeller;
+
 public class amdinFilter implements Filter {
 
 	@Override
@@ -23,7 +25,8 @@ public class amdinFilter implements Filter {
 			FilterChain arg2) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		HttpServletRequest request=(HttpServletRequest)arg0;
-		if(request.getSession().getAttribute("seller")!=null){
+		String login=(String) request.getSession().getAttribute("seller");
+		if(login!=null){
 			arg2.doFilter(arg0, arg1);
 		}else{
 			request.getRequestDispatcher("/login.jsp").forward(arg0, arg1);
@@ -33,7 +36,6 @@ public class amdinFilter implements Filter {
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 		// TODO Auto-generated method stub
-
 	}
 
 }

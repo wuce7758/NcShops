@@ -1,5 +1,6 @@
 package com.ncshop.domain;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * TGoodstype entity. @author MyEclipse Persistence Tools
@@ -22,6 +25,9 @@ public class TGoodstype implements java.io.Serializable {
 
 	private Integer goodsTypeId;
 	private String goodsTypeName;
+	private String goodsTypeImg;
+	private Date goodsTypeTime=new Date();
+	private boolean isValid=true;
 
 	// Property accessors
 	@Id
@@ -43,14 +49,31 @@ public class TGoodstype implements java.io.Serializable {
 	public void setGoodsTypeName(String goodsTypeName) {
 		this.goodsTypeName = goodsTypeName;
 	}
+	
+	@Column(name = "goodsTypeImg", nullable = false, length = 50)
+	public String getGoodsTypeImg() {
+		return goodsTypeImg;
+	}
 
-//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TGoodstype")
-//	public Set<TGoods> getTGoodses() {
-//		return this.TGoodses;
-//	}
-//
-//	public void setTGoodses(Set<TGoods> TGoodses) {
-//		this.TGoodses = TGoodses;
-//	}
+	public void setGoodsTypeImg(String goodsTypeImg) {
+		this.goodsTypeImg = goodsTypeImg;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "goodsTypeTime", length = 10)
+	public Date getGoodsTypeTime() {
+		return goodsTypeTime;
+	}
 
+	public void setGoodsTypeTime(Date goodsTypeTime) {
+		this.goodsTypeTime = goodsTypeTime;
+	}
+	
+	@Column(name="isValid")
+	public boolean getIsValid() {
+		return isValid;
+	}
+	public void setIsValid(boolean isValid) {
+		this.isValid = isValid;
+	}
 }

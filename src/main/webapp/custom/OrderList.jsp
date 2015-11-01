@@ -17,36 +17,32 @@
 <title>优选食客-我的订单</title>
 
 <meta name="description" content="" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 <!-- bootstrap & fontawesome -->
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
 <link rel="stylesheet" href="../plugins/fonts/font-awesome.css" />
 
 <!-- page specific plugin styles -->
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/jquery-ui.css" />
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/jquery-ui.css" />
 <!-- text fonts -->
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
 
 <!-- ace styles -->
-<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css"
-	class="ace-main-stylesheet" id="main-ace-style" />
-<style type="text/css">
-.nav li a {
-	padding: 10px 3px
-}
-</style>
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+	<style type="text/css">
+		.nav li a{padding:10px 1px}
+		body{font-family:"微软雅黑";}
+		.nav{background: #ff0033;background-color: #ff0033}
+		.btn-denger{background-color: #FF3333 !important;border-color: #FF3333;}
+	</style>
 <!--[if lte IE 9]>
-			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" class="ace-main-stylesheet" />
-		<![endif]-->
+	<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" class="ace-main-stylesheet" />
+<![endif]-->
 
 <!--[if lte IE 9]>
-		  <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-ie.css" />
-		<![endif]-->
+	<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-ie.css" />
+<![endif]-->
 
 <!-- inline styles related to this page -->
 
@@ -56,9 +52,9 @@
 <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 
 <!--[if lte IE 8]>
-		<script src="http://ace.zcdreams.com/assets/js/html5shiv.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/respond.js"></script>
-		<![endif]-->
+	<script src="http://ace.zcdreams.com/assets/js/html5shiv.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/respond.js"></script>
+<![endif]-->
 </head>
 
 <body class="no-skin">
@@ -411,10 +407,10 @@
 			role="navigation">
 			<ul class="nav navbar-nav">
 				<li class="green col-xs-4"><a
-					href="${pageContext.request.contextPath }/index.jsp"> <i  style="margin-left: 9px"
+					href="${pageContext.request.contextPath }/main.jsp"> <i  style="margin-left: 9px"
 						class="ace-icon fa fa-home icon-animated-vertical"></i> 商品首页 </a></li>
-				<li class="green col-xs-4"><a href="/person.jsp"> <i  style="margin-left: 9px"
-						class="ace-icon fa fa-user icon-animated-vertical"></i> 个人中心 </a></li>
+				<li class="green col-xs-4"><a href="javascript:void(0)"> <i  style="margin-left: 4px"
+						class="ace-icon fa fa-user icon-animated-vertical"></i> 我的购物车 </a></li>
 				<li class="green col-xs-4"><a id="sureBuy"
 					href="javascript:void(0)"> <i
 						class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i> <span>确认购买</span>
@@ -460,10 +456,8 @@
 	<script src="http://ace.zcdreams.com/assets/js/ace/ace.js"></script>
 	<script src="http://ace.zcdreams.com/assets/js/ace/ace.touch-drag.js"></script>
 	<script src="http://ace.zcdreams.com/assets/js/ace/ace.sidebar.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/ace/ace.sidebar-scroll-1.js"></script>
-	<script
-		src="http://ace.zcdreams.com/assets/js/ace/ace.submenu-hover.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/ace.sidebar-scroll-1.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/ace/ace.submenu-hover.js"></script>
 	<script src="http://ace.zcdreams.com/assets/js/ace/ace.widget-box.js"></script>
 
 	<!-- inline scripts related to this page -->

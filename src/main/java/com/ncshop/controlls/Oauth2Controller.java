@@ -38,7 +38,6 @@ public class Oauth2Controller {
 		String state = null;
 		try {
 			initMessageContext();
-			LogBuilder.writeToLog("获取token"+req.getParameter("code"));
 			WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService
 					.oauth2getAccessToken(req.getParameter("code"));
 			
@@ -55,20 +54,19 @@ public class Oauth2Controller {
 			state = req.getParameter("state");
 			TUser user = new TUser();
 			user.setOpenId(openId);
-			LogBuilder.writeToLog("kaoshi");
 			TUser findUser = service.findUser(openId);
-			LogBuilder.writeToLog("结束+00");
 			if (state.equals("1")) {
 				if (findUser == null) {
 					req.getSession().setAttribute("user", user);
 				} else {
 					req.getSession().setAttribute("user", findUser);
 				}
-				resp.sendRedirect("/index.jsp");
+				resp.sendRedirect("/main.jsp");
 				return;
 			}
 			if (state.equals("2")) {
 				if (findUser == null) {
+					req.getSession().setAttribute("user", user);
 					req.getRequestDispatcher("/index.jsp").forward(req, resp);
 				} else {
 					// 跳转到订单页

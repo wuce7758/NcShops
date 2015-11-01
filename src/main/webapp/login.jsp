@@ -31,20 +31,20 @@
 <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css" />
 
 <!--[if lte IE 9]>
-			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" />
-		<![endif]-->
+	<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" />
+<![endif]-->
 <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-rtl.css" />
 
 <!--[if lte IE 9]>
-		  <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-ie.css" />
-		<![endif]-->
+	<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-ie.css" />
+<![endif]-->
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
 <!--[if lt IE 9]>
-		<script src="http://ace.zcdreams.com/assets/js/html5shiv.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/respond.js"></script>
-		<![endif]-->
+	<script src="http://ace.zcdreams.com/assets/js/html5shiv.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/respond.js"></script>
+<![endif]-->
 </head>
 
 <body class="login-layout">
@@ -74,7 +74,7 @@
 
 										<div class="space-6"></div>
 
-										<form id="form_login" method="post" action="${pageContext.request.contextPath }/seller/sellerLogin">
+										<form id="form_login" method="post" action="${pageContext.request.contextPath }/sellerLogin">
 											<fieldset>
 												<label class="block clearfix">
 													<span class="block input-icon input-icon-right">
@@ -179,7 +179,8 @@
 									<div class="toolbar center">
 										<a href="#" data-target="#login-box"
 											class="back-to-login-link"> 返回登录 <i
-											class="ace-icon fa fa-arrow-right"></i> </a>
+											class="ace-icon fa fa-arrow-right"></i>
+										</a>
 									</div>
 								</div>
 								<!-- /.widget-body -->

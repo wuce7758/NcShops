@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.WxMpTemplateData;
@@ -29,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ncshop.domain.OrderItemArr;
 import com.ncshop.domain.TAddress;
+import com.ncshop.domain.TAds;
 import com.ncshop.domain.TGoods;
 import com.ncshop.domain.TGoodstype;
 import com.ncshop.domain.TOrder;
@@ -51,7 +51,6 @@ public class UserController {
 	private UserService userService;
 	private WxMpInMemoryConfigStorage wxMpConfigStorage;
 	private WxMpService wxMpService;
-	private WxMpMessageRouter wxMpMessageRouter;
 	private ConfigDao configDao;
 	private ConfigInfo configInfo;
 
@@ -77,7 +76,42 @@ public class UserController {
 	}
 
 	/**
-	 * 查找店铺所有的商品
+	 * 查找广告信息 JSON
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/getAds")
+	public void getAds(HttpServletResponse response) throws Exception {
+		// 调用service查找 数据库
+		try {
+			List<TAds> adsList = userService.getAds();
+			String json = toJson(new TAds(), adsList, null);
+			// 设置response的传输格式为json
+			response.setContentType("application/json");
+			response.getWriter().write(json);
+		} catch (Exception e) {
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
+		}
+	}
+
+	/**
+	 * 获取所有商品类型 JSON
+	 * 
+	 * @throws Exception
+	 */
+	@RequestMapping("/getAllGoodsType")
+	public void getAllGoodsType(HttpServletResponse response) throws Exception {
+		// 调用service查找 数据库
+		List<TGoodstype> list = userService.getAllGoodsType();
+		String json = toJson(new TGoodstype(), list, null);
+		response.setContentType("application/json");
+		response.getWriter().write(json);
+	}
+
+	/**
+	 * 查找店铺所有的商品 返回JSON
 	 * 
 	 * @return
 	 * @throws Exception
@@ -100,6 +134,12 @@ public class UserController {
 			for (TSellergoods tSellergoods : sellerGoodsList) {
 				goods.add(tSellergoods.getTGoods());
 			}
+			TGoodstype type;
+			for (TGoods tGoods : goods) {
+				type = userService.findGoodsType(tGoods.getTGoodstype()
+						.getGoodsTypeId());
+				tGoods.setTGoodstype(type);
+			}
 			String json = toJson(new TGoods(), goods, null);
 			// 设置response的传输格式为json
 			response.setContentType("application/json");
@@ -112,7 +152,58 @@ public class UserController {
 	}
 
 	/**
-	 * 查找店铺所有的商品
+	 * 查找某店铺所有的商品
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/findGoodsBySeller")
+	public void findGoodsBySeller(HttpServletRequest request, Integer sellerId,
+			Integer page, HttpServletResponse response) {
+
+		try {
+			// 调用service查找 数据库
+			List<TSellergoods> sellerGoodsList = userService.findSellergoods(
+					sellerId, (page - 1) * 10, 10);
+			;
+			request.setAttribute("goodDetail", sellerGoodsList);
+			request.getRequestDispatcher("/index.jsp").forward(request,
+					response);
+		} catch (Exception e) {
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * 查找某店铺所有的商品
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/findGoodsByTypeId")
+	public void findGoodsByTypeId(HttpServletRequest request,
+			Integer goodsTypeId, Integer page, HttpServletResponse response) {
+
+		try {
+			// 调用service查找 数据库
+			List<TSellergoods> sellerGoodsList = userService
+					.findSellergoodsByType(goodsTypeId, 1, (page - 1) * 10, 10);
+			request.setAttribute("goodDetail", sellerGoodsList);
+			request.getRequestDispatcher("/index.jsp").forward(request,
+					response);
+		} catch (Exception e) {
+			LogBuilder.writeToLog(UserController.class.getName()
+					+ e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * 查找所有的商品
 	 * 
 	 * @return
 	 * @throws Exception
@@ -124,7 +215,6 @@ public class UserController {
 		try {
 			// 调用service查找 数据库
 			List<TSellergoods> sellerGoodsList = userService.findGoodsdetail();
-			String json = toJson(new TSellergoods(), sellerGoodsList, null);
 			request.setAttribute("goodDetail", sellerGoodsList);
 			request.getRequestDispatcher("/admin/page/goods.jsp").forward(
 					request, response);
@@ -160,7 +250,7 @@ public class UserController {
 			if (page != null) {
 				pageCount = Integer.parseInt(page);
 				// 调用service查找 数据库
-				goodsList = userService.findgoods(goodstype, 101,
+				goodsList = userService.findgoods(goodstype, 1,
 						(pageCount - 1) * 10, 10);
 			}
 			List<TGoods> goods = new ArrayList<TGoods>();
@@ -168,7 +258,14 @@ public class UserController {
 				if (tSellergoods.getTGoods().getTGoodstype().getGoodsTypeId() == (Integer
 						.parseInt(goodsTypeId))) {
 					goods.add(tSellergoods.getTGoods());
+
 				}
+			}
+			TGoodstype type;
+			for (TGoods tGoods : goods) {
+				type = userService.findGoodsType(tGoods.getTGoodstype()
+						.getGoodsTypeId());
+				tGoods.setTGoodstype(type);
 			}
 			String json = toJson(new TGoods(), goods, null);
 			// 设置response的传输格式为json
@@ -258,11 +355,11 @@ public class UserController {
 			List<TAddress> address = null;
 			if (user != null) {
 				if (user.getUserId() != null) {
+					LogBuilder.writeToLog("old");
 					address = userService.findAddress(user.getUserId());
-					TUser tempUser = userService.findUser(user.getOpenId());
-
 				}
 			}
+			LogBuilder.writeToLog(user.getOpenId());
 			request.setAttribute("address", address);
 			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
 					request, response);
@@ -291,7 +388,6 @@ public class UserController {
 					.getSession().getAttribute("odersdetails");
 			double orderTotalCost = 0.0;
 			TUser user = (TUser) request.getSession().getAttribute("user");
-
 			// 计算总金额
 
 			for (Iterator iterator = odersdetails.iterator(); iterator
@@ -306,17 +402,12 @@ public class UserController {
 			TOrder order = new TOrder();
 			order.setOrderNo(new Date().getTime() + "");
 			order.setOrderState(0);
+			order.setOrderMsg("");
 			order.setOrderTotalCost(orderTotalCost);
-			if (user == null) {
-				order.setUserId(1);
-			} else {
-				order.setUserId(user.getUserId());
-			}
 			TSellergoods sellergoods = userService
 					.findSellergoodsByGoodsID(tOrderdetail.getTGoods()
 							.getGoodsId());
-			// TSeller seller = new TSeller();
-			// seller.setSellerId();
+			order.setUserId(user.getUserId());
 			order.setSellerId(sellergoods.getSeller().getSellerId());
 			if (userService.order(order, odersdetails)) {
 				// 给用户发送消息
@@ -328,34 +419,38 @@ public class UserController {
 				templateMessage.setToUser(user.getOpenId());
 				// 发送给下单人的消息
 				templateMessage
-						.setTemplateId("EXTbx95V3C88AlDMwfsCZQvrgAtMyox5x4aeqLir2mM");
+						.setTemplateId("jm-ctYlKyGDsRi98sfdcQ6I-DMrnIdDYgmaqAOpipJY");
 				templateMessage
 						.setUrl("ncshop.zcdreams.com/user/findOrderByOrderNo?orderNo="
 								+ order.getOrderNo());
 				templateMessage.setTopColor("#ff0000");
 				templateMessage.getDatas().add(
-						new WxMpTemplateData("first", "你有一个新订单",
+						new WxMpTemplateData("first", "你有一个新订单", "#173177"));
+				templateMessage.getDatas().add(
+						new WxMpTemplateData("keyword1", order.getOrderNo(),
 								"#173177"));
 				templateMessage.getDatas().add(
-						new WxMpTemplateData("keyword1",order.getOrderNo() ,
+						new WxMpTemplateData("keyword2", order.getOrderTime()
+								.toLocaleString()));
+				templateMessage.getDatas().add(
+						new WxMpTemplateData("keyword3", address
+								.getReceiverName(), "#173177"));
+				templateMessage.getDatas().add(
+						new WxMpTemplateData("keyword4", address.getAdsPhone(),
 								"#173177"));
-				templateMessage.getDatas()
-						.add(new WxMpTemplateData("keyword2", order.getOrderTime().toLocaleString()));
 				templateMessage.getDatas().add(
-						new WxMpTemplateData("keyword3", address.getReceiverName(), "#173177"));
+						new WxMpTemplateData("keyword5", address
+								.getAdsContent(), "#173177"));
 				templateMessage.getDatas().add(
-						new WxMpTemplateData("keyword4", address.getAdsPhone(), "#173177"));
-				templateMessage.getDatas().add(
-						new WxMpTemplateData("keyword5", address.getAdsContent(), "#173177"));
-				templateMessage.getDatas().add(
-						new WxMpTemplateData("remark", "点击查看订单详情，如有疑问请联系商家，"+"18770015729", "#173177"));
+						new WxMpTemplateData("remark", "点击查看订单更多状态，如有疑问请联系商家，"
+								+ "18770015729", "#173177"));
 				wxMpService.templateSend(templateMessage);
 
-				// 通知商家有新的订单
+				// 通知商家有新的订单o6giMtx2laitNbxP_U1AgdMTGiYE
 
 				WxMpTemplateMessage toBoss = new WxMpTemplateMessage();
-				toBoss.setToUser("o6giMtx2laitNbxP_U1AgdMTGiYE");
-				toBoss.setTemplateId("ldm338MGrwekepeyQmP4_lS8nMI2T_TNTypEbTuRrCQ");
+				toBoss.setToUser("o6giMtwtLHpVZ_20973cRyOtypTs");
+				toBoss.setTemplateId("jm-ctYlKyGDsRi98sfdcQ6I-DMrnIdDYgmaqAOpipJY");
 				toBoss.setUrl("ncshop.zcdreams.com/user/findOrderByOrderNo?orderNo="
 						+ order.getOrderNo());
 				toBoss.setTopColor("#ff0000");
@@ -364,14 +459,13 @@ public class UserController {
 				// address.setAdsContent("sadas");
 				// address.setAdsPhone("2312412");
 				toBoss.getDatas().add(
-						new WxMpTemplateData("first",
-								"新订单通知", "#173177"));
+						new WxMpTemplateData("first", "新订单通知", "#173177"));
 				toBoss.getDatas().add(
-						new WxMpTemplateData("keyword1",
-								order.getOrderNo(), "#173177"));
-				toBoss.getDatas().add(
-						new WxMpTemplateData("keyword2", order.getOrderTime().toLocaleString(),
+						new WxMpTemplateData("keyword1", order.getOrderNo(),
 								"#173177"));
+				toBoss.getDatas().add(
+						new WxMpTemplateData("keyword2", order.getOrderTime()
+								.toLocaleString(), "#173177"));
 				toBoss.getDatas().add(
 						new WxMpTemplateData("keyword3", address
 								.getReceiverName(), "#173177"));
@@ -379,10 +473,11 @@ public class UserController {
 						new WxMpTemplateData("keyword4", address.getAdsPhone(),
 								"#ff0000"));
 				toBoss.getDatas().add(
-						new WxMpTemplateData("keyword5", address.getAdsContent(),
-								"#ff0000"));
+						new WxMpTemplateData("keyword5", address
+								.getAdsContent(), "#ff0000"));
 				toBoss.getDatas().add(
-						new WxMpTemplateData("remark", "点击查看订单详情，请尽快配送", "#173177"));
+						new WxMpTemplateData("remark", "点击查看订单详情，请尽快配送",
+								"#173177"));
 				System.out.println(toBoss.toJson());
 				toBoss.getDatas()
 						.add(new WxMpTemplateData("orderInfo", "\n" + msg,
@@ -436,6 +531,7 @@ public class UserController {
 				} else {// 新用户
 					address.setIsDefault(true);
 					userService.bind(user, address);
+					request.getSession().setAttribute("user", user);
 					List<TAddress> firstAdr = new ArrayList<TAddress>();
 					firstAdr.add(address);
 					request.setAttribute("address", firstAdr);
@@ -505,12 +601,6 @@ public class UserController {
 			Map<String, List<T>> map = new HashMap<String, List<T>>();
 			map.put(t.getClass().getName().replace("com.ncshop.domain.", ""),
 					list);
-			try {
-				finalize();
-			} catch (Throwable e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			if (fieldNames != null) {
 				TargetStrategy ts = null;
 				ts = new TargetStrategy(t.getClass());
@@ -526,6 +616,7 @@ public class UserController {
 		} catch (Exception e) {
 			LogBuilder.writeToLog(UserController.class.getName()
 					+ e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 
@@ -601,7 +692,7 @@ public class UserController {
 			if (request.getSession().getAttribute("allCost") != null) {
 				request.getSession().removeAttribute("allCost");
 			}
-			response.sendRedirect("/index.jsp");
+			response.sendRedirect("/main.jsp");
 		} catch (Exception e) {
 			e.printStackTrace();
 			LogBuilder.writeToLog(UserController.class.getName()
@@ -625,7 +716,7 @@ public class UserController {
 			}
 			request.setAttribute("address", address);
 			if (request.getSession().getAttribute("odersdetails") == null) {
-				response.sendRedirect("/index.jsp");
+				response.sendRedirect("../main.jsp");
 			} else {
 				request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
 						request, response);

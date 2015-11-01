@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -15,36 +16,32 @@
 <title>优选食客-首页</title>
 
 <meta name="description" content="" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
 <!-- bootstrap & fontawesome -->
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
-<link rel="stylesheet" href="plugins/fonts/font-awesome.css" />
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/bootstrap.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath }/plugins/fonts/font-awesome.css" />
 
 <!-- page specific plugin styles -->
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/jquery-ui.custom.css" />
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/jquery-ui.custom.css" />
 
 <!-- text fonts -->
-<link rel="stylesheet"
-	href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-fonts.css" />
 
 <!-- ace styles -->
-<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css"
-	class="ace-main-stylesheet" id="main-ace-style" />
+<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
 	<style type="text/css">
 		.nav li a{padding:10px 3px}
+		body{font-family:"微软雅黑"}
 	</style>
 
 <!--[if lte IE 9]>
-			<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" class="ace-main-stylesheet" />
-		<![endif]-->
+	<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-part2.css" class="ace-main-stylesheet" />
+<![endif]-->
 
 <!--[if lte IE 9]>
-		  <link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-ie.css" />
-		<![endif]-->
+	<link rel="stylesheet" href="http://ace.zcdreams.com/assets/css/ace-ie.css" />
+<![endif]-->
 
 <!-- inline styles related to this page -->
 
@@ -54,13 +51,12 @@
 <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 
 <!--[if lte IE 8]>
-		<script src="http://ace.zcdreams.com/assets/js/html5shiv.js"></script>
-		<script src="http://ace.zcdreams.com/assets/js/respond.js"></script>
-		<![endif]-->
+	<script src="http://ace.zcdreams.com/assets/js/html5shiv.js"></script>
+	<script src="http://ace.zcdreams.com/assets/js/respond.js"></script>
+<![endif]-->
 </head>
 
 <body class="no-skin">
-	<!-- #section:basics/navbar.layout -->
 	<div id="navbar" class="navbar navbar-default">
 		<script type="text/javascript">
 			try {
@@ -70,36 +66,14 @@
 		</script>
 
 		<div class="navbar-container" id="navbar-container">
-			<!-- #section:basics/sidebar.mobile.toggle -->
-			<button onClick="refresh()" type="button" class="navbar-toggle menu-toggler pull-left"
-				id="menu-toggler" data-target="#sidebar">
-				<span class="sr-only">Toggle sidebar</span> <span class="icon-bar"></span>
-
-				<span class="icon-bar"></span> <span class="icon-bar"></span>
-			</button>
-
-			<!-- /section:basics/sidebar.mobile.toggle -->
 			<div class="navbar-header pull-left">
 				<!-- #section:basics/navbar.layout.brand -->
 				<a href="#" class="navbar-brand"> <small> <i
 						class="fa fa-leaf"></i> 欢迎来到优选食客 </small> </a>
-
-				<!-- /section:basics/navbar.layout.brand -->
-
-				<!-- #section:basics/navbar.toggle -->
-
-				<!-- /section:basics/navbar.toggle -->
 			</div>
-
-			<!-- #section:basics/navbar.dropdown -->
-
-
-			<!-- /section:basics/navbar.dropdown -->
 		</div>
-		<!-- /.navbar-container -->
 	</div>
 
-	<!-- /section:basics/navbar.layout -->
 	<div class="main-container" id="main-container">
 		<script type="text/javascript">
 			try {
@@ -108,7 +82,7 @@
 			}
 		</script>
 
-		<!-- #section:basics/sidebar 菜单-->
+
 		<div id="sidebar" class="sidebar responsive ">
 			<script type="text/javascript">
 				try {
@@ -116,125 +90,87 @@
 				} catch (e) {
 				}
 			</script>
-
-			<div class="sidebar-shortcuts" id="sidebar-shortcuts">
-				<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-					<button id="types" onClick="loadGoodsType()" style="width:80px" class="btn btn-success">
-						<i class="ace-icon fa fa-signal">商品分类</i>
-					</button>
-
-					<button id="sellers" onClick="loadSeller()" id="seller" style="width:80px" class="btn btn-info">
-						<i class="ace-icon fa fa-pencil">商家店铺</i>
-					</button>
-
-					<!-- #section:basics/sidebar.layout.shortcuts -->
-					<!-- <button class="btn btn-warning">
-						<i class="ace-icon fa fa-users"></i>
-					</button>
-
-					<button class="btn btn-danger">
-						<i class="ace-icon fa fa-cogs"></i>
-					</button> -->
-					<!-- /section:basics/sidebar.layout.shortcuts -->
-				</div>
-
-				<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-					<span class="btn btn-success"></span> <span class="btn btn-info"></span>
-
-					<span class="btn btn-warning"></span> <span class="btn btn-danger"></span>
-				</div>
-			</div>
-			<!-- /.sidebar-shortcuts -->
-
-			<ul class="nav nav-list" id="goodsType">
-				<!-- <li class="">
-					<a href="index.html">
-						<i class="menu-icon fa fa-tachometer"></i>
-						<span class="menu-text">商家分类</span>
-					</a>
-					<b class="arrow"></b>
-				</li> -->
-				<!-- <li class="">
-					<a href="index.html">
-						<i class="menu-icon fa fa-tachometer"></i>
-						<span class="menu-text">商品类别</span>
-					</a>
-					<b class="arrow"></b>
-				</li> -->
-			</ul>
-			<!-- /.nav-list -->
-
-			<!-- #section:basics/sidebar.layout.minimize -->
-			<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-				<i class="ace-icon fa fa-angle-double-left"
-					data-icon1="ace-icon fa fa-angle-double-left"
-					data-icon2="ace-icon fa fa-angle-double-right"></i>
-			</div>
-
-			<!-- /section:basics/sidebar.layout.minimize -->
 			<script type="text/javascript">
 				try {
 					ace.settings.check('sidebar', 'collapsed');
-				} catch (e) {
-				}
+				} catch (e) {}
 			</script>
 		</div>
 
-		<!-- /section:basics/sidebar 导航栏-->
 		<div class="main-content">
 			<div class="main-content-inner">
-				<!-- #section:basics/content.breadcrumbs -->
 				<div class="breadcrumbs" id="breadcrumbs">
 					<script type="text/javascript">
 						try {
 							ace.settings.check('breadcrumbs', 'fixed');
-						} catch (e) {
-						}
+						} catch (e) {}
 					</script>
 
 					<ul class="breadcrumb">
-						<li><i class="ace-icon fa fa-home home-icon"></i> <a id="shopname" href="#">优选超市</a>
+						<li>
+							<i class="ace-icon fa fa-home home-icon"></i>
+							<a id="shopname" href="#">优选超市</a>
 						</li>
 						<li class="active">全部商品</li>
 					</ul>
-					<!-- /.breadcrumb -->
 
-					<!-- #section:basics/content.searchbox -->
 					<div class="nav-search" id="nav-search">
 						<form class="form-search">
-							<span class="input-icon"> <input type="text"
-								placeholder="搜索..." class="nav-search-input"
-								id="nav-search-input" autocomplete="off" /> <i
-								class="ace-icon fa fa-search nav-search-icon"></i> </span>
+							<span class="input-icon">
+								<input type="text" placeholder="搜索..." class="nav-search-input" id="nav-search-input" autocomplete="off"/>
+								<i class="ace-icon fa fa-search nav-search-icon"></i>
+							</span>
 						</form>
 					</div>
-					<!-- /.nav-search -->
 
-					<!-- /section:basics/content.searchbox -->
 				</div>
 
-				<!-- /section:basics/content.breadcrumbs -->
 				<div class="page-content">
 					<div class="row">
-						<div id="goodsList" class="col-xs-12">
-							<!-- PAGE CONTENT BEGINS -->
-
-							<!-- PAGE CONTENT ENDS -->
-						</div>
-						<!-- /.col -->
+						<c:forEach var="TSellergoods" items="${goodDetail }" varStatus="status">
+							<div class='form-group col-xs-12'>
+									<div class='col-xs-6'>
+										<img src='${pageContext.request.contextPath}/images/${TSellergoods.TGoods.goodsPic}' class='img-responsive img-rounded' alt='Responsive image' />
+									</div>
+									<div class='col-xs-6'>
+										<p>${TSellergoods.TGoods.goodsName }</p>
+										<p>${TSellergoods.TGoods.goodsPrice }￥/一份</p>
+										<div class='ace-spinner middle touch-spinner' style='width: 125px;'>
+											<div class='input-group'>
+												<div class='spinbox-buttons input-group-btn'>
+													<button name='${TSellergoods.TGoods.goodsId}' onClick='downclick(this)' type='button' class='btn spinbox-down btn-sm btn-danger'>
+														<i class='icon-only  ace-icon ace-icon fa fa-minus bigger-110'></i>
+													</button>
+												</div>
+												<input type='text' value='0' class='spinner form-control text-center' id='${TSellergoods.TGoods.goodsId}'/>
+												<div class='spinbox-buttons input-group-btn'>
+													<button name='${TSellergoods.TGoods.goodsId}' onClick='upclick(this)' type='button' class='btn spinbox-up btn-sm btn-success'>
+														<i class='icon-only  ace-icon ace-icon fa fa-plus bigger-110'></i>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<hr>
+							</div>
+							<c:if test="${!status.isLast() }">
+								<hr class='col-xs-11' style='margin-top:2px;margin-bottom:5px'>
+							</c:if>
+						</c:forEach>	
 					</div>
-					<!-- /.row -->
+					<div id="goodsList" class="row">
+					</div>
 				</div>
-				<!-- /.page-content -->
+
 			</div>
 		</div>
-		<!-- /.main-content -->
+
 
 		<nav class="navbar navbar-default navbar-fixed-bottom"
 			role="navigation">
 			<ul class="nav navbar-nav">
-				<li class="green col-xs-4">
-					<a href="${pageContext.request.contextPath }/index.jsp">
+				<li style="padding-left: 10px" class="green col-xs-4">
+					<a href="${pageContext.request.contextPath }/main.jsp">
 						<i style="margin-left: 9px" class="ace-icon fa fa-home icon-animated-vertical"></i>
 						商品首页
 					</a>
@@ -245,7 +181,7 @@
 						购物车
 					</a>
 				</li>
-				<li class="green col-xs-4">
+				<li style="padding-left: 2px" class="green col-xs-4">
 					<a href="javascript:void(0)">
 						<i class="ace-icon fa fa-shopping-cart icon-animated-vertical"></i>
 						<span onClick="goBuy()">
@@ -259,34 +195,27 @@
 			</ul>
 		</nav>
 
-		<a href="#" id="btn-scroll-up"
-			class="btn-scroll-up btn btn-sm btn-inverse"> <i
-			class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i> </a>
+		<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+			<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+		</a>
 	</div>
-	<!-- /.main-container -->
 
 	<!-- basic scripts -->
 
-	<!--[if !IE]> -->
+<!--[if !IE]> -->
 	<script type="text/javascript">
-		window.jQuery
-				|| document
-						.write("<script src='http://ace.zcdreams.com/assets/js/jquery.js'>"
-								+ "<" + "/script>");
+		window.jQuery || document.write("<script src='http://ace.zcdreams.com/assets/js/jquery.js'>"+ "<" + "/script>");
 	</script>
+<!-- <![endif]-->
 
-	<!-- <![endif]-->
-
-	<!--[if IE]>
+<!--[if IE]>
 <script type="text/javascript">
- window.jQuery || document.write("<script src='http://ace.zcdreams.com/assets/js/jquery1x.js'>"+"<"+"/script>");
+ 	window.jQuery || document.write("<script src='http://ace.zcdreams.com/assets/js/jquery1x.js'>"+"<"+"/script>");
 </script>
 <![endif]-->
 	<script type="text/javascript">
-		if ('ontouchstart' in document.documentElement)
-			document
-					.write("<script src='http://ace.zcdreams.com/assets/js/jquery.mobile.custom.js'>"
-							+ "<" + "/script>");
+		if ("ontouchstart" in document.documentElement)
+			document.write("<script src='http://ace.zcdreams.com/assets/js/jquery.mobile.custom.js'>"+ "<" + "/script>");
 	</script>
 	<script src="http://ace.zcdreams.com/assets/js/bootstrap.js"></script>
 
@@ -300,155 +229,75 @@
 
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">		
-		var preGoodsType="";
-		var preSellerId="";
-		var flag = "1";
-		var page = 1;
-		var obj= null;
-		var reflash="0";
-		var sellerId=1;
-		function refresh(){
-			/* if(reflash=="2"){
-				loadGoodsType();
-			}
-			if(reflash=="3"){
-				loadSeller();
-			} */
-			$("#goodsType").html("");
-		}
-		function loadGoodsType(){
-			preGoodsType="";
-			preSellerId="";
-			flag ="2";
-			page = 1;
-			reflash="2";
-			$.ajax({
-						type : "get",
-						url : "${pageContext.request.contextPath}/seller/getAllGoodsType",
-						dataType : "json",
-						async : true,
-						success : function(data) {
-							$("#goodsType").html("");
-							for ( var i = 0; i < data.TGoodstype.length; i++) {
-								var item = "";
-								item= "<li onClick='javascript:loadGoodsByType(this,"+data.TGoodstype[i].goodsTypeId+")' class='lis'>"+
-											"<a href='#'>"+
-												"<i class='menu-icon fa fa-tachometer'></i>"+
-												"<span class='menu-text'>"+data.TGoodstype[i].goodsTypeName+"</span>"+
-											"</a>"+
-											"<b class='arrow'></b>"+
-										"</li>";
-								$("#goodsType").append(item);
-							}
+		var page=2;
+		var flag="ok";
+		var b=false;
+		$(function() {
+			goodsTypeId=getQueryString("goodsTypeId");
+			sellerId=getQueryString("sellerId");
+			$(window).scroll(function() {
+					if ($(document).height() - $(this).scrollTop()- $(this).height() < 20) {
+						if(goodsTypeId!=null&&!b){
+							loadGoodsByType();
 						}
-					});
-		}
-		function loadSeller(){
-			$("#countSpan").css("display","none");
-			$("#count").text("0");
-			map={};
-			preGoodsType="";
-			preSellerId="";
-			page = 1;
-			flag = "3";
-			reflash="3";
-			$.ajax({
-						type : "get",
-						url : "${pageContext.request.contextPath}/seller/getAllSeller",
-						dataType : "json",
-						async : true,
-						success : function(data) {
-							$("#goodsType").html("");
-							for ( var i = 0; i < data.TSeller.length; i++) {
-								var item = "";
-								item= "<li onClick='javascript:loadGoodsBySeller(this,"+data.TSeller[i].sellerId+")' name='"+data.TSeller[i].shopName+"' class='lis'>"+
-											"<a href='#'>"+
-												"<i class='menu-icon fa fa-tachometer'></i>"+
-												"<span class='menu-text'>"+data.TSeller[i].shopName+"</span>"+
-											"</a>"+
-											"<b class='arrow'></b>"+
-										"</li>";
-								$("#goodsType").append(item);
-							}
+						if(sellerId!=null&&!b){
+							loadGoodsBySeller();
 						}
-					});
+					}
+			});
+		});
+		function getQueryString(name) { 
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+			var r = window.location.search.substr(1).match(reg); 
+			if (r != null)
+				return unescape(r[2]);
+			return null; 
 		}
-		function loadGoodsByType(object,goodsTypeId) {
-			if(object!=null){
-				var nav= $(object).text();
-				$(".active").text(nav);
-				if(obj!=object){
-					$("#goodsList").html("");
-					obj=object;
-				}
-			}
-			$("#sidebar").removeClass("display");
-			if (flag != "2") {
+		var goodsTypeId;
+		function loadGoodsByType() {
+			b=true;
+			if(flag=="end"){
 				return;
 			}
-			if(preGoodsType!=goodsTypeId){
-				preGoodsType=goodsTypeId;
-				$("#goodsList").html("");
-			}
 			$.ajax({
 						type : "get",
-						url : "user/findgoodsByType",
-						data : {"page" : page,"goodsTypeId":preGoodsType},
+						url : "${pageContext.request.contextPath}/user/findgoodsByType",
+						data : {"page" : page,"goodsTypeId":goodsTypeId},
 						dataType : "json",
 						async : true,
 						success : function(data){
 							check(data);
 						}
 			});
-			$("#goodsType").html("");
 		}
-		function loadGoodsBySeller(object,goodsSellerId) {
-			sellerId=goodsSellerId;
-			count=0;
-			if(object!=null){
-				var nav= $(object).attr("name");
-				$(".active").text("");
-				$("#shopname").text(nav);
-				if(obj!=object){
-					$("#goodsList").html("");
-					obj=object;
-				}
-			}
-			$("#sidebar").removeClass("display");
-			if (flag != "3") {
+		var sellerId=101;
+		function loadGoodsBySeller() {
+			b=true;
+			if(flag=="end"){
 				return;
-			}
-			if(preSellerId!=goodsSellerId){
-				preSellerId=goodsSellerId;
-				$("#goodsList").html("");
 			}
 			$.ajax({
 				type : "get",
-				url : "user/findSellergoods",
-				data : {"page" : page,"sellerId":goodsSellerId},
+				url : "${pageContext.request.contextPath}/user/findSellergoods",
+				data : {"page" : page,"sellerId":sellerId},
 				dataType : "json",
 				async : true,
 				success : function(data){
 							check(data);
 				}
 			});
-			$("#goodsType").html("");
 		}
 		function check(data) {
-			if (data.TGoods == null || data.TGoods.length < 1) {
-				flag = "0";
-				return;
-			}
 			if (data.TGoods.length < 10) {
-				flag = "0";
-			} else if (data.TGoods.length = 10) {
+				flag = "end";
+			}else{
 				page=page+1;
 			}
 			for( var i = 0; i < data.TGoods.length; i++) {
 				var item = "";
 				var item = "<div class='goodsId form-group col-xs-12 goods'>"
 								+"<div class='col-xs-6'>"
-									+"<img src='${pageContext.request.contextPath}/images/"+data.TGoods[i].goodsPic+"' class='img-responsive img-rounded' alt='Responsive image' />"
+									+"<img width='115px' height='82px' src='${pageContext.request.contextPath}/images/"+data.TGoods[i].goodsPic+"' class='img-rounded' alt='Responsive image' />"
 								+"</div>"
 							+"<div class='col-xs-6'>"
 										+ "<p>"
@@ -479,22 +328,6 @@
 								$("#goodsList").append(item);
 							}
 		}
-		
-		function loadData() {
-			if (flag != "1") {
-				return;
-			}
-			$.ajax({
-				type : "get",
-				url : "user/findAllGoods",
-				data : {"page" : page},
-				dataType : "json",
-				async : true,
-				success : function(data){
-						check(data);
-				}
-			});
-		}
 		var count=0;
 		var map={};
 		function downclick(obj) {
@@ -517,19 +350,6 @@
 					$("#count").text(count);
 				}
 			}
-			/* $.ajax({
-				type : "get",
-				url : "user/getSellerId",
-				data : {"goodsId" : goodsId},
-				dataType : "text",
-				async : false,
-				success : function(data){
-					if(sellerId!=data){
-						sellerId=data;
-					}
-					var div=$("div[name='goodsId']");
-				}
-			}); */
 		}
 		function upclick(obj) {
 			var input = $(obj).parent().siblings("input");
@@ -552,37 +372,7 @@
 				$("#count").text(count);
 			}
 		}
-		$(function() {
-			loadData();
-			$(window).scroll(function() {
-					if ($(document).height() - $(this).scrollTop()- $(this).height() < 20) {
-						if(flag=="3"){
-							loadGoodsBySeller(null,preSellerId);
-						}
-						if(flag=="2"){
-							loadGoodsByType(null,preGoodsType);
-						}
-						if(flag=="1"){
-							loadData();
-						}
-					}
-			});
-		});
-		/* jQuery(function($) {
-			$('.spinner').ace_spinner({
-				value : 0,
-				min : 0,
-				max : 100,
-				step : 1,
-				on_sides : true,
-				icon_up : 'ace-icon fa fa-plus bigger-110',
-				icon_down : 'ace-icon fa fa-minus bigger-110',
-				btn_up_class : 'btn-success',
-				btn_down_class : 'btn-danger'
-			});
-		}); */
 		function goBuy(){
-			//var goodsItem=$("input.spinner");
 			var jsonString="{\"array\":[";
 			for(var i in map){
 				var goodsId=i;
@@ -591,13 +381,6 @@
 					jsonString+="{\"goodsId\":\""+goodsId.trim()+"\",\"buyMount\":\""+goodsMount+"\"},";
 				}
 			}
-			/* for(var i=0;i<map.size;i++){
-				var goodsId=goodsItem[i].id;
-				var goodsMount=goodsItem[i].value;
-				if(parseInt(goodsMount)>0){
-					jsonString+="{\"goodsId\":\""+goodsId.trim()+"\",\"buyMount\":\""+goodsMount+"\"},";
-				}
-			} */
 			jsonString+="]}";
 			var lastIndex = jsonString.lastIndexOf(',');
 			if (lastIndex > -1) {
@@ -605,8 +388,7 @@
       		}else if(lastIndex==-1){
       			return;
       		}
-      		window.location.href="user/addOrders?jsonString="+jsonString;
-			//$.post("user/addOrders",{jsonString:jsonString});
+      		window.location.href="${pageContext.request.contextPath }/user/addOrders?jsonString="+jsonString;
 		}
 	</script>
 </body>

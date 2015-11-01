@@ -77,7 +77,7 @@
 							<a href="#">商城管理系统</a>
 						</li>
 						<li>
-							<a href="#">商家管理</a>
+							<a href="#">商品类型管理</a>
 						</li>
 					</ul>
 					<jsp:include page="../WebPart/SearchBox.jsp"></jsp:include>
@@ -88,12 +88,12 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
-							<h3 class="header smaller lighter blue">所有商家</h3>
+							<h3 class="header smaller lighter blue">所有类型</h3>
 
 							<div class="clearfix">
 								<div class="pull-right tableTools-container"></div>
 							</div>
-							<div class="table-header">商品列表</div>
+							<div class="table-header">商品类型列表</div>
 							<table id="dynamic-table" class="table table-striped table-bordered table-hover">
 								<thead>
 									<tr>
@@ -105,18 +105,14 @@
 										</th>
 										<th><small>ID</small></th>
 										<th><small>名称</small></th>
-										<th><small>姓名</small></th>
-										<th><small>电话</small></th>
-										<th><small>商家图片</small></th>
-										<th><small>商店地址</small></th>
-										<th><small>加盟时间</small></th>
-										<th><small>商家简介</small></th>
-										<th><small>商家状态</small></th>
+										<th><small>类型图片</small></th>
+										<th><small>添加时间</small></th>
+										<th><small>类型状态</small></th>
 										<th>
 											<p class="text-center">
-												<a class="blue buttonSeller" href="javascript:void(0)" id="buttonadd" oper="add">
+												<a class="blue buttonGoodsType" href="javascript:void(0)" id="buttonadd" oper="add">
 													<i class="fa fa-plus-square-o bigger-130">
-														<small>添加商家</small>
+														<small>添加类型</small>
 													</i>
 												</a>
 											</p>
@@ -125,7 +121,7 @@
 								</thead>
 
 								<tbody>
-									<c:forEach items="${requestScope.sellerList}" var="trl" varStatus="status">
+									<c:forEach items="${requestScope.typeList}" var="trl" varStatus="status">
 										<tr>
 											<td class="center">
 												<label class="pos-rel">
@@ -133,40 +129,23 @@
 												<span class="lbl"></span>
 												</label>
 											</td>
-											<td>${trl.sellerId}</td>
-											<td>${trl.shopName}</td>
-											<td>${trl.sellerName}</td>
-											<td>${trl.sellerPhone}</td>
-											<td><a class="shopPicPopover" href="javascript:void(0);"
+											<td>${trl.goodsTypeId}</td>
+											<td>${trl.goodsTypeName}</td>
+											<td><a class="goodsTypePicPopover" href="javascript:void(0);"
 												data-container="body" data-placement="bottom"
-												pic="${trl.shopPic}"> ${trl.shopPic} </a>
+												pic="${trl.goodsTypeImg}"> ${trl.goodsTypeImg} </a>
 											</td>
-											<td>
-												<a name="sellerAddPopover" href="javascript:void(0);" data-container="body" data-placement="bottom" data-content="${trl.sellerAddress}"></a>
-											</td>
-											<td class="hidden-480">${trl.joinTime}</td>
-											<td class="hidden-480">
-												<a name="sellerMsgPopover" href="javascript:void(0);" data-container="body" data-placement="bottom" data-content="${trl.sellerMsg}"></a>
-											</td>
-											<td id="goodsIsSale${trl.sellerId}">
-												<span class="label label-sm " name="goodsIsSale${trl.isValid}">
-													${trl.isValid}
-												</span>
-											</td>
+											<td>${trl.goodsTypeTime}</td>
+											<td id="goodsTypeIsValid${trl.goodsTypeId}"><span class="label label-sm " name="goodsTypeIsValid${trl.isValid}">${trl.isValid}</span>
 											<td>
 												<div class="hidden-sm hidden-xs action-buttons">
-													<%-- <a class="blue buttonSeller" href="javascript:void(0)" name="${trl.sellerId}" oper="detaill">
-														<i class="fa fa-search-plus bigger-130">
-															<small></small>
-														</i>
-													</a> --%>
-													<a class="green buttonSeller" href="javascript:void(0)" sellerPhone="${trl.sellerPhone}" sellerMsg="${trl.sellerMsg}" sellerAddress="${trl.sellerAddress}" shopName="${trl.shopName}" sellerName="${trl.sellerName}" name="${trl.sellerId}" oper="modify">
+													<a class="green buttonGoodsType" href="javascript:void(0)"name="${trl.goodsTypeId}" oper="modify">
 														<i class="fa fa-pencil bigger-130">
 															<small></small>
 														</i>
 													</a>
-													<a class="red buttonSeller" href="javascript:void(0)" name="${trl.sellerId}" oper="delete">
-														<i id="goodsIsSaleAction${trl.sellerId}" class="fa fa-toggle-off bigger-130" name="goodsIsSaleAction${trl.isValid}" state="${trl.isValid}"></i>
+													<a class="red buttonGoodsType" href="javascript:void(0)"name="${trl.goodsTypeId}" oper="delete">
+														<i id="goodsTypeIsValidAction${trl.goodsTypeId}" class="fa fa-toggle-off bigger-130" name="goodsTypeIsValidAction${trl.isValid}" state="${trl.isValid}"></i>
 													</a>
 												</div>
 												<div class="hidden-md hidden-lg">
@@ -176,21 +155,21 @@
 														</button>
 														<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 															<li>
-																<a href="javascript:void(0)" name="${trl.sellerId}" onclick="GetDetail(this)"class="tooltip-info" data-rel="tooltip" title="View">
+																<a href="javascript:void(0)" name="${trl.goodsTypeId}" onclick="GetDetail(this)"class="tooltip-info" data-rel="tooltip" title="View">
 																	<span class="blue">
 																		<i class="ace-icon fa fa-search-plus bigger-120"></i>
 																	</span>
 																</a>
 															</li>
 															<li>
-																<a href="javascript:void(0)" name="${trl.sellerId}" onclick="Modify(this)" class="tooltip-success" data-rel="tooltip" title="Edit">
+																<a href="javascript:void(0)" name="${trl.goodsTypeId}" onclick="Modify(this)" class="tooltip-success" data-rel="tooltip" title="Edit">
 																	<span class="green">
 																		<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
 																	</span>
 																</a>
 															</li>
 															<li>
-																<a href="ClassDelete?classId=${trl.sellerId}" class="tooltip-error" data-rel="tooltip" title="Delete">
+																<a href="ClassDelete?classId=${trl.goodsTypeId}" class="tooltip-error" data-rel="tooltip" title="Delete">
 																	<span class="red">
 																		<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																	</span>
@@ -208,71 +187,23 @@
 						</div>
 
 						<div id="dialog-message" class="hide">
-							<form id="formgoodsinfo" method="post" enctype="multipart/form-data">
-								<input disabled type="hidden" name="sellerId" value="0" id="sellerId" />
+							<form id="formgoodsTypeinfo" method="post" enctype="multipart/form-data">
+								<input disabled type="hidden" name="goodsTypeId" value="0" id="goodsTypeId" />
 								<input type="hidden" name="oper" value="add" id="oper"/>
 								<div class="col-sm-12">
-									<!-- 商店名称 -->
+									<!-- 类型名称 -->
 									<div class="form-group col-sm-12">
-										<label for="form-field-0" class="col-sm-3 control-label no-padding-right">店名:</label>
+										<label for="form-field-0" class="col-sm-3 control-label no-padding-right">名称:</label>
 										<div class="col-sm-9">
-											<input type="text" id="form-field-0" name="shopName" placeholder="商店名称" class="a col-xs-12 col-sm-12" />
+											<input type="text" id="form-field-0" name="goodsTypeName" placeholder="类型名称" class="ab col-xs-12 col-sm-12" />
 										</div>
 									</div>
-									<!-- 商家姓名 -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-1"class="col-sm-3 control-label no-padding-right">姓名:</label>
-										<div class="col-sm-9">
-											<input type="text" id="form-field-1" name="sellerName" placeholder="商家姓名" class="a col-xs-12 col-sm-12" />
-										</div>
-									</div>
-									<!-- 商家电话 -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-2" class="col-sm-3 control-label no-padding-right">电话:</label>
-										<div class="col-sm-9">
-											<input onkeyup="value=value.replace(/[^0-9]/g,'')" type="text" id="form-field-2" name="sellerPhone" placeholder="商家联系方式" class="a col-xs-12 col-sm-12" />
-										</div>
-									</div>
+									<!-- 类型图片 -->
 									<div class="form-group col-sm-12">
 										<label class="col-sm-3 control-label no-padding-right"
 											for="id-input-field-2">照片</label>
 										<div class="col-sm-9">
-											<input class="a" type="file" name="pic" id="id-input-file-3" />
-										</div>
-									</div>
-									<!-- 配送费用 -->
-									<!-- <div class="form-group col-sm-12">
-										<label for="form-field-3" class="col-sm-3 control-label no-padding-right">运费:</label>
-										<div class="col-sm-9">
-											<input onkeyup="value=value.replace(/[^0-9|.]/g,'')" type="text" id="form-field-3" name="deliverMoney" placeholder="配送费用" class="col-xs-12 col-sm-12" />
-										</div>
-									</div> -->
-									<!-- 最低费用 -->
-									<!-- <div class="form-group col-sm-12">
-										<label for="form-field-4" class="col-sm-3 control-label no-padding-right">消费：</label>
-										<div class="col-sm-9">
-											<input onkeyup="value=value.replace(/[^0-9|.]/g,'')" type="text" id="form-field-4" name="minBuy" placeholder="最低消费" class="col-xs-12 col-sm-12" />
-										</div>
-									</div> -->
-									<!-- 最低费用 -->
-									<!-- <div class="form-group col-sm-12">
-										<label for="form-field-5" class="col-sm-3 control-label no-padding-right">期限:</label>
-										<div class="col-sm-9">
-											<input onkeyup="value=value.replace(/[^0-9]/g,'')" type="text" id="form-field-5" name="joinDeadline" placeholder="加盟期限" class="col-xs-12 col-sm-12" />
-										</div>
-									</div> -->
-									<!-- 卖家地址 -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-6" class="col-sm-3 control-label no-padding-right">地址:</label>
-										<div class="col-sm-9">
-											<input type="text" name="sellerAddress" id="form-field-6" placeholder="商家地址" class="a col-xs-12 col-sm-12" />
-										</div>
-									</div>
-									<!-- 商家简介 -->
-									<div class="form-group col-sm-12">
-										<label for="form-field-7" class="col-sm-3 control-label no-padding-right">简介:</label>
-										<div class="col-sm-9">
-											<textarea id="form-field-7" class="a autosize-transition form-control" name="sellerMsg" placeholder="商家说明" maxlength="100"></textarea>
+											<input class="ab" type="file" name="pic" id="id-input-file-3" />
 										</div>
 									</div>
 								</div>
@@ -282,11 +213,11 @@
 								<div style="width:100%;text-align: center" id="error"></div>
 								<!-- 按钮操作 -->
 								<div>
-									<button disabled="disabled" id="sellerSave" style="margin-left:10px" class="btn btn-info col-sm-5" type="button">
+									<button id="goodsTypeSave" style="margin-left:10px" class="btn btn-info col-sm-5" type="button">
 										<i class="ace-icon fa fa-check bigger-110"></i>
 										保存
 									</button>
-									<button id="sellerRest" style="margin-left:25px" class="btn btn-success col-sm-5" type="reset">
+									<button id="goodsTypeRest" style="margin-left:25px" class="btn btn-success col-sm-5" type="reset">
 										<i class="ace-icon fa fa-check bigger-110"></i>
 										重置
 									</button>
@@ -313,27 +244,16 @@
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
 		$(document).ready(function(){						
-			$("#sellerRest").click(function(){
-				$("#sellerSave").attr("disabled",true);
-			});
-			$(".a").keyup(function(){
-				var input=$(".a");
-				for(var i=0;i<input.length;i++){
-					var item=input[i];
-					if(item.value!=""&&i==input.length-1){
-						var value=$("#form-field-2").val();
-						if(value.length!=11){
-							return;
-						}
-						$("#sellerSave").attr("disabled",false);
-					}else{
-						$("#sellerSave").attr("disabled",true);
-					}
-				}
-			});
 			//图片上传 及数据保存 
-			$("#sellerSave").click(
+			$("#goodsTypeSave").click(
 				function() {
+					if($("#form-field-0").val()==""){
+						return;
+					}
+					if($("#id-input-file-3").val()==""){
+						alert("图片为空！");
+						return;
+					}
 					var ext = ".jpg.jpeg.gif.bmp.png.";
 					var f = $("#file").val();
 					if (f == "") { //先判断是否已选择了文件 
@@ -342,12 +262,12 @@
 						return false;
 					}
 					var options = {
-						url : "${pageContext.request.contextPath }/seller/addSeller",
+						url : "${pageContext.request.contextPath }/seller/addGoodsType",
 						dataType : 'json',
 						contentType : "application/json; charset=utf-8",
 						success : function(data) {
 									if (data == "1") {
-										$("#sellerRest").trigger("click");
+										$("#goodsTypeRest").trigger("click");
 										$("#dialog-message").dialog("close");
 									} else {
 										$("#error").attr("class","error_div").html(
@@ -357,24 +277,24 @@
 								}
 						};
 					// 提交表单 
-					$("#formgoodsinfo").ajaxSubmit(options);
+					$("#formgoodsTypeinfo").ajaxSubmit(options);
 			});
 			//显示商家详细信息
-			$("[name='sellerAddPopover']").popover();
-			$("[name='sellerMsgPopover']").popover();
+			$("[name='goodsTypeAddPopover']").popover();
+			$("[name='goodsTypeMsgPopover']").popover();
 			//鼠标经过显示图片
-			$(".shopPicPopover").popover({
-											html:true,
-											/* title : function() {
-														return "图片";
-											}, */
-											content:function() {
-													return "<img width='100px' height='100px' src='${pageContext.request.contextPath }/images/"+ $(this).attr("pic")+ "'/>";
-											}
+			$(".goodsTypePicPopover").popover({
+									html:true,
+									/* title : function() {
+										return "图片";
+									}, */
+									content:function() {
+										return "<img width='100px' height='100px' src='${pageContext.request.contextPath }/images/"+ $(this).attr("pic")+ "'/>";
+									}
 			});
 			myEach();
-			myEachPopover("a", "sellerMsgPopover", 0, 6);
-			myEachPopover("a", "sellerAddPopover", 0, 6);
+			myEachPopover("a", "goodsTypeMsgPopover", 0, 6);
+			myEachPopover("a", "goodsTypeAddPopover", 0, 6);
 
 			//图片上传框
 			$("#id-input-file-3").ace_file_input({
@@ -422,28 +342,28 @@
 		});
 
 		function myEach() {
-			$("span[name='goodsIsSaletrue']").each(function() {
+			$("span[name='goodsTypeIsValidtrue']").each(function() {
 				try {
 					$(this).removeClass("label-warning");
 				} catch (e) {}
 				$(this).addClass("label-success");
-				$(this).text("服务中");
+				$(this).text("使用中");
 			});
-			$("span[name='goodsIsSalefalse']").each(function() {
+			$("span[name='goodsTypeIsValidfalse']").each(function() {
 				try {
 					$(this).removeClass("label-success");
 				} catch (e) {}
 				$(this).addClass("label-warning");
-				$(this).text("待审核");
+				$(this).text("待使用");
 			});
-			$("i[name='goodsIsSaleActiontrue']").each(function() {
+			$("i[name='goodsTypeIsValidActiontrue']").each(function() {
 				try {
 					$(this).removeClass("fa-toggle-off");
 				} catch (e) {}
 				$(this).addClass("fa-toggle-on");
 				$(this).text("解约");
 			});
-			$("i[name='goodsIsSaleActionfalse']").each(function() {
+			$("i[name='goodsTypeIsValidActionfalse']").each(function() {
 				try {
 					$(this).removeClass("fa-toggle-on");
 				} catch (e) {}
@@ -452,47 +372,42 @@
 			});
 		}
 		jQuery(function($) {
-			$(".buttonSeller").click(function(){
+			$(".buttonGoodsType").click(function(){
 										var oper = $(this).attr("oper");
 										var name = $(this).attr("name");
 										if(oper == "modify"){
-											$("#sellerId").val(name);
-											$("#form-field-0").val($(this).attr("shopName"));
-											$("#form-field-1").val($(this).attr("sellerName"));
-											$("#form-field-2").val($(this).attr("sellerPhone"));
-											$("#form-field-6").val($(this).attr("sellerAddress"));
-											$("#form-field-7").val($(this).attr("sellerMsg"));
+											$("#goodsTypeId").val(name);
 										}
 										if(oper == "add"){
-											$("#sellerId").attr("disabled",true);
+											$("#goodsTypeId").attr("disabled",true);
 										}else{
-											$("#sellerId").attr("disabled",false);
+											$("#goodsTypeId").attr("disabled",false);
 										}
 										$("#oper").val(oper);
 										if (oper == "delete") {
 											var goodsId = $(this).attr('name');
-											var isSale = $("#goodsIsSaleAction" + goodsId).attr("state");
+											var isSale = $("#goodsTypeIsValidAction" + goodsId).attr("state");
 											$.ajax({
 												cache : false,
 												type : "POST",
-												url : "${pageContext.request.contextPath }/seller/updownSeller",
+												url : "${pageContext.request.contextPath }/seller/updownGoodsType",
 												datatype : "json",
 												data : {
-													"sellerId" : goodsId,
+													"goodsTypeId" : goodsId,
 													"isValid" : isSale
 												},
 												async : true,
 												success : function(data) {
 															if (data == "1") {
 																if (isSale == "true") {
-																	$("td[id='goodsIsSale"+ goodsId+ "'] span").attr("name","goodsIsSalefalse");
-																	$("i[id='goodsIsSaleAction"+ goodsId+ "']").attr("name","goodsIsSaleActionfalse");
-																	$("i[id='goodsIsSaleAction"+ goodsId+ "']").attr("state","false");
+																	$("td[id='goodsTypeIsValid"+ goodsId+ "'] span").attr("name","goodsTypeIsValidfalse");
+																	$("i[id='goodsTypeIsValidAction"+ goodsId+ "']").attr("name","goodsTypeIsValidActionfalse");
+																	$("i[id='goodsTypeIsValidAction"+ goodsId+ "']").attr("state","false");
 
 																} else {
-																	$("td[id='goodsIsSale"+ goodsId+ "'] span").attr("name","goodsIsSaletrue");
-																	$("i[id='goodsIsSaleAction"+ goodsId+ "']").attr("name","goodsIsSaleActiontrue");
-																	$("i[id='goodsIsSaleAction"+ goodsId+ "']").attr("state","true");
+																	$("td[id='goodsTypeIsValid"+ goodsId+ "'] span").attr("name","goodsTypeIsValidtrue");
+																	$("i[id='goodsTypeIsValidAction"+ goodsId+ "']").attr("name","goodsTypeIsValidActiontrue");
+																	$("i[id='goodsTypeIsValidAction"+ goodsId+ "']").attr("state","true");
 																}
 																myEach();
 															}
@@ -505,7 +420,7 @@
 											var dialog = $("#dialog-message").removeClass("hide")
 															.dialog({
 																modal : true,
-																title : (oper=="detaill")?"查看详细":(oper=="modify")?"修改商家信息":(oper=="add")?"添加商店":"确认删除商品",
+																title : (oper=="detaill")?"查看详细":(oper=="modify")?"修改类型信息":(oper=="add")?"添加类型":"确认删除类型",
 																title_html : true,
 																/* buttons: [{
 																	text: "关闭窗口",
@@ -539,14 +454,14 @@
 																}] */
 													});
 									if (oper == "modify") {
-										$("#sellerId").attr("disabled", false).val(name);
+										$("#goodsTypeId").attr("disabled", false).val(name);
 									}
 								}
 							});
 			//initiate dataTables plugin
 			var oTable1 = $("#dynamic-table").dataTable({
 						bAutoWidth : false,
-						"aoColumns" : [{"bSortable" : false}, null, null, null, null, null, null, null, null, null,{"bSortable" : false}],
+						"aoColumns" : [{"bSortable" : false}, null, null, null, null, null,{"bSortable" : false}],
 						"aaSorting" : [],
 						//"sScrollY": "200px",
 						"bPaginate" : true,

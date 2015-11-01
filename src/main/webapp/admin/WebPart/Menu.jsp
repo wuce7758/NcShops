@@ -10,7 +10,7 @@
 <div id="sidebar" class="sidebar                  responsive">
 	<script type="text/javascript">
 		try {
-			ace.settings.check('sidebar', 'fixed')
+			ace.settings.check('sidebar', 'fixed');
 		} catch (e) {
 		}
 	</script>
@@ -70,6 +70,22 @@
 			</a> 
 			<b class="arrow"></b>
 		</li>
+		<li id="authority" name="menu1" class="">
+			<a href="${pageContext.request.contextPath }/seller/findAllAds" class="">
+				<i class="menu-icon fa fa-unlock-alt"></i>
+				<span class="menu-text">广告管理</span>
+				<b class="arrow"></b> 
+			</a> 
+			<b class="arrow"></b>
+		</li>
+		<li id="authority" name="menu1" class="">
+			<a href="${pageContext.request.contextPath }/seller/findAllGoodsType" class="">
+				<i class="menu-icon fa fa-unlock-alt"></i>
+				<span class="menu-text">类型管理</span>
+				<b class="arrow"></b> 
+			</a> 
+			<b class="arrow"></b>
+		</li>
 	</ul>
 	<!-- /.nav-list -->
 
@@ -83,7 +99,7 @@
 	<!-- /section:basics/sidebar.layout.minimize -->
 	<script type="text/javascript">
 		try {
-			ace.settings.check('sidebar', 'collapsed')
+			ace.settings.check('sidebar', 'collapsed');
 		} catch (e) {
 		}
 	</script>
