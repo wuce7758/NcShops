@@ -207,10 +207,8 @@
 				<div class="page-content">
 					<div class="row">
 						<div id="orderlist" class="col-xs-12">
-							<!-- PAGE CONTENT BEGINS -->
 							<div class="align-right">
 								<span class="green middle bolder">商家电话：</span>
-
 								<div class="btn-toolbar inline middle no-margin">
 									<div data-toggle="buttons" class="btn-group no-margin">
 										<label class="btn btn-sm btn-yellow active"> <span
@@ -218,9 +216,6 @@
 									</div>
 								</div>
 							</div>
-							<!-- <h3 class="header blue lighter smaller">
-								<i class="ace-icon fa fa-list smaller-90"></i> 历史订单
-							</h3> -->
 								<div id="accordion" class="accordion-style2">
 									<c:forEach var="order" items="${requestScope.orderList}">
 									<div class="group">

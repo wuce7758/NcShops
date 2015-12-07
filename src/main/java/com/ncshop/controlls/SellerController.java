@@ -187,7 +187,7 @@ public class SellerController {
 
 			CompressPicUtil mypic = new CompressPicUtil();
 			mypic.compressPic(tempPath, basePath, newFileName, newFileName,
-					120, 120, true);
+					200, 200, true);
 			if (file.delete()) {
 				System.out.println("delete success");
 			}

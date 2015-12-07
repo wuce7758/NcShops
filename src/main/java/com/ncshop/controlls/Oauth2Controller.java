@@ -70,7 +70,6 @@ public class Oauth2Controller {
 					req.getRequestDispatcher("/index.jsp").forward(req, resp);
 				} else {
 					// 跳转到订单页
-					LogBuilder.writeToLog(findUser.getUserId()+"");
 					resp.sendRedirect("/user/findOrdersByUser?userId=" + findUser.getUserId());
 				}
 				return;

@@ -321,4 +321,9 @@ public class UserService {
 		return list;
 	}
 
+	public TSeller findSeller(int i) {
+		TSeller seller = sellerDao.findById(1);
+		return seller;
+	}
+
 }

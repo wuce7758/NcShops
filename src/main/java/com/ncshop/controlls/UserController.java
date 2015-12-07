@@ -174,7 +174,6 @@ public class UserController {
 					+ e.getMessage());
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -244,13 +243,11 @@ public class UserController {
 			System.out.println(page);
 			int pageCount;
 			List<TSellergoods> goodsList = null;
-			TGoodstype goodstype = new TGoodstype();
-			goodstype.setGoodsTypeId(Integer.parseInt(goodsTypeId));
 			// 分页查找
 			if (page != null) {
 				pageCount = Integer.parseInt(page);
 				// 调用service查找 数据库
-				goodsList = userService.findgoods(goodstype, 1,
+				goodsList = userService.findSellergoodsByType(Integer.parseInt(goodsTypeId), 1,
 						(pageCount - 1) * 10, 10);
 			}
 			List<TGoods> goods = new ArrayList<TGoods>();
@@ -260,12 +257,6 @@ public class UserController {
 					goods.add(tSellergoods.getTGoods());
 
 				}
-			}
-			TGoodstype type;
-			for (TGoods tGoods : goods) {
-				type = userService.findGoodsType(tGoods.getTGoodstype()
-						.getGoodsTypeId());
-				tGoods.setTGoodstype(type);
 			}
 			String json = toJson(new TGoods(), goods, null);
 			// 设置response的传输格式为json
@@ -355,11 +346,9 @@ public class UserController {
 			List<TAddress> address = null;
 			if (user != null) {
 				if (user.getUserId() != null) {
-					LogBuilder.writeToLog("old");
 					address = userService.findAddress(user.getUserId());
 				}
 			}
-			LogBuilder.writeToLog(user.getOpenId());
 			request.setAttribute("address", address);
 			request.getRequestDispatcher("/custom/MyOrder.jsp").forward(
 					request, response);
@@ -410,6 +399,8 @@ public class UserController {
 			order.setUserId(user.getUserId());
 			order.setSellerId(sellergoods.getSeller().getSellerId());
 			if (userService.order(order, odersdetails)) {
+				
+				TSeller seller=userService.findSeller(1);
 				// 给用户发送消息
 				TAddress address = userService.findAddress(user.getUserId())
 						.get(0);
@@ -443,7 +434,7 @@ public class UserController {
 								.getAdsContent(), "#173177"));
 				templateMessage.getDatas().add(
 						new WxMpTemplateData("remark", "点击查看订单更多状态，如有疑问请联系商家，"
-								+ "18770015729", "#173177"));
+								+ seller.getSellerPhone(), "#173177"));
 				wxMpService.templateSend(templateMessage);
 
 				// 通知商家有新的订单o6giMtx2laitNbxP_U1AgdMTGiYE

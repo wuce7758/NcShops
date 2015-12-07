@@ -122,8 +122,11 @@
 									<c:forEach items="${requestScope.goodDetail}" var="trl"
 										varStatus="status">
 										<tr>
-											<td class="center"><label class="pos-rel"> <input
-													type="checkbox" class="ace" /> <span class="lbl"></span> </label>
+											<td class="center">
+												<label class="pos-rel">
+													<input type="checkbox" class="ace" />
+													<span class="lbl"></span>
+												</label>
 											</td>
 											<td id="goodsId${trl.TGoods.goodsId}">${trl.TGoods.goodsId}</td>
 											<td class="hidden-480">${trl.TGoods.goodsName}</td>
