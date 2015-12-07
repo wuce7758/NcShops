@@ -251,6 +251,22 @@
 												<option value=""></option>
 											</select>
 										</div>
+<<<<<<< HEAD
+										<div id="addType" class="btn btn-light">
+											<i id="icons" class="ace-icon fa fa-plus bigger-110"></i>
+										</div>
+									</div>
+									<div id="addTypeDiv" class="hide form-group col-sm-12">
+										<label class="col-sm-3 control-label no-padding-right" for="form-field-s">新类别:</label>
+										<div class="col-sm-6">
+											<input disabled type="text" id="form-field-s" placeholder="商品类型"  class="col-xs-12 col-sm-12"/>
+										</div>
+										<div id="saveType" class="btn btn-light">
+											<i class="ace-icon fa fa-plus bigger-110"></i>
+										</div>
+
+=======
+>>>>>>> f507e0114b9219a572cbd078aad0a27cbbc75a0c
 									</div>
 									<div class="form-group col-sm-12">
 										<label class="col-sm-3 control-label no-padding-right"
